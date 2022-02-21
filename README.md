@@ -16,6 +16,13 @@ Eventia es una app web para la organización, participación y promoción de eve
 
 ## herramientas
 
+### Management
+Tareas, tableros y organización
+[click here](https://github.com/orgs/ISPP-Eventia/projects/1)
+
+Discusiones y feedback
+[click here](https://github.com/ISPP-Eventia/eventus/discussions)
+
 ### GDrive
 Presentaciones y Documentos
 [click here](https://drive.google.com/drive/folders/1TcJAmfqr-EsH7jqasPiwTlhzOfJOaZPX?usp=sharing)

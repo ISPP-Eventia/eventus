@@ -3,6 +3,15 @@ Eventia es una app web para la organización, participación y promoción de eve
 
 ## workflow
 
+### gitflow
+
+### commit message
+
+### releasing
+
+### fe / be
+
+
 ## herramientas
 
 ### GDrive

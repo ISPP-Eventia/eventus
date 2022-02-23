@@ -21,6 +21,15 @@ Tareas, tableros y organización
 - **Done**: Tareas finalizadas, revisidas y mergueadas a develop.
 
 ### working on issues
+#### creación
+- PM: crea tareas generales y las asigna a jefes de equipo o integrantes concretos
+- Jefes de equipo: pueden dividir y reasignar tareas a miembros de su equipo
+
+> nota: siempre se deben usar issue templates para mantener coherencia y consistencia entre tareas
+
+### resolución
+- Las tareas se mueven de columna en los boards según el estado en el que están
+- Una vez terminadas se mantienen en review donde el jefe de equipo o PM deberan asegurar que se cumplen los criterios de aceptación
 
 ### branching, gitflow
 ![gitflow](https://wac-cdn.atlassian.com/dam/jcr:cc0b526e-adb7-4d45-874e-9bcea9898b4a/04%20Hotfix%20branches.svg?cdnVersion=62)

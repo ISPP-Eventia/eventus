@@ -101,9 +101,14 @@ Tareas, tableros y organización
 - comunica la finalización al frontend
 
 ### releasing
-...ToDo
-
-
+- versionado semántico:
+    -  **x.y.z**
+    -  x = mayor
+    -  y = minor
+    -  z = patch
+- release
+    - automatizado por github actions (mergeo de rama release a main)
+  
 ## herramientas
 
 ### Management

@@ -122,6 +122,11 @@ Discusiones y feedback
 Presentaciones y Documentos
 [click here](https://drive.google.com/drive/folders/1TcJAmfqr-EsH7jqasPiwTlhzOfJOaZPX?usp=sharing)
 
+### Figma
+Diseño, UI/UX
+[click here](https://www.figma.com/file/7ncBwZS520GKSlelXwdCkM/Eventus?node-id=0%3A1)
+
+
 ### Discord
 Comunicación
 [click here](https://discord.gg/6EDFFWnk)

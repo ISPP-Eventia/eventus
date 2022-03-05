@@ -122,6 +122,9 @@ Discusiones y feedback
 Presentaciones y Documentos
 [click here](https://drive.google.com/drive/folders/1TcJAmfqr-EsH7jqasPiwTlhzOfJOaZPX?usp=sharing)
 
+Recursos para presentaciones
+[click here](https://docs.google.com/presentation/d/1vKQdcYxonawY-QYqz2cH8jwVpIu1pL1b7-15bUWhIf0/edit?usp=sharing)
+
 ### Figma
 Diseño, UI/UX
 [click here](https://www.figma.com/file/7ncBwZS520GKSlelXwdCkM/Eventus?node-id=0%3A1)

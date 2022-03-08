@@ -51,6 +51,8 @@ services:
         MYSQL_DATABASE: mysqldb
         MYSQL_USER: user
         MYSQL_PASSWORD: user
+    networks:
+      - backend
 volumes:
   eventus_data: {}
   

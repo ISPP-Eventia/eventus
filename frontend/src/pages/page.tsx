@@ -2,14 +2,14 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 
 const Page = (props: {
-  title: string;
+  title?: string;
   children?: JSX.Element | JSX.Element[] | string;
 }) => {
   return (
-    <Box className="block w-full h-screen py-5 px-10">
-      <Typography variant="h1">{props.title}</Typography>
-      {props.children}
-    </Box>
+    <section className="block w-full py-5 px-4 md:px-8 lg:px-24 xl:px-48">
+      {props.title && <Typography variant="h1">{props.title}</Typography>}
+      <Box>{props.children}</Box>
+    </section>
   );
 };
 

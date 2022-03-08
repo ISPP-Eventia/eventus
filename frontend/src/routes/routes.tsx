@@ -13,17 +13,19 @@ const AppRoutes = () => {
   return (
     <Suspense
       fallback={
-        <div className="h-full w-full flex items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center">
           <Loader />
         </div>
       }
     >
-      <Router>
-        <Routes>
-          <Route path="/landing" element={<LandingPage />} />
-          <Route path="*" element={<Navigate to="/landing" />} />
-        </Routes>
-      </Router>
+      <main className="my-[60px] min-h-[calc(100vh-120px)]">
+        <Router>
+          <Routes>
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="*" element={<Navigate to="/landing" />} />
+          </Routes>
+        </Router>
+      </main>
     </Suspense>
   );
 };

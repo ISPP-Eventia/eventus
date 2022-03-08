@@ -27,7 +27,7 @@ Tareas, tableros y organización
 
 > nota: siempre se deben usar issue templates para mantener coherencia y consistencia entre tareas
 
-### resolución
+## resolución
 - Las tareas se mueven de columna en los boards según el estado en el que están
 - Una vez terminadas se mantienen en review donde el jefe de equipo o PM deberan asegurar que se cumplen los criterios de aceptación
 
@@ -56,7 +56,7 @@ Tareas, tableros y organización
 
 #### PRs
 ```md
-  closes #task
+  close #task
 
   ## changes
   - a
@@ -128,7 +128,6 @@ Recursos para presentaciones
 ### Figma
 Diseño, UI/UX
 [click here](https://www.figma.com/file/7ncBwZS520GKSlelXwdCkM/Eventus?node-id=0%3A1)
-
 
 ### Discord
 Comunicación

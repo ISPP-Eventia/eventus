@@ -67,13 +67,22 @@ Tareas, tableros y organización
   - a
   - b
   - c
+  
+  ## concerns
+  - a
+  - b
+  - c
 ```
 
 #### peer review
 - seguir los pasos de revisión de la PR
 - iniciar review de github
 - revisar el código implementado
-    - añadir comentarios en el código si procede
+- añadir comentarios en el código si procede:
+    - ```**nitpick**: lorem ipsum...```
+    - ```**suggestion**: lorem ipsum...```
+    - ```**bug**: lorem ipsum...```
+    - ```**note**: lorem ipsum...```
 - revisar el funcionamiento o corrección añadidas
 - revisar los checks de control de integración
 - añadir un comentario de revisión
@@ -82,6 +91,7 @@ Tareas, tableros y organización
 ## review
 - a es correcto
 - b presenta errores
+- se han añadido sugerencias / comentarios
 ```
 
 ### integrating
@@ -132,4 +142,3 @@ Diseño, UI/UX
 ### Discord
 Comunicación
 [click here](https://discord.gg/6EDFFWnk)
-

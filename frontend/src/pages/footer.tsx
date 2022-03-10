@@ -56,11 +56,11 @@ const AppFooter = (props: {
         <a href="https://twitter.com/eventus_space">
           <Twitter /> @eventus_space
         </a>
-        <a href="https://www.facebook.com/eventus.space">
-          <Facebook /> @eventus.space
+        <a href="https://www.facebook.com/Eventus-107942035177629">
+          <Facebook /> @eventus
         </a>
-        <a href="https://www.instagram.com/eventus.space">
-          <Instagram /> @eventus.space
+        <a href="https://www.instagram.com/eventus_space">
+          <Instagram /> @eventus_space
         </a>
       </FooterSection>
     </footer>

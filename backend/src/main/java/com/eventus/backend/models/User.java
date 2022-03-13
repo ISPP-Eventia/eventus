@@ -21,14 +21,14 @@ public class User {
     private Long id;
 
     @Column
+    @Size(max=20)
     @NotBlank
-    @Max(value=20)
     @JsonProperty("firstName")
     private String firstName;
 
     @Column
+    @Size(max=40)
     @NotBlank
-    @Max(value=40)
     @JsonProperty("lastName")
     private String lastName;
 

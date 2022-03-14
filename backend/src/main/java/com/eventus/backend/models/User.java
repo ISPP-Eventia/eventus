@@ -39,7 +39,8 @@ public class User {
 
     @Column
     @JsonProperty("image")
-    private Byte[] image;
+    @Embedded
+    private Image image;
 
 
 
@@ -75,11 +76,11 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public Byte[] getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(Byte[] image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
@@ -88,13 +89,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate) && Arrays.equals(image, user.image);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate) && Objects.equals(image, user.image);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, firstName, lastName, birthDate);
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
+        return Objects.hash(id, firstName, lastName, birthDate, image);
     }
 }

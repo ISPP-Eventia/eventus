@@ -1,12 +1,18 @@
 package com.eventus.backend.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,12 +25,13 @@ public class Event {
     @JsonProperty("id")
     private Long id;
 
-    // @ManyToOne(cascade = CascadeType.ALL)
-    // @Column
-    // private User organizerId;
+    @ManyToOne()
+    @JoinColumn(name = "events")
+    private User organizerId;
 
     @Column
     @JsonProperty("title")
+    @NotBlank
     private String title;
 
     @Column
@@ -33,9 +40,12 @@ public class Event {
 
     @Column
     @JsonProperty("description")
+    @NotBlank
     private String description;
 
-    // private List<Image> images;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "event_id")
+    private List<Image> images;
 
     public Event(){
 
@@ -79,6 +89,27 @@ public class Event {
     public void setDescription(String description) {
         this.description = description;
     }
+    public User getOrganizerId() {
+        return organizerId;
+    }
+
+    public void setOrganizerId(User organizerId) {
+        this.organizerId = organizerId;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    @Override
+    public String toString() {
+        return "Event [description=" + description + ", id=" + id + ", images=" + images + ", organizerId="
+                + organizerId + ", price=" + price + ", title=" + title + "]";
+    }
 
     @Override
     public int hashCode() {
@@ -86,6 +117,8 @@ public class Event {
         int result = 1;
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((images == null) ? 0 : images.hashCode());
+        result = prime * result + ((organizerId == null) ? 0 : organizerId.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         return result;
@@ -110,6 +143,16 @@ public class Event {
                 return false;
         } else if (!id.equals(other.id))
             return false;
+        if (images == null) {
+            if (other.images != null)
+                return false;
+        } else if (!images.equals(other.images))
+            return false;
+        if (organizerId == null) {
+            if (other.organizerId != null)
+                return false;
+        } else if (!organizerId.equals(other.organizerId))
+            return false;
         if (price == null) {
             if (other.price != null)
                 return false;
@@ -123,10 +166,10 @@ public class Event {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Event [description=" + description + ", id=" + id + ", price=" + price + ", title=" + title + "]";
-    }
+
+    
+
+
 
 
     

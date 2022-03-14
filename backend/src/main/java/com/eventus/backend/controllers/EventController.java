@@ -2,9 +2,7 @@ package com.eventus.backend.controllers;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
+
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.services.EventService;
@@ -36,6 +34,12 @@ public class EventController {
     public List<Event> getEvents(@RequestParam Pageable page){
         return this.eventService.findAll(page);
     }
+
+    @GetMapping("/{id}")
+    public Event getEventById(@PathVariable Long id){
+        return this.eventService.findById(id);
+    }
+
 
     @PostMapping("/")
     public Event createEvent(@RequestBody Event event){

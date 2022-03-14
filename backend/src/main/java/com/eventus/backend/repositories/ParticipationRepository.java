@@ -6,8 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ParticipationRepository extends CrudRepository<Participation, Long> {
 
-    Page<Participation> findAll(Pageable pageable);
+    List<Participation> findByUser_IdEquals(Long id, Pageable pageable);
+
+
 }

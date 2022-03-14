@@ -1,6 +1,7 @@
 package com.eventus.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,11 +14,14 @@ import java.util.Objects;
 @Entity
 public class Participation {
 
-    @EmbeddedId
-    ParticipationKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("id")
+    private Long id;
 
     @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @CreationTimestamp
     @JsonProperty("buyDate")
     private LocalDate buyDate;
 
@@ -31,23 +35,15 @@ public class Participation {
     @Min(value=0)
     private Double price;
 
- /*   @ManyToOne
+    @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     User user;
-
+ /*
     @ManyToOne
     @MapsId("eventId")
     @JoinColumn(name = "event_id")
     Event event;*/
-
-    public ParticipationKey getId() {
-        return id;
-    }
-
-    public void setId(ParticipationKey id) {
-        this.id = id;
-    }
 
     public LocalDate getBuyDate() {
         return buyDate;

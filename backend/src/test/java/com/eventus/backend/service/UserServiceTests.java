@@ -41,8 +41,8 @@ public class UserServiceTests {
         user3.setLastName("Javier");
         userService.saveUser(user3);
 
-        Pageable page = PageRequest.of(1,2);
-        int number = userService.findAllUsers(page).getSize();
+        Pageable page = PageRequest.of(0,2);
+        int number = userService.findAllUsers(page).size();
         assertEquals(number,2);
 
     }

@@ -1,14 +1,15 @@
 package com.eventus.backend.services;
 
 import com.eventus.backend.models.Participation;
+import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.ParticipationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,15 +27,26 @@ public class ParticipationService {
         partRepository.save(participation);
     }
 
-    public Page<Participation> findAllParticipation(Pageable p) {
-        return partRepository.findAll(p);
-    }
-
     public Optional<Participation> findParticipationById(Long id) {
         return partRepository.findById(id);
     }
 
     public void deleteParticipation(Long id) {
         partRepository.deleteById(id);
+    }
+
+    public List<Participation> findParticipationByUserId(Long userId,Pageable p) {
+        return partRepository.findByUser_IdEquals(userId,p);
+    }
+
+    public List<Participation> findParticipationByEventId(Long eventId,Pageable p) {
+        return partRepository.findByEvent_IdEquals(eventId,p);
+    }
+
+    public List<User> findUsersByEventId(Long eventId,Pageable p) {
+        return partRepository.findUsersByEventId(eventId,p);
+    }
+    public List<Participation> findAllParticipation(Pageable p){
+        return partRepository.findAll(p);
     }
 }

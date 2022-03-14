@@ -1,8 +1,10 @@
 package com.eventus.backend.repositories;
 
 import com.eventus.backend.models.Participation;
+import com.eventus.backend.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,10 @@ public interface ParticipationRepository extends CrudRepository<Participation, L
 
     List<Participation> findByUser_IdEquals(Long id, Pageable pageable);
 
+    List<Participation> findByEvent_IdEquals(Long id, Pageable pageable);
 
+    @Query("SELECT p.user FROM Participation p WHERE p.event.id=?1")
+    List<User> findUsersByEventId(Long eventId, Pageable pageable);
+
+    List<Participation> findAll(Pageable pageable);
 }

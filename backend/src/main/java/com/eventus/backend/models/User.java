@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -40,6 +41,28 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     private Image image;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Participation> participations;
+    /*
+    @OneToMany(mappedBy = "organizerId")
+    private Set<Event> events;
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }*/
+
+    public Set<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(Set<Participation> participations) {
+        this.participations = participations;
+    }
 
     public Image getImage() {
         return image;

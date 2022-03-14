@@ -26,7 +26,6 @@ public class Participation {
     private LocalDate buyDate;
 
     @Column
-    @Size(max=100)
     @JsonProperty("ticket")
     private String ticket;
 
@@ -36,14 +35,21 @@ public class Participation {
     private Double price;
 
     @ManyToOne
-    @MapsId("userId")
     @JoinColumn(name = "user_id")
     User user;
- /*
+/*
     @ManyToOne
-    @MapsId("eventId")
     @JoinColumn(name = "event_id")
-    Event event;*/
+    Event event;
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+    */
 
     public LocalDate getBuyDate() {
         return buyDate;
@@ -67,6 +73,22 @@ public class Participation {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

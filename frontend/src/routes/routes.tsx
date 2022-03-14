@@ -8,6 +8,7 @@ import {
 
 import { Loader } from "components/atoms";
 import { LandingPage } from "pages";
+import { EventList } from "pages";
 
 const AppRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Router>
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
+            <Route path="/events" element={<EventList />} />
             <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>
         </Router>

@@ -37,12 +37,17 @@ public class User {
     @JsonProperty("birthDate")
     private LocalDate birthDate;
 
-    @Column
-    @JsonProperty("image")
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
     private Image image;
 
+    public Image getImage() {
+        return image;
+    }
 
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
     public Long getId() {
         return id;
@@ -74,14 +79,6 @@ public class User {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 
     @Override

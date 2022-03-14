@@ -1,14 +1,18 @@
 package com.eventus.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jdk.jfr.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
-@Embeddable
+@Entity
 public class Image {
 
     @Id
@@ -31,12 +35,12 @@ public class Image {
 
     @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @CreationTimestamp
     @JsonProperty("uploadDate")
     private LocalDate uploadDate;
 
-    @Column
-    @NotBlank
-    @JsonProperty("uploadedBy")
+    @OneToOne(orphanRemoval = true, mappedBy = "image")
+    @JoinColumn(name = "user_id")
     private User uploadedBy;
 
     public Long getId() {

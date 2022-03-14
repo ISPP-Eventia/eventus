@@ -1,4 +1,7 @@
 # eventus
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b094b7f5257843b49ad11ac3f96c0be7)](https://app.codacy.com/gh/ISPP-Eventia/eventus?utm_source=github.com&utm_medium=referral&utm_content=ISPP-Eventia/eventus&utm_campaign=Badge_Grade_Settings)
+
 Eventia es una app web para la organización, participación y promoción de eventos tanto personales como empresariales
 
 ## workflow

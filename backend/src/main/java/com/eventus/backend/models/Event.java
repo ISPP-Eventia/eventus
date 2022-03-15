@@ -26,7 +26,7 @@ public class Event {
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "events")
+    @JoinColumn(name = "user_id")
     private User organizerId;
 
     @Column

@@ -1,5 +1,6 @@
 package com.eventus.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,10 +36,12 @@ public class Participation {
     private Double price;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     User user;
-/*
+
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "event_id")
     Event event;
 
@@ -49,7 +52,7 @@ public class Participation {
     public void setEvent(Event event) {
         this.event = event;
     }
-    */
+
 
     public LocalDate getBuyDate() {
         return buyDate;
@@ -103,4 +106,6 @@ public class Participation {
     public int hashCode() {
         return Objects.hash(id, buyDate, ticket, price);
     }
+
+
 }

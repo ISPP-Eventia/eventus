@@ -10,18 +10,6 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 const drawerBleeding = 30;
 
-const Root = styled("div")(({ theme }) => ({
-  height: "100%",
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? grey[100]
-      : theme.palette.background.default,
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
-}));
-
 const Puller = styled(Box)(({ theme }) => ({
   width: 30,
   height: 6,

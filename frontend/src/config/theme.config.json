@@ -1,4 +1,7 @@
 {
+  "typography": {
+    "fontFamily": "'Open Sans', sans-serif;"
+  },
   "palette": {
     "primary": {
       "light": "#B3D5F2",

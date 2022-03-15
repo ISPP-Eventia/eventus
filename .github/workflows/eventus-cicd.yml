@@ -4,9 +4,9 @@ name: EventUS CI/CD
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ develop ]
+    branches: [ main, develop ]
 
 jobs:
   build_backend:
@@ -56,4 +56,4 @@ jobs:
     - name: Run frontend test
       run: 
         npm install
-        npm test
+        npm run test

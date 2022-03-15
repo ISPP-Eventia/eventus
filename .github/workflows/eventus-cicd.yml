@@ -39,8 +39,7 @@ jobs:
         distribution: 'temurin'
     - name: Build with Maven
       run: |
-        chmod +x mvnw
-        ./mvnw --batch-mode --update-snapshots verify
+        mvn --batch-mode --update-snapshots verify
   
   build-frontend:
     name: Build Frontend

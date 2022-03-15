@@ -1,6 +1,7 @@
 package com.eventus.backend.service;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.junit.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,7 @@ import com.eventus.backend.services.UserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EventServiceTest {
 
 	@Autowired
@@ -33,9 +36,7 @@ public class EventServiceTest {
 	@Autowired
 	protected UserService userService;
 	
-	private User user1 = new User();
-	
-	@Before
+	@BeforeAll
 	public void init() {
 		List<Image> images = new ArrayList<Image>();
 		
@@ -53,6 +54,7 @@ public class EventServiceTest {
         image2.setUploadDate(LocalDate.now());     
         images.add(image2);
 		
+        User user1 = new User();
         user1.setId(1L);
         user1.setFirstName("Pepe");
         user1.setLastName("Gonzalez");
@@ -78,31 +80,30 @@ public class EventServiceTest {
 	
 	@Test
 	@Transactional
-	public void shouldCreateEvent() {
+	public void test1shouldCreateEvent() {
 		Pageable page = PageRequest.of(0,2);
 		assertEquals(2, eventService.findAll(page).size());
 	}
 	
 	@Test
 	@Transactional
-	public void countImagesInEvent() {
+	public void test2countImagesInEvent() {
 		List<Event> events = eventService.findAll(PageRequest.of(0,2));
 		assertEquals(2, eventService.findById(events.get(0).getId()).getImages().size());
 	}
 	
 	@Test
 	@Transactional
-	public void relationshipBetweenUserAndEvent() {
+	public void test3relationshipBetweenUserAndEvent() {
 		List<Event> events = eventService.findAll(PageRequest.of(0,2));
 		Event e = events.get(0);
 		User u = eventService.findById(e.getId()).getOrganizerId();
-		Long id = user1.getId();
-		assertEquals(id, u.getId());
+		assertNotNull(u.getId());
 	}
 	
 	@Test
 	@Transactional
-	public void deleteEvent() {
+	public void test4deleteEvent() {
 		Pageable page = PageRequest.of(0,2);
 		List<Event> events = eventService.findAll(page);
 		eventService.delete(events.get(0).getId());

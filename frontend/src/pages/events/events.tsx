@@ -36,7 +36,7 @@ const LandingSection = () => {
   };
 
   return (
-    <div className="PEPE">
+    <div className="">
       <section className="relative mb-6 grid animate-fade-in">
       <div className="flex flex-col gap-5 xl:pl-24">
         <div className="h-11/12 flex flex-row gap-5">
@@ -52,14 +52,12 @@ const LandingSection = () => {
         </div>
       </div>
       </section>
-      <section className="relative mb-6 h-100 grid animate-fade-in min-h-fit max-w-fit">
-      <div className="min-h-full flex flex-row flex-wrap gap-5">
-        <EventCard event={PlaceHolderEvent}/>
-        <EventCard event={PlaceHolderEvent}/>
-        <EventCard event={PlaceHolderEvent}/>
-        <EventCard event={PlaceHolderEvent}/>
-        <EventCard event={PlaceHolderEvent}/>
-      </div>
+      <section className="mb-6 gap-5 grid m-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 animate-fade-in max-w-fit">
+          <EventCard event={PlaceHolderEvent}/>
+          <EventCard event={PlaceHolderEvent}/>
+          <EventCard event={PlaceHolderEvent}/>
+          <EventCard event={PlaceHolderEvent}/>
+          <EventCard event={PlaceHolderEvent}/>
       </section>
       
       
@@ -73,7 +71,7 @@ const EventList = () => {
 
   return (
     <Page title="">
-      <div className="overflow-hidden">
+      <div className="">
         <LandingSection />
         {/* <section className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 xl:grid-cols-4 xl:gap-12">
             {showCards

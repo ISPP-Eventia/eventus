@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import { Loader } from "components/atoms";
-import { EventList } from "pages";
+import { EventListPage, NewEventPage } from "pages";
 import { LandingPage, TestPage } from "pages";
 
 const AppRoutes = () => {
@@ -24,7 +24,8 @@ const AppRoutes = () => {
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/test" element={<TestPage />} />
-            <Route path="/events" element={<EventList />} />
+            <Route path="/events" element={<EventListPage />} />
+            <Route path="/events/new" element={<NewEventPage />} />
             <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>
         </Router>

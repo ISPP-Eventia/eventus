@@ -22,10 +22,7 @@ const FooterSection = (props: {
   );
 };
 
-const AppFooter = (props: {
-  title?: string;
-  children?: JSX.Element | JSX.Element[] | string;
-}) => {
+const AppFooter = () => {
   return (
     <footer className="bottom-0 grid w-full grid-cols-1 gap-10 rounded-t-xl bg-brand-lighter bg-opacity-50 px-4 py-8 md:grid-cols-3 md:px-8 lg:px-24 xl:gap-16 xl:px-48">
       <FooterSection title="Ubicación">

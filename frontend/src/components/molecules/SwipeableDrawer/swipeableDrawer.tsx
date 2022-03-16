@@ -23,7 +23,7 @@ const Puller = styled(Box)(({ theme }) => ({
 export default function Component(props: {
   title: string;
   opener: { title: string; color?: "primary" | "secondary" | "success" };
-  children?: JSX.Element | JSX.Element[] | string;
+  children?: React.ReactNode;
   actions?: { title: string; onClick: () => void }[];
 }) {
   const [open, setOpen] = React.useState(false);

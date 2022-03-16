@@ -67,6 +67,8 @@ jobs:
     name: codacy-coverage-reporter
     steps:
       - uses: actions/checkout@v2
+      - name: WorkingTree (Debug only)
+        run: tree -d -L 2
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:

@@ -85,7 +85,5 @@ jobs:
       - name: Run codacy-coverage-reporter
         run: |
           export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_PROJECT_TOKEN }}
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l Java -r jacoco.xml
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l TypeScript -r lcov.info
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) final
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r jacoco.xml
 

@@ -71,4 +71,4 @@ jobs:
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           api-token: ${{ secrets.CODACY_API_TOKEN }}
-          coverage-reports: backend/target/site/jacoco/jacoco.xml
+          coverage-reports: 'backend/target/site/jacoco/jacoco.xml, frontend/coverage/lcov.info'

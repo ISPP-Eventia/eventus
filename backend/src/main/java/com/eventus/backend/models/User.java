@@ -42,7 +42,20 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
+    @JsonIgnore
     private Image image;
+
+    @OneToMany(mappedBy = "organizer")
+    @JsonIgnore
+    private Set<Event> events = new HashSet<>();
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore

@@ -22,10 +22,6 @@ const LandingSection = () => {
     });
   };
 
-  const onNewEventClick = () => {
-    console.log("Ventana para nuevo evento");
-    /*history push*/
-  };
 
   const PlaceHolderEvent: EventUs = {
       image: "https://urbancolex.com/wp-content/uploads/2019/03/cancha-de-baloncesto-1024x576.jpg",
@@ -35,42 +31,45 @@ const LandingSection = () => {
       date: "2019-01-16"
   };
 
+  const PlaceHolderEvent2: EventUs = {
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/5b/ETSI_Inform%C3%A1tica_Sevilla_y_DrupalCamp_Spain_2011.jpg",
+    title: "Hacer trabajo ISPP",
+    description: "Presentacion ",
+    price: 5,
+    date: "2019-01-16"
+};
+
+
+
   return (
-    <div className="">
-      <section className="relative mb-6 grid animate-fade-in">
-      <div className="flex flex-col gap-5 xl:pl-24">
-        <div className="h-11/12 flex flex-row gap-5">
-          <Typography variant="h3">Eventos</Typography>
-          <Typography variant="body1" className="mb-8">
-            A continuación se muestran los
-            eventos disponibles
-          </Typography>
-          <Button variant="contained" color="primary" onClick={onNewEventClick}>
-            {" "}
-            + New Event
-          </Button>
-        </div>
-      </div>
-      </section>
-      <section className="mb-6 gap-5 grid m-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 animate-fade-in max-w-fit">
+    
+      <section className="mt-6 gap-5 grid m-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 animate-fade-in max-w-fit">
           <EventCard event={PlaceHolderEvent}/>
+          <EventCard event={PlaceHolderEvent2}/>
           <EventCard event={PlaceHolderEvent}/>
-          <EventCard event={PlaceHolderEvent}/>
-          <EventCard event={PlaceHolderEvent}/>
+          <EventCard event={PlaceHolderEvent2}/>
           <EventCard event={PlaceHolderEvent}/>
       </section>
-      
-      
-      {/* <img className="h-11/12" src={LandingImg} alt="" /> */}
-    </div>
   );
 };
 
 const EventList = () => {
   const [showCards, setShowCards] = React.useState(false);
 
+  const onNewEventClick = () => {
+    console.log("Ventana para nuevo evento");
+    /*history push*/
+  }; 
+
+  const AddEvent = 
+    <Button variant="contained" color="primary" onClick={onNewEventClick}>
+    {" "}
+    + New Event
+    </Button>
+  
+
   return (
-    <Page title="">
+    <Page title="Eventos disponibles" actions={AddEvent}>
       <div className="">
         <LandingSection />
         {/* <section className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 xl:grid-cols-4 xl:gap-12">

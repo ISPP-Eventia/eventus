@@ -4,4 +4,4 @@ import TestPage from "./test";
 import AppFooter from "./footer";
 import EventList from "./events/events";
 
-export { AppHeader, LandingPage, AppFooter, EventList };
+export { AppHeader, LandingPage, AppFooter, EventList , TestPage};

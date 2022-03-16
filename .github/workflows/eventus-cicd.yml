@@ -61,6 +61,8 @@ jobs:
         npm run coverage
   
   codacy-coverage-reporter:
+    #This jobs sends frontend and backend coverage data to Codacy servers, so it must be execute after both builds
+    needs: [ build_backend, build-frontend ]
     runs-on: ubuntu-latest
     name: codacy-coverage-reporter
     steps:

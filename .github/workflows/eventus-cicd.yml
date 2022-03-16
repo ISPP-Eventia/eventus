@@ -83,8 +83,9 @@ jobs:
         with:
           name: front-coverage
       - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: 'jacoco.xml, lcov.info'
-          language: 'Java, TypeScript'
+        run: |
+          export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_PROJECT_TOKEN }}
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l Java -r jacoco.xml
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l TypeScript -r lcov.info
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) final
+

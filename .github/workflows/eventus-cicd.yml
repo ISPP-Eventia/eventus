@@ -40,11 +40,13 @@ jobs:
     - name: Build with Maven
       run: |
         mvn --batch-mode --update-snapshots verify
+    - name: WorkingTree (Debug only)
+      run: tree -d -L 2
     #This step will share coverage data to codacy-coverage-reporter job
     - uses: actions/upload-artifact@v2
       with:
         name: backend-coverage
-        path: target/site/jacoco/jacoco.xml
+        path: backend/target/site/jacoco/jacoco.xml
   
   build-frontend:
     name: Build Frontend

@@ -11,10 +11,10 @@ const Component = (props: {
   return (
     <>
       <div className="hidden md:inline">
-        <Modal {...props}>TEST CONTENT</Modal>
+        <Modal {...props}></Modal>
       </div>
       <div className="md:hidden">
-        <SwipeableDrawer {...props}>TEST CONTENT</SwipeableDrawer>
+        <SwipeableDrawer {...props}></SwipeableDrawer>
       </div>
     </>
   );

@@ -2,7 +2,6 @@ package com.eventus.backend.repositories;
 
 import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.User;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

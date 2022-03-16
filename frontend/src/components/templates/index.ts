@@ -1,1 +1,3 @@
-export default {}
+import ParticipateForm from "./forms/participateForm";
+
+export { ParticipateForm };

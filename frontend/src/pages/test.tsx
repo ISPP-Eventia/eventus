@@ -2,28 +2,15 @@ import React from "react";
 
 import Page from "./page";
 
-import { ModalDrawer } from "components/organisms";
+import { ParticipateForm } from "components/templates";
 
 const TestPage = () => {
   return (
     <Page
       title="Test"
-      actions={[
-        <ModalDrawer
-          title="Test"
-          opener={{ title: "Test Participate", color: "success" }}
-        >
-          <div>TEST CONTENT</div>
-        </ModalDrawer>,
-        <ModalDrawer
-          title="Test"
-          opener={{ title: "Test Event", color: "primary" }}
-        >
-          <div>TEST CONTENT</div>
-        </ModalDrawer>,
-      ]}
+      actions={[<ParticipateForm event={{ id: 1, price: 2 }} />]}
     >
-      <div className="overflow-hidden"></div>
+      <div className="overflow-hidden">content</div>
     </Page>
   );
 };

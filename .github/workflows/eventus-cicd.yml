@@ -87,3 +87,4 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: 'jacoco.xml, lcov.info'
+          language: 'Java, TypeScropt'

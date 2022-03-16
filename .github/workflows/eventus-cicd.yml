@@ -40,6 +40,11 @@ jobs:
     - name: Build with Maven
       run: |
         mvn --batch-mode --update-snapshots verify
+    #This step will share coverage data to codacy-coverage-reporter job
+    - uses: actions/upload-artifact@v2
+      with:
+        name: backend-coverage
+        path: target/site/jacoco/jacoco.xml
   
   build-frontend:
     name: Build Frontend
@@ -67,10 +72,13 @@ jobs:
     name: codacy-coverage-reporter
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: backend-coverage
       - name: WorkingTree (Debug only)
         run: tree -d -L 2
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           api-token: ${{ secrets.CODACY_API_TOKEN }}
-          coverage-reports: 'backend/target/site/jacoco/jacoco.xml, frontend/coverage/lcov.info'
+          coverage-reports: 'backend/target/site/jacoco/jacoco.xml'

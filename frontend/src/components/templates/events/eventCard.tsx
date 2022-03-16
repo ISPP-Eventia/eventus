@@ -5,16 +5,31 @@ type EventUs = {
     image?: string;
     title?: string;
     description?: string;
+    price?: number;
+    date?: string;
 }
 
 const EventCard = (props: {event: EventUs} ) => {
   return (
-    <Card className="max-w-xs">
-    <img className= "max-h-max" src={props.event.image}/>
-    <section className="block w-full py-5 px-4 md:px-8 lg:px-24 xl:px-48">
-      {props.event.title && <Typography variant="h4">{props.event.title}</Typography>}
-    </section>
-    
+    <Card className="max-w-sm h-80 w-60 hover:shadow-xl flex flex-col mx-4 my-4 -4min-w-max">
+      <img className= "max-h-max object-contain h-45 w-60" src={props.event.image}/>
+      <div className="flex flex-col justify-evenly ">
+      <section className="w-full py-4 px-4 h-1/4">
+        {props.event.title && <Typography variant="h5">{props.event.title}</Typography>}
+      </section>
+        <div className="h-1/2 py-2 px-4">
+          {props.event.description && <Typography variant="h6">{props.event.description}</Typography>}
+        </div>
+      <div className="flex flex-row justify-between py-4 px-4 h-1/4">
+        <div className="w-1/4">
+          {props.event.price && <Typography variant="h6">{props.event.price}€</Typography>}
+        </div>
+        <div className="">
+          {props.event.date && <Typography variant="h6">{props.event.date}</Typography>}
+        </div>
+        </div>
+      </div>
+      
     </Card>
   );
 };

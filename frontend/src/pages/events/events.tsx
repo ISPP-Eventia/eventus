@@ -3,11 +3,14 @@ import { Button, Card, Typography } from "@mui/material";
 
 import Page from "../page";
 import { EventCard } from  "components/templates";
+import { Description } from "@mui/icons-material";
 
 export type EventUs = {
   image?: string;
   title?: string;
   description?: string;
+  price?: number;
+  date?: string;
 }
 
 
@@ -26,12 +29,15 @@ const LandingSection = () => {
 
   const PlaceHolderEvent: EventUs = {
       image: "https://urbancolex.com/wp-content/uploads/2019/03/cancha-de-baloncesto-1024x576.jpg",
-      title: "Pachanguita"
+      title: "Pachanguita",
+      description: "Unas partiditas ",
+      price: 5,
+      date: "2019-01-16"
   };
 
   return (
-    <div>
-      <section className="relative mb-6 grid animate-fade-in grid-cols-1 items-center">
+    <div className="PEPE">
+      <section className="relative mb-6 grid animate-fade-in">
       <div className="flex flex-col gap-5 xl:pl-24">
         <div className="h-11/12 flex flex-row gap-5">
           <Typography variant="h3">Eventos</Typography>
@@ -46,9 +52,15 @@ const LandingSection = () => {
         </div>
       </div>
       </section>
-      <div className="flex flex-row gap-5">
+      <section className="relative mb-6 h-100 grid animate-fade-in min-h-fit max-w-fit">
+      <div className="min-h-full flex flex-row flex-wrap gap-5">
+        <EventCard event={PlaceHolderEvent}/>
+        <EventCard event={PlaceHolderEvent}/>
+        <EventCard event={PlaceHolderEvent}/>
+        <EventCard event={PlaceHolderEvent}/>
         <EventCard event={PlaceHolderEvent}/>
       </div>
+      </section>
       
       
       {/* <img className="h-11/12" src={LandingImg} alt="" /> */}
@@ -63,11 +75,11 @@ const EventList = () => {
     <Page title="">
       <div className="overflow-hidden">
         <LandingSection />
-        <section className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 xl:grid-cols-4 xl:gap-12">
-          {/*  {showCards
+        {/* <section className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 xl:grid-cols-4 xl:gap-12">
+            {showCards
                 ? cards.map((card) => <LandingCard {...card} key={card.title} />)
-                : null} */}
-        </section>
+                : null} 
+        </section>*/}
       </div>
     </Page>
   );

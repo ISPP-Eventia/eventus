@@ -1,7 +1,9 @@
 package com.eventus.backend.models;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -46,7 +49,12 @@ public class Event {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "event_id")
+    @JsonIgnore
     private List<Image> images;
+
+    @OneToMany(mappedBy = "event")
+    @JsonIgnore
+    private Set<Participation> participations = new HashSet<>();
 
     public Event(){
 
@@ -57,6 +65,14 @@ public class Event {
         this.title = title;
         this.price = price;
         this.description = description;
+    }
+
+    public Set<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(Set<Participation> participations) {
+        this.participations = participations;
     }
 
     public Long getId() {

@@ -2,15 +2,12 @@ package com.eventus.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -49,20 +46,10 @@ public class User {
     @JsonIgnore
     private Set<Event> events = new HashSet<>();
 
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
-
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Participation> participations = new HashSet<>();
-    /*
-    @OneToMany(mappedBy = "organizerId")
-    private Set<Event> events;
+
 
     public Set<Event> getEvents() {
         return events;
@@ -70,7 +57,7 @@ public class User {
 
     public void setEvents(Set<Event> events) {
         this.events = events;
-    }*/
+    }
 
     public Set<Participation> getParticipations() {
         return participations;
@@ -125,11 +112,21 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate) && Objects.equals(image, user.image);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate) && Objects.equals(image, user.image) && Objects.equals(events, user.events) && Objects.equals(participations, user.participations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthDate, image);
+        return Objects.hash(id, firstName, lastName, birthDate, image, events, participations);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }

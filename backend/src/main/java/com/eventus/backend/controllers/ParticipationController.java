@@ -34,8 +34,7 @@ public class ParticipationController {
 
     @GetMapping("/participations")
     @ResponseStatus(HttpStatus.OK)
-    public List<Participation> getParticipations(@RequestParam Integer numPag) {
-        if(numPag==null)numPag=0;
+    public List<Participation> getParticipations(@RequestParam(defaultValue = "0") Integer numPag) {
         return this.participationService.findAllParticipation(PageRequest.of(numPag,20));
     }
 
@@ -50,27 +49,26 @@ public class ParticipationController {
 
     }
 
-    @GetMapping("/participations/event/user/{eventId}")
-    public ResponseEntity<List<User>> getUsersByEvent(@PathVariable Long eventId, @RequestParam Integer numPag) {
-        if(numPag==null)numPag=0;
+    @GetMapping("/user/event/{eventId}")
+    public ResponseEntity<List<User>> getUsersByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag) {
        return ResponseEntity.ok(this.participationService.findUsersByEventId(eventId, PageRequest.of(numPag,20)));
     }
 
     @GetMapping("/participations/user/{userId}")
-    public ResponseEntity<List<Participation>>  getParticipationsByUser(@PathVariable Long userId, Pageable p) {
-        return ResponseEntity.ok(this.participationService.findParticipationByUserId(userId,p));
+    public ResponseEntity<List<Participation>>  getParticipationsByUser(@PathVariable Long userId, @RequestParam(defaultValue = "0") Integer numPag) {
+        return ResponseEntity.ok(this.participationService.findParticipationByUserId(userId,PageRequest.of(numPag,20)));
     }
 
     @GetMapping("/participations/event/{eventId}")
-    public ResponseEntity<List<Participation>> getParticipationsByEvent(@PathVariable Long eventId, Pageable p) {
-        return ResponseEntity.ok(this.participationService.findParticipationByEventId(eventId, p));
+    public ResponseEntity<List<Participation>> getParticipationsByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag) {
+        return ResponseEntity.ok(this.participationService.findParticipationByEventId(eventId, PageRequest.of(numPag,20)));
     }
 
     @PostMapping("/participations")
     public ResponseEntity<String> createParticipation(@RequestBody Map<String,String> p) {
         try{
             Event event= this.eventService.findById(Long.valueOf(p.get("eventId")));
-            User user = this.userService.findUserById(Long.valueOf(p.get("userId"))).orElse(null);
+            User user = this.userService.findUserById(1L).orElse(null);
             if(user!=null&&event!=null){
                 Participation participation=new Participation();
                 participation.setTicket(p.get("ticket"));
@@ -78,6 +76,35 @@ public class ParticipationController {
                 participation.setEvent(event);
                 participation.setUser(user);
                 this.participationService.saveParticipation(participation);
+            }else{
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }catch(DataAccessException|NullPointerException e){
+            return ResponseEntity.badRequest().build();
+        }
+
+
+    }
+
+    @PutMapping("/participations/{id}")
+    public ResponseEntity<String> updateParticipation(@RequestBody Map<String,String> p,@PathVariable Long id) {
+        try{
+            Participation participation=this.participationService.findParticipationById(id).orElse(null);
+            if(participation==null){
+                return ResponseEntity.notFound().build();
+            }
+            Event event= this.eventService.findById(Long.valueOf(p.get("eventId")));
+            User user = this.userService.findUserById(1L).orElse(null);
+            if(user!=null&&event!=null){
+                participation.setTicket(p.get("ticket"));
+                participation.setPrice(Double.valueOf(p.get("price")));
+                participation.setEvent(event);
+                participation.setUser(user);
+                this.participationService.saveParticipation(participation);
+            }else{
+                return ResponseEntity.notFound().build();
             }
 
             return ResponseEntity.status(HttpStatus.CREATED).build();

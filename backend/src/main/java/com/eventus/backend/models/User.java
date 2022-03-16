@@ -44,7 +44,7 @@ public class User {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "organizer")
     @JsonIgnore
     private Set<Event> events = new HashSet<>();
 

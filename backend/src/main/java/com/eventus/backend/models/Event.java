@@ -1,6 +1,7 @@
 package com.eventus.backend.models;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +27,8 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    @JsonProperty("organizer")
+    private User organizer;
 
     @Column
     @JsonProperty("title")
@@ -88,12 +90,13 @@ public class Event {
     public void setDescription(String description) {
         this.description = description;
     }
-    public User getUserId() {
-        return user;
+
+    public User getOrganizer() {
+        return organizer;
     }
 
-    public void setUserId(User user) {
-        this.user = user;
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
     }
 
     public List<Image> getImages() {
@@ -106,63 +109,26 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event [description=" + description + ", id=" + id + ", images=" + images + ", userId="
-                + user + ", price=" + price + ", title=" + title + "]";
+        return "Event{" +
+                "id=" + id +
+                ", organizer=" + organizer +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", images=" + images +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(id, event.id) && Objects.equals(organizer, event.organizer) && Objects.equals(title, event.title) && Objects.equals(price, event.price) && Objects.equals(description, event.description) && Objects.equals(images, event.images);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((images == null) ? 0 : images.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        return result;
+        return Objects.hash(id, organizer, title, price, description, images);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Event other = (Event) obj;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (images == null) {
-            if (other.images != null)
-                return false;
-        } else if (!images.equals(other.images))
-            return false;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
-            return false;
-        if (price == null) {
-            if (other.price != null)
-                return false;
-        } else if (!price.equals(other.price))
-            return false;
-        if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
-            return false;
-        return true;
-    }
-
 }

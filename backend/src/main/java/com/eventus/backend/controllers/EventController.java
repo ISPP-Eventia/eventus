@@ -50,13 +50,13 @@ public class EventController {
     @PostMapping("/events")
     public ResponseEntity<String> createEvent(@RequestBody Map<String, String> event){
     	try {
-    		User user = this.userService.findUserById(Long.valueOf(event.get("user_id"))).orElse(null);
+    		User user = this.userService.findUserById(Long.valueOf(event.get("organizerId"))).orElse(null);
     		if(user!=null) {
     			Event saveEvent = new Event();
     			saveEvent.setDescription(event.get("description"));
     			saveEvent.setPrice(Double.valueOf(event.get("price")));
     			saveEvent.setTitle(event.get("title"));
-    			saveEvent.setUserId(user);
+    			saveEvent.setOrganizer(user);
     			this.eventService.save(saveEvent);
     		}
     		return ResponseEntity.status(HttpStatus.CREATED).build();

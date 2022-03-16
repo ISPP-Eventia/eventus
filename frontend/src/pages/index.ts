@@ -1,5 +1,6 @@
 import AppHeader from "./header";
 import LandingPage from "./landing";
+import TestPage from "./test";
 import AppFooter from "./footer";
 import EventList from "./events/events";
 

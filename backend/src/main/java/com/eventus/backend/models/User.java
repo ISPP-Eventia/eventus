@@ -1,5 +1,6 @@
 package com.eventus.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -42,8 +44,9 @@ public class User {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @OneToMany(mappedBy = "organizerId")
-    private Set<Event> events;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Event> events = new HashSet<>();
 
     public Set<Event> getEvents() {
         return events;

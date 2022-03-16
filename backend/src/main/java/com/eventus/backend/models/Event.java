@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,9 +24,9 @@ public class Event {
     @JsonProperty("id")
     private Long id;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private User organizerId;
+    private User user;
 
     @Column
     @JsonProperty("title")
@@ -89,12 +88,12 @@ public class Event {
     public void setDescription(String description) {
         this.description = description;
     }
-    public User getOrganizerId() {
-        return organizerId;
+    public User getUserId() {
+        return user;
     }
 
-    public void setOrganizerId(User organizerId) {
-        this.organizerId = organizerId;
+    public void setUserId(User user) {
+        this.user = user;
     }
 
     public List<Image> getImages() {
@@ -107,8 +106,8 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event [description=" + description + ", id=" + id + ", images=" + images + ", organizerId="
-                + organizerId + ", price=" + price + ", title=" + title + "]";
+        return "Event [description=" + description + ", id=" + id + ", images=" + images + ", userId="
+                + user + ", price=" + price + ", title=" + title + "]";
     }
 
     @Override
@@ -118,7 +117,7 @@ public class Event {
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((images == null) ? 0 : images.hashCode());
-        result = prime * result + ((organizerId == null) ? 0 : organizerId.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         return result;
@@ -148,10 +147,10 @@ public class Event {
                 return false;
         } else if (!images.equals(other.images))
             return false;
-        if (organizerId == null) {
-            if (other.organizerId != null)
+        if (user == null) {
+            if (other.user != null)
                 return false;
-        } else if (!organizerId.equals(other.organizerId))
+        } else if (!user.equals(other.user))
             return false;
         if (price == null) {
             if (other.price != null)
@@ -165,16 +164,5 @@ public class Event {
             return false;
         return true;
     }
-
-
-    
-
-
-
-
-    
-    
-
-    
 
 }

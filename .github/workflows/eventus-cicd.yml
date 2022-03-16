@@ -64,6 +64,10 @@ jobs:
     - name: Run frontend tests with coverage
       run:
         npm run coverage
+    - uses: actions/upload-artifact@v2
+      with:
+        name: front-coverage
+        path: frontend/coverage/lcov.info
   
   codacy-coverage-reporter:
     #This jobs sends frontend and backend coverage data to Codacy servers, so it must be execute after both builds
@@ -76,7 +80,7 @@ jobs:
         with:
           name: backend-coverage
       - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
+        uses: codacy/codacy-coverage-reporter-action@v1.0.5
         with:
           api-token: ${{ secrets.CODACY_API_TOKEN }}
-          coverage-reports: 'jacoco.xml'
+          coverage-reports: 'jacoco.xml, lcov.info'

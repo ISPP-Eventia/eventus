@@ -11,16 +11,9 @@ import com.eventus.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EventController {
@@ -36,8 +29,7 @@ public class EventController {
     }
 
     @GetMapping("/events")
-    public List<Event> getEvents(@RequestParam Integer numPag){
-    	if(numPag==null) numPag=0;
+    public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag){
         return this.eventService.findAll(PageRequest.of(numPag, 20));
     }
 
@@ -46,6 +38,26 @@ public class EventController {
         return this.eventService.findById(id);
     }
 
+    @PutMapping("/events/{id}")
+    public ResponseEntity<String> updateEvent(@RequestBody Map<String, String> event,@PathVariable Long id){
+        try {
+            User user = this.userService.findUserById(Long.valueOf(event.get("organizerId"))).orElse(null);
+            if(user!=null) {
+                Event eventToUpdate = this.eventService.findById(id);
+                if (eventToUpdate==null){
+                    return ResponseEntity.notFound().build();
+                }
+                eventToUpdate.setDescription(event.get("description"));
+                eventToUpdate.setPrice(Double.valueOf(event.get("price")));
+                eventToUpdate.setTitle(event.get("title"));
+                eventToUpdate.setOrganizer(user);
+                this.eventService.save(eventToUpdate);
+            }
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch(DataAccessException|NullPointerException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     @PostMapping("/events")
     public ResponseEntity<String> createEvent(@RequestBody Map<String, String> event){

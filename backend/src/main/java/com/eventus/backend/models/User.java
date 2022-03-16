@@ -42,6 +42,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
+    @JsonIgnore
     private Image image;
 
     @OneToMany(mappedBy = "organizer")
@@ -153,7 +154,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [birthDate=" + birthDate + ", events=" + events + ", firstName=" + firstName + ", id=" + id
+        return "User [birthDate=" + birthDate + ", firstName=" + firstName + ", id=" + id
                 + ", image=" + image + ", lastName=" + lastName + "]";
     }
 

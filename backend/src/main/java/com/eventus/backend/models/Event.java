@@ -111,7 +111,6 @@ public class Event {
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", organizer=" + organizer +
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +

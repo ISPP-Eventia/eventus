@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { Card, Typography } from "@mui/material";
 
 type EventUs = {
+  id: number;
   image?: string;
   title?: string;
   description?: string;
@@ -10,8 +12,17 @@ type EventUs = {
 };
 
 const EventCard = (props: { event: EventUs }) => {
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    navigate(`/events/${props.event.id}`);
+  };
+
   return (
-    <Card className="flex flex-col hover:shadow-xl">
+    <Card
+      className="flex cursor-pointer flex-col hover:shadow-xl"
+      onClick={onClick}
+    >
       <header className="w-full">
         <img
           alt="img"

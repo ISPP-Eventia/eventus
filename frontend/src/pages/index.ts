@@ -4,12 +4,14 @@ import TestPage from "./test";
 import AppFooter from "./footer";
 import EventListPage from "./events/events";
 import NewEventPage from "./events/newEvent";
+import EventDetailPage from "./events/eventDetails";
 
 export {
   AppHeader,
   LandingPage,
   AppFooter,
   EventListPage,
+  EventDetailPage,
   NewEventPage,
   TestPage,
 };

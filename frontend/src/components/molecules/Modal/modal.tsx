@@ -11,8 +11,12 @@ import {
 const Component = (props: {
   title: string;
   opener: { title: string; color?: "primary" | "secondary" | "success" };
-  children: React.ReactNode;
-  actions?: { title: string; onClick: () => void }[];
+  children?: React.ReactNode;
+  actions?: {
+    title: string;
+    color?: "primary" | "secondary" | "success";
+    onClick: () => void;
+  }[];
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -26,18 +30,26 @@ const Component = (props: {
         {props.opener.title}
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>{props.title}</DialogTitle>
-        <DialogContent>{props.children}</DialogContent>
-        <DialogActions>
-          <Button variant="text" onClick={() => setOpen(false)}>
-            Close
-          </Button>
-          {props.actions?.map((action) => (
-            <Button variant="contained" onClick={action.onClick}>
-              {action.title}
+        <div className="min-w-[400px]">
+          <DialogTitle>{props.title}</DialogTitle>
+          <DialogContent>{props.children}</DialogContent>
+          <DialogActions>
+            <Button variant="text" onClick={() => setOpen(false)}>
+              Close
             </Button>
-          ))}
-        </DialogActions>
+            {props.actions &&
+              props.actions.map((action, index) => (
+                <Button
+                  key={index}
+                  variant="contained"
+                  color={action.color}
+                  onClick={action.onClick}
+                >
+                  {action.title}
+                </Button>
+              ))}
+          </DialogActions>
+        </div>
       </Dialog>
     </>
   );

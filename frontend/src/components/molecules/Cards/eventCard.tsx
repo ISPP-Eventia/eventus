@@ -2,14 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { Card, Typography } from "@mui/material";
 
-export type EventUs = {
-  id: number;
-  image?: string;
-  title?: string;
-  description?: string;
-  price?: number;
-  date?: string;
-};
+import { EventUs } from "types";
 
 const EventCard = (props: { event: EventUs }) => {
   const navigate = useNavigate();

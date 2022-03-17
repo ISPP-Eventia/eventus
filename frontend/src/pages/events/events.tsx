@@ -2,29 +2,11 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
 
-import { EventCard } from "components/templates";
+import { DummyEvent1, DummyEvent2 } from "mocks";
+import { EventUs } from "types";
+
+import { EventCard } from "components/molecules";
 import Page from "../page";
-
-import { EventUs } from "components/templates/events/eventCard";
-
-const DummyEvent1: EventUs = {
-  id: 1,
-  image:
-    "https://urbancolex.com/wp-content/uploads/2019/03/cancha-de-baloncesto-1024x576.jpg",
-  title: "Pachanguita",
-  description: "Unas partiditas",
-  price: 5,
-  date: "2019-01-16",
-};
-
-const DummyEvent2: EventUs = {
-  id: 2,
-  image: "https://emerac.files.wordpress.com/2011/03/etsii.jpg?w=584",
-  title: "Hacer trabajo ISPP",
-  description: "Presentacion",
-  price: 5,
-  date: "2021-01-18",
-};
 
 const EventListPage = () => {
   const navigate = useNavigate();

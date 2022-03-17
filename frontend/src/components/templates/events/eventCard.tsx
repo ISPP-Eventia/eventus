@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { Card, Typography } from "@mui/material";
 
-type EventUs = {
+export type EventUs = {
   id: number;
   image?: string;
   title?: string;

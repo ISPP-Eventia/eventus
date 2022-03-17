@@ -1,19 +1,14 @@
 import React from "react";
 import { Button } from "@mui/material";
-
-import Page from "../page";
-import { EventCard } from "components/templates";
 import { useNavigate } from "react-router";
 
-export type EventUs = {
-  image?: string;
-  title?: string;
-  description?: string;
-  price?: number;
-  date?: string;
-};
+import { EventCard } from "components/templates";
+import Page from "../page";
+
+import { EventUs } from "components/templates/events/eventCard";
 
 const DummyEvent1: EventUs = {
+  id: 1,
   image:
     "https://urbancolex.com/wp-content/uploads/2019/03/cancha-de-baloncesto-1024x576.jpg",
   title: "Pachanguita",
@@ -23,8 +18,8 @@ const DummyEvent1: EventUs = {
 };
 
 const DummyEvent2: EventUs = {
-  image:
-    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.wikipedia.org%2Fwiki%2FEscuela_T%25C3%25A9cnica_Superior_de_Ingenier%25C3%25ADa_Inform%25C3%25A1tica_(Universidad_de_Sevilla)&psig=AOvVaw2FlqhEuRXlIyqszEZeLD_o&ust=1647614533224000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJiG49awzfYCFQAAAAAdAAAAABAD",
+  id: 2,
+  image: "https://emerac.files.wordpress.com/2011/03/etsii.jpg?w=584",
   title: "Hacer trabajo ISPP",
   description: "Presentacion",
   price: 5,

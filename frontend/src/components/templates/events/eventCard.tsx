@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 
 type EventUs = {
   image?: string;
@@ -26,19 +26,17 @@ const EventCard = (props: { event: EventUs }) => {
         {props.event.description && (
           <Typography variant="body1">{props.event.description}</Typography>
         )}
-        <div className="mt-auto flex flex-row items-center justify-between">
-          <div className="w-1/4">
-            {props.event.price && (
-              <Typography variant="h6">{props.event.price}€</Typography>
-            )}
-          </div>
-          <div className="">
-            {props.event.date && (
-              <Typography variant="body2">{props.event.date}</Typography>
-            )}
-          </div>
-        </div>
       </section>
+      <footer className="mt-auto flex flex-row items-center justify-between px-2">
+        {props.event.price && (
+          <Typography className="w-1/4" variant="h6">
+            {props.event.price}€
+          </Typography>
+        )}
+        {props.event.date && (
+          <Typography variant="body2">{props.event.date}</Typography>
+        )}
+      </footer>
     </Card>
   );
 };

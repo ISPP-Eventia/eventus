@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-import { Button, Card, Typography } from "@mui/material";
+import React from "react";
+import { Button } from "@mui/material";
 
 import Page from "../page";
 import { EventCard } from "components/templates";
-import { Description } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
 export type EventUs = {
@@ -18,18 +17,18 @@ const PlaceHolderEvent: EventUs = {
   image:
     "https://urbancolex.com/wp-content/uploads/2019/03/cancha-de-baloncesto-1024x576.jpg",
   title: "Pachanguita",
-  description: "Unas partiditas ",
+  description: "Unas partiditas",
   price: 5,
   date: "2019-01-16",
 };
 
 const PlaceHolderEvent2: EventUs = {
   image:
-    "https://upload.wikimedia.org/wikipedia/commons/5/5b/ETSI_Inform%C3%A1tica_Sevilla_y_DrupalCamp_Spain_2011.jpg",
+    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.wikipedia.org%2Fwiki%2FEscuela_T%25C3%25A9cnica_Superior_de_Ingenier%25C3%25ADa_Inform%25C3%25A1tica_(Universidad_de_Sevilla)&psig=AOvVaw2FlqhEuRXlIyqszEZeLD_o&ust=1647614533224000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJiG49awzfYCFQAAAAAdAAAAABAD",
   title: "Hacer trabajo ISPP",
-  description: "Presentacion ",
+  description: "Presentacion",
   price: 5,
-  date: "2019-01-16",
+  date: "2021-01-18",
 };
 
 const EventListPage = () => {

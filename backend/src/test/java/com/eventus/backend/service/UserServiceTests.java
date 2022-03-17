@@ -26,21 +26,6 @@ public class UserServiceTests {
     @Test
     @Transactional
     public void shouldPaginateUsers() {
-        User user1 = new User();
-        user1.setFirstName("Pepe");
-        user1.setLastName("Gonzalez");
-        userService.saveUser(user1);
-
-        User user2 = new User();
-        user2.setFirstName("Alfredo");
-        user2.setLastName("Duro");
-        userService.saveUser(user2);
-
-        User user3 = new User();
-        user3.setFirstName("Antonio");
-        user3.setLastName("Javier");
-        userService.saveUser(user3);
-
         Pageable page = PageRequest.of(0,2);
         int number = userService.findAllUsers(page).size();
         assertEquals(number,2);

@@ -1,4 +1,3 @@
 import EventCard from "./events/eventCard";
 
-
-export { EventCard }
+export { EventCard };

@@ -1,1 +1,3 @@
-export default {}
+import EventCard from "./events/eventCard";
+
+export { EventCard };

@@ -36,11 +36,11 @@ public class ParticipationService {
     }
 
     public List<Participation> findParticipationByUserId(Long userId,Pageable p) {
-        return partRepository.findByUser_IdEquals(userId,p);
+        return partRepository.findByUserIdEquals(userId,p);
     }
 
     public List<Participation> findParticipationByEventId(Long eventId,Pageable p) {
-        return partRepository.findByEvent_IdEquals(eventId,p);
+        return partRepository.findByEventIdEquals(eventId,p);
     }
 
     public List<User> findUsersByEventId(Long eventId,Pageable p) {

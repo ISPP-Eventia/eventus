@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface ParticipationRepository extends CrudRepository<Participation, Long> {
 
-    List<Participation> findByUser_IdEquals(Long id, Pageable pageable);
+    List<Participation> findByUserIdEquals(Long id, Pageable pageable);
 
-    List<Participation> findByEvent_IdEquals(Long id, Pageable pageable);
+    List<Participation> findByEventIdEquals(Long id, Pageable pageable);
 
     @Query("SELECT p.user FROM Participation p WHERE p.event.id=?1")
     List<User> findUsersByEventId(Long eventId, Pageable pageable);

@@ -6,7 +6,6 @@ import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
 import com.eventus.backend.services.UserService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
@@ -69,13 +68,9 @@ public class ParticipationController {
         try{
             Event event= this.eventService.findById(Long.valueOf(p.get("eventId")));
             User user = this.userService.findUserById(1L).orElse(null);
+
             if(user!=null&&event!=null){
-                Participation participation=new Participation();
-                participation.setTicket(RandomStringUtils.randomAlphanumeric(20));
-                participation.setPrice(event.getPrice());
-                participation.setEvent(event);
-                participation.setUser(user);
-                this.participationService.saveParticipation(participation);
+                this.participationService.saveParticipation(event,user);
             }else{
                 return ResponseEntity.notFound().build();
             }

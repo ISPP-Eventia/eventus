@@ -12,7 +12,6 @@ const Component = (props: { event?: any }) => {
     //.then(() => onSubmitSuccess())
     //.catch((error) => onSubmitFailed(utils.parseErrors(error)));
     //}
-    console.log("Participate on the event: " + props.event.id);
   };
 
   return (

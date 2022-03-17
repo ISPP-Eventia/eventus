@@ -2,5 +2,16 @@ import AppHeader from "./header";
 import LandingPage from "./landing";
 import TestPage from "./test";
 import AppFooter from "./footer";
+import EventListPage from "./events/events";
+import NewEventPage from "./events/newEvent";
+import EventDetailPage from "./events/eventDetails";
 
-export { AppHeader, LandingPage, TestPage, AppFooter };
+export {
+  AppHeader,
+  LandingPage,
+  AppFooter,
+  EventListPage,
+  EventDetailPage,
+  NewEventPage,
+  TestPage,
+};

@@ -2,14 +2,9 @@ import React from "react";
 
 import Page from "./page";
 
-import { ParticipateForm } from "components/templates";
-
 const TestPage = () => {
   return (
-    <Page
-      title="Test"
-      actions={[<ParticipateForm event={{ id: 1, price: 2 }} />]}
-    >
+    <Page title="Test">
       <div className="overflow-hidden">content</div>
     </Page>
   );

@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class EventController {
     
@@ -39,37 +41,32 @@ public class EventController {
     }
 
     @PutMapping("/events/{id}")
-    public ResponseEntity<String> updateEvent(@RequestBody Map<String, String> event,@PathVariable Long id){
+    public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event,@PathVariable Long id){
         try {
-            User user = this.userService.findUserById(Long.valueOf(event.get("organizerId"))).orElse(null);
-            if(user!=null) {
-                Event eventToUpdate = this.eventService.findById(id);
-                if (eventToUpdate==null){
-                    return ResponseEntity.notFound().build();
-                }
-                eventToUpdate.setDescription(event.get("description"));
-                eventToUpdate.setPrice(Double.valueOf(event.get("price")));
-                eventToUpdate.setTitle(event.get("title"));
-                eventToUpdate.setOrganizer(user);
+            Event eventToUpdate = this.eventService.findById(id);
+            if (eventToUpdate!=null){
+                eventToUpdate.setDescription(event.getDescription());
+                eventToUpdate.setPrice(event.getPrice());
+                eventToUpdate.setTitle(event.getTitle());
                 this.eventService.save(eventToUpdate);
+
+                return ResponseEntity.status(HttpStatus.OK).build();
+            }else{
+                return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.status(HttpStatus.OK).build();
+
         } catch(DataAccessException|NullPointerException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/events")
-    public ResponseEntity<String> createEvent(@RequestBody Map<String, String> event){
+    public ResponseEntity<String> createEvent(@Valid @RequestBody Event event){
     	try {
-    		User user = this.userService.findUserById(Long.valueOf(event.get("organizerId"))).orElse(null);
+    		User user = this.userService.findUserById(1L).orElse(null);
     		if(user!=null) {
-    			Event saveEvent = new Event();
-    			saveEvent.setDescription(event.get("description"));
-    			saveEvent.setPrice(Double.valueOf(event.get("price")));
-    			saveEvent.setTitle(event.get("title"));
-    			saveEvent.setOrganizer(user);
-    			this.eventService.save(saveEvent);
+    			event.setOrganizer(user);
+    			this.eventService.save(event);
     		}
     		return ResponseEntity.status(HttpStatus.CREATED).build();
     	} catch(DataAccessException|NullPointerException e) {

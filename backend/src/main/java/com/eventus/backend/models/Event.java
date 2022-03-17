@@ -14,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,21 +32,24 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonProperty("organizer")
+    @JsonIgnore
     private User organizer;
 
     @Column
     @JsonProperty("title")
+    @Size(max=20)
     @NotBlank
     private String title;
 
     @Column
     @JsonProperty("price")
+    @Min(value=0)
     private Double price;
 
     @Column
     @JsonProperty("description")
     @NotBlank
+    @Size(max=120)
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

@@ -3,7 +3,6 @@ package com.eventus.backend.service;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.User;
-import com.eventus.backend.repositories.EventRepository;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
 import com.eventus.backend.services.UserService;

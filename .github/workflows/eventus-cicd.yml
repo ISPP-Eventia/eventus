@@ -5,9 +5,9 @@ name: EventUS CI/CD
 
 on:
   push:
-    branches: [ main, develop, devops/#87-github-actions ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   build_backend:
@@ -24,28 +24,28 @@ jobs:
           MYSQL_USER: user
           MYSQL_PASSWORD: user
         ports:
-        - '3306:3306'
+          - "3306:3306"
         options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
-    
+
     defaults:
       run:
         working-directory: backend
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Java JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-    - name: Build with Maven
-      run: |
-        mvn --batch-mode --update-snapshots verify
-    #This step will share coverage data to codacy-coverage-reporter job
-    - uses: actions/upload-artifact@v2
-      with:
-        name: backend-coverage
-        path: backend/target/site/jacoco/jacoco.xml
-  
+      - uses: actions/checkout@v2
+      - name: Set up Java JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: "11"
+          distribution: "temurin"
+      - name: Build with Maven
+        run: |
+          mvn --batch-mode --update-snapshots verify
+      #This step will share coverage data to codacy-coverage-reporter job
+      - uses: actions/upload-artifact@v2
+        with:
+          name: backend-coverage
+          path: backend/target/site/jacoco/jacoco.xml
+
   build-frontend:
     name: Build Frontend
     runs-on: ubuntu-latest
@@ -53,25 +53,23 @@ jobs:
       run:
         working-directory: frontend
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup node 16
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-    - name: Install frontend dependencies
-      run: 
-        npm install
-    - name: Run frontend tests with coverage
-      run:
-        npm run coverage
-    - uses: actions/upload-artifact@v2
-      with:
-        name: front-coverage
-        path: frontend/coverage/lcov.info
-  
+      - uses: actions/checkout@v2
+      - name: Setup node 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Install frontend dependencies
+        run: npm install
+      - name: Run frontend tests with coverage
+        run: npm run coverage
+      - uses: actions/upload-artifact@v2
+        with:
+          name: front-coverage
+          path: frontend/coverage/lcov.info
+
   codacy-coverage-reporter:
     #This jobs sends frontend and backend coverage data to Codacy servers, so it must be execute after both builds
-    needs: [ build_backend, build-frontend ]
+    needs: [build_backend, build-frontend]
     runs-on: ubuntu-latest
     name: codacy-coverage-reporter
     steps:
@@ -88,4 +86,3 @@ jobs:
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l Java -r jacoco*.xml
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l TypeScript -r lcov.info
           bash <(curl -Ls https://coverage.codacy.com/get.sh) final
-

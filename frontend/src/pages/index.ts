@@ -5,6 +5,7 @@ import AppFooter from "./footer";
 import EventListPage from "./events/events";
 import NewEventPage from "./events/newEvent";
 import EventDetailPage from "./events/eventDetails";
+import InfraestructureListPage from "./infraestructures/infraestructures";
 
 export {
   AppHeader,
@@ -14,4 +15,5 @@ export {
   EventDetailPage,
   NewEventPage,
   TestPage,
+  InfraestructureListPage,
 };

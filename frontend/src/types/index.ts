@@ -14,3 +14,11 @@ export type EventUs = {
   price?: number;
   date?: string;
 };
+
+export type Infraestructure = {
+  id: number;
+  owner_id: number;
+  location: string;
+  price?: number;
+  image?: string;
+};

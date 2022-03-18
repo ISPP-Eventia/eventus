@@ -50,6 +50,11 @@ public class User {
     @JsonIgnore
     private Set<Participation> participations = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Sponsor> sponsors = new HashSet<>();
+    
+
 
     public Set<Event> getEvents() {
         return events;

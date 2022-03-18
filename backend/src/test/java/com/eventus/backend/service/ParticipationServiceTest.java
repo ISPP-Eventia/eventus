@@ -39,7 +39,7 @@ public class ParticipationServiceTest {
     public void shouldGetUsersByEvent() {
         User user1 = userService.findUserById(1L).orElse(null);
         User user2 = userService.findUserById(2L).orElse(null);
-        Event event= eventService.findById(1L);
+        Event event= eventService.findById(1L).orElse(null);
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
         List<User> users=participationService.findUsersByEventId(event.getId(),PageRequest.of(0,3));
@@ -51,7 +51,7 @@ public class ParticipationServiceTest {
     public void shouldGetParticipationByUserId(){
         User user1 = userService.findUserById(1L).orElse(null);
         User user2 = userService.findUserById(2L).orElse(null);
-        Event event= eventService.findById(1L);
+        Event event= eventService.findById(1L).orElse(null);
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
 
@@ -64,7 +64,7 @@ public class ParticipationServiceTest {
     public void shouldGetParticipationByEventId(){
         User user1 = userService.findUserById(1L).orElse(null);
         User user2 = userService.findUserById(2L).orElse(null);
-        Event event= eventService.findById(1L);
+        Event event= eventService.findById(1L).orElse(null);
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
 

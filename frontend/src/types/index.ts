@@ -14,3 +14,12 @@ export type EventUs = {
   price?: number;
   date?: string;
 };
+
+export type Sponsor = {
+  user_Id : number;
+  event_Id : number;
+  quantity : number;
+  name : string;
+  is_accepted: boolean;
+  //images: Image;
+};

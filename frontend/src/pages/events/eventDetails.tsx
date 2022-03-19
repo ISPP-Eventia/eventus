@@ -2,7 +2,7 @@ import React from "react";
 
 import { DummyEvent1 } from "mocks";
 
-import { ParticipateForm } from "components/organisms";
+import { ParticipateForm, SponsorForm } from "components/organisms";
 import Page from "../page";
 
 const EventDetailPage = () => {
@@ -10,7 +10,7 @@ const EventDetailPage = () => {
   return (
     <Page
       title="DETAIL PAGE TODO"
-      actions={[<ParticipateForm event={DummyEvent1} />]}
+      actions={[<SponsorForm event={DummyEvent1}/>]}
     ></Page>
   );
 };

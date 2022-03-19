@@ -8,6 +8,7 @@ import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.UserService;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
@@ -40,20 +41,13 @@ public class EventController {
         return this.eventService.findById(id);
     }
 
-    @PutMapping("/events/{id}")
-    public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event,@PathVariable Long id){
+    @PutMapping("/events")
+    public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event){
         try {
-            Event eventToUpdate = this.eventService.findById(id);
-            if (eventToUpdate!=null){
-                eventToUpdate.setDescription(event.getDescription());
-                eventToUpdate.setPrice(event.getPrice());
-                eventToUpdate.setTitle(event.getTitle());
-                this.eventService.save(eventToUpdate);
-
-                return ResponseEntity.status(HttpStatus.OK).build();
-            }else{
-                return ResponseEntity.notFound().build();
-            }
+            Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()),"Start date and end date can not overlap");
+            Validate.notNull(event.getId());
+            this.eventService.save(event);
+            return ResponseEntity.status(HttpStatus.OK).build();
 
         } catch(DataAccessException|NullPointerException e) {
             return ResponseEntity.badRequest().build();
@@ -63,8 +57,10 @@ public class EventController {
     @PostMapping("/events")
     public ResponseEntity<String> createEvent(@Valid @RequestBody Event event){
     	try {
+            Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()),"Start date and end date can not overlap");
     		User user = this.userService.findUserById(1L).orElse(null);
     		if(user!=null) {
+                event.setId(null);
     			event.setOrganizer(user);
     			this.eventService.save(event);
     		}
@@ -76,8 +72,14 @@ public class EventController {
 
     @DeleteMapping("/events/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable Long id){
-        this.eventService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            this.eventService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(DataAccessException e){
+            return ResponseEntity.notFound().build();
+        }
+
+
     } 
 
 }

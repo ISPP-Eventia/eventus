@@ -1,25 +1,20 @@
 package com.eventus.backend.models;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -32,7 +27,6 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private User organizer;
 
     @Column
@@ -47,14 +41,29 @@ public class Event {
     private Double price;
 
     @Column
+    @JsonProperty("startDate")
+    @DateTimeFormat(pattern = "YYYY-MM-DDTHH:MM:SS")
+    @Future
+    private LocalDateTime startDate;
+
+    @Column
+    @JsonProperty("endDate")
+    @Future
+    @DateTimeFormat(pattern = "YYYY-MM-DDTHH:MM:SS")
+    private LocalDateTime endDate;
+
+    @Column
     @JsonProperty("description")
     @NotBlank
     @Size(max=120)
     private String description;
 
+    @Embedded
+    private Coordinates coordinates;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "event_id")
-    @JsonIgnore
+    @JsonProperty("images")
     private List<Image> images;
 
     @OneToMany(mappedBy = "event")
@@ -112,10 +121,11 @@ public class Event {
         this.description = description;
     }
 
+    @JsonProperty("organizer")
     public User getOrganizer() {
         return organizer;
     }
-
+    @JsonIgnore
     public void setOrganizer(User organizer) {
         this.organizer = organizer;
     }
@@ -126,6 +136,30 @@ public class Event {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     @Override

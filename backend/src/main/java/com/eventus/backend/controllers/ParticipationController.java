@@ -48,17 +48,17 @@ public class ParticipationController {
 
     }
 
-    @GetMapping("/user/event/{eventId}")
+    @GetMapping("/event/{eventId}/participants")
     public ResponseEntity<List<User>> getUsersByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag) {
        return ResponseEntity.ok(this.participationService.findUsersByEventId(eventId, PageRequest.of(numPag,20)));
     }
 
-    @GetMapping("/participations/user/{userId}")
+    @GetMapping("/user/{userId}/participations")
     public ResponseEntity<List<Participation>>  getParticipationsByUser(@PathVariable Long userId, @RequestParam(defaultValue = "0") Integer numPag) {
         return ResponseEntity.ok(this.participationService.findParticipationByUserId(userId,PageRequest.of(numPag,20)));
     }
 
-    @GetMapping("/participations/event/{eventId}")
+    @GetMapping("/event/{eventId}/participations")
     public ResponseEntity<List<Participation>> getParticipationsByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag) {
         return ResponseEntity.ok(this.participationService.findParticipationByEventId(eventId, PageRequest.of(numPag,20)));
     }
@@ -85,7 +85,11 @@ public class ParticipationController {
 
     @DeleteMapping("/participations/{id}")
     public ResponseEntity<String> deleteParticipation(@PathVariable Long id) {
-        this.participationService.deleteParticipation(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            this.participationService.deleteParticipation(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (DataAccessException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

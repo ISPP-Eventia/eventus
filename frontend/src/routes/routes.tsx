@@ -8,7 +8,7 @@ import {
 
 import { Loader } from "components/atoms";
 import { EventListPage, EventDetailPage, NewEventPage } from "pages";
-import { LandingPage, TestPage } from "pages";
+import { LandingPage, TestPage, ResultsPage} from "pages";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +23,7 @@ const AppRoutes = () => {
         <Router>
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
+            <Route path="/results" element={<ResultsPage />} />
             <Route path="/test" element={<TestPage />} />
             <Route path="/events" element={<EventListPage />} />
             <Route path="/events/new" element={<NewEventPage />} />

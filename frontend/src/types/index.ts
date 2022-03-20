@@ -70,3 +70,8 @@ export type Sponsor = {
   is_accepted: boolean;
   //images: Image;
 };
+
+export type SponsorFormField = {
+  quantity : number;
+  images: string;
+};

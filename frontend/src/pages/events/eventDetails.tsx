@@ -6,7 +6,7 @@ import { DummyEvent1, DummySponsorship1, DummyUser1 } from "mocks";
 import { EventUs, Sponsorship, User } from "types";
 
 import { Ad, Loader, Map } from "components/atoms";
-import { ParticipateForm } from "components/organisms";
+import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
 
 const EventDetailPage = () => {
@@ -43,7 +43,7 @@ const EventDetailPage = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Page title={event.title} actions={[<ParticipateForm event={event} />]}>
+    <Page title={event.title} actions={[<ParticipateForm event={event} />, <SponsorshipForm event={event}/>]}>
       <section className="mt-2 mb-10 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
           <img

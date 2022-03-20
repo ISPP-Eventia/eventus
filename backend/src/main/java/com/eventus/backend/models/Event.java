@@ -127,15 +127,13 @@ public class Event {
         this.images = images;
     }
 
+    
+
     @Override
     public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", images=" + images +
-                '}';
+        return "Event [description=" + description + ", id=" + id + ", images=" + images + ", organizer=" + organizer
+                + ", participations=" + participations + ", price=" + price + ", sponsors=" + sponsors + ", title="
+                + title + "]";
     }
 
     @Override

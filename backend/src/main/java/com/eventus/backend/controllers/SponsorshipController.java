@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.eventus.backend.models.Sponsorship;
-import com.eventus.backend.services.SponsorService;
+import com.eventus.backend.services.SponsorshipService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -23,22 +23,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SponsorController {
+public class SponsorshipController {
     
-    private final SponsorService sponsorService;
+    private final SponsorshipService sponsorService;
 
     @Autowired
-    public SponsorController(SponsorService sponsorService){
+    public SponsorshipController(SponsorshipService sponsorService){
         this.sponsorService = sponsorService;
     }
 
-    @GetMapping("/sponsors")
+    @GetMapping("/sponsorships")
     @ResponseStatus(HttpStatus.OK)
     public List<Sponsorship> getSponsors(@RequestParam(defaultValue = "0") Integer page){
         return this.sponsorService.findAll(PageRequest.of(page, 20));
     }
 
-    @GetMapping("/sponsors/{id}")
+    @GetMapping("/sponsorships/{id}")
     public ResponseEntity<Sponsorship> getSponsorById(@PathVariable Long id){
         Sponsorship sponsor = this.sponsorService.findSponsorById(id).orElse(null);
         if(sponsor != null){
@@ -48,17 +48,17 @@ public class SponsorController {
         }
     }
 
-    @GetMapping("sponsors/user/{userId}")
+    @GetMapping("/sponsorships/user/{userId}")
     public ResponseEntity<List<Sponsorship>> getSponsorByUser(@PathVariable Long userId,@RequestParam(defaultValue = "0") Integer page){
         return ResponseEntity.ok(this.sponsorService.findSponsorByUserId(userId, PageRequest.of(page, 20)));
     }
 
-    @GetMapping("sponsors/event/{eventId}")
+    @GetMapping("/sponsorships/event/{eventId}")
     public ResponseEntity<List<Sponsorship>> getSponsorByEvent(@PathVariable Long eventId,@RequestParam(defaultValue = "0") Integer page){
         return ResponseEntity.ok(this.sponsorService.findSponsorByEventId(eventId, PageRequest.of(page, 20)));
     }
 
-    @PostMapping("/sponsors")
+    @PostMapping("/sponsorships")
     public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String,String> params){
         try{
             Sponsorship sponsor = this.sponsorService.create(params);
@@ -71,7 +71,7 @@ public class SponsorController {
         }
     }
 
-    @DeleteMapping("/sponsors/{id}")
+    @DeleteMapping("/sponsorships/{id}")
     public ResponseEntity<String> deleteSponsor(@PathVariable Long id){
         try{
             this.sponsorService.deleteById(id);
@@ -82,7 +82,7 @@ public class SponsorController {
         
     }
 
-    @PutMapping("/sponsors/{id}")
+    @PutMapping("/sponsorships/{id}")
     public ResponseEntity<Sponsorship> updateSponsor(@RequestBody Map<String,String> params, @PathVariable Long id){
         try{
             Sponsorship newSponsor = this.sponsorService.update(params, id);
@@ -95,4 +95,29 @@ public class SponsorController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PostMapping("/sponsorships/{id}")
+    public ResponseEntity<Sponsorship> resolveSponsorship(@RequestBody boolean isAccepted, @PathVariable Long id){
+        try{
+            this.sponsorService.resolveSponsorship(isAccepted, id);
+            return ResponseEntity.ok().build();
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/sponsorships/event/{id}/{state}")
+    public ResponseEntity<List<Sponsorship>> getSponsorshipByEventAndState(@RequestParam(defaultValue = "0") Integer page,@PathVariable("state") String state, @PathVariable("id") Long eventId){
+        try{
+            System.out.println(state);
+            List<Sponsorship> result = this.sponsorService.findByEventAndState(eventId, state, PageRequest.of(page, 20));
+            if(result==null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

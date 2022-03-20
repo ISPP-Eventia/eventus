@@ -1,29 +1,27 @@
 package com.eventus.backend.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.eventus.backend.models.Event;
-import com.eventus.backend.models.Image;
 import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
-import com.eventus.backend.repositories.SponsorRepository;
+import com.eventus.backend.repositories.SponsorshipRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SponsorService implements ISponsorService{
+public class SponsorshipService implements ISponsorshipService{
     
-    private SponsorRepository sponsorRepository;
+    private SponsorshipRepository sponsorRepository;
     private UserService userService;
     private EventService eventService;
 
     @Autowired
-    public SponsorService(SponsorRepository sponsorRepo,UserService userService, EventService eventService){
+    public SponsorshipService(SponsorshipRepository sponsorRepo,UserService userService, EventService eventService){
         this.sponsorRepository = sponsorRepo;
         this.eventService = eventService;
         this.userService = userService;
@@ -74,7 +72,6 @@ public class SponsorService implements ISponsorService{
             entity.setEvent(event);
             entity.setUser(user);
         }
-        entity.setAccepted(false);
         // entity.setImages(new ArrayList<Image>());
         entity.setName(params.get("name"));
         entity.setQuantity(Double.valueOf(params.get("quantity")));
@@ -85,7 +82,6 @@ public class SponsorService implements ISponsorService{
     public Sponsorship update(Map<String, String> params, Long sponsorId) {
         Sponsorship newSponsor = this.findSponsorById(sponsorId).orElse(null);
         if(newSponsor != null){
-            newSponsor.setAccepted(Boolean.valueOf(params.get("isAccepted")));
             newSponsor.setQuantity(Double.valueOf(params.get("quantity")));
             newSponsor.setName(params.get("name"));
             //
@@ -101,6 +97,33 @@ public class SponsorService implements ISponsorService{
         }
         return null;
     }
+
+    @Override
+    public void resolveSponsorship(boolean b, Long sId) {
+        Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
+        if(sponsor!=null){
+            sponsor.setAccepted(b);
+            this.sponsorRepository.save(sponsor);
+        }else{
+            throw new IllegalArgumentException();
+        }
+        
+    }
+
+    @Override
+    public List<Sponsorship> findByEventAndState(Long eventId,String state, Pageable p) {
+        boolean b;
+        if(state.equals("accepted")){
+            b=true;
+        }else if(state.equals("denied")){
+            b=false;
+        }else{
+            return null;
+        }
+        return this.sponsorRepository.findByEventAndState(eventId,b,p);
+    }
+
+    
 
     
 

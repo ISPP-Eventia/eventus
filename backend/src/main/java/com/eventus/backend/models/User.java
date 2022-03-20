@@ -127,11 +127,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
+        return "User [birthDate=" + birthDate + ", events=" + events + ", firstName=" + firstName + ", id=" + id
+                + ", image=" + image + ", lastName=" + lastName + ", participations=" + participations + ", sponsors="
+                + sponsors + "]";
     }
+
+    
 }

@@ -8,7 +8,7 @@ import com.eventus.backend.models.Sponsorship;
 
 import org.springframework.data.domain.Pageable;
 
-public interface ISponsorService {
+public interface ISponsorshipService {
     
 
     public Sponsorship save(Sponsorship sponsor);
@@ -20,6 +20,8 @@ public interface ISponsorService {
     public List<Sponsorship> findSponsorByUserId(Long userId, Pageable p);
     public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p);
     public Sponsorship update(Map<String,String> params, Long sponorId);
+    public void resolveSponsorship(boolean b, Long id);
+    public List<Sponsorship>findByEventAndState(Long eventId,String state, Pageable p);
     
     
 }

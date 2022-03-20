@@ -1,5 +1,5 @@
 import { axios } from "./axios";
-import { EventUs } from "types";
+import { EventUs, Participation } from "types";
 
 // utitlities
 const mediaApi = {
@@ -37,7 +37,17 @@ const hostingApi = {
 
 const participationApi = {
   //bulk operations
+  getParticipations: () => axios.get("/participations"),
+
   //individual operations
+  getParticipation: (id: number) => axios.get(`/participations/${id}`),
+  createParticipation: (participation: Participation) => axios.post("/participations", participation),
+  updateParticipation: (participation: Participation) => axios.put(`/participations/${participation.id}`, participation),
+  getUsersByEvent: (id: number) => axios.get(`/event/${id}/participants`),
+  getParticipationsByUser: (id: number) => axios.get(`/user/${id}/participations`),
+  getParticipationsByEvent: (id: number) => axios.get(`/event/${id}/participations`),
+  deleteParticipation: (id: number) => axios.delete(`/participations/${id}`),
+
 };
 
 const sponsorshipApi = {

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Image;
-import com.eventus.backend.models.Sponsor;
+import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.SponsorRepository;
 
@@ -30,7 +30,7 @@ public class SponsorService implements ISponsorService{
     }
 
     @Override
-    public void delete(Sponsor sponsor) {
+    public void delete(Sponsorship sponsor) {
         sponsorRepository.delete(sponsor);
     }
 
@@ -40,34 +40,34 @@ public class SponsorService implements ISponsorService{
     }
 
     @Override
-    public List<Sponsor> findAll(Pageable p) {
+    public List<Sponsorship> findAll(Pageable p) {
         return sponsorRepository.findAll(p);
     }
 
     @Override
-    public List<Sponsor> findSponsorByEventId(Long eventId, Pageable p) {
+    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p) {
         
         return sponsorRepository.findSponsorByEventId(eventId,p);
     }
 
     @Override
-    public Optional<Sponsor> findSponsorById(Long id) {
+    public Optional<Sponsorship> findSponsorById(Long id) {
         return sponsorRepository.findById(id);
     }
 
     @Override
-    public List<Sponsor> findSponsorByUserId(Long userId, Pageable p) {
+    public List<Sponsorship> findSponsorByUserId(Long userId, Pageable p) {
         return sponsorRepository.findSponsorByUserId(userId,p);
     }
 
     @Override
-    public Sponsor save(Sponsor sponsor) {
+    public Sponsorship save(Sponsorship sponsor) {
         return sponsorRepository.save(sponsor);
     }
 
     @Override
-    public Sponsor create(Map<String,String> params) {
-        Sponsor entity = new Sponsor();
+    public Sponsorship create(Map<String,String> params) {
+        Sponsorship entity = new Sponsorship();
         Event event = eventService.findById(Long.valueOf(params.get("event"))).orElse(null);
         User user = userService.findUserById(Long.valueOf(params.get("user"))).orElse(null);
         if(event != null && user != null){
@@ -82,11 +82,12 @@ public class SponsorService implements ISponsorService{
     }
 
     @Override
-    public Sponsor update(Map<String, String> params, Long sponsorId) {
-        Sponsor newSponsor = this.findSponsorById(sponsorId).orElse(null);
+    public Sponsorship update(Map<String, String> params, Long sponsorId) {
+        Sponsorship newSponsor = this.findSponsorById(sponsorId).orElse(null);
         if(newSponsor != null){
             newSponsor.setAccepted(Boolean.valueOf(params.get("isAccepted")));
             newSponsor.setQuantity(Double.valueOf(params.get("quantity")));
+            newSponsor.setName(params.get("name"));
             //
             // When Image functionality is implemented: 
             //

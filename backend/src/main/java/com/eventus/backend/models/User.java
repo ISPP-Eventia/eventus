@@ -52,7 +52,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<Sponsor> sponsors = new HashSet<>();
+    private Set<Sponsorship> sponsors = new HashSet<>();
     
 
 

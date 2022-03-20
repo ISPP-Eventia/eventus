@@ -58,7 +58,7 @@ public class Event {
 
     @OneToMany(mappedBy = "event")
     @JsonIgnore
-    private Set<Sponsor> sponsors = new HashSet<>();
+    private Set<Sponsorship> sponsors = new HashSet<>();
 
     public Event(){
 

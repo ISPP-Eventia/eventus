@@ -3,11 +3,12 @@ package com.eventus.backend.controllers;
 import java.util.List;
 import java.util.Map;
 
-import com.eventus.backend.models.Sponsor;
+import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.services.SponsorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +34,13 @@ public class SponsorController {
 
     @GetMapping("/sponsors")
     @ResponseStatus(HttpStatus.OK)
-    public List<Sponsor> getSponsors(@RequestParam(defaultValue = "0") Integer page){
+    public List<Sponsorship> getSponsors(@RequestParam(defaultValue = "0") Integer page){
         return this.sponsorService.findAll(PageRequest.of(page, 20));
     }
 
     @GetMapping("/sponsors/{id}")
-    public ResponseEntity<Sponsor> getSponsorById(@PathVariable Long id){
-        Sponsor sponsor = this.sponsorService.findSponsorById(id).orElse(null);
+    public ResponseEntity<Sponsorship> getSponsorById(@PathVariable Long id){
+        Sponsorship sponsor = this.sponsorService.findSponsorById(id).orElse(null);
         if(sponsor != null){
             return ResponseEntity.ok(sponsor);
         }else{
@@ -48,19 +49,19 @@ public class SponsorController {
     }
 
     @GetMapping("sponsors/user/{userId}")
-    public ResponseEntity<List<Sponsor>> getSponsorByUser(@PathVariable Long userId,@RequestParam(defaultValue = "0") Integer page){
+    public ResponseEntity<List<Sponsorship>> getSponsorByUser(@PathVariable Long userId,@RequestParam(defaultValue = "0") Integer page){
         return ResponseEntity.ok(this.sponsorService.findSponsorByUserId(userId, PageRequest.of(page, 20)));
     }
 
-    @GetMapping("sponsors/user/{eventId}")
-    public ResponseEntity<List<Sponsor>> getSponsorByEvent(@PathVariable Long eventId,@RequestParam(defaultValue = "0") Integer page){
+    @GetMapping("sponsors/event/{eventId}")
+    public ResponseEntity<List<Sponsorship>> getSponsorByEvent(@PathVariable Long eventId,@RequestParam(defaultValue = "0") Integer page){
         return ResponseEntity.ok(this.sponsorService.findSponsorByEventId(eventId, PageRequest.of(page, 20)));
     }
 
     @PostMapping("/sponsors")
-    public ResponseEntity<Sponsor> createSponsor(@RequestBody Map<String,String> params){
+    public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String,String> params){
         try{
-            Sponsor sponsor = this.sponsorService.create(params);
+            Sponsorship sponsor = this.sponsorService.create(params);
             if(sponsor == null){
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
             }
@@ -72,14 +73,19 @@ public class SponsorController {
 
     @DeleteMapping("/sponsors/{id}")
     public ResponseEntity<String> deleteSponsor(@PathVariable Long id){
-        this.sponsorService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            this.sponsorService.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        
     }
 
-    @PutMapping("/participations/{id}")
-    public ResponseEntity<Sponsor> updateSponsor(@RequestBody Map<String,String> params, @PathVariable Long id){
+    @PutMapping("/sponsors/{id}")
+    public ResponseEntity<Sponsorship> updateSponsor(@RequestBody Map<String,String> params, @PathVariable Long id){
         try{
-            Sponsor newSponsor = this.sponsorService.update(params, id);
+            Sponsorship newSponsor = this.sponsorService.update(params, id);
             if(newSponsor != null){
                 return ResponseEntity.status(HttpStatus.CREATED).body(newSponsor);
             }else{

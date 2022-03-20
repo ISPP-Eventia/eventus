@@ -1,6 +1,5 @@
 package com.eventus.backend.models;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,7 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class Sponsor {
+public class Sponsorship {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,7 +41,7 @@ public class Sponsor {
     private boolean isAccepted;
 
     // @OneToMany
-    // private List<Image> images;
+    // private List<Media> media;
 
     public User getUser() {
         return user;
@@ -84,20 +83,12 @@ public class Sponsor {
         this.isAccepted = isAccepted;
     }
 
-    // public List<Image> getImages() {
-    //     return images;
-    // }
-
-    // public void setImages(List<Image> images) {
-    //     this.images = images;
-    // }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((event == null) ? 0 : event.hashCode());
-        // result = prime * result + ((images == null) ? 0 : images.hashCode());
         result = prime * result + (isAccepted ? 1231 : 1237);
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
@@ -113,17 +104,12 @@ public class Sponsor {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Sponsor other = (Sponsor) obj;
+        Sponsorship other = (Sponsorship) obj;
         if (event == null) {
             if (other.event != null)
                 return false;
         } else if (!event.equals(other.event))
             return false;
-        // if (images == null) {
-        //     if (other.images != null)
-        //         return false;
-        // } else if (!images.equals(other.images))
-        //     return false;
         if (isAccepted != other.isAccepted)
             return false;
         if (name == null) {

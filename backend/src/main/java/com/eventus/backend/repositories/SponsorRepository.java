@@ -2,16 +2,16 @@ package com.eventus.backend.repositories;
 
 import java.util.List;
 
-import com.eventus.backend.models.Sponsor;
+import com.eventus.backend.models.Sponsorship;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
-public interface SponsorRepository extends CrudRepository<Sponsor, Long> {
+public interface SponsorRepository extends CrudRepository<Sponsorship, Long> {
     
-    List<Sponsor> findAll(Pageable page);
+    List<Sponsorship> findAll(Pageable page);
 
-    List<Sponsor> findSponsorByEventId(Long id, Pageable p);
-    List<Sponsor> findSponsorByUserId(Long id, Pageable p);
+    List<Sponsorship> findSponsorByEventId(Long id, Pageable p);
+    List<Sponsorship> findSponsorByUserId(Long id, Pageable p);
     
 }

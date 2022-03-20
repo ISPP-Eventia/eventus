@@ -1,3 +1,5 @@
 import ModalDrawer from "./ModalDrawer/modalDrawer";
 
-export { ModalDrawer };
+import ParticipateForm from "../organisms/forms/participateForm";
+
+export { ModalDrawer, ParticipateForm };

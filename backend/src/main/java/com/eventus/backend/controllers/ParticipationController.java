@@ -64,19 +64,25 @@ public class ParticipationController {
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<String> createParticipation(@RequestBody Map<String,String> p) {
-        try{
-            Event event= this.eventService.findById(Long.valueOf(p.get("eventId")));
+    public ResponseEntity<String> createParticipation(@RequestBody Map<String, String> p) {
+        try {
+            Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
             User user = this.userService.findUserById(1L);
 
-            if(user!=null&&event!=null){
-                this.participationService.saveParticipation(event,user);
-            }else{
+            if (user != null && event != null) {
+                Participation participation = this.participationService.findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
+
+                if (participation != null) {
+                    return ResponseEntity.badRequest().build();
+                }
+
+                this.participationService.saveParticipation(event, user);
+            } else {
                 return ResponseEntity.notFound().build();
             }
 
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch(DataAccessException|NullPointerException e){
+        } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
         }
 

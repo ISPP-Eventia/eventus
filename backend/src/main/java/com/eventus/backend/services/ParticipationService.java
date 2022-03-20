@@ -27,7 +27,7 @@ public class ParticipationService implements IParticipationService{
     @Transactional
     public void saveParticipation(Event event, User user) throws DataAccessException {
         Participation participation=new Participation();
-        participation.setTicket(RandomStringUtils.randomAlphanumeric(20));
+        participation.setTicket(RandomStringUtils.randomAlphanumeric(20)+user.getId()+event.getId());
         participation.setPrice(event.getPrice());
         participation.setEvent(event);
         participation.setUser(user);
@@ -55,5 +55,9 @@ public class ParticipationService implements IParticipationService{
     }
     public List<Participation> findAllParticipation(Pageable p){
         return partRepository.findAll(p);
+    }
+
+    public Participation findByUserIdEqualsAndEventIdEquals(Long userId,Long evenId){
+       return partRepository.findByUserIdEqualsAndEventIdEquals(userId,evenId).orElse(null);
     }
 }

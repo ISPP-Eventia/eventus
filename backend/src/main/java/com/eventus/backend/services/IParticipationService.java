@@ -14,5 +14,6 @@ public interface IParticipationService {
     List<Participation> findParticipationByUserId(Long userId,Pageable p);
     List<Participation> findParticipationByEventId(Long eventId,Pageable p);
     List<User> findUsersByEventId(Long eventId, Pageable p);
+    Participation findByUserIdEqualsAndEventIdEquals(Long userId,Long evenId);
 
 }

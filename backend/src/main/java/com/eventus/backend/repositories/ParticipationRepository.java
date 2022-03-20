@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ParticipationRepository extends CrudRepository<Participation, Long> {
@@ -19,5 +20,9 @@ public interface ParticipationRepository extends CrudRepository<Participation, L
     @Query("SELECT p.user FROM Participation p WHERE p.event.id=?1")
     List<User> findUsersByEventId(Long eventId, Pageable pageable);
 
+    Optional<Participation> findByUserIdEqualsAndEventIdEquals(Long id, Long id1);
+
     List<Participation> findAll(Pageable pageable);
+    
+    
 }

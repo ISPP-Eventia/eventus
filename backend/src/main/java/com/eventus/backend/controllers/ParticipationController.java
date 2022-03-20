@@ -39,7 +39,7 @@ public class ParticipationController {
 
     @GetMapping("/participations/{id}")
     public ResponseEntity<Participation> getParticipationById(@PathVariable Long id) {
-        Participation participation=this.participationService.findParticipationById(id).orElse(null);
+        Participation participation=this.participationService.findParticipationById(id);
         if(participation!=null){
             return ResponseEntity.ok(participation);
         }else{
@@ -67,7 +67,7 @@ public class ParticipationController {
     public ResponseEntity<String> createParticipation(@RequestBody Map<String,String> p) {
         try{
             Event event= this.eventService.findById(Long.valueOf(p.get("eventId")));
-            User user = this.userService.findUserById(1L).orElse(null);
+            User user = this.userService.findUserById(1L);
 
             if(user!=null&&event!=null){
                 this.participationService.saveParticipation(event,user);

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ParticipationService {
+public class ParticipationService implements IParticipationService{
 
     private ParticipationRepository partRepository;
 
@@ -34,8 +34,8 @@ public class ParticipationService {
         partRepository.save(participation);
     }
 
-    public Optional<Participation> findParticipationById(Long id) {
-        return partRepository.findById(id);
+    public Participation findParticipationById(Long id) {
+        return partRepository.findById(id).orElse(null);
     }
 
     public void deleteParticipation(Long id) {

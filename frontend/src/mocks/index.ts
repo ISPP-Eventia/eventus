@@ -6,6 +6,15 @@ export const DummyUser1: User = {
   firstName: "John",
   lastName: "Doe",
   birthDate: "01/01/1990",
+  email: "john@gmail.com",
+};
+
+export const DummyUser2: User = {
+  id: 2,
+  firstName: "Jane",
+  lastName: "Doe",
+  birthDate: "01/01/1990",
+  email: "jane@gmail.com",
 };
 
 // EVENTS
@@ -44,10 +53,10 @@ export const DummySponsorship1: Sponsorship = {
   id: 1,
   user: DummyUser1,
   quantity: 20,
-  isAccepted: true,
+  isAccepted: false,
   media: [
     {
-      path: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.dreamstime.com%2Fsponsor-azul-aleatorio-formas-horizontales-texto-del-patrocinador-escrito-sobre-fondo-image214088486&psig=AOvVaw2g82lf_GGSER6U4GxAKjxz&ust=1647803964329000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLifoqDy0vYCFQAAAAAdAAAAABAK",
+      path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2s1MnBVr2klEkPS7reF7bgieU-H-acGccWg&usqp=CAU",
     },
   ],
 };

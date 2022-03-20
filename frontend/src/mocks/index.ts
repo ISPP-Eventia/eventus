@@ -1,4 +1,4 @@
-import { EventUs, Sponsorship, User } from "types";
+import { EventUs, Location, Sponsorship, User } from "types";
 
 // USERS
 export const DummyUser1: User = {
@@ -6,6 +6,25 @@ export const DummyUser1: User = {
   firstName: "John",
   lastName: "Doe",
   birthDate: "01/01/1990",
+};
+
+// LOCATIONS
+export const DummyLocation1: Location = {
+  id: 1,
+  owner: DummyUser1,
+  name: "Lorem Ipsum",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, quisquam.",
+  location: {
+    lat: 40.416775,
+    lng: -3.70379,
+  },
+  price: 4,
+  media: [
+    {
+      path: "https://media.istockphoto.com/photos/basketball-arena-picture-id466336640?k=20&m=466336640&s=612x612&w=0&h=RnIr5Y4d5C_zXyzkEQQPZ9Tf0X2JhuL39kaRhTmYKcY=",
+    },
+  ],
 };
 
 // EVENTS
@@ -22,6 +41,7 @@ export const DummyEvent1: EventUs = {
   price: 4,
   startDate: "2019-01-16",
   organizer: DummyUser1,
+  location: DummyLocation1,
 };
 
 export const DummyEvent2: EventUs = {

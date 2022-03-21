@@ -54,18 +54,24 @@ export const DummySponsorship1: Sponsorship = {
 
 export const DummyInfraestructure1: Infraestructure = {
   id: 1,
-  owner_id: 1,
+  ownerId: 1,
   location: "av./ Hytasa 10",
   price: 5,
-  image:
-    "http://www.andaluciaesdeporte.org/sites/default/files/0000616302_560x560_jpg000.jpg",
+  media: [
+    {
+      path: "http://www.andaluciaesdeporte.org/sites/default/files/0000616302_560x560_jpg000.jpg",
+    },
+  ],
 };
 
 export const DummyInfraestructure2: Infraestructure = {
   id: 1,
-  owner_id: 1,
+  ownerId: 1,
   location: "c/ Doctor Laffon Soto s/n",
   price: 5,
-  image:
-    "https://upload.wikimedia.org/wikipedia/commons/f/fd/Polideportivo_San_Pablo_%28Sevilla%29.jpg",
+  media: [
+    {
+      path: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Polideportivo_San_Pablo_%28Sevilla%29.jpg",
+    },
+  ],
 };

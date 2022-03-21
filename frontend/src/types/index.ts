@@ -63,9 +63,9 @@ export type Coordinates = {
 };
 
 export type Infraestructure = {
-  id: number;
-  owner_id: number;
+  id?: number;
+  ownerId: number;
   location: string;
   price?: number;
-  image?: string;
+  media?: Media[];
 };

@@ -37,8 +37,13 @@ public class EventController {
     }
 
     @GetMapping("/events/{id}")
-    public Event getEventById(@PathVariable Long id){
-        return this.eventService.findById(id);
+    public ResponseEntity<Event> getEventById(@PathVariable Long id){
+        Event event = this.eventService.findById(id).orElse(null);
+        if(event !=null){
+            return ResponseEntity.ok(event);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/events")

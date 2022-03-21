@@ -1,3 +1,6 @@
 import ModalDrawer from "./ModalDrawer/modalDrawer";
 
-export { ModalDrawer };
+import ParticipateForm from "./forms/participateForm";
+import HostingForm from "./forms/hostingForm";
+
+export { ModalDrawer, ParticipateForm, HostingForm };

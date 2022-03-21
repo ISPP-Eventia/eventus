@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 const drawerBleeding = 30;
@@ -24,7 +23,11 @@ export default function Component(props: {
   title: string;
   opener: { title: string; color?: "primary" | "secondary" | "success" };
   children?: React.ReactNode;
-  actions?: { title: string; onClick: () => void }[];
+  actions?: {
+    title: string;
+    color?: "primary" | "secondary" | "success";
+    onClick: () => void;
+  }[];
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -61,11 +64,19 @@ export default function Component(props: {
           <Puller />
         </div>
         <div className="block rounded-t-lg px-4 py-2">
-          {props.children ? (
-            props.children
-          ) : (
-            <Skeleton variant="rectangular" height="100%" />
-          )}
+          {props.children}
+          {props.actions &&
+            props.actions.map((action, index) => (
+              <Button
+                key={index}
+                variant="contained"
+                color={action.color}
+                onClick={action.onClick}
+                fullWidth
+              >
+                {action.title}
+              </Button>
+            ))}
         </div>
       </SwipeableDrawer>
     </>

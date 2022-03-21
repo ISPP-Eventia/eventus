@@ -2,15 +2,12 @@ package com.eventus.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jdk.jfr.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity

@@ -33,7 +33,7 @@ public class User {
     private String lastName;
 
     @Column
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "YYYY-MM-DD")
     @JsonProperty("birthDate")
     private LocalDate birthDate;
 

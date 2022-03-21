@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IUserService{
 
     private UserRepository userRepository;
 
@@ -30,8 +30,8 @@ public class UserService {
         return userRepository.findAll(p);
     }
 
-    public Optional<User> findUserById(Long id){
-        return userRepository.findById(id);
+    public User findUserById(Long id){
+        return userRepository.findById(id).orElse(null);
     }
 
     public void deleteUser(Long id) {

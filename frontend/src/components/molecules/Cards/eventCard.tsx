@@ -20,7 +20,10 @@ const EventCard = (props: { event: EventUs }) => {
         <img
           alt="img"
           className="h-28 w-full object-cover"
-          src={props.event.media?.[0]?.path}
+          src={
+            props.event.media?.[0]?.path ||
+            "https://via.placeholder.com/1000x500"
+          }
         />
       </header>
       <section className="line-clamp-4 mt-2 mb-2 flex h-auto flex-col px-2">

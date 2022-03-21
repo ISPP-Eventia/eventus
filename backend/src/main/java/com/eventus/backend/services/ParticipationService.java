@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ParticipationService {
+public class ParticipationService implements IParticipationService{
 
     private ParticipationRepository partRepository;
 
@@ -27,15 +27,15 @@ public class ParticipationService {
     @Transactional
     public void saveParticipation(Event event, User user) throws DataAccessException {
         Participation participation=new Participation();
-        participation.setTicket(RandomStringUtils.randomAlphanumeric(20));
+        participation.setTicket(RandomStringUtils.randomAlphanumeric(20)+user.getId()+event.getId());
         participation.setPrice(event.getPrice());
         participation.setEvent(event);
         participation.setUser(user);
         partRepository.save(participation);
     }
 
-    public Optional<Participation> findParticipationById(Long id) {
-        return partRepository.findById(id);
+    public Participation findParticipationById(Long id) {
+        return partRepository.findById(id).orElse(null);
     }
 
     public void deleteParticipation(Long id) {
@@ -55,5 +55,9 @@ public class ParticipationService {
     }
     public List<Participation> findAllParticipation(Pageable p){
         return partRepository.findAll(p);
+    }
+
+    public Participation findByUserIdEqualsAndEventIdEquals(Long userId,Long evenId){
+       return partRepository.findByUserIdEqualsAndEventIdEquals(userId,evenId).orElse(null);
     }
 }

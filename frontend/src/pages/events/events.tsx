@@ -48,7 +48,7 @@ const EventListPage = () => {
   );
 
   return (
-    <Page title="Eventos disponibles" actions={AddEvent}>
+    <Page title="Avaiable events" actions={AddEvent}>
       <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {events?.map((e) => (
           <EventCard event={e} />

@@ -19,13 +19,14 @@ const LandingSection = () => {
   return (
     <section className="relative mb-6 grid animate-fade-in grid-cols-1 items-center md:grid-cols-2">
       <div className="h-11/12 flex flex-col gap-5 xl:pl-24">
-        <Typography variant="h3">Eventos que marcarán tu vida</Typography>
+        <Typography variant="h3">Life-changing events!</Typography>
         <Typography variant="body1" className="mb-8">
-          Eventus es una app web para la organización, participación, promoción
-          y alojamiento de eventos tanto personales como empresariales
+          <p>Eventus is a web-app for the organisation,</p>
+          <p>participation, promotion and hosting of </p>
+          <p>personal and corporate events.</p>
         </Typography>
         <Button variant="outlined" color="primary" onClick={onStartClick}>
-          ¡Comencemos!
+          Let's start!
         </Button>
       </div>
       <img className="h-11/12" src={LandingImg} alt="" />

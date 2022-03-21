@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { Card, Typography } from "@mui/material";
 
-import { Infraestructure } from "types";
+import { Location } from "types";
 
-const InfraestructureCard = (props: { event: Infraestructure }) => {
+const LocationCard = (props: { location: Location }) => {
   const navigate = useNavigate();
 
   const onClick = () => {
-    navigate(`/infraestructures/${props.event.id}`);
+    navigate(`/locations/${props.location.id}`);
   };
 
   return (
@@ -20,18 +20,18 @@ const InfraestructureCard = (props: { event: Infraestructure }) => {
         <img
           alt="img"
           className="h-28 w-full object-cover"
-          src={props.event.image}
+          src={props.location.media?.[0]?.path}
         />
       </header>
       <section className="mt-2 flex h-44 flex-col px-2">
-        {props.event.location && (
-          <Typography variant="h5">{props.event.location}</Typography>
+        {props.location.name && (
+          <Typography variant="h5">{props.location.name}</Typography>
         )}
       </section>
       <footer className="mt-auto flex flex-row items-center justify-between px-2">
-        {props.event.price && (
+        {props.location.price && (
           <Typography className="w-1/4" variant="h6">
-            {props.event.price}€
+            {props.location.price}€
           </Typography>
         )}
       </footer>
@@ -39,4 +39,4 @@ const InfraestructureCard = (props: { event: Infraestructure }) => {
   );
 };
 
-export default InfraestructureCard;
+export default LocationCard;

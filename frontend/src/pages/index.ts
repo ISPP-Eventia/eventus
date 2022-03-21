@@ -6,7 +6,7 @@ import AppFooter from "./footer";
 import EventListPage from "./events/events";
 import NewEventPage from "./events/newEvent";
 import EventDetailPage from "./events/eventDetails";
-import InfraestructureListPage from "./infraestructures/infraestructures";
+import InfraestructureListPage from "./locations/locations";
 
 import LocationDetailPage from "./locations/locationDetails";
 

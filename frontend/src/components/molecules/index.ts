@@ -4,6 +4,7 @@ import Modal from "./Modal/modal";
 import SwipeableDrawer from "./SwipeableDrawer/swipeableDrawer";
 
 import EventCard from "./Cards/eventCard";
+import LocationCard from "./Cards/locationCard";
 import UserHorizontalCard from "./Cards/userHorizontalCard";
 
-export { Accept, SwipeableDrawer, Modal, EventCard, UserHorizontalCard };
+export { Accept, SwipeableDrawer, Modal, EventCard, UserHorizontalCard, LocationCard};

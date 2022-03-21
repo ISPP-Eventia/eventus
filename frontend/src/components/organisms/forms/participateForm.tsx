@@ -1,17 +1,15 @@
 import React from "react";
 
+import { participationApi } from "api";
+
 import { ModalDrawer } from "components/organisms";
 
 const Component = (props: { event?: any }) => {
+  const [error, setError] = React.useState<boolean>(false);
   const onSubmit = () => {
-    // TODO: send data to server
-    // if (Object.keys(errors).length === 0)
-    // console.log(data)
-    //participationApi
-    //.createParticipation(data)
-    //.then(() => onSubmitSuccess())
-    //.catch((error) => onSubmitFailed(utils.parseErrors(error)));
-    //}
+    participationApi
+      .createParticipation(props.event.id)
+      .catch((e) => setError(true));
   };
 
   return (
@@ -28,7 +26,11 @@ const Component = (props: { event?: any }) => {
           color: "primary",
         },
       ]}
-    ></ModalDrawer>
+    >
+      {error && (
+        <span className="text-error">{"You are already participating"}</span>
+      )}
+    </ModalDrawer>
   );
 };
 

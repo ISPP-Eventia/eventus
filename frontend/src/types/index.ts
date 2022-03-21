@@ -4,7 +4,7 @@ export type EventUs = {
   title: string;
   description?: string;
   price: number;
-  location?: Coordinates;
+  location?: Location;
   media?: Media[];
   startDate?: string;
   endDate?: string;

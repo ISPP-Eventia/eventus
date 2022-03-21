@@ -1,4 +1,4 @@
-import { EventUs, Sponsorship, User, Infraestructure } from "types";
+import { EventUs, Location, Sponsorship, User } from "types";
 
 // USERS
 export const DummyUser1: User = {
@@ -6,6 +6,34 @@ export const DummyUser1: User = {
   firstName: "John",
   lastName: "Doe",
   birthDate: "01/01/1990",
+  email: "john@gmail.com",
+};
+
+export const DummyUser2: User = {
+  id: 2,
+  firstName: "Jane",
+  lastName: "Doe",
+  birthDate: "01/01/1990",
+  email: "jane@gmail.com",
+};
+
+// LOCATIONS
+export const DummyLocation1: Location = {
+  id: 1,
+  owner: DummyUser1,
+  name: "Lorem Ipsum",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, quisquam.",
+  location: {
+    lat: 40.416775,
+    lng: -3.70379,
+  },
+  price: 4,
+  media: [
+    {
+      path: "https://media.istockphoto.com/photos/basketball-arena-picture-id466336640?k=20&m=466336640&s=612x612&w=0&h=RnIr5Y4d5C_zXyzkEQQPZ9Tf0X2JhuL39kaRhTmYKcY=",
+    },
+  ],
 };
 
 // EVENTS
@@ -22,6 +50,7 @@ export const DummyEvent1: EventUs = {
   price: 4,
   startDate: "2019-01-16",
   organizer: DummyUser1,
+  location: DummyLocation1,
 };
 
 export const DummyEvent2: EventUs = {
@@ -44,34 +73,10 @@ export const DummySponsorship1: Sponsorship = {
   id: 1,
   user: DummyUser1,
   quantity: 20,
-  isAccepted: true,
+  isAccepted: false,
   media: [
     {
-      path: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.dreamstime.com%2Fsponsor-azul-aleatorio-formas-horizontales-texto-del-patrocinador-escrito-sobre-fondo-image214088486&psig=AOvVaw2g82lf_GGSER6U4GxAKjxz&ust=1647803964329000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLifoqDy0vYCFQAAAAAdAAAAABAK",
-    },
-  ],
-};
-
-export const DummyInfraestructure1: Infraestructure = {
-  id: 1,
-  ownerId: 1,
-  location: "av./ Hytasa 10",
-  price: 5,
-  media: [
-    {
-      path: "http://www.andaluciaesdeporte.org/sites/default/files/0000616302_560x560_jpg000.jpg",
-    },
-  ],
-};
-
-export const DummyInfraestructure2: Infraestructure = {
-  id: 1,
-  ownerId: 1,
-  location: "c/ Doctor Laffon Soto s/n",
-  price: 5,
-  media: [
-    {
-      path: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Polideportivo_San_Pablo_%28Sevilla%29.jpg",
+      path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2s1MnBVr2klEkPS7reF7bgieU-H-acGccWg&usqp=CAU",
     },
   ],
 };

@@ -71,8 +71,8 @@ export type EventFormValues = {
 
 export type EventDataBody = {
   title: string;
-  from: string;
-  to: string;
+  startDate: string;
+  endDate: string;
   price: number;
   description?: string;
 };

@@ -9,8 +9,8 @@ export function convertEventValueToRequestBody(values: EventFormValues) {
     title,
     price,
     description,
-    from: from.toISOString(),
-    to: to.toISOString(),
+    startDate: from.toISOString(),
+    endDate: to.toISOString(),
   };
 }
 

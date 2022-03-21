@@ -27,7 +27,7 @@ public class LocationService implements ILocationService{
     @Override
     public Location create(Map<String, String> params) {
         Location entity = new Location();
-        User owner = userService.findUserById(Long.valueOf(params.get("owner"))) .orElse(null);
+        User owner = userService.findUserById(Long.valueOf(params.get("owner"))).orElse(null);
         if(owner != null){
             entity.setOwner(owner);
         }

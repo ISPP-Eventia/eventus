@@ -1,9 +1,11 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
-import { LocationCard } from "components/molecules";
+
 import { DummyLocation1 } from "mocks";
 import { Location } from "types";
+
+import { LocationCard } from "components/molecules";
 import Page from "../page";
 
 const LocationListPage = () => {

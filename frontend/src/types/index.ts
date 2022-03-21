@@ -61,11 +61,3 @@ export type Coordinates = {
   lat: number;
   lng: number;
 };
-
-export type Infraestructure = {
-  id?: number;
-  ownerId: number;
-  location: string;
-  price?: number;
-  media?: Media[];
-};

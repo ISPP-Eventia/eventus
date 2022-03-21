@@ -1,9 +1,18 @@
 import EventForm from "components/organisms/forms/EventForm";
+import { EventService } from "services/event/EventService";
+import { eventServiceImpl } from "services/event/EventServiceImpl";
 import { EventFormValues } from "types";
+import { convertEventValueToRequestBody } from "utils";
 
-const NewEvent = () => {
+export interface NewEventProps {
+  eventService?: EventService;
+}
+const NewEvent = (props: NewEventProps) => {
+  const { eventService = eventServiceImpl } = props;
+
   const handleSubmit = (values: EventFormValues) => {
-    console.log(values);
+    const eventBody = convertEventValueToRequestBody(values);
+    eventService.createEvent(eventBody);
   };
   return <EventForm onSubmit={handleSubmit} />;
 };

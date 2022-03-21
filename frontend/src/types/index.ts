@@ -68,3 +68,11 @@ export type EventFormValues = {
   price: number;
   description?: string;
 };
+
+export type EventDataBody = {
+  title: string;
+  from: string;
+  to: string;
+  price: number;
+  description?: string;
+};

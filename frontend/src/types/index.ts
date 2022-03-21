@@ -61,3 +61,10 @@ export type Coordinates = {
   lat: number;
   lng: number;
 };
+
+export type EventFormValues = {
+  title: string;
+  fromTo: [Date, Date];
+  price: number;
+  description?: string;
+};

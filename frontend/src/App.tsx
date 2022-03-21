@@ -4,7 +4,7 @@ import { createTheme, responsiveFontSizes, ThemeProvider } from "@mui/material";
 import theme from "config/theme.config.json";
 import { AppRoutes } from "routes";
 import { AppHeader, AppFooter } from "pages";
-import 'antd/dist/antd.css'
+import "antd/dist/antd.css";
 
 function App() {
   return (

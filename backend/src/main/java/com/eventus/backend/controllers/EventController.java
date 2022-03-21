@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@CrossOrigin
 @RestController
 public class EventController {
     
@@ -38,7 +39,7 @@ public class EventController {
 
     @GetMapping("/events/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable Long id){
-        Event event = this.eventService.findById(id).orElse(null);
+        Event event = this.eventService.findById(id);
         if(event !=null){
             return ResponseEntity.ok(event);
         }else{

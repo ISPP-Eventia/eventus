@@ -38,8 +38,8 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public Optional<Event> findById(Long id) {
-        return this.eventRepository.findById(id);
+    public Event findById(Long id) {
+        return this.eventRepository.findById(id).orElse(null);
     }
 
 

@@ -28,9 +28,7 @@ public class EventController {
   }
 
   @GetMapping("/events")
-  public List<Event> getEvents(
-    @RequestParam(defaultValue = "0") Integer numPag
-  ) {
+  public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag) {
     return this.eventService.findAll(PageRequest.of(numPag, 20));
   }
 

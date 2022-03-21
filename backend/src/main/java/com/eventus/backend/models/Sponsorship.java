@@ -1,6 +1,8 @@
 package com.eventus.backend.models;
 
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -105,35 +107,12 @@ public class Sponsorship {
         return result;
     }
 
-    
-
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Sponsorship other = (Sponsorship) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (isAccepted != other.isAccepted)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (quantity == null) {
-            if (other.quantity != null)
-                return false;
-        } else if (!quantity.equals(other.quantity))
-            return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sponsorship that = (Sponsorship) o;
+        return Objects.equals(id, that.id) && Objects.equals(id, that.id) && Objects.equals(isAccepted, that.isAccepted) && Objects.equals(name, that.name) && Objects.equals(quantity, that.quantity);
     }
 
     @Override

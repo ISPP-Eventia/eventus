@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography } from "@mui/material";
-import { useParams } from "react-router";
+import { Button, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router";
 
 import { DummyEvent1, DummySponsorship1, DummyUser2 } from "mocks";
 import { EventUs, Sponsorship, User } from "types";
@@ -11,10 +11,11 @@ import { ParticipateForm } from "components/organisms";
 import Page from "../page";
 
 const EventDetailPage = () => {
-  const [refresh, setRefresh] = React.useState(false);
+  const navigate = useNavigate();
 
   const eventId = useParams().id;
   const [event, setEvent] = React.useState<EventUs>();
+  const [refresh, setRefresh] = React.useState(false);
 
   const [participants, setParticipants] = React.useState<User[]>();
   const [ads, setAds] = React.useState<Sponsorship[]>();
@@ -40,6 +41,10 @@ const EventDetailPage = () => {
       isCancelled = true;
     };
   }, [eventId, refresh]);
+
+  const onSearchLocation = () => {
+    navigate("/locations");
+  };
 
   const isLoading = !event || !participants || !ads;
 
@@ -80,7 +85,20 @@ const EventDetailPage = () => {
         </div>
         <div className="flex flex-col md:col-span-2 xl:col-span-1">
           <Typography variant="h4">Location</Typography>
-          <Map lat={37.358273} lng={-5.986795} />
+          {event.location ? (
+            <Map
+              lat={event.location.location.lat}
+              lng={event.location.location.lng}
+            />
+          ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={onSearchLocation}
+            >
+              Look for a location
+            </Button>
+          )}
         </div>
       </section>
 

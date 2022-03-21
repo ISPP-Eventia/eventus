@@ -1,29 +1,21 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
+import { useQuery } from "react-query";
 
 import { EventUs } from "types";
+import { eventApi } from "api";
 
+import { Loader } from "components/atoms";
 import { EventCard } from "components/molecules";
 import Page from "../page";
-import { eventApi } from "api";
 
 const EventListPage = () => {
   const navigate = useNavigate();
 
-  const [events, setEvents] = React.useState<EventUs[]>();
-  const [refetch, setRefetch] = React.useState(false);
-
-
-  React.useEffect(() => {
-    eventApi
-      .getEvents()
-      .then((response) => {
-        setEvents(response.data);
-        console.log(response.data)
-      })
-      .catch((error) => console.log("error", "Users not fetched: " + error.message));
-  }, [refetch]);
+  const { isLoading, data: events } = useQuery("events", () =>
+    eventApi.getEvents().then((response) => response.data as EventUs[])
+  );
 
   const onNewEventClick = () => {
     navigate("/events/new");
@@ -37,11 +29,15 @@ const EventListPage = () => {
 
   return (
     <Page title="Eventos disponibles" actions={AddEvent}>
-      <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {events?.map((e) => (
-          <EventCard event={e} />
-        ))}
-      </section>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          {events?.map((e) => (
+            <EventCard event={e} />
+          ))}
+        </section>
+      )}
     </Page>
   );
 };

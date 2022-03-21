@@ -1,5 +1,5 @@
 import { axios } from "./axios";
-import { EventUs, Participation } from "types";
+import { EventUs, Participation, Sponsorship } from "types";
 
 // utitlities
 const mediaApi = {
@@ -16,6 +16,12 @@ const userApi = {
 const eventApi = {
   //bulk operations
   getEvents: () => axios.get("/events"),
+
+  getUsersByEvent: (id: number) => axios.get(`/events/${id}/participants`),
+  getParticipationsByEvent: (id: number) =>
+    axios.get(`/events/${id}/participations`),
+  getSponsorshipsByEvent: (id: number) =>
+    axios.get(`/events/${id}/sponsorships`),
 
   //individual operations
   getEvent: (id: number) => axios.get(`/events/${id}`),
@@ -38,21 +44,29 @@ const hostingApi = {
 const participationApi = {
   //bulk operations
   getParticipations: () => axios.get("/participations"),
+  getParticipationsByUser: (id: number) =>
+    axios.get(`/user/${id}/participations`),
 
   //individual operations
   getParticipation: (id: number) => axios.get(`/participations/${id}`),
-  createParticipation: (participation: Participation) => axios.post("/participations", participation),
-  updateParticipation: (participation: Participation) => axios.put(`/participations/${participation.id}`, participation),
-  getUsersByEvent: (id: number) => axios.get(`/event/${id}/participants`),
-  getParticipationsByUser: (id: number) => axios.get(`/user/${id}/participations`),
-  getParticipationsByEvent: (id: number) => axios.get(`/event/${id}/participations`),
+  createParticipation: (eventId: number) =>
+    axios.post("/participations", { eventId }),
+  updateParticipation: (participation: Participation) =>
+    axios.put(`/participations/${participation.id}`, participation),
   deleteParticipation: (id: number) => axios.delete(`/participations/${id}`),
-
 };
 
 const sponsorshipApi = {
   //bulk operations
+  getSponsorships: () => axios.get("/sponsorships"),
+
   //individual operations
+  getSponsorship: (id: number) => axios.get(`/sponsorships/${id}`),
+  createSponsorship: (sponsorship: Sponsorship) =>
+    axios.post("/sponsorships", sponsorship),
+  updateSponsorship: (sponsorship: Sponsorship) =>
+    axios.put(`/sponsorships/${sponsorship.id}`, sponsorship),
+  deleteSponsorship: (id: number) => axios.delete(`/sponsorships/${id}`),
 };
 
 export {

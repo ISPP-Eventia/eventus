@@ -1,10 +1,10 @@
 import Axios from "axios";
 
 const BASE_URL = window.location.href.includes("localhost")
-  ? "http://localhost:3000/"
-  : window.location.origin + "/landing";
+  ? "http://localhost:8080"
+  : window.location.origin;
 
-const API_URL = BASE_URL + "/api";
+const API_URL = BASE_URL;
 
 export const axios = Axios.create({
   baseURL: API_URL,

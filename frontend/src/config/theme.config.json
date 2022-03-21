@@ -1,5 +1,6 @@
 {
   "typography": {
+    "fontSize": 10,
     "fontFamily": "'Open Sans', sans-serif;"
   },
   "palette": {

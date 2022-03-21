@@ -48,6 +48,8 @@ public class ParticipationController {
 
     }
 
+
+    //This method should go in UserController
     @GetMapping("/user/event/{eventId}")
     public ResponseEntity<List<User>> getUsersByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag) {
        return ResponseEntity.ok(this.participationService.findUsersByEventId(eventId, PageRequest.of(numPag,20)));
@@ -66,7 +68,7 @@ public class ParticipationController {
     @PostMapping("/participations")
     public ResponseEntity<String> createParticipation(@RequestBody Map<String,String> p) {
         try{
-            Event event= this.eventService.findById(Long.valueOf(p.get("eventId")));
+            Event event= this.eventService.findById(Long.valueOf(p.get("eventId"))).orElse(null);
             User user = this.userService.findUserById(1L).orElse(null);
 
             if(user!=null&&event!=null){

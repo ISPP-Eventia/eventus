@@ -2,40 +2,28 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
 
-import { DummyEvent1, DummyEvent2 } from "mocks";
 import { EventUs } from "types";
 
 import { EventCard } from "components/molecules";
 import Page from "../page";
+import { eventApi } from "api";
 
 const EventListPage = () => {
   const navigate = useNavigate();
 
   const [events, setEvents] = React.useState<EventUs[]>();
+  const [refetch, setRefetch] = React.useState(false);
+
 
   React.useEffect(() => {
-    let isCancelled = false;
-
-    // TODO: call api and get events
-
-    !isCancelled &&
-      setEvents([
-        DummyEvent1,
-        DummyEvent1,
-        DummyEvent2,
-        DummyEvent2,
-        DummyEvent1,
-        DummyEvent1,
-        DummyEvent2,
-        DummyEvent1,
-        DummyEvent1,
-        DummyEvent1,
-      ]);
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
+    eventApi
+      .getEvents()
+      .then((response) => {
+        setEvents(response.data);
+        console.log(response.data)
+      })
+      .catch((error) => console.log("error", "Users not fetched: " + error.message));
+  }, [refetch]);
 
   const onNewEventClick = () => {
     navigate("/events/new");

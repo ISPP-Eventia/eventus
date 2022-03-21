@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Button, Card, Typography } from "@mui/material";
+import { useNavigate } from "react-router";
 
 import Page from "./page";
 
@@ -10,11 +11,9 @@ import SponsorImg from "assets/sponsor.svg";
 import OrganizeImg from "assets/organize.svg";
 
 const LandingSection = () => {
-  const onContactClick = () => {
-    window.scrollTo({
-      behavior: "smooth",
-      top: document.body.scrollHeight,
-    });
+  const navigate = useNavigate();
+  const onStartClick = () => {
+    navigate("/events");
   };
 
   return (
@@ -25,8 +24,8 @@ const LandingSection = () => {
           Eventus es una app web para la organización, participación, promoción
           y alojamiento de eventos tanto personales como empresariales
         </Typography>
-        <Button variant="outlined" color="primary" onClick={onContactClick}>
-          ¡Contacta!
+        <Button variant="outlined" color="primary" onClick={onStartClick}>
+          ¡Comencemos!
         </Button>
       </div>
       <img className="h-11/12" src={LandingImg} alt="" />

@@ -2,14 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { Card, Typography } from "@mui/material";
 
-export type EventUs = {
-  id: number;
-  image?: string;
-  title?: string;
-  description?: string;
-  price?: number;
-  date?: string;
-};
+import { EventUs } from "types";
 
 const EventCard = (props: { event: EventUs }) => {
   const navigate = useNavigate();
@@ -27,25 +20,32 @@ const EventCard = (props: { event: EventUs }) => {
         <img
           alt="img"
           className="h-28 w-full object-cover"
-          src={props.event.image}
+          src={
+            props.event.media?.[0]?.path ||
+            "https://via.placeholder.com/1000x500"
+          }
         />
       </header>
-      <section className="mt-2 flex h-44 flex-col px-2">
+      <section className="line-clamp-4 mt-2 mb-2 flex h-auto flex-col px-2">
         {props.event.title && (
-          <Typography variant="h5">{props.event.title}</Typography>
+          <Typography variant="h4">{props.event.title}</Typography>
         )}
         {props.event.description && (
-          <Typography variant="body1">{props.event.description}</Typography>
+          <p className="mt-1">
+            <Typography variant="subtitle1">
+              {props.event.description}
+            </Typography>
+          </p>
         )}
       </section>
-      <footer className="mt-auto flex flex-row items-center justify-between px-2">
+      <footer className="mt-auto mb-1 flex flex-row items-center justify-between px-2">
         {props.event.price && (
-          <Typography className="w-1/4" variant="h6">
+          <Typography className="w-1/4" variant="h5">
             {props.event.price}€
           </Typography>
         )}
-        {props.event.date && (
-          <Typography variant="body2">{props.event.date}</Typography>
+        {props.event.startDate && (
+          <Typography variant="h6">{props.event.startDate}</Typography>
         )}
       </footer>
     </Card>

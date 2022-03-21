@@ -2,6 +2,7 @@ package com.eventus.backend.services;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.repositories.EventRepository;
@@ -23,7 +24,7 @@ public class EventService implements IEventService {
 
     @Override
     public List<Event> findAll(Pageable page) {
-        return (List<Event>) this.eventRepository.findAll(page);
+        return this.eventRepository.findAll(page);
     }
 
     @Override

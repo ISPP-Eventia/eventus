@@ -1,5 +1,6 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  plugins: [require("@tailwindcss/line-clamp")],
   theme: {
     extend: {
       keyframes: {
@@ -34,7 +35,7 @@ module.exports = {
       "brand-lighter": "#B3D5F2",
       correct: "#50B66B",
       warning: "#FEA446",
-      error: "#50B66B",
+      error: "#F55353",
       white: "#fff",
       black: "#000",
     },

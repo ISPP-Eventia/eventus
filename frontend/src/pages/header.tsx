@@ -1,6 +1,7 @@
 import React from "react";
 
 import Logo from "assets/Logo.svg";
+import SearchBar from "components/molecules/SearchBar/SearchBar";
 
 const AppHeader = () => {
   return (
@@ -10,6 +11,7 @@ const AppHeader = () => {
         <span className="text-brand-light">Event</span>
         <span className="text-brand-lighter">Us</span>
       </span>
+      <SearchBar/>
     </header>
   );
 };

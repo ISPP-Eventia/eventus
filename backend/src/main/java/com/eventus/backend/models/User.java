@@ -117,20 +117,22 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate) && Objects.equals(image, user.image) && Objects.equals(events, user.events) && Objects.equals(participations, user.participations);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate) && Objects.equals(image, user.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthDate, image, events, participations);
+        return Objects.hash(id, firstName, lastName, birthDate, image);
     }
 
     @Override
     public String toString() {
-        return "User [birthDate=" + birthDate + ", events=" + events + ", firstName=" + firstName + ", id=" + id
-                + ", image=" + image + ", lastName=" + lastName + ", participations=" + participations + ", sponsors="
-                + sponsors + "]";
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", image=" + image +
+                '}';
     }
-
-    
 }

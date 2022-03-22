@@ -1,36 +1,26 @@
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Form, Input, Button, InputNumber, Upload} from "antd";
-import { UploadOutlined } from '@ant-design/icons';
-import { ModalDrawer, SponsorshipForm } from "components/organisms";
+import { Form, Button, InputNumber } from "antd";
+
 import { SponsorshipFormValues } from "types";
+import { sponsorshipApi } from "api";
 
-const Component = (props: { event?:any }) => {
-  const {
-    control,
-    getValues,
-    formState: { errors },
-  } = useForm<SponsorshipFormValues>({ mode: "onChange" });
+import { Error } from "components/atoms";
+import { ModalDrawer } from "components/organisms";
 
-  const [sent, setSent] = React.useState(false);
-  const normFile = (e: any) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+const Component = (props: { event?: any; callback: () => void }) => {
+  const [error, setError] = React.useState<boolean>(false);
+  const required = [{ required: true, message: "Required Field" }];
 
-  const onSubmit: SubmitHandler<SponsorshipFormValues> = (data) => {
-    console.log(data)
-    // TODO: send data to server
-    // if (Object.keys(errors).length === 0)
-    // console.log(data)
-    //sponsorApi
-    //.createSponsor(data)
-    //.then(() => onSubmitSuccess())
-    //.catch((error) => onSubmitFailed(utils.parseErrors(error)));
-    //}
+  const handleSubmit = (values: SponsorshipFormValues) => {
+    setError(false);
+    sponsorshipApi
+      .createSponsorship({ ...values, eventId: props.event.id })
+      .then(() => {
+        props.callback();
+      })
+      .catch((e) => {
+        setError(true);
+      });
   };
 
   return (
@@ -40,47 +30,24 @@ const Component = (props: { event?:any }) => {
         title: "Sponsor Offer",
         color: "success",
       }}
-      actions={
-        [
-        {
-          title: "Sponsor Offer",
-          onClick: () => onSubmit(getValues()),
-          color: "success",
-        },
-      ]}
     >
       <Form
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 24 }}
-      layout="vertical"
-      style={{ maxWidth: "500px", margin: "0 auto" }}
-      onFinish={onSubmit}
-    >
-
-      <Form.Item name="price" label="Price">
-        <InputNumber
-          min={0}
-          style={{ width: "100%" }}
-        />
-      </Form.Item>
-
-      <Form.Item
-        name="upload"
-        label="Upload"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 24 }}
+        layout="vertical"
+        onFinish={handleSubmit}
       >
-        <Upload name="logo" action="/upload.do" listType="picture" >
-          <Button style={{ width: "100%" }} icon={<UploadOutlined />}>Click to upload</Button>
-        </Upload>
-      </Form.Item>
+        <Form.Item name="quantity" label="Quantity" rules={required}>
+          <InputNumber min={0} style={{ width: "100%" }} />
+        </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          Sponsor Offer
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            Sponsor Offer
+          </Button>
+        </Form.Item>
+        {error && <Error error="Couldn't create the sponsorship" />}
+      </Form>
     </ModalDrawer>
   );
 };

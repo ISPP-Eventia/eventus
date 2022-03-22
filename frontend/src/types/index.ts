@@ -53,6 +53,7 @@ export type Participation = {
 
 export type Sponsorship = {
   id?: number;
+  eventId?: number;
   user?: User;
   quantity: number;
   isAccepted?: boolean;

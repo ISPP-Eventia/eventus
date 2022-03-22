@@ -2,7 +2,6 @@ package com.eventus.backend.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Sponsorship;
@@ -49,8 +48,8 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public Optional<Sponsorship> findSponsorById(Long id) {
-        return sponsorRepository.findById(id);
+    public Sponsorship findSponsorById(Long id) {
+        return sponsorRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -80,7 +79,7 @@ public class SponsorshipService implements ISponsorshipService{
 
     @Override
     public Sponsorship update(Map<String, String> params, Long sponsorId) {
-        Sponsorship newSponsor = this.findSponsorById(sponsorId).orElse(null);
+        Sponsorship newSponsor = this.findSponsorById(sponsorId);
         if(newSponsor != null){
             newSponsor.setQuantity(Double.valueOf(params.get("quantity")));
             newSponsor.setName(params.get("name"));

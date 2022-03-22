@@ -32,7 +32,7 @@ public class SponsorshipController {
 
     @GetMapping("/sponsorships/{id}")
     public ResponseEntity<Sponsorship> getSponsorById(@PathVariable Long id) {
-        Sponsorship sponsor = this.sponsorService.findSponsorById(id).orElse(null);
+        Sponsorship sponsor = this.sponsorService.findSponsorById(id);
         if (sponsor != null) {
             return ResponseEntity.ok(sponsor);
         } else {

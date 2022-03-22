@@ -2,7 +2,6 @@ package com.eventus.backend.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.eventus.backend.models.Location;
 
@@ -12,7 +11,7 @@ public interface ILocationService {
     
     public Location save(Location sponsor);
     public Location create(Map<String,String> params);
-    public Optional<Location> findById(Long id);
+    public Location findById(Long id);
     public List<Location> findAll(Pageable p);
     public void delete(Location location);
     public void deleteById(Long id);

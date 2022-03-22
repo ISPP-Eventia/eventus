@@ -2,7 +2,6 @@ package com.eventus.backend.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.eventus.backend.models.Sponsorship;
 
@@ -13,7 +12,7 @@ public interface ISponsorshipService {
 
     public Sponsorship save(Sponsorship sponsor);
     public Sponsorship create(Map<String,String> params);
-    public Optional<Sponsorship> findSponsorById(Long id);
+    public Sponsorship findSponsorById(Long id);
     public List<Sponsorship> findAll(Pageable p);
     public void delete(Sponsorship sponsor);
     public void deleteById(Long id);

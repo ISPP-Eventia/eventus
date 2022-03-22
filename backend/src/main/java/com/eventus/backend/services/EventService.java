@@ -2,7 +2,6 @@ package com.eventus.backend.services;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.repositories.EventRepository;

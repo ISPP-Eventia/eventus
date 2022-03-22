@@ -2,7 +2,6 @@ package com.eventus.backend.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
@@ -55,8 +54,8 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public Optional<Location> findById(Long id) {
-        return locationRepository.findById(id);
+    public Location findById(Long id) {
+        return locationRepository.findById(id).orElse(null);
     }
 
     @Override

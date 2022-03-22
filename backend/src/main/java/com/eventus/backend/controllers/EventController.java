@@ -5,7 +5,6 @@ import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.UserService;
 import java.util.List;
-import java.util.Map;
 import javax.validation.Valid;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;

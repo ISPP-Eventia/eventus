@@ -97,12 +97,14 @@ public class Event {
         this.sponsors = sponsors;
     }
 
-    public Set<Location> getLocations() {
-        return locations;
+    
+
+    public Set<Hosting> getHostings() {
+        return hostings;
     }
 
-    public void setLocations(Set<Location> locations) {
-        this.locations = locations;
+    public void setHostings(Set<Hosting> hostings) {
+        this.hostings = hostings;
     }
 
     public Set<Participation> getParticipations() {

@@ -159,6 +159,16 @@ public class HostingController {
         }
     }
 
+    @PostMapping("/hostings/{id}")
+    public ResponseEntity<Hosting> resolveSponsorship(@RequestBody boolean isAccepted, @PathVariable Long id) {
+        try {
+            this.hostingService.resolveSponsorship(isAccepted, id);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
 

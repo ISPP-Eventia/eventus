@@ -11,8 +11,6 @@ import com.itextpdf.text.DocumentException;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.mail.util.BASE64EncoderStream;
-import org.bouncycastle.util.encoders.Base64Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;

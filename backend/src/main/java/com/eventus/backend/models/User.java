@@ -33,7 +33,7 @@ public class User {
     private String lastName;
 
     @Column
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "YYYY-MM-DD")
     @JsonProperty("birthDate")
     private LocalDate birthDate;
 
@@ -49,6 +49,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Participation> participations = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Sponsorship> sponsors = new HashSet<>();
+    
 
 
     public Set<Event> getEvents() {
@@ -122,11 +127,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
+        return "User [birthDate=" + birthDate + ", events=" + events + ", firstName=" + firstName + ", id=" + id
+                + ", image=" + image + ", lastName=" + lastName + ", participations=" + participations + ", sponsors="
+                + sponsors + "]";
     }
+
+    
 }

@@ -13,19 +13,27 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -167,5 +175,55 @@ public class ParticipationService implements IParticipationService{
         p.setAlignment(Element.ALIGN_CENTER);
         d.add(p);
     	return d;
+    }
+    
+    public ResponseEntity<byte[]> createTicketPDF(Participation participation) throws DocumentException, MalformedURLException, IOException {
+    	ResponseEntity<byte[]> response = null;
+    	Document document = new Document();
+    	ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+        PdfWriter.getInstance(document,outputStream);
+        document.open();
+        
+        //Formatters
+        DateTimeFormatter date=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter hour=DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime startDate = participation.getEvent().getStartDate();
+        LocalDateTime endDate = participation.getEvent().getEndDate();
+
+        //Header
+        document = insertImageInPDF(document, "src/main/resources/com.eventus.backend.controllers/Logo.png");
+        document = insertEventUsInPDF(document);
+        document = insertLineSeparetorinPDF(document, 8);
+        
+        //Event title
+        document = insertTitleInPDF(document, participation.getEvent().getTitle());
+        
+        //Event data
+        document = insertHeaderInPDF(document, "Datos del evento");
+        document = insertParagraphInPDF(document, "Descripción: ", participation.getEvent().getDescription());
+        document = insertParagraphInPDF(document, "Fecha de inicio: ", startDate.format(date));
+        document = insertParagraphInPDF(document, "Hora de inicio: ", startDate.format(hour));
+        document = insertParagraphInPDF(document, "Fecha de fin: ", endDate.format(date));
+        document = insertParagraphInPDF(document, "Hora de fin: ", endDate.format(hour));
+
+        document = insertLineSeparetorinPDF(document, 3);                
+
+        //Buy data
+        document = insertHeaderInPDF(document, "Datos de compra");
+        document = insertParagraphInPDF(document, "Nombre: ", participation.getUser().getFirstName());
+        document = insertParagraphInPDF(document, "Apellidos: ", participation.getUser().getLastName());
+        document = insertParagraphInPDF(document, "Fecha de compra: ", participation.getBuyDate().format(date));
+        document = insertParagraphInPDF(document, "Precio: ", String.valueOf(participation.getPrice()));
+        document = insertParagraphInPDF(document, "Identificador del ticket: ", String.valueOf(participation.getTicket()));
+
+        document.close();
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        String filename = "ticket.pdf";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        response = new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
+		return response;
     }
 }

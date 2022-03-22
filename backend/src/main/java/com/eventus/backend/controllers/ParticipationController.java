@@ -9,22 +9,14 @@ import com.eventus.backend.services.UserService;
 import java.util.List;
 import java.util.Map;
 import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -153,76 +145,8 @@ public class ParticipationController {
         ResponseEntity<byte[]> response = null;
         Participation participation=this.participationService.findParticipationById(id);
         if(participation!=null){
-            Document document=new Document();
             try {
-                ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-                PdfWriter.getInstance(document,outputStream);
-                document.open();
-
-                //Formatters
-                DateTimeFormatter date=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                DateTimeFormatter hour=DateTimeFormatter.ofPattern("HH:mm");
-                LocalDateTime startDate = participation.getEvent().getStartDate();
-                LocalDateTime endDate = participation.getEvent().getEndDate();
-
-                //Image
-                document = this.participationService.insertImageInPDF(document, "src/main/resources/com.eventus.backend.controllers/Logo.png");
-
-                //EventUs
-                document = this.participationService.insertEventUsInPDF(document);
-
-                document = this.participationService.insertLineSeparetorinPDF(document, 8);
-
-                //Tittle
-                document = this.participationService.insertTitleInPDF(document, participation.getEvent().getTitle());
-
-                //Header event data
-                document = this.participationService.insertHeaderInPDF(document, "Datos del evento");
-
-                //Description
-                document = this.participationService.insertParagraphInPDF(document, "Descripción: ", participation.getEvent().getDescription());
-
-                //Start date
-                document = this.participationService.insertParagraphInPDF(document, "Fecha de inicio: ", startDate.format(date));
-
-                //Start hour
-                document = this.participationService.insertParagraphInPDF(document, "Hora de inicio: ", startDate.format(hour));
-
-                //End date
-                document = this.participationService.insertParagraphInPDF(document, "Fecha de fin: ", endDate.format(date));
-
-                //End hour
-                document = this.participationService.insertParagraphInPDF(document, "Hora de fin: ", endDate.format(hour));
-
-                document = this.participationService.insertLineSeparetorinPDF(document, 3);
-
-                //Header buy data
-                document = this.participationService.insertHeaderInPDF(document, "Datos de compra");
-
-                //First name
-                document = this.participationService.insertParagraphInPDF(document, "Nombre: ", participation.getUser().getFirstName());
-
-                //Last name
-                document = this.participationService.insertParagraphInPDF(document, "Apellidos: ", participation.getUser().getLastName());
-
-                //Buy date
-                document = this.participationService.insertParagraphInPDF(document, "Fecha de compra: ", participation.getBuyDate().format(date));
-
-                //Price
-                document = this.participationService.insertParagraphInPDF(document, "Precio: ", String.valueOf(participation.getPrice()));
-
-                //Ticket id
-                document = this.participationService.insertParagraphInPDF(document, "Identificador del ticket: ", String.valueOf(participation.getTicket()));
-
-                document.close();
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_PDF);
-                String filename = "ticket.pdf";
-                headers.setContentDispositionFormData(filename, filename);
-                headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-                response = new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
-
+                response = this.participationService.createTicketPDF(participation);
             } catch (DocumentException | IOException e) {
                 response = ResponseEntity.badRequest().build();
             }

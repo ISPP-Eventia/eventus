@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -22,12 +24,12 @@ public class Sponsorship {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonProperty("user")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    @JsonProperty("event")
+    @JsonIgnore
     private Event event;
 
     @Column

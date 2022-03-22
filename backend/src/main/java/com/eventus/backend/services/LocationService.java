@@ -2,7 +2,6 @@ package com.eventus.backend.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
@@ -25,7 +24,7 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public Location create(Map<String, String> params) {
+    public void create(Map<String, String> params) {
         Location entity = new Location();
         User owner = userService.findUserById(Long.valueOf(params.get("owner")));
         if(owner != null){
@@ -36,7 +35,7 @@ public class LocationService implements ILocationService{
         entity.setLocation(params.get("location"));
         entity.setPrice(Double.valueOf(params.get("price")));
 
-        return locationRepository.save(entity);
+        locationRepository.save(entity);
     }
 
     @Override
@@ -55,8 +54,8 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public Optional<Location> findById(Long id) {
-        return locationRepository.findById(id);
+    public Location findById(Long id) {
+        return locationRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -65,21 +64,20 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public Location save(Location location) {
-        return locationRepository.save(location);
+    public void save(Location location) {
+        locationRepository.save(location);
     }
 
     @Override
-    public Location update(Map<String, String> params, Long locationId) {
+    public void update(Map<String, String> params, Long locationId) {
         Location location = locationRepository.findById(locationId).orElse(null);
         if(location!=null){
             location.setDescription(params.get("description"));
             location.setLocation(params.get("location"));
             location.setName(params.get("name"));
             location.setPrice(Double.valueOf(params.get("price")));
-            return location;
+            locationRepository.save(location);
         }
-        return null;
     }
     
 }

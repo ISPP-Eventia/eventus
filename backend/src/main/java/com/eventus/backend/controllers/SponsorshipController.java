@@ -56,7 +56,7 @@ public class SponsorshipController {
             sponsorService.create(params);
             
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (DataAccessException | NullPointerException e) {
+        } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -77,7 +77,7 @@ public class SponsorshipController {
             this.sponsorService.update(params, id);
             return ResponseEntity.status(HttpStatus.CREATED).build();
             
-        } catch (DataAccessException | NullPointerException e) {
+        } catch (DataAccessException | NullPointerException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }

@@ -1,7 +1,7 @@
-import { EventFormValues } from "types";
+import { EventFormValues, EventUs } from "types";
 
 const parsers = {
-  eventusFormValuesToEventus: (eventFormValues: EventFormValues) => {
+  eventusFormValuesToEventus: (eventFormValues: EventFormValues): EventUs => {
     const { title, fromTo, price, description } = eventFormValues;
     const [startDate, endDate] = fromTo;
     return {
@@ -10,6 +10,7 @@ const parsers = {
       endDate: endDate.toISOString(),
       price,
       description,
+      media: undefined,
     };
   },
 };

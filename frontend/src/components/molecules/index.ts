@@ -7,4 +7,11 @@ import EventCard from "./Cards/eventCard";
 import LocationCard from "./Cards/locationCard";
 import UserHorizontalCard from "./Cards/userHorizontalCard";
 
-export { Accept, SwipeableDrawer, Modal, EventCard, UserHorizontalCard, LocationCard};
+export {
+  Accept,
+  SwipeableDrawer,
+  Modal,
+  EventCard,
+  UserHorizontalCard,
+  LocationCard,
+};

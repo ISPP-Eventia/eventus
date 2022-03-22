@@ -14,7 +14,7 @@ const EventForm = (props: EventFormProps) => {
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 24 }}
       layout="vertical"
-      style={{ maxWidth: "500px", margin: "0 auto" }}
+      style={{ maxWidth: "500px", marginTop: "20px" }}
       onFinish={onSubmit}
       initialValues={initialValues}
     >
@@ -30,7 +30,7 @@ const EventForm = (props: EventFormProps) => {
         <Input.TextArea placeholder="Descripción del evento" />
       </Form.Item>
 
-      <Form.Item name="price" label="Precio">
+      <Form.Item name="price" label="Precio" rules={required}>
         <InputNumber
           addonAfter="€"
           min={0}

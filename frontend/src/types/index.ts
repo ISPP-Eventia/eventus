@@ -38,7 +38,7 @@ export type Location = {
   owner?: User;
   name: string;
   description?: string;
-  location: Coordinates;
+  coordinates: Coordinates;
   price: number;
   media?: Media[];
 };
@@ -65,17 +65,11 @@ export type Hosting = {
   isAccepted?: boolean;
 };
 
+// Forms
+
 export type EventFormValues = {
   title: string;
   fromTo: [Date, Date];
-  price: number;
-  description?: string;
-};
-
-export type EventDataBody = {
-  title: string;
-  startDate: string;
-  endDate: string;
   price: number;
   description?: string;
 };

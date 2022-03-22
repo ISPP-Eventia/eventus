@@ -24,7 +24,7 @@ export const DummyLocation1: Location = {
   name: "Lorem Ipsum",
   description:
     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, quisquam.",
-  location: {
+  coordinates: {
     lat: 40.416775,
     lng: -3.70379,
   },

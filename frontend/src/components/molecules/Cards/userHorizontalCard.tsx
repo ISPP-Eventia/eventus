@@ -9,7 +9,9 @@ const UserHorizontalCard = (props: { user: User }) => {
     <Card className="flex cursor-pointer items-center justify-between p-2 hover:shadow-xl">
       <section className="flex items-center gap-5">
         <Person />
-        <Typography variant="h6">{props.user.firstName}</Typography>
+        <Typography variant="h6">
+          {props.user.firstName} {props.user.lastName}
+        </Typography>
       </section>
       <section>
         <Typography className="font-bold" variant="subtitle1">

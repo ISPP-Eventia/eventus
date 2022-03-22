@@ -63,7 +63,7 @@ const EventDetailPage = () => {
             alt="img"
             className="w-full rounded-md object-cover"
             src={
-              event?.media?.[0]?.path || "https://via.placeholder.com/1000x500"
+              event?.media?.[0]?.path || "https://via.placeholder.com/2000x1000"
             }
           />
         </div>

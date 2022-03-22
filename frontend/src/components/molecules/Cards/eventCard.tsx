@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { Card, Typography } from "@mui/material";
 
 import { EventUs } from "types";
+import utils from "utils";
 
 const EventCard = (props: { event: EventUs }) => {
   const navigate = useNavigate();
@@ -45,7 +46,9 @@ const EventCard = (props: { event: EventUs }) => {
           </Typography>
         )}
         {props.event.startDate && (
-          <Typography variant="h6">{props.event.startDate}</Typography>
+          <Typography variant="h6">
+            {utils.formatters.formatDate(props.event.startDate)}
+          </Typography>
         )}
       </footer>
     </Card>

@@ -23,7 +23,10 @@ const Component = (props: {
       <img
         alt="img"
         className="max-h-24 w-full rounded-md object-cover"
-        src={props.sponsorship.media?.[0]?.path}
+        src={
+          props.sponsorship.media?.[0]?.path ||
+          "https://via.placeholder.com/1000"
+        }
       />
       {!props.sponsorship.isAccepted && (
         <Accept

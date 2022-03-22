@@ -20,10 +20,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +50,14 @@ public class ParticipationService implements IParticipationService{
         participation.setEvent(event);
         participation.setUser(user);
         partRepository.save(participation);
+    }
+    
+    public byte[] createParticipationAndTicket(Event event, User user) throws MalformedURLException, DocumentException, IOException {
+    	byte[] result = null;
+    	saveParticipation(event, user);
+        Participation part = findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
+        if(part!=null) result = createTicketPDF(part);
+    	return result;
     }
 
     public Participation findParticipationById(Long id) {
@@ -177,8 +181,7 @@ public class ParticipationService implements IParticipationService{
     	return d;
     }
     
-    public ResponseEntity<byte[]> createTicketPDF(Participation participation) throws DocumentException, MalformedURLException, IOException {
-    	ResponseEntity<byte[]> response = null;
+    public byte[] createTicketPDF(Participation participation) throws DocumentException, MalformedURLException, IOException {
     	Document document = new Document();
     	ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
         PdfWriter.getInstance(document,outputStream);
@@ -218,12 +221,6 @@ public class ParticipationService implements IParticipationService{
 
         document.close();
         
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        String filename = "ticket.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        response = new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
-		return response;
+        return outputStream.toByteArray();
     }
 }

@@ -38,7 +38,7 @@ export type Location = {
   owner?: User;
   name: string;
   description?: string;
-  location: Coordinates;
+  coordinates: Coordinates;
   price: number;
   media?: Media[];
 };
@@ -65,7 +65,15 @@ export type Hosting = {
   isAccepted?: boolean;
 };
 
+// Form values types
+
 export type SponsorshipFormValues = {
   quantity: number;
-  media?: Media[];
+};
+
+export type EventFormValues = {
+  title: string;
+  fromTo: [Date, Date];
+  price: number;
+  description?: string;
 };

@@ -10,6 +10,7 @@ import com.itextpdf.text.DocumentException;
 
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
@@ -89,6 +90,7 @@ public class ParticipationController {
                 String filename = "ticket.pdf";
                 headers.setContentDispositionFormData(filename, filename);
                 headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
                 return new ResponseEntity<>(array, headers, HttpStatus.OK);
             } else {
                 return ResponseEntity.notFound().build();

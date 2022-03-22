@@ -8,6 +8,7 @@ import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.repositories.HostingRepository;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -110,6 +111,15 @@ public class HostingService implements IHostingService {
             return null;
         }
         return this.hostingRepository.findByEventAndState(eventId,b,p);
+    }
+
+
+    @Override
+    public void resolveSponsorship(boolean isAccepted, Long id) {
+        Hosting hosting = this.hostingRepository.findById(id).orElse(null);
+        Validate.isTrue(hosting!=null);
+        hosting.setAccepted(isAccepted);
+        this.hostingRepository.save(hosting);
     }
     
     

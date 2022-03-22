@@ -95,7 +95,6 @@ public class SponsorshipController {
     @GetMapping("/sponsorships/event/{id}/{state}")
     public ResponseEntity<List<Sponsorship>> getSponsorshipByEventAndState(@RequestParam(defaultValue = "0") Integer page, @PathVariable("state") String state, @PathVariable("id") Long eventId) {
         try {
-            System.out.println(state);
             List<Sponsorship> result =
                     this.sponsorService.findByEventAndState(eventId, state, PageRequest.of(page, 20));
             if (result == null) {

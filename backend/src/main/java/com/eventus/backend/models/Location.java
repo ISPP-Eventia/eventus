@@ -1,7 +1,10 @@
 package com.eventus.backend.models;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,8 +49,21 @@ public class Location {
 
     @Column
     @JsonProperty("description")
-    private String description;
+    private String description; 
 
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Hosting> hostings = new HashSet<>();
+
+
+
+    public Set<Hosting> getHostings() {
+        return hostings;
+    }
+
+    public void setHostings(Set<Hosting> hostings) {
+        this.hostings = hostings;
+    }
 
     public Long getId() {
         return id;
@@ -97,34 +114,26 @@ public class Location {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((location == null) ? 0 : location.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Location that = (Location) o;
-        return Objects.equals(id, that.id) && Objects.equals(location, that.location) && Objects.equals(price, that.price) && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        Location location1 = (Location) o;
+        return Objects.equals(id, location1.id) && Objects.equals(location, location1.location) && Objects.equals(price, location1.price) && Objects.equals(name, location1.name) && Objects.equals(description, location1.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, location, price, name, description);
     }
 
     @Override
     public String toString() {
-        return "Location [description=" + description + ", id=" + id + ", location=" + location + ", name=" + name
-                + ", owner=" + owner + ", price=" + price + "]";
+        return "Location{" +
+                "id=" + id +
+                ", location='" + location + '\'' +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
-
-    
-
-    
-    
 }

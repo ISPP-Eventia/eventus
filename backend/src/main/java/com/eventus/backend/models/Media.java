@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-public class Image {
+public class Media {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -94,7 +94,7 @@ public class Image {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Image image = (Image) o;
+        Media image = (Media) o;
         return Objects.equals(id, image.id) && Objects.equals(path, image.path) && Objects.equals(title, image.title) && Objects.equals(description, image.description) && Objects.equals(uploadDate, image.uploadDate) && Objects.equals(uploadedBy, image.uploadedBy);
     }
 

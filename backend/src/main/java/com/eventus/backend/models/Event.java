@@ -58,13 +58,10 @@ public class Event {
     @Size(max=120)
     private String description;
 
-    @Embedded
-    private Coordinates coordinates;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "event_id")
     @JsonProperty("images")
-    private List<Image> images;
+    private List<Media> images;
 
     @OneToMany(mappedBy = "event")
     @JsonIgnore
@@ -73,6 +70,10 @@ public class Event {
     @OneToMany(mappedBy = "event")
     @JsonIgnore
     private Set<Sponsorship> sponsors = new HashSet<>();
+
+    @OneToMany(mappedBy = "event")
+    @JsonIgnore
+    private Set<Hosting> hostings = new HashSet<>();
 
     public Event(){
 
@@ -134,11 +135,11 @@ public class Event {
         this.organizer = organizer;
     }
 
-    public List<Image> getImages() {
+    public List<Media> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<Media> images) {
         this.images = images;
     }
 
@@ -158,12 +159,32 @@ public class Event {
         this.endDate = endDate;
     }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
+    @JsonProperty("location")
+    public Location getEventLocation(){
+        Hosting hosting=null;
+        if(!hostings.isEmpty()){
+            hosting=hostings.stream().filter(Hosting::isAccepted).findFirst().orElse(null);
+        }
+        if(hosting!=null){
+            return hosting.getLocation();
+        }
+        return null;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
+    public Set<Sponsorship> getSponsors() {
+        return sponsors;
+    }
+
+    public void setSponsors(Set<Sponsorship> sponsors) {
+        this.sponsors = sponsors;
+    }
+
+    public Set<Hosting> getHostings() {
+        return hostings;
+    }
+
+    public void setHostings(Set<Hosting> hostings) {
+        this.hostings = hostings;
     }
 
     @Override

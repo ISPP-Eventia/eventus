@@ -40,7 +40,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     @JsonIgnore
-    private Image image;
+    private Media image;
 
     @OneToMany(mappedBy = "organizer")
     @JsonIgnore
@@ -72,12 +72,12 @@ public class User {
         this.participations = participations;
     }
 
-    public Image getImage() {
+    public Media getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImage(Media media) {
+        this.image = media;
     }
 
     public Long getId() {

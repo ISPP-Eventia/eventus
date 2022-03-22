@@ -32,7 +32,6 @@ public class LocationService implements ILocationService{
         }
         entity.setName(params.get("name"));
         entity.setDescription(params.get("description"));
-        entity.setLocation(params.get("location"));
         entity.setPrice(Double.valueOf(params.get("price")));
 
         locationRepository.save(entity);
@@ -73,7 +72,6 @@ public class LocationService implements ILocationService{
         Location location = locationRepository.findById(locationId).orElse(null);
         if(location!=null){
             location.setDescription(params.get("description"));
-            location.setLocation(params.get("location"));
             location.setName(params.get("name"));
             location.setPrice(Double.valueOf(params.get("price")));
             locationRepository.save(location);

@@ -3,9 +3,8 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
 
-import { DummySponsorship1 } from "mocks";
 import { EventUs, Sponsorship, User } from "types";
-import { eventApi, participationApi, sponsorshipApi } from "api";
+import { eventApi } from "api";
 
 import { Ad, Loader, Map } from "components/atoms";
 import { UserHorizontalCard } from "components/molecules";
@@ -71,7 +70,7 @@ const EventDetailPage = () => {
             <Typography variant="h4">Description</Typography>
             <Typography variant="body1">{event?.description}</Typography>
           </div>
-          <div className="flex flex-col md:flex-row md:gap-8 xl:gap-12">
+          <div className="flex flex-col gap-y-3 md:flex-row md:gap-8 xl:gap-12">
             <div>
               <Typography variant="h4">Price</Typography>
               <Typography variant="body1">{event?.price}€</Typography>

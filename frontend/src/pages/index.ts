@@ -8,6 +8,7 @@ import NewEventPage from "./events/newEvent";
 import EventDetailPage from "./events/eventDetails";
 
 import LocationDetailPage from "./locations/locationDetails";
+import LocationListPage from "./locations/locations";
 
 export {
   AppHeader,
@@ -15,7 +16,8 @@ export {
   AppFooter,
   EventListPage,
   EventDetailPage,
-  LocationDetailPage,
   NewEventPage,
+  LocationDetailPage,
+  LocationListPage,
   TestPage,
 };

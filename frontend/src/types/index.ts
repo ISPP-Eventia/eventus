@@ -1,3 +1,26 @@
+// Utility types
+export type Coordinates = {
+  lat: number;
+  lng: number;
+};
+
+export type Media = {
+  id?: number;
+  path: string;
+  title?: string;
+  description?: string;
+};
+
+// Main types
+export type User = {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  birthDate?: string;
+  email?: string;
+  password?: string;
+};
+
 export type EventUs = {
   id?: number;
   organizer?: User;
@@ -10,22 +33,17 @@ export type EventUs = {
   endDate?: string;
 };
 
-export type User = {
+export type Location = {
   id?: number;
-  firstName: string;
-  lastName: string;
-  birthDate?: string;
-  email?: string;
-  password?: string;
-};
-
-export type Media = {
-  id?: number;
-  path: string;
-  title?: string;
+  owner?: User;
+  name: string;
   description?: string;
+  location: Coordinates;
+  price: number;
+  media?: Media[];
 };
 
+// Relation types
 export type Participation = {
   id?: number;
   buyDate: string;
@@ -41,37 +59,8 @@ export type Sponsorship = {
   media?: Media[];
 };
 
-export type Location = {
-  id?: number;
-  owner?: User;
-  name: string;
-  description?: string;
-  location: Coordinates;
-  price: number;
-  media?: Media[];
-};
-
 export type Hosting = {
   id?: number;
   eventId: number;
   isAccepted?: boolean;
-};
-
-export type Coordinates = {
-  lat: number;
-  lng: number;
-};
-
-export type Sponsor = {
-  user_Id : number;
-  event_Id : number;
-  quantity : number;
-  name : string;
-  is_accepted: boolean;
-  //images: Image;
-};
-
-export type SponsorFormField = {
-  quantity : number;
-  images: string;
 };

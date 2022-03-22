@@ -20,7 +20,7 @@ public class Participation {
     private Long id;
 
     @Column
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "YYYY-MM-DDTHH:MM:SS")
     @CreationTimestamp
     @JsonProperty("buyDate")
     private LocalDate buyDate;

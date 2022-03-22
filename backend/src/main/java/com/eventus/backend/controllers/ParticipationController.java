@@ -6,16 +6,21 @@ import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
 import com.eventus.backend.services.UserService;
+import com.itextpdf.text.DocumentException;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.*;
+import java.net.MalformedURLException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -66,11 +71,11 @@ public class ParticipationController {
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<String> createParticipation(@RequestBody Map<String, String> p) {
-        try {
+    public ResponseEntity<byte[]> createParticipation(@RequestBody Map<String, String> p) throws MalformedURLException, DocumentException, IOException {
+    	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
             User user = this.userService.findUserById(1L);
-
+            byte[] array;
             if (user != null && event != null) {
                 Participation participation = this.participationService.findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
 
@@ -78,12 +83,16 @@ public class ParticipationController {
                     return ResponseEntity.badRequest().build();
                 }
 
-                this.participationService.saveParticipation(event, user);
+                array = this.participationService.createParticipationAndTicket(event, user);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                String filename = "ticket.pdf";
+                headers.setContentDispositionFormData(filename, filename);
+                headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+                return new ResponseEntity<>(array, headers, HttpStatus.OK);
             } else {
                 return ResponseEntity.notFound().build();
             }
-
-            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -97,5 +106,27 @@ public class ParticipationController {
         } catch (DataAccessException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/participation/{id}/ticket")
+    public ResponseEntity<byte[]> generateTicket(@PathVariable Long id){
+        ResponseEntity<byte[]> response = null;
+        Participation participation=this.participationService.findParticipationById(id);
+        if(participation!=null){
+            try {
+            	byte[] array = this.participationService.createTicketPDF(participation);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                String filename = "ticket.pdf";
+                headers.setContentDispositionFormData(filename, filename);
+                headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+                response = new ResponseEntity<>(array, headers, HttpStatus.OK);
+            } catch (DocumentException | IOException e) {
+                response = ResponseEntity.badRequest().build();
+            }
+        } else {
+            response = ResponseEntity.badRequest().build();
+        }
+        return response;
     }
 }

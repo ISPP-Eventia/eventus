@@ -64,3 +64,8 @@ export type Hosting = {
   eventId: number;
   isAccepted?: boolean;
 };
+
+export type SponsorshipFormValues = {
+  quantity: number;
+  media?: Media[];
+};

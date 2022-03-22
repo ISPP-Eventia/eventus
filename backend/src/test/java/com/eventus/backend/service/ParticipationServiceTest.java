@@ -37,8 +37,8 @@ public class ParticipationServiceTest {
     @Test
     @Transactional
     public void shouldGetUsersByEvent() {
-        User user1 = userService.findUserById(1L).orElse(null);
-        User user2 = userService.findUserById(2L).orElse(null);
+        User user1 = userService.findUserById(1L);
+        User user2 = userService.findUserById(2L);
         Event event= eventService.findById(1L);
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
@@ -49,8 +49,8 @@ public class ParticipationServiceTest {
     @Test
     @Transactional
     public void shouldGetParticipationByUserId(){
-        User user1 = userService.findUserById(1L).orElse(null);
-        User user2 = userService.findUserById(2L).orElse(null);
+        User user1 = userService.findUserById(1L);
+        User user2 = userService.findUserById(2L);
         Event event= eventService.findById(1L);
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
@@ -62,8 +62,8 @@ public class ParticipationServiceTest {
     @Test
     @Transactional
     public void shouldGetParticipationByEventId(){
-        User user1 = userService.findUserById(1L).orElse(null);
-        User user2 = userService.findUserById(2L).orElse(null);
+        User user1 = userService.findUserById(1L);
+        User user2 = userService.findUserById(2L);
         Event event= eventService.findById(1L);
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);

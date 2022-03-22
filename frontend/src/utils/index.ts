@@ -1,17 +1,19 @@
 import { EventFormValues } from "types";
 
-export function convertEventValueToRequestBody(values: EventFormValues) {
-  const { title, price, description, fromTo } = values;
+const parsers = {
+  eventusFormValuesToEventus: (eventFormValues: EventFormValues) => {
+    const { title, fromTo, price, description } = eventFormValues;
+    const [startDate, endDate] = fromTo;
+    return {
+      title,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      price,
+      description,
+    };
+  },
+};
 
-  const [from, to] = fromTo;
+const utils = { parsers };
 
-  return {
-    title,
-    price,
-    description,
-    startDate: from.toISOString(),
-    endDate: to.toISOString(),
-  };
-}
-
-export default {};
+export default utils;

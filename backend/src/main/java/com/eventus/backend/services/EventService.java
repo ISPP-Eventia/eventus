@@ -23,7 +23,7 @@ public class EventService implements IEventService {
 
     @Override
     public List<Event> findAll(Pageable page) {
-        return (List<Event>) this.eventRepository.findAll(page);
+        return this.eventRepository.findAll(page);
     }
 
     @Override

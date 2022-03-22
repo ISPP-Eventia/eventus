@@ -45,8 +45,7 @@ public class EventController {
   @PutMapping("/events")
   public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event) {
     try {
-      Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
-      Validate.notNull(event.getId());
+      
       this.eventService.save(event);
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
@@ -57,7 +56,6 @@ public class EventController {
   @PostMapping("/events")
   public ResponseEntity<String> createEvent(@Valid @RequestBody Event event) {
     try {
-      Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
       User user = this.userService.findUserById(1L);
       if (user != null) {
         event.setId(null);

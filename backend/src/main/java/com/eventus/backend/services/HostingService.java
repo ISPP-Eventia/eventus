@@ -8,6 +8,7 @@ import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.repositories.HostingRepository;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,8 +35,9 @@ public class HostingService implements IHostingService {
         Hosting entity = new Hosting();
         Event event = eventService.findById(Long.valueOf(params.get("event")));
         Location location = locationService.findById(Long.valueOf(params.get("location")));
-        if(event != null) entity.setEvent(event);
-        if(location != null) entity.setLocation(location);
+        Validate.isTrue(event != null && location != null);
+        entity.setEvent(event);
+        entity.setLocation(location);
         entity.setPrice(Double.valueOf(params.get("price")));
         hostingRepository.save(entity);
     }
@@ -74,15 +76,15 @@ public class HostingService implements IHostingService {
 
     @Override
     public void save(Hosting hosting) {
+        Validate.isTrue(hosting.getLocation() != null && hosting.getEvent() != null);
         hostingRepository.save(hosting);
     }
 
     @Override
     public void update(Map<String, String> params, Long hostingId) {
         Hosting hosting = hostingRepository.findById(hostingId).orElse(null);
-        if(hosting!=null){
-            hosting.setPrice(Double.valueOf(params.get("price")));
-        }
+        Validate.isTrue(hosting!=null);
+        hosting.setPrice(Double.valueOf(params.get("price")));
         hostingRepository.save(hosting);
     }
 

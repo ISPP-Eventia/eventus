@@ -8,6 +8,7 @@ import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.SponsorshipRepository;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -67,33 +68,33 @@ public class SponsorshipService implements ISponsorshipService{
         Sponsorship entity = new Sponsorship();
         Event event = eventService.findById(Long.valueOf(params.get("event")));
         User user = userService.findUserById(Long.valueOf(params.get("user")));
-        if(event != null && user != null){
-            entity.setEvent(event);
-            entity.setUser(user);
-        }
-        // entity.setImages(new ArrayList<Image>());
+        Validate.isTrue(event != null && user != null);
+        entity.setEvent(event);
+        entity.setUser(user);
         entity.setName(params.get("name"));
         entity.setQuantity(Double.valueOf(params.get("quantity")));
         sponsorRepository.save(entity);
+        // entity.setImages(new ArrayList<Image>());
+       
     }
 
     @Override
     public void update(Map<String, String> params, Long sponsorId) {
         Sponsorship newSponsor = this.findSponsorById(sponsorId);
-        if(newSponsor != null){
-            newSponsor.setQuantity(Double.valueOf(params.get("quantity")));
-            newSponsor.setName(params.get("name"));
-            //
-            // When Image functionality is implemented: 
-            //
-            // List<Image> images = new ArrayList<Image>();
-            // String[] imagesArr = params.get("images").split(",");
-            // for(String imageId: imagesArr){
-            //     images.add(imageService.findById(Long.valueOf(imageId)));
-            // }
-            //
-            sponsorRepository.save(newSponsor);
-        }
+        Validate.isTrue(newSponsor != null);
+        newSponsor.setQuantity(Double.valueOf(params.get("quantity")));
+        newSponsor.setName(params.get("name"));
+        //
+        // When Image functionality is implemented: 
+        //
+        // List<Image> images = new ArrayList<Image>();
+        // String[] imagesArr = params.get("images").split(",");
+        // for(String imageId: imagesArr){
+        //     images.add(imageService.findById(Long.valueOf(imageId)));
+        // }
+        //
+        sponsorRepository.save(newSponsor);
+        
     }
 
     @Override

@@ -65,8 +65,8 @@ public class SponsorshipService implements ISponsorshipService{
     @Override
     public void create(Map<String,String> params) {
         Sponsorship entity = new Sponsorship();
-        Event event = eventService.findById(Long.valueOf(params.get("event")));
-        User user = userService.findUserById(Long.valueOf(params.get("user")));
+        Event event = eventService.findById(Long.valueOf(params.get("eventId")));
+        User user = userService.findUserById(Long.valueOf(params.get("userId")));
         if(event != null && user != null){
             entity.setEvent(event);
             entity.setUser(user);

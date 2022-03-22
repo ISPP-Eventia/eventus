@@ -58,12 +58,12 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public Sponsorship save(Sponsorship sponsor) {
-        return sponsorRepository.save(sponsor);
+    public void save(Sponsorship sponsor) {
+        sponsorRepository.save(sponsor);
     }
 
     @Override
-    public Sponsorship create(Map<String,String> params) {
+    public void create(Map<String,String> params) {
         Sponsorship entity = new Sponsorship();
         Event event = eventService.findById(Long.valueOf(params.get("event")));
         User user = userService.findUserById(Long.valueOf(params.get("user")));
@@ -74,11 +74,11 @@ public class SponsorshipService implements ISponsorshipService{
         // entity.setImages(new ArrayList<Image>());
         entity.setName(params.get("name"));
         entity.setQuantity(Double.valueOf(params.get("quantity")));
-        return sponsorRepository.save(entity);
+        sponsorRepository.save(entity);
     }
 
     @Override
-    public Sponsorship update(Map<String, String> params, Long sponsorId) {
+    public void update(Map<String, String> params, Long sponsorId) {
         Sponsorship newSponsor = this.findSponsorById(sponsorId);
         if(newSponsor != null){
             newSponsor.setQuantity(Double.valueOf(params.get("quantity")));
@@ -92,9 +92,8 @@ public class SponsorshipService implements ISponsorshipService{
             //     images.add(imageService.findById(Long.valueOf(imageId)));
             // }
             //
-            return newSponsor;
+            sponsorRepository.save(newSponsor);
         }
-        return null;
     }
 
     @Override

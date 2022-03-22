@@ -30,14 +30,14 @@ public class HostingService implements IHostingService {
 
 
     @Override
-    public Hosting create(Map<String, String> params) {
+    public void create(Map<String, String> params) {
         Hosting entity = new Hosting();
         Event event = eventService.findById(Long.valueOf(params.get("event")));
         Location location = locationService.findById(Long.valueOf(params.get("location")));
         if(event != null) entity.setEvent(event);
         if(location != null) entity.setLocation(location);
         entity.setPrice(Double.valueOf(params.get("price")));
-        return hostingRepository.save(entity);
+        hostingRepository.save(entity);
     }
 
     @Override
@@ -73,17 +73,17 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public Hosting save(Hosting hosting) {
-        return hostingRepository.save(hosting);
+    public void save(Hosting hosting) {
+        hostingRepository.save(hosting);
     }
 
     @Override
-    public Hosting update(Map<String, String> params, Long hostingId) {
+    public void update(Map<String, String> params, Long hostingId) {
         Hosting hosting = hostingRepository.findById(hostingId).orElse(null);
         if(hosting!=null){
             hosting.setPrice(Double.valueOf(params.get("price")));
         }
-        return null;
+        hostingRepository.save(hosting);
     }
 
 

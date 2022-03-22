@@ -10,15 +10,15 @@ import org.springframework.data.domain.Pageable;
 public interface ISponsorshipService {
     
 
-    public Sponsorship save(Sponsorship sponsor);
-    public Sponsorship create(Map<String,String> params);
+    public void save(Sponsorship sponsor);
+    public void create(Map<String,String> params);
     public Sponsorship findSponsorById(Long id);
     public List<Sponsorship> findAll(Pageable p);
     public void delete(Sponsorship sponsor);
     public void deleteById(Long id);
     public List<Sponsorship> findSponsorByUserId(Long userId, Pageable p);
     public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p);
-    public Sponsorship update(Map<String,String> params, Long sponorId);
+    public void update(Map<String,String> params, Long sponorId);
     public void resolveSponsorship(boolean b, Long id);
     public List<Sponsorship>findByEventAndState(Long eventId,String state, Pageable p);
     

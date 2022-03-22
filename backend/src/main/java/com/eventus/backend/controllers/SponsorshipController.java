@@ -53,11 +53,9 @@ public class SponsorshipController {
     @PostMapping("/sponsorships")
     public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String, String> params) {
         try {
-            Sponsorship sponsor = this.sponsorService.create(params);
-            if (sponsor == null) {
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-            }
-            return ResponseEntity.status(HttpStatus.CREATED).body(sponsor);
+            sponsorService.create(params);
+            
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -76,12 +74,9 @@ public class SponsorshipController {
     @PutMapping("/sponsorships/{id}")
     public ResponseEntity<Sponsorship> updateSponsor(@RequestBody Map<String, String> params, @PathVariable Long id) {
         try {
-            Sponsorship newSponsor = this.sponsorService.update(params, id);
-            if (newSponsor != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(newSponsor);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            this.sponsorService.update(params, id);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+            
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
         }

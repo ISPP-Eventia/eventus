@@ -89,6 +89,7 @@ public class Sponsorship {
         this.name = name;
     }
 
+    @JsonIgnore
     public boolean isAccepted() {
         return isAccepted;
     }

@@ -64,6 +64,8 @@ const sponsorshipApi = {
   getSponsorship: (id: number) => axios.get(`/sponsorships/${id}`),
   createSponsorship: (sponsorship: Sponsorship) =>
     axios.post("/sponsorships", sponsorship),
+  acceptSponsorship: (id: number, isAccepted: boolean) =>
+    axios.post(`/sponsorships/${id}`, { isAccepted }),
   updateSponsorship: (sponsorship: Sponsorship) =>
     axios.put(`/sponsorships/${sponsorship.id}`, sponsorship),
   deleteSponsorship: (id: number) => axios.delete(`/sponsorships/${id}`),

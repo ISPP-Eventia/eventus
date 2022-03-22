@@ -1,4 +1,6 @@
+import React from "react";
 import { Form, Input, Button, DatePicker, InputNumber } from "antd";
+
 import { EventFormValues } from "types";
 
 export interface EventFormProps {
@@ -8,7 +10,8 @@ export interface EventFormProps {
 
 const EventForm = (props: EventFormProps) => {
   const { initialValues, onSubmit } = props;
-  const required = [{ required: true, message: "Este campo es obligatorio" }];
+  const required = [{ required: true, message: "Required Field" }];
+
   return (
     <Form
       labelCol={{ span: 4 }}

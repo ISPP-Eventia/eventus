@@ -4,15 +4,18 @@ import { Typography } from "@mui/material";
 import { Sponsorship } from "types";
 
 import { Accept } from "components/molecules";
+import { sponsorshipApi } from "api";
 
 const Component = (props: {
   sponsorship: Sponsorship;
   callback: () => void;
 }) => {
   const onAccept = (accepted: boolean) => {
-    // TODO: call api in order to confirm sponsorship
-    console.log(props.sponsorship, accepted);
-    props.callback();
+    !!props.sponsorship &&
+      !!props.sponsorship.id &&
+      sponsorshipApi
+        .acceptSponsorship(props.sponsorship.id, accepted)
+        .then(() => props.callback());
   };
 
   return (
@@ -20,7 +23,10 @@ const Component = (props: {
       <img
         alt="img"
         className="max-h-24 w-full rounded-md object-cover"
-        src={props.sponsorship.media?.[0]?.path}
+        src={
+          props.sponsorship.media?.[0]?.path ||
+          "https://via.placeholder.com/1000"
+        }
       />
       {!props.sponsorship.isAccepted && (
         <Accept

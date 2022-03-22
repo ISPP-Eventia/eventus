@@ -6,6 +6,8 @@ import com.eventus.backend.services.SponsorshipService;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -56,7 +58,7 @@ public class SponsorshipController {
             sponsorService.create(params);
             
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (DataAccessException | NullPointerException e) {
+        } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -77,14 +79,16 @@ public class SponsorshipController {
             this.sponsorService.update(params, id);
             return ResponseEntity.status(HttpStatus.CREATED).build();
             
-        } catch (DataAccessException | NullPointerException e) {
+        } catch (DataAccessException | NullPointerException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/sponsorships/{id}")
-    public ResponseEntity<Sponsorship> resolveSponsorship(@RequestBody boolean isAccepted, @PathVariable Long id) {
+    public ResponseEntity<Sponsorship> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id) {
         try {
+            boolean isAccepted = "true".equals(body.get("isAccepted"));
+
             this.sponsorService.resolveSponsorship(isAccepted, id);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {

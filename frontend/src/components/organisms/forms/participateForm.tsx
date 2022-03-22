@@ -5,13 +5,16 @@ import { participationApi } from "api";
 import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
 
-const Component = (props: { event?: any }) => {
+const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = React.useState<boolean>(false);
 
   const onSubmit = () => {
     setError(false);
     participationApi
       .createParticipation(props.event.id)
+      .then(() => {
+        props.callback();
+      })
       .catch((e) => setError(true));
   };
 
@@ -30,7 +33,7 @@ const Component = (props: { event?: any }) => {
         },
       ]}
     >
-      {error && <Error error="You are already participating" />}
+      {error && <Error error="Couldn't create a participation" />}
     </ModalDrawer>
   );
 };

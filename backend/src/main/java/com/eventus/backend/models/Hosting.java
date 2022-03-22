@@ -75,6 +75,7 @@ public class Hosting {
         this.price = price;
     }
 
+    @JsonIgnore
     public boolean isAccepted() {
         return isAccepted;
     }

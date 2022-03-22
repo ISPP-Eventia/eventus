@@ -15,6 +15,13 @@ const parsers = {
   },
 };
 
-const utils = { parsers };
+const formatters = {
+  formatDate: (s: string) => {
+    const date = new Date(s);
+    return date.toLocaleDateString("Es-ES");
+  },
+};
+
+const utils = { parsers, formatters };
 
 export default utils;

@@ -53,6 +53,7 @@ export type Participation = {
 
 export type Sponsorship = {
   id?: number;
+  eventId?: number;
   user?: User;
   quantity: number;
   isAccepted?: boolean;
@@ -65,7 +66,11 @@ export type Hosting = {
   isAccepted?: boolean;
 };
 
-// Forms
+// Form values types
+
+export type SponsorshipFormValues = {
+  quantity: number;
+};
 
 export type EventFormValues = {
   title: string;

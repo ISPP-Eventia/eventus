@@ -26,7 +26,7 @@ const NewEvent = () => {
   return (
     <>
       <EventForm onSubmit={handleSubmit} />
-      {error && <Error error="Couldn't Create the Event" />}
+      {error && <Error error="Couldn't create the event" />}
     </>
   );
 };

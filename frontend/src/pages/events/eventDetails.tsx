@@ -7,8 +7,8 @@ import { EventUs, Sponsorship, User } from "types";
 import { eventApi } from "api";
 
 import { Ad, Loader, Map } from "components/atoms";
+import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import { UserHorizontalCard } from "components/molecules";
-import { ParticipateForm } from "components/organisms";
 import Page from "../page";
 
 const EventDetailPage = () => {
@@ -23,37 +23,47 @@ const EventDetailPage = () => {
     })
   );
 
-  const { isLoading: loadingParticipants, data: participants } = useQuery(
-    "participants",
-    () =>
-      eventApi
-        .getUsersByEvent(eventId)
-        .then((response) => response.data as User[])
+  const {
+    isLoading: loadingParticipants,
+    data: participants,
+    refetch: refetchParticipants,
+  } = useQuery("participants", () =>
+    eventApi
+      .getUsersByEvent(eventId)
+      .then((response) => response.data as User[])
   );
 
-  const { isLoading: loadingSponsorships, data: ads } = useQuery(
-    "sponsorships",
-    () =>
-      eventApi
-        .getSponsorshipsByEvent(Number(eventId))
-        .then((response) => response.data as Sponsorship[])
+  const {
+    isLoading: loadingSponsorships,
+    data: ads,
+    refetch: refetchSponsorships,
+  } = useQuery("sponsorships", () =>
+    eventApi
+      .getSponsorshipsByEvent(Number(eventId))
+      .then((response) => response.data as Sponsorship[])
   );
 
   const onSearchLocation = () => {
     navigate("/locations");
   };
 
-  return loadingEvent ? (
+  return loadingEvent || !event ? (
     <Loader />
   ) : (
-    <Page title={event?.title} actions={[<ParticipateForm event={event} />]}>
+    <Page
+      title={event.title}
+      actions={[
+        <ParticipateForm event={event} callback={refetchParticipants} />,
+        <SponsorshipForm event={event} callback={refetchSponsorships} />,
+      ]}
+    >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
           <img
             alt="img"
             className="w-full rounded-md object-cover"
             src={
-              event?.media?.[0]?.path || "https://via.placeholder.com/1000x500"
+              event?.media?.[0]?.path || "https://via.placeholder.com/2000x1000"
             }
           />
         </div>
@@ -119,7 +129,7 @@ const EventDetailPage = () => {
           <Typography variant="h4">Sponsors</Typography>
           <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
             {ads?.map((ad) => (
-              <Ad callback={() => null} sponsorship={ad} />
+              <Ad callback={refetchSponsorships} sponsorship={ad} />
             ))}
           </div>
         </section>

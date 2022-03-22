@@ -48,7 +48,7 @@ public class EventController {
       Validate.notNull(event.getId());
       this.eventService.save(event);
       return ResponseEntity.status(HttpStatus.OK).build();
-    } catch (DataAccessException | NullPointerException e) {
+    } catch (DataAccessException | NullPointerException | IllegalArgumentException e) {
       return ResponseEntity.badRequest().build();
     }
   }
@@ -64,7 +64,7 @@ public class EventController {
         this.eventService.save(event);
       }
       return ResponseEntity.status(HttpStatus.CREATED).build();
-    } catch (DataAccessException | NullPointerException e) {
+    } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {
       return ResponseEntity.badRequest().build();
     }
   }

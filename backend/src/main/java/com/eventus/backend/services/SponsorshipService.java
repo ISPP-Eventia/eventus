@@ -69,7 +69,7 @@ public class SponsorshipService implements ISponsorshipService{
         String eventId =params.get("eventId");
         String quantity=params.get("quantity");
         Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId));
-        Validate.isTrue(StringUtils.isNotBlank(quantity)&&StringUtils.isNumeric(quantity));
+        Validate.isTrue(StringUtils.isNotBlank(quantity));
         Sponsorship entity = new Sponsorship();
         Event event = eventService.findById(Long.valueOf(eventId));
         User user = userService.findUserById(1L);
@@ -88,7 +88,7 @@ public class SponsorshipService implements ISponsorshipService{
         Sponsorship newSponsor = this.findSponsorById(sponsorId);
         if(newSponsor != null){
             String quantity=params.get("quantity");
-            Validate.isTrue(StringUtils.isNotBlank(quantity)&&StringUtils.isNumeric(quantity));
+            Validate.isTrue(StringUtils.isNotBlank(quantity));
             newSponsor.setQuantity(Double.valueOf(quantity));
             newSponsor.setName(params.get("name"));
             //

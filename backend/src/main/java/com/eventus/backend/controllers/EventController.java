@@ -28,9 +28,7 @@ public class EventController {
   }
 
   @GetMapping("/events")
-  public List<Event> getEvents(
-    @RequestParam(defaultValue = "0") Integer numPag
-  ) {
+  public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag) {
     return this.eventService.findAll(PageRequest.of(numPag, 20));
   }
 
@@ -47,10 +45,7 @@ public class EventController {
   @PutMapping("/events")
   public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event) {
     try {
-      Validate.isTrue(
-        event.getStartDate().isBefore(event.getEndDate()),
-        "Start date and end date can not overlap"
-      );
+      Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
       Validate.notNull(event.getId());
       this.eventService.save(event);
       return ResponseEntity.status(HttpStatus.OK).build();
@@ -62,10 +57,7 @@ public class EventController {
   @PostMapping("/events")
   public ResponseEntity<String> createEvent(@Valid @RequestBody Event event) {
     try {
-      Validate.isTrue(
-        event.getStartDate().isBefore(event.getEndDate()),
-        "Start date and end date can not overlap"
-      );
+      Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
       User user = this.userService.findUserById(1L);
       if (user != null) {
         event.setId(null);

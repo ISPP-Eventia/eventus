@@ -1,6 +1,7 @@
 package com.eventus.backend.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public class Hosting {
     @JsonIgnore
     private Event event;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
     @JsonIgnore
     private Location location;

@@ -74,6 +74,10 @@ public class Event {
     @JsonIgnore
     private Set<Sponsorship> sponsors = new HashSet<>();
 
+    @OneToMany(mappedBy = "event")
+    @JsonIgnore
+    private Set<Hosting> hostings = new HashSet<>();
+
     public Event(){
 
     }
@@ -83,6 +87,22 @@ public class Event {
         this.title = title;
         this.price = price;
         this.description = description;
+    }
+
+    public Set<Sponsorship> getSponsors() {
+        return sponsors;
+    }
+
+    public void setSponsors(Set<Sponsorship> sponsors) {
+        this.sponsors = sponsors;
+    }
+
+    public Set<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Set<Location> locations) {
+        this.locations = locations;
     }
 
     public Set<Participation> getParticipations() {

@@ -54,7 +54,26 @@ public class User {
     @JsonIgnore
     private Set<Sponsorship> sponsors = new HashSet<>();
     
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    private Set<Location> locations = new HashSet<>();
 
+
+    public Set<Sponsorship> getSponsors() {
+        return sponsors;
+    }
+
+    public void setSponsors(Set<Sponsorship> sponsors) {
+        this.sponsors = sponsors;
+    }
+
+    public Set<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Set<Location> locations) {
+        this.locations = locations;
+    }
 
     public Set<Event> getEvents() {
         return events;

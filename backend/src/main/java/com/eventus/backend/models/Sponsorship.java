@@ -99,35 +99,25 @@ public class Sponsorship {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + (isAccepted ? 1231 : 1237);
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sponsorship that = (Sponsorship) o;
-        return Objects.equals(id, that.id) && Objects.equals(id, that.id) && Objects.equals(isAccepted, that.isAccepted) && Objects.equals(name, that.name) && Objects.equals(quantity, that.quantity);
+        return isAccepted == that.isAccepted && Objects.equals(id, that.id) && Objects.equals(quantity, that.quantity) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quantity, name, isAccepted);
     }
 
     @Override
     public String toString() {
-        return "Sponsorship [event=" + event + ", id=" + id + ", isAccepted=" + isAccepted + ", name=" + name
-                + ", quantity=" + quantity + ", user=" + user + "]";
+        return "Sponsorship{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", name='" + name + '\'' +
+                ", isAccepted=" + isAccepted +
+                '}';
     }
-
-    
-
-
-    
-    
-
-    
 }

@@ -83,30 +83,24 @@ public class Hosting {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((event == null) ? 0 : event.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + (isAccepted ? 1231 : 1237);
-        result = prime * result + ((location == null) ? 0 : location.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Hosting that = (Hosting) o;
-        return Objects.equals(id, that.id) && Objects.equals(event, that.event) && Objects.equals(location, that.location) && Objects.equals(price, that.price) && Objects.equals(isAccepted, that.isAccepted);
+        Hosting hosting = (Hosting) o;
+        return isAccepted == hosting.isAccepted && Objects.equals(id, hosting.id) && Objects.equals(price, hosting.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, price, isAccepted);
     }
 
     @Override
     public String toString() {
-        return "Hosting [event=" + event + ", id=" + id + ", isAccepted=" + isAccepted + ", location=" + location
-                + ", price=" + price + "]";
+        return "Hosting{" +
+                "id=" + id +
+                ", price=" + price +
+                ", isAccepted=" + isAccepted +
+                '}';
     }
-
-    
 }

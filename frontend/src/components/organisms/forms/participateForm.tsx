@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { participationApi } from "api";
 
@@ -6,7 +6,7 @@ import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
 
 const Component = (props: { event?: any; callback: () => void }) => {
-  const [error, setError] = React.useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const closeModalRef = useRef<any>(null);
   const onSubmit = () => {
     setError(false);

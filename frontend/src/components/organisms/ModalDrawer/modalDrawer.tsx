@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { Modal, SwipeableDrawer } from "components/molecules";
 
 const Component = (props: {
   title: string;
   opener: { title: string; color?: "primary" | "secondary" | "success", disable?: boolean };
-  children?: React.ReactNode;
+  children?: ReactNode;
   actions?: {
     title: string;
     color?: "primary" | "secondary" | "success";

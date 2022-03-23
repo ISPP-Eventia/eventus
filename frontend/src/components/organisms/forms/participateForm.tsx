@@ -41,7 +41,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
         closeModalRef.current = closeFn;
       }}
     >
-      {error && <Error error="Couldn't create a participation" />}
+      {error && <Error error="Ya estás participando en este evento" />}
     </ModalDrawer>
   );
 };

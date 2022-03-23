@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy maven executable to the image
 COPY mvnw .
-RUN apt-get update && apt-get install dos2unix -y
+RUN apt-get update && apt-get install -y --no-install-recommends dos2unix=7.4.1-1
 RUN dos2unix mvnw
 RUN chmod +x mvnw
 

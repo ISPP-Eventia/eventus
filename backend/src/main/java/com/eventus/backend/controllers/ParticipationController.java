@@ -72,11 +72,10 @@ public class ParticipationController extends ValidationController{
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<byte[]> createParticipation(@RequestBody Map<String, String> p) throws MalformedURLException, DocumentException, IOException {
+    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p) throws MalformedURLException, DocumentException, IOException {
     	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
             User user = this.userService.findUserById(1L);
-            byte[] array;
             if (user != null && event != null) {
                 Participation participation = this.participationService.findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
 
@@ -84,14 +83,9 @@ public class ParticipationController extends ValidationController{
                     return ResponseEntity.badRequest().build();
                 }
 
-                array = this.participationService.createParticipationAndTicket(event, user);
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_PDF);
-                String filename = "ticket.pdf";
-                headers.setContentDispositionFormData(filename, filename);
-                headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+                participation = this.participationService.createParticipationAndTicket(event, user);
 
-                return new ResponseEntity<>(array, headers, HttpStatus.OK);
+                return new ResponseEntity<>(participation, HttpStatus.OK);
             } else {
                 return ResponseEntity.notFound().build();
             }

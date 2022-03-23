@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,6 +36,7 @@ public class Hosting {
 
     @Column
     @JsonProperty("price")
+    @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double price;
 
     @Column

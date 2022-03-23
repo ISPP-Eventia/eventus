@@ -3,6 +3,7 @@ package com.eventus.backend.services;
 import java.util.List;
 import java.util.Map;
 
+import com.eventus.backend.models.Coordinates;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.LocationRepository;
@@ -68,7 +69,7 @@ public class LocationService implements ILocationService{
         Location location = locationRepository.findById(locationId).orElse(null);
         if(location!=null){
             location.setDescription(params.get("description"));
-            location.setLocation(params.get("location"));
+            location.setCoordinates(new Coordinates(params.get("latitude"), params.get("longitude")));
             location.setName(params.get("name"));
             location.setPrice(Double.valueOf(params.get("price")));
             locationRepository.save(location);

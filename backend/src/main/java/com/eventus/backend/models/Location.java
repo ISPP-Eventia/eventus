@@ -30,7 +30,7 @@ public class Location {
 
     @Column
     @JsonProperty("price")
-    @NotNull
+    @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double price;
 
     // @OneToMany

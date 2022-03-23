@@ -12,6 +12,11 @@ public class Coordinates {
     @NotBlank
     private Long longitude;
 
+    public Coordinates(String latitude, String longitude) {
+        this.latitude = Long.valueOf(latitude);
+        this.longitude = Long.valueOf(longitude);
+    }
+
     public Long getLatitude() {
         return latitude;
     }

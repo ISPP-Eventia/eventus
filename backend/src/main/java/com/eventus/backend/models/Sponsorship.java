@@ -37,7 +37,7 @@ public class Sponsorship {
 
     @Column
     @JsonProperty("quantity")
-    @NotNull
+    @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double quantity;
 
     @Column

@@ -22,8 +22,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -87,8 +89,9 @@ public class ParticipationService implements IParticipationService{
     }
     
     public Document insertImageInPDF(Document d, String path) throws DocumentException, MalformedURLException, IOException {
-    	Path p = Paths.get(path);
-        Image img = Image.getInstance(p.toAbsolutePath().toString());
+        File file = ResourceUtils.getFile(path);
+
+        Image img = Image.getInstance(file.getAbsolutePath().toString());
         img.scalePercent(20);
         img.setAlignment(Element.ALIGN_CENTER);
         d.add(img);
@@ -193,7 +196,7 @@ public class ParticipationService implements IParticipationService{
         LocalDateTime endDate = participation.getEvent().getEndDate();
 
         //Header
-        document = insertImageInPDF(document, "src/main/resources/com.eventus.backend.controllers/Logo.png");
+        document = insertImageInPDF(document, "classpath:com.eventus.backend.controllers/Logo.png");
         document = insertEventUsInPDF(document);
         document = insertLineSeparetorinPDF(document, 8);
         

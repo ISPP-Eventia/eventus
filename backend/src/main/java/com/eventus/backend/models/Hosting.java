@@ -27,7 +27,6 @@ public class Hosting {
     @ManyToOne
     @JoinColumn(name = "event_id")
     @NotNull
-    @JsonIgnore
     private Event event;
 
     @ManyToOne(fetch = FetchType.LAZY)

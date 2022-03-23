@@ -36,24 +36,24 @@ const LocationDetailPage = () => {
         </div>
         <div className="flex flex-col gap-3">
           <div>
-            <Typography variant="h4">Owner</Typography>
+            <Typography variant="h4">Propietario</Typography>
             <Typography variant="body1">
               {location.owner && <UserHorizontalCard user={location.owner} />}
             </Typography>
           </div>
           <div>
-            <Typography variant="h4">Description</Typography>
+            <Typography variant="h4">Descripción</Typography>
             <Typography variant="body1">{location.description}</Typography>
           </div>
           <div>
-            <Typography variant="h4">Price</Typography>
+            <Typography variant="h4">Precio</Typography>
             <Typography variant="body1">{location.price}€ / h</Typography>
           </div>
         </div>
       </section>
 
       <section className="grid-cols-full mt-4 grid h-auto">
-        <Typography variant="h4">Location</Typography>
+        <Typography variant="h4">Ubicación</Typography>
         <Map lat={location.coordinates.latitude} lng={location.coordinates.longitude} />
       </section>
     </Page>

@@ -10,7 +10,7 @@ export interface EventFormProps {
 
 const EventForm = (props: EventFormProps) => {
   const { initialValues, onSubmit } = props;
-  const required = [{ required: true, message: "Required Field" }];
+  const required = [{ required: true, message: "Campo Requerido" }];
 
   return (
     <Form
@@ -21,11 +21,11 @@ const EventForm = (props: EventFormProps) => {
       onFinish={onSubmit}
       initialValues={initialValues}
     >
-      <Form.Item name="title" label="Title" rules={required}>
-        <Input placeholder="Event title" />
+      <Form.Item name="title" label="Nombre" rules={required}>
+        <Input placeholder="Nombre del evento" />
       </Form.Item>
 
-      <Form.Item name="fromTo" label="Date" rules={required}>
+      <Form.Item name="fromTo" label="Fecha" rules={required}>
         <DatePicker.RangePicker
           showTime={true}
           style={{ width: "100%" }}
@@ -33,11 +33,11 @@ const EventForm = (props: EventFormProps) => {
         />
       </Form.Item>
 
-      <Form.Item name="description" label="Description">
-        <Input.TextArea placeholder="Event description" />
+      <Form.Item name="description" label="Descripción">
+        <Input.TextArea placeholder="Descripción del evento" />
       </Form.Item>
 
-      <Form.Item name="price" label="Price" rules={required}>
+      <Form.Item name="price" label="Precio" rules={required}>
         <InputNumber
           addonAfter="€"
           min={0}
@@ -48,7 +48,7 @@ const EventForm = (props: EventFormProps) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          Create
+          Crear
         </Button>
       </Form.Item>
     </Form>

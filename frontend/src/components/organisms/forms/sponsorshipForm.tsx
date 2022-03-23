@@ -25,9 +25,9 @@ const Component = (props: { event?: any; callback: () => void }) => {
 
   return (
     <ModalDrawer
-      title="Sponsor"
+      title="Patrocinio"
       opener={{
-        title: "Sponsor Offer",
+        title: "Oferta Patrocinio",
         color: "success",
       }}
     >
@@ -37,16 +37,16 @@ const Component = (props: { event?: any; callback: () => void }) => {
         layout="vertical"
         onFinish={handleSubmit}
       >
-        <Form.Item name="quantity" label="Quantity" rules={required}>
+        <Form.Item name="quantity" label="Cantidad" rules={required}>
           <InputNumber min={0} style={{ width: "100%" }} />
         </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-            Sponsor Offer
+            Ofrecer Patrocinio
           </Button>
         </Form.Item>
-        {error && <Error error="Couldn't create the sponsorship" />}
+        {error && <Error error="No se ha podido resgistrar su patrocinio" />}
       </Form>
     </ModalDrawer>
   );

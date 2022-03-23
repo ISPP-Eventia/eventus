@@ -35,7 +35,7 @@ const Component = (props: {
           <DialogContent>{props.children}</DialogContent>
           <DialogActions>
             <Button variant="text" onClick={() => setOpen(false)}>
-              Close
+              Cerrar
             </Button>
             {props.actions &&
               props.actions.map((action, index) => (

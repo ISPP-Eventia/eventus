@@ -23,11 +23,11 @@ const LocationListPage = () => {
 
   const AddLocation = (
     <Button variant="contained" color="primary" onClick={onNewLocationClick}>
-      New Location
+      Nueva Ubicación
     </Button>
   );
   return (
-    <Page title="Available Locations" actions={AddLocation}>
+    <Page title="Ubicaciones Disponibles" actions={AddLocation}>
       <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {locations?.map((e) => (
           <LocationCard location={e} />

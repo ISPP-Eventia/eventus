@@ -10,14 +10,14 @@ const Component = (props: { location?: Location }) => {
 
   return (
     <ModalDrawer
-      title="Request"
+      title="Solicitar"
       opener={{
-        title: `Request Host ${props.location?.price}€`,
+        title: `Solicitar Alojamiento ${props.location?.price}€`,
         color: "primary",
       }}
       actions={[
         {
-          title: `Request Host ${props.location?.price}€`,
+          title: `Solicitar Alojamiento ${props.location?.price}€`,
           onClick: onSubmit,
           color: "primary",
         },

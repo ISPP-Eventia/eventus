@@ -26,7 +26,7 @@ const NewLocation = () => {
   return (
     <>
       <LocationForm onSubmit={handleSubmit} />
-      {error && <Error error="Couldn't create the location" />}
+      {error && <Error error="No se ha podido registrar la ubicación" />}
     </>
   );
 };

@@ -23,7 +23,7 @@ const EventListPage = () => {
 
   const AddEvent = (
     <Button variant="contained" color="primary" onClick={onNewEventClick}>
-      New Event
+      Nuevo Evento
     </Button>
   );
 

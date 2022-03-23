@@ -9,7 +9,7 @@ export interface LocationFormProps {
 
 const LocationForm = (props: LocationFormProps) => {
   const { initialValues, onSubmit } = props;
-  const required = [{ required: true, message: "Required Field" }];
+  const required = [{ required: true, message: "Campo Requerido" }];
 
   return (
     <Form
@@ -20,18 +20,18 @@ const LocationForm = (props: LocationFormProps) => {
       onFinish={onSubmit}
       initialValues={initialValues}
     >
-      <Form.Item name="name" label="Name" rules={required}>
-        <Input placeholder="Location name" />
+      <Form.Item name="name" label="Nombre" rules={required}>
+        <Input placeholder="Nombre de la localización" />
       </Form.Item>
 
-      <Form.Item name="description" label="Description">
-        <Input.TextArea placeholder="Location description" />
+      <Form.Item name="description" label="Descripción">
+        <Input.TextArea placeholder="Descripción de la localización" />
       </Form.Item>
       <Form.Item>
         <Form.Item
           name="latitude"
           label="Latitud"
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: "Campo Requerido"}]}
           style={{
             display: "inline-block",
             width: "calc(50% - 8px)",
@@ -44,7 +44,7 @@ const LocationForm = (props: LocationFormProps) => {
         <Form.Item
           name="longitude"
           label="Longitud"
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: "Campo Requerido" }]}
           style={{
             display: "inline-block",
             width: "calc(50% - 8px)",
@@ -55,7 +55,7 @@ const LocationForm = (props: LocationFormProps) => {
         </Form.Item>
       </Form.Item>
 
-      <Form.Item name="price" label="Price" rules={required}>
+      <Form.Item name="price" label="Precio" rules={required}>
         <InputNumber
           addonAfter="€"
           min={0}
@@ -66,7 +66,7 @@ const LocationForm = (props: LocationFormProps) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          Create
+          Crear
         </Button>
       </Form.Item>
     </Form>

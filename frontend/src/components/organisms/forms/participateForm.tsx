@@ -20,20 +20,20 @@ const Component = (props: { event?: any; callback: () => void }) => {
 
   return (
     <ModalDrawer
-      title="Participate"
+      title="Participar"
       opener={{
-        title: `Participate ${props.event?.price}€`,
+        title: `Participar ${props.event?.price}€`,
         color: "primary",
       }}
       actions={[
         {
-          title: `Participate ${props.event?.price}€`,
+          title: `Participar ${props.event?.price}€`,
           onClick: onSubmit,
           color: "primary",
         },
       ]}
     >
-      {error && <Error error="Couldn't create a participation" />}
+      {error && <Error error="No se ha podido registrar su participación" />}
     </ModalDrawer>
   );
 };

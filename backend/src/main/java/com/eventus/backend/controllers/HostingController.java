@@ -176,9 +176,11 @@ public class HostingController extends ValidationController{
     }
 
     @PostMapping("/hostings/{id}")
-    public ResponseEntity<Hosting> resolveSponsorship(@RequestBody boolean isAccepted, @PathVariable Long id) {
+    public ResponseEntity<Hosting> resolveHosting(@RequestBody Map<String, String> params, @PathVariable Long id) {
         try {
-            this.hostingService.resolveSponsorship(isAccepted, id);
+            boolean isAccepted = "true".equals(params.get("isAccepted"));
+
+            this.hostingService.resolveHosting(isAccepted, id);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

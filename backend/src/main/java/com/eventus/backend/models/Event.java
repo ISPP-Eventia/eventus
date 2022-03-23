@@ -177,12 +177,12 @@ public class Event {
         this.endDate = endDate;
     }
 
-    @JsonProperty("location")
-    public Coordinates getEventLocation(){
+    @JsonProperty("coordinates")
+    public Coordinates getEventCoordinates(){
         Hosting hosting=null;
         Coordinates coordinates=null;
         if(!hostings.isEmpty()){
-            hosting=hostings.stream().filter(x -> x.isAccepted() != null && x.isAccepted() == true).findFirst().orElse(null);
+            hosting=hostings.stream().filter(x -> x.isAccepted() != null && x.isAccepted()).findFirst().orElse(null);
         }
         if(hosting!=null){
             coordinates=hosting.getLocation().getCoordinates();

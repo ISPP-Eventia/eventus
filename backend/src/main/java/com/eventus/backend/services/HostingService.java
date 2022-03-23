@@ -126,15 +126,6 @@ public class HostingService implements IHostingService {
         return this.hostingRepository.findByEventAndState(eventId,b,p);
     }
 
-
-    @Override
-    public void resolveSponsorship(boolean isAccepted, Long id) {
-        Hosting hosting = this.hostingRepository.findById(id).orElse(null);
-        Validate.isTrue(hosting!=null);
-        hosting.setAccepted(isAccepted);
-        this.hostingRepository.save(hosting);
-    }
-
     @Override
     public Hosting findHostingByEventIdAndLocationId(Long eventId,Long locationId){
         return this.hostingRepository.findByEventAndLocation(eventId,locationId).orElse(null);

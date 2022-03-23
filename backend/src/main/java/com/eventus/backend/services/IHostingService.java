@@ -20,6 +20,5 @@ public interface IHostingService {
     public void update(Map<String,String> params, Long hostingId);
     public void resolveHosting(boolean b, Long id);
     public List<Hosting>findByEventAndState(Long eventId,String state, Pageable p);
-    public void resolveSponsorship(boolean isAccepted, Long id);
     Hosting findHostingByEventIdAndLocationId(Long eventId,Long locationId);
 }

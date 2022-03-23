@@ -27,9 +27,11 @@ const EventForm = (props: EventFormProps) => {
 
       <Form.Item name="fromTo" label="Date" rules={required}>
         <DatePicker.RangePicker
-          showTime={true}
           style={{ width: "100%" }}
           disabledDate={(date) => date.isBefore(new Date(), "day")}
+          showTime={{
+            format: "HH:mm"
+          }}
         />
       </Form.Item>
 

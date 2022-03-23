@@ -1,7 +1,4 @@
-import React from "react";
-
 import Logo from "assets/Logo.svg";
-import { Link } from "react-router-dom";
 
 const AppHeader = () => {
   return (

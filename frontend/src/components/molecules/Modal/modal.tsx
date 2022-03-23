@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import {
   Button,
@@ -10,8 +10,12 @@ import {
 
 const Component = (props: {
   title: string;
-  opener: { title: string; color?: "primary" | "secondary" | "success", disable?: boolean };
-  children?: React.ReactNode;
+  opener: {
+    title: string;
+    color?: "primary" | "secondary" | "success";
+    disable?: boolean;
+  };
+  children?: ReactNode;
   actions?: {
     title: string;
     color?: "primary" | "secondary" | "success";
@@ -42,7 +46,7 @@ const Component = (props: {
           <DialogContent>{props.children}</DialogContent>
           <DialogActions>
             <Button variant="text" onClick={() => setOpen(false)}>
-              Close
+              Cerrar
             </Button>
             {props.actions &&
               props.actions.map((action, index) => (

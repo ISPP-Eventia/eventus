@@ -1,4 +1,4 @@
-import { Form, Input, Button, DatePicker, InputNumber } from "antd";
+import { Form, Input, Button, InputNumber } from "antd";
 
 import { LocationFormValues } from "types";
 
@@ -20,12 +20,12 @@ const LocationForm = (props: LocationFormProps) => {
       onFinish={onSubmit}
       initialValues={initialValues}
     >
-      <Form.Item name="name" label="Name" rules={required}>
-        <Input placeholder="Location name" />
+      <Form.Item name="name" label="Nombre" rules={required}>
+        <Input placeholder="Nombre del alojamiento" />
       </Form.Item>
 
-      <Form.Item name="description" label="Description">
-        <Input.TextArea placeholder="Location description" />
+      <Form.Item name="description" label="Descripción">
+        <Input.TextArea placeholder="Descripción del alojamiento" />
       </Form.Item>
       <Form.Item>
         <Form.Item
@@ -36,10 +36,15 @@ const LocationForm = (props: LocationFormProps) => {
             display: "inline-block",
             width: "calc(50% - 8px)",
             margin: 0,
-            marginRight: "15px"
+            marginRight: "15px",
           }}
         >
-          <InputNumber placeholder="37.12352" style={{ width: "100%" }} />
+          <InputNumber
+            placeholder="37.12352"
+            style={{ width: "100%" }}
+            min={-90}
+            max={90}
+          />
         </Form.Item>
         <Form.Item
           name="longitude"
@@ -51,11 +56,16 @@ const LocationForm = (props: LocationFormProps) => {
             margin: 0,
           }}
         >
-          <InputNumber placeholder="-5.921732" style={{ width: "100%" }} />
+          <InputNumber
+            placeholder="-5.921732"
+            style={{ width: "100%" }}
+            min={-180}
+            max={180}
+          />
         </Form.Item>
       </Form.Item>
 
-      <Form.Item name="price" label="Price" rules={required}>
+      <Form.Item name="price" label="Precio" rules={required}>
         <InputNumber
           addonAfter="€"
           min={0}
@@ -66,7 +76,7 @@ const LocationForm = (props: LocationFormProps) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          Create
+          Crear
         </Button>
       </Form.Item>
     </Form>

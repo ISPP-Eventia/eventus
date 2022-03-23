@@ -1,5 +1,3 @@
-import React from "react";
-
 const Component = (props: { lat: number; lng: number }) => {
   return (
     <iframe

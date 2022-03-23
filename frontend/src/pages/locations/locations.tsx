@@ -1,6 +1,3 @@
-import React from "react";
-
-import { DummyLocation1 } from "mocks";
 import { Location } from "types";
 import { Button } from "@mui/material";
 
@@ -23,11 +20,11 @@ const LocationListPage = () => {
 
   const AddLocation = (
     <Button variant="contained" color="primary" onClick={onNewLocationClick}>
-      New Location
+      Nuevo Ubicación
     </Button>
   );
   return (
-    <Page title="Available Locations" actions={AddLocation}>
+    <Page title="Ubicaciones disponibles" actions={AddLocation}>
       <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {locations?.map((e) => (
           <LocationCard location={e} />

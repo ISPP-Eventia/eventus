@@ -96,8 +96,8 @@ const EventDetailPage = () => {
           <Typography variant="h4">Location</Typography>
           {event?.location ? (
             <Map
-              lat={event?.location.coordinates.lat}
-              lng={event?.location.coordinates.lng}
+              lat={event?.location.coordinates.latitude}
+              lng={event?.location.coordinates.longitude}
             />
           ) : (
             <Button

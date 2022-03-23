@@ -56,7 +56,7 @@ const LocationDetailPage = () => {
 
       <section className="grid-cols-full mt-4 grid h-auto">
         <Typography variant="h4">Location</Typography>
-        <Map lat={37.358273} lng={-5.986795} />
+        <Map lat={location.coordinates.latitude} lng={location.coordinates.longitude} />
       </section>
     </Page>
   );

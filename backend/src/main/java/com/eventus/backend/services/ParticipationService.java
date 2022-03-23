@@ -52,12 +52,11 @@ public class ParticipationService implements IParticipationService{
         partRepository.save(participation);
     }
     
-    public byte[] createParticipationAndTicket(Event event, User user) throws MalformedURLException, DocumentException, IOException {
-    	byte[] result = null;
+    public Participation createParticipationAndTicket(Event event, User user) throws MalformedURLException, DocumentException, IOException {
     	saveParticipation(event, user);
         Participation part = findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
-        if(part!=null) result = createTicketPDF(part);
-    	return result;
+        if(part!=null) createTicketPDF(part);
+    	return part;
     }
 
     public Participation findParticipationById(Long id) {

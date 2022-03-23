@@ -10,6 +10,7 @@ import { Ad, Loader, Map } from "components/atoms";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import { UserHorizontalCard } from "components/molecules";
 import Page from "../page";
+import utils from "utils";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();
@@ -91,8 +92,8 @@ const EventDetailPage = () => {
             </div>
             <div>
               <Typography variant="h4">Date</Typography>
-              <Typography variant="body1">{event?.startDate}</Typography>
-              <Typography variant="body1">{event?.endDate}</Typography>
+              <Typography variant="body1">{utils.formatters.formatDateHour(event?.startDate ?? "")}</Typography>
+              <Typography variant="body1">{utils.formatters.formatDateHour(event?.endDate ?? "")}</Typography>
             </div>
           </div>
         </div>

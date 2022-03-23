@@ -4,6 +4,7 @@ import { participationApi } from "api";
 
 import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
+import { API_URL } from "api/axios";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = useState<boolean>(false);
@@ -12,10 +13,14 @@ const Component = (props: { event?: any; callback: () => void }) => {
     setError(false);
     participationApi
       .createParticipation(props.event.id)
-      .then(() => {
+      .then((response) => {
         if (closeModalRef.current) {
           closeModalRef.current();
         }
+        window.open(
+          API_URL + `/participation/${response.data.id}/ticket`,
+          "_blank"
+        );
         props.callback();
       })
       .catch((e) => setError(true));
@@ -39,7 +44,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
         closeModalRef.current = closeFn;
       }}
     >
-      {error && <Error error="Couldn't create a participation" />}
+      {error && <Error error="Ya estás participando en este evento" />}
     </ModalDrawer>
   );
 };

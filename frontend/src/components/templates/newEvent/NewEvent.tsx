@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 const NewEvent = () => {
   const navigate = useNavigate();
 
-  const [error, setError] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string>("");
   const handleSubmit = (values: EventFormValues) => {
     const eventBody = utils.parsers.eventusFormValuesToEventus(values);
     eventApi
@@ -19,14 +19,14 @@ const NewEvent = () => {
         navigate("/events");
       })
       .catch((e) => {
-        setError(true);
+        setError(e?.response?.data?.error ?? "");
       });
   };
 
   return (
     <>
       <EventForm onSubmit={handleSubmit} />
-      {error && <Error error="Couldn't create the event" />}
+      {error && <Error error={error} />}
     </>
   );
 };

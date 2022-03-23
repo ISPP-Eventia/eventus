@@ -19,7 +19,7 @@ public class ValidationController {
         Map<String, String> res = new HashMap<>();
         StringBuilder errorMessage= new StringBuilder();
         for(ObjectError error: ex.getBindingResult().getAllErrors()){
-            errorMessage.append(((FieldError) error).getField()).append(": ").append(error.getDefaultMessage()).append(" ");
+            errorMessage.append(((FieldError) error).getField()).append(": ").append(error.getDefaultMessage()).append("\n");
         }
         res.put("error", errorMessage.toString());
         return res;

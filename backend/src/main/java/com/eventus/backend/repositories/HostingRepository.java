@@ -17,7 +17,8 @@ public interface HostingRepository extends CrudRepository<Hosting, Long>{
 
     List<Hosting> findByEventId(Long eventId, Pageable p);
 
-    List<Hosting> findByLocationId(Long locationId, Pageable p);
+    @Query("SELECT h FROM Hosting h JOIN h.location l WHERE l.id = :locationId")
+    List<Hosting> findByLocationId(@Param("locationId") Long locationId, Pageable p);
 
     @Query("SELECT h FROM Hosting h WHERE h.event.id=:eventId AND h.isAccepted=:state")
     List<Hosting> findByEventAndState(@Param("eventId") Long eventId,@Param("state") boolean state, Pageable p);

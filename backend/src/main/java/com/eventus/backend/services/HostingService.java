@@ -42,11 +42,11 @@ public class HostingService implements IHostingService {
         Validate.isTrue(NumberUtils.isCreatable(price));
         Hosting entity = new Hosting();
         Event event = eventService.findById(Long.valueOf(eventId));
-        Location location = locationService.findById(Long.valueOf(eventId));
+        Location location = locationService.findById(Long.valueOf(locationId));
         if(event != null) entity.setEvent(event);
         if(location != null) entity.setLocation(location);
         entity.setPrice(Double.valueOf(params.get("price")));
-        entity.setAccepted(false);
+        entity.setAccepted(null);
         hostingRepository.save(entity);
     }
 
@@ -123,13 +123,6 @@ public class HostingService implements IHostingService {
     }
 
 
-    @Override
-    public void resolveSponsorship(boolean isAccepted, Long id) {
-        Hosting hosting = this.hostingRepository.findById(id).orElse(null);
-        Validate.isTrue(hosting!=null);
-        hosting.setAccepted(isAccepted);
-        this.hostingRepository.save(hosting);
-    }
     
     
 }

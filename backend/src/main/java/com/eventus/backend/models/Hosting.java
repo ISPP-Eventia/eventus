@@ -26,7 +26,6 @@ public class Hosting {
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    @JsonIgnore
     private Event event;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,9 +38,9 @@ public class Hosting {
     @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double price;
 
-    @Column
+    @Column(nullable = true)
     @JsonProperty("isAccepted")
-    private boolean isAccepted;
+    private Boolean isAccepted;
 
     
 
@@ -51,6 +50,16 @@ public class Hosting {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @JsonProperty("eventId")
+    public Long getEventId() {
+        return event.getId();
+    }
+
+    @JsonProperty("locationId")
+    public Long getLocationId() {
+        return location.getId();
     }
 
     public Event getEvent() {
@@ -78,11 +87,11 @@ public class Hosting {
     }
 
     @JsonIgnore
-    public boolean isAccepted() {
+    public Boolean isAccepted() {
         return isAccepted;
     }
 
-    public void setAccepted(boolean isAccepted) {
+    public void setAccepted(Boolean isAccepted) {
         this.isAccepted = isAccepted;
     }
 

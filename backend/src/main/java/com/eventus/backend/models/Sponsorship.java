@@ -47,7 +47,7 @@ public class Sponsorship {
 
     @Column
     @JsonProperty("isAccepted")
-    private boolean isAccepted;
+    private Boolean isAccepted;
 
     // @OneToMany
     // private List<Media> media;
@@ -94,11 +94,11 @@ public class Sponsorship {
     }
 
     @JsonIgnore
-    public boolean isAccepted() {
+    public Boolean isAccepted() {
         return isAccepted;
     }
 
-    public void setAccepted(boolean isAccepted) {
+    public void setAccepted(Boolean isAccepted) {
         this.isAccepted = isAccepted;
     }
 

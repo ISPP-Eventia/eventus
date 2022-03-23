@@ -50,7 +50,7 @@ export const DummyEvent1: EventUs = {
   price: 4,
   startDate: "2019-01-16",
   organizer: DummyUser1,
-  location: DummyLocation1,
+  coordinates: DummyLocation1.coordinates,
 };
 
 export const DummyEvent2: EventUs = {

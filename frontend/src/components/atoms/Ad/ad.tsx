@@ -28,7 +28,7 @@ const Component = (props: {
           "https://via.placeholder.com/1000"
         }
       />
-      {!props.sponsorship.isAccepted && (
+      {props.sponsorship.isAccepted === null && (
         <Accept
           onAccept={onAccept}
           info={

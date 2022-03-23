@@ -27,7 +27,7 @@ export type EventUs = {
   title: string;
   description?: string;
   price: number;
-  location?: Location;
+  coordinates?: Coordinates;
   media?: Media[];
   startDate?: string;
   endDate?: string;
@@ -63,7 +63,10 @@ export type Sponsorship = {
 export type Hosting = {
   id?: number;
   eventId: number;
+  locationId: number;
+  price: number;
   isAccepted?: boolean;
+  event?: EventUs
 };
 
 // Form values types

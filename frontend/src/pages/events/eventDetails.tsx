@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
@@ -47,6 +47,10 @@ const EventDetailPage = () => {
     navigate("/locations");
   };
 
+  useEffect(() => {
+    localStorage.setItem("eventId", event?.id?.toString() ?? "1");
+  }, [event]);
+
   return loadingEvent || !event ? (
     <Loader />
   ) : (
@@ -94,10 +98,10 @@ const EventDetailPage = () => {
         </div>
         <div className="flex flex-col md:col-span-2 xl:col-span-1">
           <Typography variant="h4">Location</Typography>
-          {event?.location ? (
+          {event?.coordinates ? (
             <Map
-              lat={event?.location.coordinates.latitude}
-              lng={event?.location.coordinates.longitude}
+              lat={event?.coordinates.latitude}
+              lng={event?.coordinates.longitude}
             />
           ) : (
             <Button
@@ -128,9 +132,11 @@ const EventDetailPage = () => {
         <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
           <Typography variant="h4">Sponsors</Typography>
           <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
-            {ads?.map((ad) => (
-              <Ad callback={refetchSponsorships} sponsorship={ad} />
-            ))}
+            {ads
+              ?.filter((ad) => ad.isAccepted !== false)
+              .map((ad) => (
+                <Ad callback={refetchSponsorships} sponsorship={ad} />
+              ))}
           </div>
         </section>
       )}

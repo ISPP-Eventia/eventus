@@ -34,6 +34,11 @@ const formatters = {
     const date = new Date(s);
     return date.toLocaleDateString("Es-ES");
   },
+  formatDateHour: (s: string) => {
+    const date = new Date(s);
+    return date.toLocaleString("Es-ES");
+
+  },
 };
 
 const utils = { parsers, formatters };

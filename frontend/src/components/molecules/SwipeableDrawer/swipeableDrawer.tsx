@@ -21,15 +21,21 @@ const Puller = styled(Box)(({ theme }) => ({
 
 export default function Component(props: {
   title: string;
-  opener: { title: string; color?: "primary" | "secondary" | "success" };
+  opener: {
+    title: string;
+    color?: "primary" | "secondary" | "success";
+    disable?: boolean;
+  };
   children?: React.ReactNode;
   actions?: {
     title: string;
     color?: "primary" | "secondary" | "success";
     onClick: () => void;
   }[];
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const { open, setOpen } = props;
 
   return (
     <>
@@ -37,6 +43,7 @@ export default function Component(props: {
         variant="contained"
         color={props.opener.color}
         onClick={() => setOpen(true)}
+        disabled={props.opener.disable}
       >
         {props.opener.title}
       </Button>
@@ -59,6 +66,7 @@ export default function Component(props: {
         ModalProps={{
           keepMounted: true,
         }}
+        className="md:hidden"
       >
         <div className="absolute bottom-full w-full rounded-t-lg bg-white px-4 py-3">
           <Puller />

@@ -1,8 +1,6 @@
 import Axios from "axios";
 
-const BASE_URL = window.location.href.includes("localhost")
-  ? "http://localhost:8080"
-  : window.location.origin;
+const BASE_URL = process.env.REACT_APP_API_BASE_URL ?? "http://localhost:8080"
 
 const API_URL = BASE_URL;
 

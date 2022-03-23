@@ -9,7 +9,7 @@ services:
       context: backend # Use an image built from the specified dockerfile in the `backend` directory.
       dockerfile: Dockerfile
     ports:
-      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8001:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
     depends_on: 
       - database # This service depends on mysql. Start that first.
@@ -27,7 +27,7 @@ services:
       context: frontend # Use an image built from the specified dockerfile in the `frontend` directory.
       dockerfile: Dockerfile
       args:
-        REACT_APP_API_BASE_URL: http://127.0.0.1:8001/api
+        REACT_APP_API_BASE_URL: https://api.eventus.space
     ports:
       - "8000:80" # Map the exposed port 8000 on the container to port 9090 on the host machine
     restart: always

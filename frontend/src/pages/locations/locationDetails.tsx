@@ -1,8 +1,6 @@
-import React from "react";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router";
 
-import { DummyLocation1 } from "mocks";
 import { Location } from "types";
 
 import { Loader, Map } from "components/atoms";

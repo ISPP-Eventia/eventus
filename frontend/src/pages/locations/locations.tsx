@@ -10,7 +10,7 @@ import { locationApi } from "api";
 const LocationListPage = () => {
   const navigate = useNavigate();
 
-  const { isLoading, data: locations } = useQuery("locations", () =>
+  const { data: locations } = useQuery("locations", () =>
     locationApi.getLocations().then((response) => response.data as Location[])
   );
 

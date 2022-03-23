@@ -42,11 +42,11 @@ public class HostingService implements IHostingService {
         Validate.isTrue(NumberUtils.isCreatable(price));
         Hosting entity = new Hosting();
         Event event = eventService.findById(Long.valueOf(eventId));
-        Location location = locationService.findById(Long.valueOf(eventId));
+        Location location = locationService.findById(Long.valueOf(locationId));
         if(event != null) entity.setEvent(event);
         if(location != null) entity.setLocation(location);
         entity.setPrice(Double.valueOf(params.get("price")));
-        entity.setAccepted(false);
+        entity.setAccepted(null);
         hostingRepository.save(entity);
     }
 

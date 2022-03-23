@@ -64,6 +64,12 @@ public class HostingController {
         }
     }
 
+    @GetMapping("/locations/{locationId}/hostings")
+    public ResponseEntity<List<Hosting>> getHostingsByLocation(@PathVariable Long locationId,  @RequestParam(defaultValue = "0") Integer numPag) {
+        return ResponseEntity.ok(this.hostingService.findByLocationId(locationId, PageRequest.of(numPag, 20)));
+
+    }
+
     @GetMapping("/locations/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
         Location location =

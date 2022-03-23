@@ -17,8 +17,10 @@ const Component = (props: {
     color?: "primary" | "secondary" | "success";
     onClick: () => void;
   }[];
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }) => {
-  const [open, setOpen] = React.useState(false);
+  const { open, setOpen } = props;
 
   return (
     <>

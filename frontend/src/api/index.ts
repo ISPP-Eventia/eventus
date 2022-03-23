@@ -1,5 +1,5 @@
 import { axios } from "./axios";
-import { EventUs, Location, Participation, Sponsorship } from "types";
+import { EventUs, Hosting, Location, Participation, Sponsorship } from "types";
 
 // utitlities
 const mediaApi = {
@@ -44,7 +44,9 @@ const locationApi = {
 // relations
 const hostingApi = {
   //bulk operations
+  getHostings: (locationId: number) => axios.get(`/locations/${locationId}/hostings`),
   //individual operations
+  createHosting: (hosting: Hosting) => axios.post("/hostings", hosting)
 };
 
 const participationApi = {

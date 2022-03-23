@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { participationApi } from "api";
 
@@ -7,12 +7,15 @@ import { Error } from "components/atoms";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = React.useState<boolean>(false);
-
+  const closeModalRef = useRef<any>(null);
   const onSubmit = () => {
     setError(false);
     participationApi
       .createParticipation(props.event.id)
       .then(() => {
+        if (closeModalRef.current) {
+          closeModalRef.current();
+        }
         props.callback();
       })
       .catch((e) => setError(true));
@@ -32,6 +35,9 @@ const Component = (props: { event?: any; callback: () => void }) => {
           color: "primary",
         },
       ]}
+      onClose={(closeFn) => {
+        closeModalRef.current = closeFn;
+      }}
     >
       {error && <Error error="Couldn't create a participation" />}
     </ModalDrawer>

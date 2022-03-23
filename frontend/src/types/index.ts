@@ -63,6 +63,8 @@ export type Sponsorship = {
 export type Hosting = {
   id?: number;
   eventId: number;
+  locationId: number;
+  price: number;
   isAccepted?: boolean;
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
@@ -46,6 +46,10 @@ const EventDetailPage = () => {
   const onSearchLocation = () => {
     navigate("/locations");
   };
+
+  useEffect(() => {
+    localStorage.setItem("eventId", event?.id?.toString() ?? "1");
+  }, [event]);
 
   return loadingEvent || !event ? (
     <Loader />
@@ -128,7 +132,7 @@ const EventDetailPage = () => {
         <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
           <Typography variant="h4">Sponsors</Typography>
           <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
-            {ads?.map((ad) => (
+            {ads?.filter(ad => ad.isAccepted !== false).map((ad) => (
               <Ad callback={refetchSponsorships} sponsorship={ad} />
             ))}
           </div>

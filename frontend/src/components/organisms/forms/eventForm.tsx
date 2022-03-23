@@ -21,19 +21,23 @@ const EventForm = (props: EventFormProps) => {
       onFinish={onSubmit}
       initialValues={initialValues}
     >
-      <Form.Item name="title" label="Título" rules={required}>
-        <Input placeholder="Título del evento" />
+      <Form.Item name="title" label="Title" rules={required}>
+        <Input placeholder="Event title" />
       </Form.Item>
 
-      <Form.Item name="fromTo" label="Fecha" rules={required}>
-        <DatePicker.RangePicker showTime={true} style={{ width: "100%" }} />
+      <Form.Item name="fromTo" label="Date" rules={required}>
+        <DatePicker.RangePicker
+          showTime={true}
+          style={{ width: "100%" }}
+          disabledDate={(date) => date.isBefore(new Date(), "day")}
+        />
       </Form.Item>
 
-      <Form.Item name="description" label="Descripción">
-        <Input.TextArea placeholder="Descripción del evento" />
+      <Form.Item name="description" label="Description">
+        <Input.TextArea placeholder="Event description" />
       </Form.Item>
 
-      <Form.Item name="price" label="Precio" rules={required}>
+      <Form.Item name="price" label="Price" rules={required}>
         <InputNumber
           addonAfter="€"
           min={0}
@@ -44,7 +48,7 @@ const EventForm = (props: EventFormProps) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          Crear
+          Create
         </Button>
       </Form.Item>
     </Form>

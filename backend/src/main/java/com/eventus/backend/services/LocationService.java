@@ -65,13 +65,13 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void update(Map<String, String> params, Long locationId) {
+    public void update(Location params, Long locationId) {
         Location location = locationRepository.findById(locationId).orElse(null);
         if(location!=null){
-            location.setDescription(params.get("description"));
-            location.setCoordinates(new Coordinates(params.get("latitude"), params.get("longitude")));
-            location.setName(params.get("name"));
-            location.setPrice(Double.valueOf(params.get("price")));
+            location.setDescription(location.getDescription());
+            location.setCoordinates(location.getCoordinates());
+            location.setName(location.getName());
+            location.setPrice(location.getPrice());
             locationRepository.save(location);
         }
     }

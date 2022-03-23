@@ -149,9 +149,9 @@ public class HostingController extends ValidationController{
     }
 
     @PutMapping("/locations/{id}")
-    public ResponseEntity<Object> updateLocation(@RequestBody Map<String, String> params, @PathVariable Long id) {
+    public ResponseEntity<Object> updateLocation(@Valid @RequestBody Location location, @PathVariable Long id) {
         try {
-            this.locationService.update(params, id);
+            this.locationService.update(location, id);
             return ResponseEntity.status(HttpStatus.CREATED).build();
             
         } catch (DataAccessException | NullPointerException e) {

@@ -16,6 +16,6 @@ public interface ILocationService {
     public void delete(Location location);
     public void deleteById(Long id);
     public List<Location> findByOwnerId(Long ownerId, Pageable p);
-    public void update(Map<String,String> params, Long locationId);
+    public void update(Location location, Long locationId);
     
 }

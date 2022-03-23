@@ -1,0 +1,27 @@
+{
+  "typography": {
+    "fontSize": 10,
+    "fontFamily": "'Open Sans', sans-serif;"
+  },
+  "palette": {
+    "primary": {
+      "light": "#B3D5F2",
+      "main": "#2F70D5"
+    },
+    "secondary": {
+      "main": "#83C6FF"
+    },
+    "error": {
+      "main": "#FE4646"
+    },
+    "warning": {
+      "main": "#FEA446"
+    },
+    "info": {
+      "main": "#414040"
+    },
+    "success": {
+      "main": "#50B66B"
+    }
+  }
+}

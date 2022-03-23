@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class HostingController {
+public class HostingController extends ValidationController{
     
     private final HostingService hostingService;
     private final LocationService locationService;
@@ -92,22 +92,26 @@ public class HostingController {
     }
 
     @PostMapping("/hostings")
-    public ResponseEntity<Hosting> createHosting(@RequestBody Map<String,String> params){
+    public ResponseEntity<Object> createHosting(@RequestBody Map<String,String> params){
         try{
             hostingService.create(params);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
         }
     }
 
     @PostMapping("/locations")
-    public ResponseEntity<Location> createLocation(@Valid @RequestBody Location location){
+    public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location){
         try{
             locationService.create(location);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
         }
     }
 
@@ -132,24 +136,28 @@ public class HostingController {
     }
 
     @PutMapping("/hostings/{id}")
-    public ResponseEntity<Hosting> updateSponsor(@RequestBody Map<String, String> params, @PathVariable Long id) {
+    public ResponseEntity<Object> updateSponsor(@RequestBody Map<String, String> params, @PathVariable Long id) {
         try {
             this.hostingService.update(params, id);
             return ResponseEntity.status(HttpStatus.CREATED).build();
             
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
         }
     }
 
     @PutMapping("/locations/{id}")
-    public ResponseEntity<Location> updateLocation(@RequestBody Map<String, String> params, @PathVariable Long id) {
+    public ResponseEntity<Object> updateLocation(@RequestBody Map<String, String> params, @PathVariable Long id) {
         try {
             this.locationService.update(params, id);
             return ResponseEntity.status(HttpStatus.CREATED).build();
             
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
         }
     }
 

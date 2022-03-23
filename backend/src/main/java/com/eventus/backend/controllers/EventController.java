@@ -4,7 +4,10 @@ import com.eventus.backend.models.Event;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.UserService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +15,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class EventController {
+public class EventController extends ValidationController{
   private EventService eventService;
   private UserService userService;
 
@@ -47,8 +52,10 @@ public class EventController {
       Validate.notNull(event.getId());
       this.eventService.save(event);
       return ResponseEntity.status(HttpStatus.OK).build();
-    } catch (DataAccessException | NullPointerException | IllegalArgumentException e) {
+    } catch (DataAccessException | NullPointerException e) {
       return ResponseEntity.badRequest().build();
+    }catch(IllegalArgumentException e){
+      return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
 
@@ -63,8 +70,10 @@ public class EventController {
         this.eventService.save(event);
       }
       return ResponseEntity.status(HttpStatus.CREATED).build();
-    } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {
+    } catch (DataAccessException | NullPointerException  e) {
       return ResponseEntity.badRequest().build();
+    }catch(IllegalArgumentException e){
+      return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
     }
   }
 
@@ -77,4 +86,5 @@ public class EventController {
       return ResponseEntity.notFound().build();
     }
   }
+
 }

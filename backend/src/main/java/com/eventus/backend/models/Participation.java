@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -36,11 +37,13 @@ public class Participation {
 
     @ManyToOne
     @JsonIgnore
+    @NotNull
     @JoinColumn(name = "user_id")
     User user;
 
     @ManyToOne
     @JsonIgnore
+    @NotNull
     @JoinColumn(name = "event_id")
     Event event;
 

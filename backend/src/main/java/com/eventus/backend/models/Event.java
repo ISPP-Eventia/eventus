@@ -31,7 +31,7 @@ public class Event {
 
     @Column
     @JsonProperty("title")
-    @Size(max=20)
+    @Size(max=25)
     @NotBlank
     private String title;
 

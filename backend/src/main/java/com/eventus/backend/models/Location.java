@@ -5,6 +5,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,6 +30,7 @@ public class Location {
 
     @Column
     @JsonProperty("price")
+    @NotNull
     private Double price;
 
     // @OneToMany
@@ -35,10 +38,12 @@ public class Location {
 
     @Column
     @JsonProperty("name")
+    @NotBlank
     private String name;
 
     @Column
     @JsonProperty("description")
+    @NotBlank
     private String description; 
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)

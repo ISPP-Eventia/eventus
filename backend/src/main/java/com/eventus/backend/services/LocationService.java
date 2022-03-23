@@ -1,9 +1,7 @@
 package com.eventus.backend.services;
 
 import java.util.List;
-import java.util.Map;
 
-import com.eventus.backend.models.Coordinates;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.LocationRepository;

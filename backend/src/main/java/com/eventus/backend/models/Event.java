@@ -177,8 +177,8 @@ public class Event {
         this.endDate = endDate;
     }
 
-    @JsonProperty("location")
-    public Coordinates getEventLocation(){
+    @JsonProperty("coordinates")
+    public Coordinates getEventCoordinates(){
         Hosting hosting=null;
         Coordinates coordinates=null;
         if(!hostings.isEmpty()){

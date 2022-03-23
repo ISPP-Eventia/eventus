@@ -98,10 +98,10 @@ const EventDetailPage = () => {
         </div>
         <div className="flex flex-col md:col-span-2 xl:col-span-1">
           <Typography variant="h4">Location</Typography>
-          {event?.location ? (
+          {event?.coordinates ? (
             <Map
-              lat={event?.location.coordinates.latitude}
-              lng={event?.location.coordinates.longitude}
+              lat={event?.coordinates.latitude}
+              lng={event?.coordinates.longitude}
             />
           ) : (
             <Button

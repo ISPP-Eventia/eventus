@@ -24,12 +24,14 @@ const Component = (props: HostingProps) => {
       .catch(setError);
   };
 
+  const eventId = localStorage.getItem("eventId");
   return (
     <ModalDrawer
       title="Solicitud de alojamiento"
       opener={{
         title: "Solicitud de alojamiento",
-        color: "success",
+        color: "primary",
+        disable: !eventId,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;

@@ -123,13 +123,6 @@ public class HostingService implements IHostingService {
     }
 
 
-    @Override
-    public void resolveSponsorship(boolean isAccepted, Long id) {
-        Hosting hosting = this.hostingRepository.findById(id).orElse(null);
-        Validate.isTrue(hosting!=null);
-        hosting.setAccepted(isAccepted);
-        this.hostingRepository.save(hosting);
-    }
     
     
 }

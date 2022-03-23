@@ -46,7 +46,9 @@ const hostingApi = {
   //bulk operations
   getHostings: (locationId: number) => axios.get(`/locations/${locationId}/hostings`),
   //individual operations
-  createHosting: (hosting: Hosting) => axios.post("/hostings", hosting)
+  createHosting: (hosting: Hosting) => axios.post("/hostings", hosting),
+  acceptHosting: (id: number, isAccepted: boolean) =>
+  axios.post(`/hostings/${id}`, { isAccepted }),
 };
 
 const participationApi = {

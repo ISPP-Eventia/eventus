@@ -4,7 +4,7 @@ import { Modal, SwipeableDrawer } from "components/molecules";
 
 const Component = (props: {
   title: string;
-  opener: { title: string; color?: "primary" | "secondary" | "success" };
+  opener: { title: string; color?: "primary" | "secondary" | "success", disable?: boolean };
   children?: React.ReactNode;
   actions?: {
     title: string;

@@ -1,4 +1,4 @@
-UPDATE hibernate_sequence SET next_val=11 LIMIT 1;
+UPDATE hibernate_sequence SET next_val=99 LIMIT 1;
 
 INSERT INTO user(id,first_Name,last_Name) VALUES (1, 'Juan', 'Antonio');
 INSERT INTO user(id,first_Name,last_Name) VALUES (2, 'Rosa', 'Margarita');
@@ -33,17 +33,16 @@ INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES
 INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (8, "2022-04-23T20:26:41.036121", 10.0, 1, 2, 9);
 INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (9, "2022-04-23T20:26:41.036121", 10.0, 1, 2, 10);
 
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (10, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 11);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (11, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 12);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (12, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 13);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (13, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 14);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (14, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 15);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (10, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 7);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (11, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 8);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (12, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 9);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (13, "2022-04-23T20:26:41.036121", 10.0, 1, 3, 10);
 
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (15, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 16);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (16, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 17);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (17, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 18);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (18, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 19);
-INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (19, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 20);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (15, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 1);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (16, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 2);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (17, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 3);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (18, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 4);
+INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (19, "2022-04-23T20:26:41.036121", 10.0, 1, 4, 5);
 
 INSERT INTO sponsorship(id, is_accepted, name, quantity, event_id, user_id) VALUES (1, true, 'Sponsor', 1, 1, 2);
 INSERT INTO sponsorship(id, is_accepted, name, quantity, event_id, user_id) VALUES (2, true, 'Sponsor', 1, 1, 3);

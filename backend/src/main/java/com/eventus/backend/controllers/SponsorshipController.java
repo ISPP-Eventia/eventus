@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class SponsorshipController {
+public class SponsorshipController extends ValidationController{
     private final SponsorshipService sponsorService;
 
     @Autowired

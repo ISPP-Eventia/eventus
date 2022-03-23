@@ -25,7 +25,7 @@ import java.net.MalformedURLException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class ParticipationController {
+public class ParticipationController extends ValidationController{
     private final ParticipationService participationService;
 
     private final UserService userService;

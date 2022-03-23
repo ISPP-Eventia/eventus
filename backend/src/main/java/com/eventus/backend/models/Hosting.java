@@ -26,10 +26,12 @@ public class Hosting {
 
     @ManyToOne
     @JoinColumn(name = "event_id")
+    @NotNull
     private Event event;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
+    @NotNull
     @JsonIgnore
     private Location location;
 

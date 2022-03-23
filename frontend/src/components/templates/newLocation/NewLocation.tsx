@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 const NewLocation = () => {
   const navigate = useNavigate();
 
-  const [error, setError] = React.useState<boolean>(false);
+  const [error, setError] = React.useState("");
   const handleSubmit = (values: LocationFormValues) => {
     const locationBody = utils.parsers.locationFormValuesToLocation(values);
     locationApi
@@ -19,14 +19,14 @@ const NewLocation = () => {
         navigate("/locations");
       })
       .catch((e) => {
-        setError(true);
+        setError(e?.response?.data?.error ?? "");
       });
   };
 
   return (
     <>
       <LocationForm onSubmit={handleSubmit} />
-      {error && <Error error="Couldn't create the location" />}
+      {error && <Error error={error} />}
     </>
   );
 };

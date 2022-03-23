@@ -1,6 +1,7 @@
 package com.eventus.backend.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.eventus.backend.models.Hosting;
 
@@ -22,5 +23,10 @@ public interface HostingRepository extends CrudRepository<Hosting, Long>{
 
     @Query("SELECT h FROM Hosting h WHERE h.event.id=:eventId AND h.isAccepted=:state")
     List<Hosting> findByEventAndState(@Param("eventId") Long eventId,@Param("state") boolean state, Pageable p);
+
+    @Query("SELECT h FROM Hosting h WHERE h.event.id=:eventId AND h.location.id=:locationId")
+    Optional<Hosting> findByEventAndLocation(@Param("eventId") Long eventId,@Param("locationId") Long locationId);
+    
+    
     
 }

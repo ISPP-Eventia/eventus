@@ -34,17 +34,21 @@ public class HostingService implements IHostingService {
 
     @Override
     public void create(Map<String, String> params) {
+
         String eventId= params.get("eventId");
         String locationId= params.get("locationId");
         String price = params.get("price");
-        Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId));
-        Validate.isTrue(StringUtils.isNotBlank(locationId)&&StringUtils.isNumeric(locationId));
-        Validate.isTrue(NumberUtils.isCreatable(price));
-        Hosting entity = new Hosting();
+        Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Incorrect format for eventId");
+        Validate.isTrue(StringUtils.isNotBlank(locationId)&&StringUtils.isNumeric(locationId),"Incorrect format for locationId");
+        Validate.isTrue(NumberUtils.isCreatable(price),"Price should be a double");
+        Validate.isTrue(findHostingByEventIdAndLocationId(Long.valueOf(eventId),Long.valueOf(locationId))==null,"There is already a hosting with this event and location");
         Event event = eventService.findById(Long.valueOf(eventId));
         Location location = locationService.findById(Long.valueOf(locationId));
-        if(event != null) entity.setEvent(event);
-        if(location != null) entity.setLocation(location);
+        Validate.isTrue(event!=null,"Event not found");
+        Validate.isTrue(location!=null,"Location not found");
+        Hosting entity = new Hosting();
+        entity.setEvent(event);
+        entity.setLocation(location);
         entity.setPrice(Double.valueOf(params.get("price")));
         entity.setAccepted(null);
         hostingRepository.save(entity);
@@ -92,8 +96,8 @@ public class HostingService implements IHostingService {
         Hosting hosting = hostingRepository.findById(hostingId).orElse(null);
         if(hosting!=null){
             hosting.setPrice(Double.valueOf(params.get("price")));
+            hostingRepository.save(hosting);
         }
-        hostingRepository.save(hosting);
     }
 
 
@@ -122,7 +126,9 @@ public class HostingService implements IHostingService {
         return this.hostingRepository.findByEventAndState(eventId,b,p);
     }
 
-
-    
+    @Override
+    public Hosting findHostingByEventIdAndLocationId(Long eventId,Long locationId){
+        return this.hostingRepository.findByEventAndLocation(eventId,locationId).orElse(null);
+    }
     
 }

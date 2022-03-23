@@ -1,5 +1,5 @@
 import React from "react";
 
-test('Test', () => {
+test("Test", () => {
   expect(1 + 1).toBe(2)
 });

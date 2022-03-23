@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.validation.Valid;
+
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -94,9 +96,9 @@ public class HostingController {
     }
 
     @PostMapping("/locations")
-    public ResponseEntity<Location> createLocation(@RequestBody Map<String,String> params){
+    public ResponseEntity<Location> createLocation(@Valid @RequestBody Location location){
         try{
-            locationService.create(params);
+            locationService.create(location);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();

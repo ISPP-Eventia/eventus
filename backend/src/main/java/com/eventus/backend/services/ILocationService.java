@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface ILocationService {
     
     public void save(Location sponsor);
-    public void create(Map<String,String> params);
+    public void create(Location location);
     public Location findById(Long id);
     public List<Location> findAll(Pageable p);
     public void delete(Location location);

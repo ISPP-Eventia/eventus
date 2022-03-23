@@ -24,18 +24,13 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void create(Map<String, String> params) {
-        Location entity = new Location();
-        User owner = userService.findUserById(Long.valueOf(params.get("owner")));
+    public void create(Location location) {
+        User owner = userService.findUserById(1L);
         if(owner != null){
-            entity.setOwner(owner);
+            location.setOwner(owner);
         }
-        entity.setName(params.get("name"));
-        entity.setDescription(params.get("description"));
-        entity.setLocation(params.get("location"));
-        entity.setPrice(Double.valueOf(params.get("price")));
 
-        locationRepository.save(entity);
+        locationRepository.save(location);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.eventus.backend.services.UserService;
 import java.util.List;
 import javax.validation.Valid;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +45,6 @@ public class EventController {
   @PutMapping("/events")
   public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event) {
     try {
-      Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
       Validate.notNull(event.getId());
       this.eventService.save(event);
       return ResponseEntity.status(HttpStatus.OK).build();

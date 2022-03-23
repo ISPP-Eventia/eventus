@@ -1,0 +1,4 @@
+SERVER_APP_PORT = 8003
+CLIENT_APP_PORT = 8002
+DB_PORT = 3307
+REACT_APP_API_BASE_URL = https://api.eventus.space

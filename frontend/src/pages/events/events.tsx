@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useQuery } from "react-query";
@@ -23,7 +22,7 @@ const EventListPage = () => {
 
   const AddEvent = (
     <Button variant="contained" color="primary" onClick={onNewEventClick}>
-      New Event
+      Nuevo Evento
     </Button>
   );
 

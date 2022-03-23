@@ -9,7 +9,7 @@ export type FieldProps = {
 };
 
 export type InputProps = FieldProps & {
-  type?: "text" | "password" |"file";
+  type?: "text" | "password" | "file";
   useFormLabel?: boolean;
 };
 

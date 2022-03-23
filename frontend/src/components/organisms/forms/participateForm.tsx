@@ -28,14 +28,14 @@ const Component = (props: { event?: any; callback: () => void }) => {
 
   return (
     <ModalDrawer
-      title="Participate"
+      title="Participar"
       opener={{
-        title: `Participate ${props.event?.price}€`,
+        title: `Participar por ${props.event?.price} €`,
         color: "primary",
       }}
       actions={[
         {
-          title: `Participate ${props.event?.price}€`,
+          title: `Participar por ${props.event?.price} €`,
           onClick: onSubmit,
           color: "primary",
         },

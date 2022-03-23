@@ -1,5 +1,5 @@
-import React from "react";
-import { eventApi, locationApi } from "api";
+import { useState } from "react";
+import { locationApi } from "api";
 import { LocationFormValues } from "types";
 import utils from "utils";
 
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 const NewLocation = () => {
   const navigate = useNavigate();
 
-  const [error, setError] = React.useState("");
+  const [error, setError] = useState("");
   const handleSubmit = (values: LocationFormValues) => {
     const locationBody = utils.parsers.locationFormValuesToLocation(values);
     locationApi

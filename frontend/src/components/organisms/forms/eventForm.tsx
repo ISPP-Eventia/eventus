@@ -1,4 +1,3 @@
-import React from "react";
 import { Form, Input, Button, DatePicker, InputNumber } from "antd";
 
 import { EventFormValues } from "types";
@@ -21,25 +20,25 @@ const EventForm = (props: EventFormProps) => {
       onFinish={onSubmit}
       initialValues={initialValues}
     >
-      <Form.Item name="title" label="Title" rules={required}>
-        <Input placeholder="Event title" />
+      <Form.Item name="title" label="Título" rules={required}>
+        <Input placeholder="Título de evento" />
       </Form.Item>
 
-      <Form.Item name="fromTo" label="Date" rules={required}>
+      <Form.Item name="fromTo" label="Fecha" rules={required}>
         <DatePicker.RangePicker
           style={{ width: "100%" }}
           disabledDate={(date) => date.isBefore(new Date(), "day")}
           showTime={{
-            format: "HH:mm"
+            format: "HH:mm",
           }}
         />
       </Form.Item>
 
-      <Form.Item name="description" label="Description">
-        <Input.TextArea placeholder="Event description" />
+      <Form.Item name="description" label="Descripción">
+        <Input.TextArea placeholder="Descripción de evento" />
       </Form.Item>
 
-      <Form.Item name="price" label="Price" rules={required}>
+      <Form.Item name="price" label="Precio" rules={required}>
         <InputNumber
           addonAfter="€"
           min={0}
@@ -50,7 +49,7 @@ const EventForm = (props: EventFormProps) => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          Create
+          Crear
         </Button>
       </Form.Item>
     </Form>

@@ -74,7 +74,7 @@ const EventDetailPage = () => {
         </div>
         <div className="flex flex-col gap-3">
           <div>
-            <Typography variant="h4">Organizer</Typography>
+            <Typography variant="h4">Organizador</Typography>
             <Typography variant="body1">
               {event?.organizer && (
                 <UserHorizontalCard user={event?.organizer} />
@@ -82,23 +82,27 @@ const EventDetailPage = () => {
             </Typography>
           </div>
           <div>
-            <Typography variant="h4">Description</Typography>
+            <Typography variant="h4">Descripción</Typography>
             <Typography variant="body1">{event?.description}</Typography>
           </div>
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-8 xl:gap-12">
             <div>
-              <Typography variant="h4">Price</Typography>
+              <Typography variant="h4">Precio</Typography>
               <Typography variant="body1">{event?.price}€</Typography>
             </div>
             <div>
-              <Typography variant="h4">Date</Typography>
-              <Typography variant="body1">{utils.formatters.formatDateHour(event?.startDate ?? "")}</Typography>
-              <Typography variant="body1">{utils.formatters.formatDateHour(event?.endDate ?? "")}</Typography>
+              <Typography variant="h4">Fecha</Typography>
+              <Typography variant="body1">
+                {utils.formatters.formatDateHour(event?.startDate ?? "")}
+              </Typography>
+              <Typography variant="body1">
+                {utils.formatters.formatDateHour(event?.endDate ?? "")}
+              </Typography>
             </div>
           </div>
         </div>
         <div className="flex flex-col md:col-span-2 xl:col-span-1">
-          <Typography variant="h4">Location</Typography>
+          <Typography variant="h4">Ubicación</Typography>
           {event?.coordinates ? (
             <Map
               lat={event?.coordinates.latitude}
@@ -110,7 +114,7 @@ const EventDetailPage = () => {
               color="primary"
               onClick={onSearchLocation}
             >
-              Look for a location
+              Buscar alojamiento
             </Button>
           )}
         </div>
@@ -118,7 +122,7 @@ const EventDetailPage = () => {
 
       {!loadingParticipants && !!participants?.length && (
         <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
-          <Typography variant="h4">Participants</Typography>
+          <Typography variant="h4">Participantes</Typography>
           <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
             {participants?.map((participant) => (
               <Typography variant="body1">
@@ -129,9 +133,9 @@ const EventDetailPage = () => {
         </section>
       )}
 
-      {!loadingSponsorships && !!ads?.length && (
+      {!loadingSponsorships && !!ads?.filter((ad) => ad.isAccepted !== false).length && (
         <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
-          <Typography variant="h4">Sponsors</Typography>
+          <Typography variant="h4">Patrocinadores</Typography>
           <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
             {ads
               ?.filter((ad) => ad.isAccepted !== false)

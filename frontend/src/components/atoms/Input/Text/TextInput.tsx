@@ -1,5 +1,3 @@
-import React from "react";
-
 import { FieldProps } from "..";
 import ControlledInput from "../controlledInput";
 

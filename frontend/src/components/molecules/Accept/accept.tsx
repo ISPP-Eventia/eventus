@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 import { Cancel, Check } from "@mui/icons-material";
 import { IconButton } from "@mui/material";

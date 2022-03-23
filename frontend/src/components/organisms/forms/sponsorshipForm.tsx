@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef, useState } from "react";
 import { Form, Button, InputNumber, Input } from "antd";
 
 import { SponsorshipFormValues } from "types";
@@ -8,8 +8,8 @@ import { Error } from "components/atoms";
 import { ModalDrawer } from "components/organisms";
 
 const Component = (props: { event?: any; callback: () => void }) => {
-  const [error, setError] = React.useState<boolean>(false);
-  const required = [{ required: true, message: "Required Field" }];
+  const [error, setError] = useState<boolean>(false);
+  const required = [{ required: true, message: "Campo obligatorio" }];
   const closeModalRef = useRef<any>(null);
 
   const handleSubmit = (values: SponsorshipFormValues) => {
@@ -29,9 +29,9 @@ const Component = (props: { event?: any; callback: () => void }) => {
 
   return (
     <ModalDrawer
-      title="Sponsor"
+      title="Patrocinador"
       opener={{
-        title: "Sponsor Offer",
+        title: "Patrocinar",
         color: "success",
       }}
       onClose={(closeFn) => {
@@ -44,7 +44,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
         layout="vertical"
         onFinish={handleSubmit}
       >
-        <Form.Item name="name" label="Nombre de patrocinio" rules={required}>
+        <Form.Item name="name" label="Nombre de patrocinador" rules={required}>
           <Input style={{ width: "100%" }} />
         </Form.Item>
         <Form.Item name="quantity" label="Cantidad" rules={required}>
@@ -53,10 +53,10 @@ const Component = (props: { event?: any; callback: () => void }) => {
 
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-            Sponsor Offer
+            Patrocinar
           </Button>
         </Form.Item>
-        {error && <Error error="Couldn't create the sponsorship" />}
+        {error && <Error error="No se pudo crear el patrocinio" />}
       </Form>
     </ModalDrawer>
   );

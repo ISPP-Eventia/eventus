@@ -3,7 +3,7 @@ import Page from "../page";
 
 const NewLocationPage = () => {
   return (
-    <Page title="New Location">
+    <Page title="Nueva Ubicación">
       <NewLocation />
     </Page>
   );

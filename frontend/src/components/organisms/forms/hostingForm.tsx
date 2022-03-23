@@ -48,7 +48,7 @@ const Component = (props: HostingProps) => {
             Solicitar alojamiento por {props.hosting.price} €
           </Button>
         </Form.Item>
-        {error && <Error error="Couldn't create the sponsorship" />}
+        {error && <Error error="Ya has enviado una petición de alojamiento" />}
       </Form>
     </ModalDrawer>
   );

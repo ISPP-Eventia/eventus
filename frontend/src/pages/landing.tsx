@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 
@@ -46,7 +46,7 @@ const LandingCard = (props: { img: string; title: string; text: string }) => {
 };
 
 const LandingPage = () => {
-  const [showCards, setShowCards] = React.useState(false);
+  const [showCards, setShowCards] = useState(false);
 
   const cards = [
     {

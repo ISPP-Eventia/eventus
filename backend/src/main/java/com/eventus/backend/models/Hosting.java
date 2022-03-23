@@ -102,7 +102,7 @@ public class Hosting {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Hosting hosting = (Hosting) o;
-        return isAccepted == hosting.isAccepted && Objects.equals(id, hosting.id) && Objects.equals(price, hosting.price);
+        return Objects.equals(id, hosting.id) && Objects.equals(price, hosting.price) && Objects.equals(isAccepted, hosting.isAccepted);
     }
 
     @Override

@@ -8,28 +8,20 @@ import { Location } from "types";
 import { Loader, Map } from "components/atoms";
 import { HostingForm } from "components/organisms";
 import Page from "../page";
+import { locationApi } from "api";
+import { useQuery } from "react-query";
+import { UserHorizontalCard } from "components/molecules";
 
 const LocationDetailPage = () => {
-  const locationId = useParams().id;
-  const [location, setLocation] = React.useState<Location>();
+  const locationId = Number(useParams().id);
 
-  React.useEffect(() => {
-    let isCancelled = false;
+  const { isLoading, data: location } = useQuery("location", () =>
+    locationApi.getLocation(locationId).then((response) => {
+      return response.data as Location;
+    })
+  );
 
-    if (!isCancelled) {
-      // TODO: call API
-      console.log(locationId);
-      setLocation(DummyLocation1);
-    }
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [locationId]);
-
-  const isLoading = !location;
-
-  return isLoading ? (
+  return isLoading || !location ? (
     <Loader />
   ) : (
     <Page title={location.name} actions={[<HostingForm location={location} />]}>
@@ -38,13 +30,18 @@ const LocationDetailPage = () => {
           <img
             alt="img"
             className="w-full rounded-md object-cover"
-            src={location.media?.[0]?.path}
+            src={
+              location.media?.[0]?.path ||
+              "https://via.placeholder.com/2000x1000"
+            }
           />
         </div>
         <div className="flex flex-col gap-3">
           <div>
             <Typography variant="h4">Owner</Typography>
-            <Typography variant="body1">{location.owner?.firstName}</Typography>
+            <Typography variant="body1">
+              {location.owner && <UserHorizontalCard user={location.owner} />}
+            </Typography>
           </div>
           <div>
             <Typography variant="h4">Description</Typography>

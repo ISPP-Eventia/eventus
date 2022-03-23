@@ -29,7 +29,6 @@ public class Location {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    @JsonIgnore
     private User owner;
 
     @Column
@@ -73,10 +72,12 @@ public class Location {
         this.id = id;
     }
 
+    @JsonProperty("owner")
     public User getOwner() {
         return owner;
     }
 
+    @JsonIgnore
     public void setOwner(User owner) {
         this.owner = owner;
     }

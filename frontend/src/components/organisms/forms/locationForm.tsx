@@ -1,14 +1,13 @@
-import React from "react";
 import { Form, Input, Button, DatePicker, InputNumber } from "antd";
 
-import { EventFormValues } from "types";
+import { LocationFormValues } from "types";
 
-export interface EventFormProps {
-  initialValues?: Partial<EventFormValues>;
-  onSubmit: (values: EventFormValues) => void;
+export interface LocationFormProps {
+  initialValues?: Partial<LocationFormValues>;
+  onSubmit: (values: LocationFormValues) => void;
 }
 
-const EventForm = (props: EventFormProps) => {
+const LocationForm = (props: LocationFormProps) => {
   const { initialValues, onSubmit } = props;
   const required = [{ required: true, message: "Required Field" }];
 
@@ -21,20 +20,12 @@ const EventForm = (props: EventFormProps) => {
       onFinish={onSubmit}
       initialValues={initialValues}
     >
-      <Form.Item name="title" label="Title" rules={required}>
-        <Input placeholder="Event title" />
-      </Form.Item>
-
-      <Form.Item name="fromTo" label="Date" rules={required}>
-        <DatePicker.RangePicker
-          showTime={true}
-          style={{ width: "100%" }}
-          disabledDate={(date) => date.isBefore(new Date(), "day")}
-        />
+      <Form.Item name="name" label="Name" rules={required}>
+        <Input placeholder="Location name" />
       </Form.Item>
 
       <Form.Item name="description" label="Description">
-        <Input.TextArea placeholder="Event description" />
+        <Input.TextArea placeholder="Location description" />
       </Form.Item>
 
       <Form.Item name="price" label="Price" rules={required}>
@@ -55,4 +46,4 @@ const EventForm = (props: EventFormProps) => {
   );
 };
 
-export default EventForm;
+export default LocationForm;

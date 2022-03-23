@@ -1,5 +1,5 @@
 import { axios } from "./axios";
-import { EventUs, Participation, Sponsorship } from "types";
+import { EventUs, Location, Participation, Sponsorship } from "types";
 
 // utitlities
 const mediaApi = {
@@ -32,7 +32,13 @@ const eventApi = {
 
 const locationApi = {
   //bulk operations
+  getLocations: () => axios.get("/locations"),
+
   //individual operations
+  getLocation: (id: number) => axios.get(`/locations/${id}`),
+  createLocation: (location: Location) => axios.post("/locations", location),
+  updateLocation: (location: Location) => axios.put(`/locations/${location.id}`, location),
+  deleteLocation: (id: number) => axios.delete(`/locations/${id}`),
 };
 
 // relations

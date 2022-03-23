@@ -78,3 +78,9 @@ export type EventFormValues = {
   price: number;
   description?: string;
 };
+
+export type LocationFormValues = {
+  price: number;
+  name: string;
+  description: string;
+};

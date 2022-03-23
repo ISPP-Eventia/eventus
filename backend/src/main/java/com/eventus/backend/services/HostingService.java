@@ -38,6 +38,7 @@ public class HostingService implements IHostingService {
         if(event != null) entity.setEvent(event);
         if(location != null) entity.setLocation(location);
         entity.setPrice(Double.valueOf(params.get("price")));
+        entity.setAccepted(false);
         hostingRepository.save(entity);
     }
 

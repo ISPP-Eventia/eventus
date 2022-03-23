@@ -23,6 +23,7 @@ public class Location {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @JsonIgnore
     private User owner;
 
     @Embedded

@@ -57,7 +57,7 @@ INSERT INTO sponsorship(id, is_accepted, name, quantity, event_id, user_id) VALU
 INSERT INTO sponsorship(id, is_accepted, name, quantity, event_id, user_id) VALUES (8, true, 'Sponsor', 1, 3, 6);
 INSERT INTO sponsorship(id, is_accepted, name, quantity, event_id, user_id) VALUES (9, true, 'Sponsor', 1, 3, 7);
 
-INSERT INTO location(id, owner_id, location, price,name,description) VALUES (1,1,"Direccion",500.0,"Location 1","Descripcion");
-INSERT INTO location(id, owner_id, location, price,name,description) VALUES (2,2,"Direccion",412.0,"Nombre 2","Descripcion 2 y algun texto de prueba");
-INSERT INTO location(id, owner_id, location, price,name,description) VALUES (3,3,"Direccion",412.0,"Nombre 3","Descripcion 3");
-INSERT INTO location(id, owner_id, location, price,name,description) VALUES (4,4,"Direccion",412.0,"Nombre 4","Descripcion 4");
+INSERT INTO location(id, owner_id, name,price, latitude, longitude, description) VALUES (1,1,"Nombre 1",500.0,0,1,"Descripcion");
+INSERT INTO location(id, owner_id,name,price, latitude, longitude, description) VALUES (2,2,"Nombre 2",412.0,1,0,"Descripcion 2 y algun texto de prueba");
+INSERT INTO location(id, owner_id,name,price, latitude, longitude, description) VALUES (3,3,"Nombre 3",412.0,1,1,"Descripcion 3");
+INSERT INTO location(id, owner_id,name,price, latitude, longitude, description) VALUES (4,4,"Nombre 4",412.0,0,0,"Descripcion 4");

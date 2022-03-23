@@ -6,6 +6,7 @@ import java.util.List;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.repositories.EventRepository;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class EventService implements IEventService {
 
     @Override
     public Event save(Event event) {
+        Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
         return this.eventRepository.save(event);
     }
 

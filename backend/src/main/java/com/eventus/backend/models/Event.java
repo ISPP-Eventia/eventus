@@ -31,7 +31,7 @@ public class Event {
 
     @Column
     @JsonProperty("title")
-    @Size(max=20)
+    @Size(max=25)
     @NotBlank
     private String title;
 
@@ -57,9 +57,6 @@ public class Event {
     @NotBlank
     @Size(max=120)
     private String description;
-
-    @Embedded
-    private Coordinates coordinates;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "event_id")
@@ -180,12 +177,17 @@ public class Event {
         this.endDate = endDate;
     }
 
-    public Coordinates getCoordinates() {
+    @JsonProperty("location")
+    public Coordinates getEventLocation(){
+        Hosting hosting=null;
+        Coordinates coordinates=null;
+        if(!hostings.isEmpty()){
+            hosting=hostings.stream().filter(Hosting::isAccepted).findFirst().orElse(null);
+        }
+        if(hosting!=null){
+            coordinates=hosting.getLocation().getCoordinates();
+        }
         return coordinates;
-    }
-
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
     }
 
     @Override

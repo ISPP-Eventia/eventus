@@ -1,8 +1,6 @@
-import React from "react";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router";
 
-import { DummyLocation1 } from "mocks";
 import { Location } from "types";
 
 import { Loader, Map } from "components/atoms";
@@ -56,7 +54,7 @@ const LocationDetailPage = () => {
 
       <section className="grid-cols-full mt-4 grid h-auto">
         <Typography variant="h4">Location</Typography>
-        <Map lat={37.358273} lng={-5.986795} />
+        <Map lat={location.coordinates.latitude} lng={location.coordinates.longitude} />
       </section>
     </Page>
   );

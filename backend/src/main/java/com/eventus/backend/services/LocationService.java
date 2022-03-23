@@ -3,6 +3,7 @@ package com.eventus.backend.services;
 import java.util.List;
 import java.util.Map;
 
+import com.eventus.backend.models.Coordinates;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.LocationRepository;
@@ -24,18 +25,13 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void create(Map<String, String> params) {
-        Location entity = new Location();
-        User owner = userService.findUserById(Long.valueOf(params.get("owner")));
+    public void create(Location location) {
+        User owner = userService.findUserById(1L);
         if(owner != null){
-            entity.setOwner(owner);
+            location.setOwner(owner);
         }
-        entity.setName(params.get("name"));
-        entity.setDescription(params.get("description"));
-        entity.setLocation(params.get("location"));
-        entity.setPrice(Double.valueOf(params.get("price")));
 
-        locationRepository.save(entity);
+        locationRepository.save(location);
     }
 
     @Override
@@ -73,7 +69,7 @@ public class LocationService implements ILocationService{
         Location location = locationRepository.findById(locationId).orElse(null);
         if(location!=null){
             location.setDescription(params.get("description"));
-            location.setLocation(params.get("location"));
+            location.setCoordinates(new Coordinates(params.get("latitude"), params.get("longitude")));
             location.setName(params.get("name"));
             location.setPrice(Double.valueOf(params.get("price")));
             locationRepository.save(location);

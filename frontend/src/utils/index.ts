@@ -17,15 +17,15 @@ const parsers = {
   locationFormValuesToLocation: (
     locationFormValues: LocationFormValues
   ): Location => {
-    const { name, price, description } = locationFormValues;
+    const { name, price, description, longitude, latitude } =
+      locationFormValues;
     return {
       name,
-      location: JSON.stringify({ lat: 37.358273, lng: -5.986795 }),
+      coordinates: { latitude, longitude },
       price,
       description,
-      owner: 1,
       media: undefined,
-    } as any;
+    };
   },
 };
 

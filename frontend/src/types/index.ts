@@ -1,7 +1,7 @@
 // Utility types
 export type Coordinates = {
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
 };
 
 export type Media = {
@@ -83,4 +83,8 @@ export type LocationFormValues = {
   price: number;
   name: string;
   description: string;
+  longitude: number,
+  latitude: number
 };
+
+

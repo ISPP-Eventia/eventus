@@ -8,7 +8,9 @@ import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.repositories.HostingRepository;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,9 +34,15 @@ public class HostingService implements IHostingService {
 
     @Override
     public void create(Map<String, String> params) {
+        String eventId= params.get("eventId");
+        String locationId= params.get("locationId");
+        String price = params.get("price");
+        Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId));
+        Validate.isTrue(StringUtils.isNotBlank(locationId)&&StringUtils.isNumeric(locationId));
+        Validate.isTrue(NumberUtils.isCreatable(price));
         Hosting entity = new Hosting();
-        Event event = eventService.findById(Long.valueOf(params.get("event")));
-        Location location = locationService.findById(Long.valueOf(params.get("location")));
+        Event event = eventService.findById(Long.valueOf(eventId));
+        Location location = locationService.findById(Long.valueOf(eventId));
         if(event != null) entity.setEvent(event);
         if(location != null) entity.setLocation(location);
         entity.setPrice(Double.valueOf(params.get("price")));

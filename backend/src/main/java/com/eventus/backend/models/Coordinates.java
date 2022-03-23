@@ -7,24 +7,34 @@ import javax.validation.constraints.NotBlank;
 public class Coordinates {
 
     @NotBlank
-    private Long latitude;
+    private Double latitude;
 
     @NotBlank
-    private Long longitude;
+    private Double longitude;
 
-    public Long getLatitude() {
+
+    public Coordinates(){
+
+    }
+    
+    public Coordinates(String latitude, String longitude) {
+        this.latitude = Double.valueOf(latitude);
+        this.longitude = Double.valueOf(longitude);
+    }
+
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 }

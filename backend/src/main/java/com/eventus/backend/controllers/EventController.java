@@ -44,7 +44,6 @@ public class EventController {
   @PutMapping("/events")
   public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event) {
     try {
-      Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
       Validate.notNull(event.getId());
       this.eventService.save(event);
       return ResponseEntity.status(HttpStatus.OK).build();

@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,10 +37,12 @@ public class Sponsorship {
 
     @Column
     @JsonProperty("quantity")
+    @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double quantity;
 
     @Column
     @JsonProperty("name")
+    @NotBlank
     private String name;
 
     @Column

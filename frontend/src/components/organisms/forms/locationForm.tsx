@@ -27,6 +27,33 @@ const LocationForm = (props: LocationFormProps) => {
       <Form.Item name="description" label="Description">
         <Input.TextArea placeholder="Location description" />
       </Form.Item>
+      <Form.Item>
+        <Form.Item
+          name="latitude"
+          label="Latitud"
+          rules={[{ required: true }]}
+          style={{
+            display: "inline-block",
+            width: "calc(50% - 8px)",
+            margin: 0,
+            marginRight: "15px"
+          }}
+        >
+          <InputNumber placeholder="37.12352" style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item
+          name="longitude"
+          label="Longitud"
+          rules={[{ required: true }]}
+          style={{
+            display: "inline-block",
+            width: "calc(50% - 8px)",
+            margin: 0,
+          }}
+        >
+          <InputNumber placeholder="-5.921732" style={{ width: "100%" }} />
+        </Form.Item>
+      </Form.Item>
 
       <Form.Item name="price" label="Price" rules={required}>
         <InputNumber

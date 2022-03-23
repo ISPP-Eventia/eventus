@@ -4,15 +4,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,14 +23,15 @@ public class Location {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @JsonIgnore
     private User owner;
 
-    @Column
-    @JsonProperty("location")
-    private String location;
+    @Embedded
+    private Coordinates coordinates;
 
     @Column
     @JsonProperty("price")
+    @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double price;
 
     // @OneToMany
@@ -44,10 +39,12 @@ public class Location {
 
     @Column
     @JsonProperty("name")
+    @NotBlank
     private String name;
 
     @Column
     @JsonProperty("description")
+    @NotBlank
     private String description; 
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -82,12 +79,12 @@ public class Location {
         this.owner = owner;
     }
 
-    public String getLocation() {
-        return location;
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     public Double getPrice() {
@@ -118,20 +115,20 @@ public class Location {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Location location1 = (Location) o;
-        return Objects.equals(id, location1.id) && Objects.equals(location, location1.location) && Objects.equals(price, location1.price) && Objects.equals(name, location1.name) && Objects.equals(description, location1.description);
+        Location location = (Location) o;
+        return Objects.equals(id, location.id) && Objects.equals(coordinates, location.coordinates) && Objects.equals(price, location.price) && Objects.equals(name, location.name) && Objects.equals(description, location.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, location, price, name, description);
+        return Objects.hash(id, coordinates, price, name, description);
     }
 
     @Override
     public String toString() {
         return "Location{" +
                 "id=" + id +
-                ", location='" + location + '\'' +
+                ", coordinates=" + coordinates +
                 ", price=" + price +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

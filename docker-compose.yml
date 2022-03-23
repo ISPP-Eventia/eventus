@@ -12,9 +12,9 @@ services:
       - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
     depends_on: 
-      - db # This service depends on mysql. Start that first.
+      - database # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mysqldb
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/mysqldb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root    
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
@@ -27,9 +27,9 @@ services:
       context: frontend # Use an image built from the specified dockerfile in the `frontend` directory.
       dockerfile: Dockerfile
       args:
-        REACT_APP_API_BASE_URL: http://127.0.0.1:8080/api
+        REACT_APP_API_BASE_URL: http://127.0.0.1:8001/api
     ports:
-      - "80:80" # Map the exposed port 80 on the container to port 9090 on the host machine
+      - "8000:80" # Map the exposed port 8000 on the container to port 9090 on the host machine
     restart: always
     depends_on:
       - app-server
@@ -37,14 +37,10 @@ services:
       - frontend  
 
   # Database Service (Mysql)
-  db:
-    image: mysql:latest
+  database:
+    image: mariadb:latest
     ports:
         - "3306:3306"
-    command: --init-file /data/application/init.sql
-    volumes:
-        - ./backend/init.sql:/data/application/init.sql
-        - eventus_data:/var/lib/mysql
     environment:
         MYSQL_ROOT_USER: root
         MYSQL_ROOT_PASSWORD: root
@@ -53,8 +49,7 @@ services:
         MYSQL_PASSWORD: user
     networks:
       - backend
-volumes:
-  eventus_data: {}
+
   
 # Networks to be created to facilitate communication between containers
 networks:

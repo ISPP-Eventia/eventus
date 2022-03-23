@@ -17,7 +17,10 @@ const Component = (props: { event?: any; callback: () => void }) => {
         if (closeModalRef.current) {
           closeModalRef.current();
         }
-        window.open(API_URL+`/participation/${response.data.id}/ticket`,'_blank');
+        window.open(
+          API_URL + `/participation/${response.data.id}/ticket`,
+          "_blank"
+        );
         props.callback();
       })
       .catch((e) => setError(true));

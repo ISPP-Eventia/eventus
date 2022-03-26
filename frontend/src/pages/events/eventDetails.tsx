@@ -19,7 +19,6 @@ const EventDetailPage = () => {
 
   const { isLoading: loadingEvent, data: event } = useQuery("event", () =>
     eventApi.getEvent(eventId).then((response) => {
-      console.log(response);
       return response.data as EventUs;
     })
   );
@@ -133,18 +132,19 @@ const EventDetailPage = () => {
         </section>
       )}
 
-      {!loadingSponsorships && !!ads?.filter((ad) => ad.isAccepted !== false).length && (
-        <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
-          <Typography variant="h4">Patrocinadores</Typography>
-          <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
-            {ads
-              ?.filter((ad) => ad.isAccepted !== false)
-              .map((ad) => (
-                <Ad callback={refetchSponsorships} sponsorship={ad} />
-              ))}
-          </div>
-        </section>
-      )}
+      {!loadingSponsorships &&
+        !!ads?.filter((ad) => ad.isAccepted !== false).length && (
+          <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
+            <Typography variant="h4">Patrocinadores</Typography>
+            <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
+              {ads
+                ?.filter((ad) => ad.isAccepted !== false)
+                .map((ad) => (
+                  <Ad callback={refetchSponsorships} sponsorship={ad} />
+                ))}
+            </div>
+          </section>
+        )}
     </Page>
   );
 };

@@ -1,10 +1,10 @@
-import React from "react";
+import { ReactNode } from "react";
 import { Box, Typography } from "@mui/material";
 
 const Page = (props: {
   title?: string;
-  children?: React.ReactNode;
-  actions?: React.ReactNode;
+  children?: ReactNode;
+  actions?: ReactNode;
 }) => {
   return (
     <section className="block w-full py-5 px-4 md:px-8 lg:px-24 xl:px-48">
@@ -12,7 +12,7 @@ const Page = (props: {
         {props.title && (
           <Typography
             variant="h2"
-            className="md:max-w-none max-w-[200px] overflow-hidden text-ellipsis"
+            className="max-w-[200px] overflow-hidden text-ellipsis md:max-w-none"
           >
             {props.title}
           </Typography>

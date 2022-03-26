@@ -159,6 +159,9 @@ Presentaciones y Documentos
 Recursos para presentaciones
 [click here](https://docs.google.com/presentation/d/1vKQdcYxonawY-QYqz2cH8jwVpIu1pL1b7-15bUWhIf0/edit?usp=sharing)
 
+Calendario Niko-Niko
+[click here](https://docs.google.com/spreadsheets/d/1v50yrQPkinljxRSxOMDcZbBatChC6T8V/edit#gid=1963173581)
+
 ### Figma
 
 Diseño, UI/UX

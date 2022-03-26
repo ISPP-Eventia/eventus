@@ -17,12 +17,13 @@ mvn clean install
 ```
 
 Run the database with:
+
 ```
 docker-compose up -d
 ```
 
-
 Run the project with:
+
 ```
 mvn spring-boot:run
 ```

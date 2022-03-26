@@ -107,7 +107,7 @@ public class Sponsorship {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sponsorship that = (Sponsorship) o;
-        return isAccepted == that.isAccepted && Objects.equals(id, that.id) && Objects.equals(quantity, that.quantity) && Objects.equals(name, that.name);
+        return Objects.equals(id, that.id) && Objects.equals(quantity, that.quantity) && Objects.equals(name, that.name) && Objects.equals(isAccepted, that.isAccepted);
     }
 
     @Override

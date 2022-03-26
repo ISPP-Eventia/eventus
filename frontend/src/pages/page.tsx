@@ -7,7 +7,7 @@ const Page = (props: {
   actions?: ReactNode;
 }) => {
   return (
-    <section className="block w-full py-5 px-4 md:px-8 lg:px-24 xl:px-48">
+    <section className="block w-full animate-fade-in py-5 px-4 md:px-8 lg:px-24 xl:px-48">
       <Box className="flex items-center justify-between md:flex-row">
         {props.title && (
           <Typography

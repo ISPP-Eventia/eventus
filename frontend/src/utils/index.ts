@@ -1,4 +1,11 @@
-import { EventFormValues, EventUs, Location, LocationFormValues } from "types";
+import {
+  EventFormValues,
+  EventUs,
+  Location,
+  LocationFormValues,
+  SignupFormValues,
+  User,
+} from "types";
 
 const parsers = {
   eventusFormValuesToEventus: (eventFormValues: EventFormValues): EventUs => {
@@ -27,6 +34,18 @@ const parsers = {
       media: undefined,
     };
   },
+
+  signupFormValuesToUser: (signupFormValues: SignupFormValues): User => {
+    const { email, password, firstName, lastName, birthDate } =
+      signupFormValues;
+    return {
+      email,
+      password,
+      firstName,
+      lastName,
+      birthDate: birthDate.toLocaleDateString("Es-ES"),
+    };
+  },
 };
 
 const formatters = {
@@ -37,7 +56,6 @@ const formatters = {
   formatDateHour: (s: string) => {
     const date = new Date(s);
     return date.toLocaleString("Es-ES");
-
   },
 };
 

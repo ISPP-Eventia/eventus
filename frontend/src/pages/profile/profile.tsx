@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { SyntheticEvent, useMemo } from "react";
 
 import { useNavigate, useParams } from "react-router";
 import { Box, Tab, Tabs } from "@mui/material";
@@ -24,8 +24,8 @@ const ProfilePage = () => {
     return tabs[activeTabName || "events"];
   }, [activeTabName]);
 
-  const handleChange = (event: React.SyntheticEvent, index: number) => {
-    navigate(`/profile/${Object.keys(tabs)[index]}`);
+  const handleChange = (event: SyntheticEvent, index: number) => {
+    navigate(`/profile/${Object.keys(tabs)?.[index] || "events"}`);
   };
 
   return (

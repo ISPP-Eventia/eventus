@@ -15,6 +15,7 @@ import {
   LocationListPage,
   LandingPage,
   TestPage,
+  ProfilePage,
 } from "pages";
 import NewLocationPage from "pages/locations/newLocation";
 
@@ -38,6 +39,7 @@ const AppRoutes = () => {
             <Route path="/locations" element={<LocationListPage />} />
             <Route path="/locations/new" element={<NewLocationPage />} />
             <Route path="/locations/:id" element={<LocationDetailPage />} />
+            <Route path="/profile/:tab" element={<ProfilePage />} />
             <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>
         </Router>

@@ -33,13 +33,21 @@ const AppRoutes = () => {
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/test" element={<TestPage />} />
+
             <Route path="/events" element={<EventListPage />} />
             <Route path="/events/new" element={<NewEventPage />} />
             <Route path="/events/:id" element={<EventDetailPage />} />
+
             <Route path="/locations" element={<LocationListPage />} />
             <Route path="/locations/new" element={<NewLocationPage />} />
             <Route path="/locations/:id" element={<LocationDetailPage />} />
+
             <Route path="/profile/:tab" element={<ProfilePage />} />
+            <Route
+              path="/profile"
+              element={<Navigate to="/profile/events" />}
+            />
+
             <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>
         </Router>

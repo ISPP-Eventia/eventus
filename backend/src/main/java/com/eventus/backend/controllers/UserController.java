@@ -2,14 +2,11 @@ package com.eventus.backend.controllers;
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.UserService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Map;
-
-import static com.eventus.backend.configuration.TokenAuthenticationFilter.TOKEN;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController

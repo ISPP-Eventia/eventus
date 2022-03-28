@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class EventController extends ValidationController{
   private EventService eventService;
-  private UserService userService;
 
   @Autowired
-  public EventController(EventService eventService, UserService userService) {
+  public EventController(EventService eventService) {
     this.eventService = eventService;
-    this.userService = userService;
   }
 
   @GetMapping("/events")

@@ -19,14 +19,12 @@ import org.springframework.stereotype.Service;
 public class SponsorshipService implements ISponsorshipService{
     
     private SponsorshipRepository sponsorRepository;
-    private UserService userService;
     private EventService eventService;
 
     @Autowired
-    public SponsorshipService(SponsorshipRepository sponsorRepo,UserService userService, EventService eventService){
+    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService){
         this.sponsorRepository = sponsorRepo;
         this.eventService = eventService;
-        this.userService = userService;
     }
 
     @Override

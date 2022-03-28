@@ -5,13 +5,14 @@ import java.util.Map;
 
 import com.eventus.backend.models.Sponsorship;
 
+import com.eventus.backend.models.User;
 import org.springframework.data.domain.Pageable;
 
 public interface ISponsorshipService {
     
 
     public void save(Sponsorship sponsor);
-    public void create(Map<String,String> params);
+    public void create(Map<String,String> params, User user);
     public Sponsorship findSponsorById(Long id);
     public List<Sponsorship> findAll(Pageable p);
     public void delete(Sponsorship sponsor);

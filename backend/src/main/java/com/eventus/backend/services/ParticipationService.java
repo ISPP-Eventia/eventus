@@ -52,7 +52,7 @@ public class ParticipationService implements IParticipationService{
         partRepository.save(participation);
     }
     
-    public Participation createParticipationAndTicket(Event event, User user) throws MalformedURLException, DocumentException, IOException {
+    public Participation createParticipationAndTicket(Event event, User user) throws DocumentException, IOException {
     	saveParticipation(event, user);
         Participation part = findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
         if(part!=null) createTicketPDF(part);
@@ -86,10 +86,10 @@ public class ParticipationService implements IParticipationService{
        return partRepository.findByUserIdEqualsAndEventIdEquals(userId,evenId).orElse(null);
     }
     
-    public Document insertImageInPDF(Document d, String path) throws DocumentException, MalformedURLException, IOException {
+    public Document insertImageInPDF(Document d, String path) throws DocumentException, IOException {
         File file = ResourceUtils.getFile(path);
 
-        Image img = Image.getInstance(file.getAbsolutePath().toString());
+        Image img = Image.getInstance(file.getAbsolutePath());
         img.scalePercent(20);
         img.setAlignment(Element.ALIGN_CENTER);
         d.add(img);
@@ -181,7 +181,7 @@ public class ParticipationService implements IParticipationService{
     	return d;
     }
     
-    public byte[] createTicketPDF(Participation participation) throws DocumentException, MalformedURLException, IOException {
+    public byte[] createTicketPDF(Participation participation) throws DocumentException, IOException {
     	Document document = new Document();
     	ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
         PdfWriter.getInstance(document,outputStream);

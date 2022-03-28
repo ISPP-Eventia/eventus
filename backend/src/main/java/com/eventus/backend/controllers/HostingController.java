@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.Location;
+import com.eventus.backend.models.User;
 import com.eventus.backend.services.HostingService;
 import com.eventus.backend.services.LocationService;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,9 +106,9 @@ public class HostingController extends ValidationController{
     }
 
     @PostMapping("/locations")
-    public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location){
+    public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user){
         try{
-            locationService.create(location);
+            locationService.create(location,user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();

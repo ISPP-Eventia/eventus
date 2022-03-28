@@ -14,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -57,10 +58,9 @@ public class EventController extends ValidationController{
   }
 
   @PostMapping("/events")
-  public ResponseEntity<String> createEvent(@Valid @RequestBody Event event) {
+  public ResponseEntity<String> createEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
     try {
       Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
-      User user = this.userService.findUserById(1L);
       if (user != null) {
         event.setId(null);
         event.setOrganizer(user);

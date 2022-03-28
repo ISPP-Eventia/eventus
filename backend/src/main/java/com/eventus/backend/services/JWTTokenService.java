@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
@@ -33,7 +34,7 @@ final class JWTTokenService implements Clock, ITokenService {
     int clockSkewSec;
     String secretKey;
 
-    JWTTokenService(@Value("${jwt.issuer:octoperf}") final String issuer,
+    JWTTokenService(@Value("${jwt.issuer:eventus}") final String issuer,
                     @Value("${jwt.expiration-sec:86400}") final int expirationSec,
                     @Value("${jwt.clock-skew-sec:300}") final int clockSkewSec,
                     @Value("${jwt.secret:secret}") final String secret) {
@@ -60,11 +61,6 @@ final class JWTTokenService implements Clock, ITokenService {
                 .claims()
                 .setIssuer(issuer)
                 .setIssuedAt(now.toDate());
-
-        if (expiresInSec > 0) {
-            final DateTime expiresAt = now.plusSeconds(expiresInSec);
-            claims.setExpiration(expiresAt.toDate());
-        }
         claims.putAll(attributes);
 
         return Jwts
@@ -72,6 +68,7 @@ final class JWTTokenService implements Clock, ITokenService {
                 .setClaims(claims)
                 .signWith(HS256, secretKey)
                 .compressWith(COMPRESSION_CODEC)
+                .setExpiration(now.plusSeconds(expiresInSec).toDate())
                 .compact();
     }
 
@@ -83,7 +80,11 @@ final class JWTTokenService implements Clock, ITokenService {
                 .setClock(this)
                 .setAllowedClockSkewSeconds(clockSkewSec)
                 .setSigningKey(secretKey);
-        return parseClaims(() -> parser.parseClaimsJws(token).getBody());
+        Claims claims=parser.parseClaimsJws(token).getBody();
+        if(claims.getExpiration().after(now())){
+            return parseClaims(() -> claims);
+        }
+       return new HashMap<>();
     }
 
     @Override

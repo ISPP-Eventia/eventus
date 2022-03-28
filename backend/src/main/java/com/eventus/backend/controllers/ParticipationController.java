@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -72,10 +73,9 @@ public class ParticipationController extends ValidationController{
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p) throws MalformedURLException, DocumentException, IOException {
+    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException {
     	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
-            User user = this.userService.findUserById(1L);
             if (user != null && event != null) {
                 Participation participation = this.participationService.findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
 

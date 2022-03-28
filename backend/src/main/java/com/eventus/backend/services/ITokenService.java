@@ -22,4 +22,5 @@ public interface ITokenService {
      * @return attributes if verified
      */
     Map<String, String> verify(String token);
+
 }

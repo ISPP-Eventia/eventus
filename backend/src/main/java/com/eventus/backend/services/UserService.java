@@ -69,13 +69,4 @@ public class UserService implements IUserService{
                 .flatMap(userRepository::findByEmail);
     }
 
-    @Override
-    public void logout(String token) {
-        // Nothing to doy
-        if(token!=null){
-            final Authentication auth = new UsernamePasswordAuthenticationToken(token, token);
-            tokens.untrusted((String) auth.getCredentials());
-        }
-
-    }
 }

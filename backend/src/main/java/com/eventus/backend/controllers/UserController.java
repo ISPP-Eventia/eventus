@@ -2,6 +2,7 @@ package com.eventus.backend.controllers;
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.UserService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,21 +34,17 @@ public class UserController extends ValidationController{
 
     @PostMapping("/session/register")
     public ResponseEntity<String> register(@RequestBody @Valid User user){
-        userService.saveUser(user);
-        String token=userService.login(user.getEmail(),user.getPassword()).orElse(null);
-        if(token!=null){
-            return ResponseEntity.accepted().body("{token:"+token+", id: "+user.getId()+"}");
+
+        if(this.userService.findByEmail(user.getEmail()).isEmpty()){
+            userService.saveUser(user);
+            String token=userService.login(user.getEmail(),user.getPassword()).orElse(null);
+            if(token!=null){
+                return ResponseEntity.accepted().body("{token:"+token+", id: "+user.getId()+"}");
+            }
         }
+
         return ResponseEntity.status(401).build();
 
     }
-
-    @PostMapping("/session/logout")
-    public ResponseEntity<String> logout(@RequestHeader(TOKEN) String token){
-        this.userService.logout(token);
-        return ResponseEntity.ok().build();
-    }
-
-
 
 }

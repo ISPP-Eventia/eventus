@@ -66,14 +66,13 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void create(Map<String,String> params) {
+    public void create(Map<String,String> params,User user) {
         String eventId =params.get("eventId");
         String quantity=params.get("quantity");
         Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Incorrect format for eventId");
         Validate.isTrue(StringUtils.isNotBlank(quantity)&& NumberUtils.isCreatable(quantity),"Quantity should be a double");
         Sponsorship entity = new Sponsorship();
         Event event = eventService.findById(Long.valueOf(eventId));
-        User user = userService.findUserById(1L);
         if(event != null && user != null){
             entity.setEvent(event);
             entity.setUser(user);

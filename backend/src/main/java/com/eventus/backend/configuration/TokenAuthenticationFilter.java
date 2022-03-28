@@ -1,6 +1,7 @@
 package com.eventus.backend.configuration;
 
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,9 +38,13 @@ public final class TokenAuthenticationFilter extends AbstractAuthenticationProce
                 .map(value -> removeStart(value, BEARER))
                 .map(String::trim)
                 .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token"));
-
+        if(StringUtils.isBlank(token)){
+            throw new BadCredentialsException("Missing Authentication Token");
+        }
         final Authentication auth = new UsernamePasswordAuthenticationToken(token, token);
+
         return getAuthenticationManager().authenticate(auth);
+
     }
 
     @Override

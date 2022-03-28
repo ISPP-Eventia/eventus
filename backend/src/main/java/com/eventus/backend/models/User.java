@@ -24,7 +24,6 @@ public class User implements UserDetails {
 
     @Column
     @NotBlank
-    @Size(max=20)
     private String password;
 
     @Column

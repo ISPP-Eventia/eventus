@@ -36,8 +36,9 @@ public class UserController extends ValidationController{
     public ResponseEntity<String> register(@RequestBody @Valid User user){
 
         if(this.userService.findByEmail(user.getEmail()).isEmpty()){
+            String password=user.getPassword();
             userService.saveUser(user);
-            String token=userService.login(user.getEmail(),user.getPassword()).orElse(null);
+            String token=userService.login(user.getEmail(),password).orElse(null);
             if(token!=null){
                 return ResponseEntity.accepted().body("{token:"+token+", id: "+user.getId()+"}");
             }

@@ -104,5 +104,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   AuthenticationEntryPoint forbiddenEntryPoint() {
     return new HttpStatusEntryPoint(FORBIDDEN);
   }
-
 }

@@ -6,17 +6,12 @@ import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-
-import static com.eventus.backend.configuration.TokenAuthenticationFilter.TOKEN;
 
 @Service
 public class UserService implements IUserService{
@@ -25,14 +20,17 @@ public class UserService implements IUserService{
 
     private JWTTokenService tokens;
 
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    public UserService(UserRepository userRepository,JWTTokenService tokens) {
+    public UserService(UserRepository userRepository,JWTTokenService tokens,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.tokens=tokens;
+        this.passwordEncoder=passwordEncoder;
     }
 
     @Transactional
     public void saveUser(User user) throws DataAccessException {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -54,18 +52,18 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Optional<String> login(final String username, final String password) {
+    public Optional<String> login(final String email, final String password) {
         return userRepository
-                .findByEmail(username)
-                .filter(user -> Objects.equals(password, user.getPassword()))
-                .map(user -> tokens.expiring(ImmutableMap.of("username", username)));
+                .findByEmail(email)
+                .filter(user -> passwordEncoder.matches(password,user.getPassword()))
+                .map(user -> tokens.expiring(ImmutableMap.of("email", email)));
     }
 
     @Override
     public Optional<User> findByToken(final String token) {
         return Optional
                 .of(tokens.verify(token))
-                .map(map -> map.get("username"))
+                .map(map -> map.get("email"))
                 .flatMap(userRepository::findByEmail);
     }
 

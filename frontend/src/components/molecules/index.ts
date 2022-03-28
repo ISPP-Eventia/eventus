@@ -7,6 +7,8 @@ import EventCard from "./Cards/eventCard";
 import LocationCard from "./Cards/locationCard";
 import UserHorizontalCard from "./Cards/userHorizontalCard";
 
+import TabPanel from "./TabPanel/tabPanel";
+
 export {
   Accept,
   SwipeableDrawer,
@@ -14,4 +16,5 @@ export {
   EventCard,
   UserHorizontalCard,
   LocationCard,
+  TabPanel,
 };

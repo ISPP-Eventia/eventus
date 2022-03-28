@@ -43,7 +43,7 @@ const parsers = {
       password,
       firstName,
       lastName,
-      birthDate: birthDate.toLocaleDateString("Es-ES"),
+      birthDate: birthDate.toISOString(),
     };
   },
 };

@@ -16,9 +16,9 @@ const mediaApi = {
 
 const sessionApi = {
   login: (email: string, password: string) =>
-    axios.post("/login", { email, password }),
-  logout: () => axios.post("/logout"),
-  signup: (user: User) => axios.post("/signup", user),
+    axios.post("/session/login", { email, password }),
+  logout: () => axios.post("/session/logout"),
+  signup: (user: User) => axios.post("/session/signup", user),
 };
 
 // main entities

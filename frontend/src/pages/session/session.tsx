@@ -19,7 +19,7 @@ const SessionPage = () => {
   };
 
   const onSignup = (values: SignupFormValues) => {
-    const user: User = utils.parsers.signupFormValuesToUser(values);
+    const user = utils.parsers.signupFormValuesToUser(values);
     sessionApi.signup(user).then((r) => {
       localStorage.setItem("userId", r.data.id);
       navigate("/events");
@@ -35,8 +35,8 @@ const SessionPage = () => {
       )}
       <Link to={`/${action === "login" ? "signup" : "login"}`}>
         {action === "login"
-          ? "You don't have an account? Sign up now"
-          : "Already have an account? Login"}
+          ? "No tienes cuenta? Registrate ya!"
+          : "Ya tienes cuenta? Inicia sesión!"}
       </Link>
     </Page>
   );

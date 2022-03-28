@@ -6,6 +6,7 @@ import { Event, Info, LocationCity, Receipt } from "@mui/icons-material";
 
 import { TabPanel } from "components/molecules";
 import { ProfileInfoTab } from "components/organisms";
+import MyEvents from "./events";
 import Page from "../page";
 
 const tabs = {
@@ -43,7 +44,7 @@ const ProfilePage = () => {
         </Tabs>
       </Box>
       <TabPanel value={activeTabIndex} index={0}>
-        TODO: Mis Eventos
+        <MyEvents></MyEvents>
       </TabPanel>
       <TabPanel value={activeTabIndex} index={1}>
         TODO: Mis Ubicaciones

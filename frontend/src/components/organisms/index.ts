@@ -6,6 +6,7 @@ import HostingForm from "./forms/hostingForm";
 import EventForm from "./forms/eventForm";
 
 import ProfileInfoTab from "./tabs/profileInfo";
+import MyLocationsTab from "./tabs/myLocations";
 
 export {
   ModalDrawer,
@@ -14,4 +15,5 @@ export {
   SponsorshipForm,
   EventForm,
   ProfileInfoTab,
+  MyLocationsTab
 };

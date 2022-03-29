@@ -29,7 +29,7 @@ public class UserController extends ValidationController{
         return ResponseEntity.status(401).build();
     }
 
-    @PostMapping("/session/register")
+    @PostMapping("/session/signup")
     public ResponseEntity<String> register(@RequestBody @Valid User user){
 
         if(this.userService.findByEmail(user.getEmail()).isEmpty()){

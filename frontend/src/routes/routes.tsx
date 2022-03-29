@@ -12,11 +12,12 @@ import {
   EventDetailPage,
   NewEventPage,
   LocationDetailPage,
+  NewLocationPage,
   LocationListPage,
   LandingPage,
   TestPage,
+  SessionPage,
 } from "pages";
-import NewLocationPage from "pages/locations/newLocation";
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,8 @@ const AppRoutes = () => {
         <Router>
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
+            <Route path="/login" element={<SessionPage />} />
+            <Route path="/signup" element={<SessionPage />} />
             <Route path="/test" element={<TestPage />} />
             <Route path="/events" element={<EventListPage />} />
             <Route path="/events/new" element={<NewEventPage />} />

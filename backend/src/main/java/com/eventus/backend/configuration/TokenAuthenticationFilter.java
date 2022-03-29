@@ -21,7 +21,7 @@ import static org.apache.commons.lang3.StringUtils.removeStart;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public final class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     private static final String BEARER = "Bearer";
-    public static final String TOKEN = "Token";
+    public static final String AUTHORIZATION = "Authorization";
 
     TokenAuthenticationFilter(final RequestMatcher requiresAuth) {
         super(requiresAuth);
@@ -31,7 +31,7 @@ public final class TokenAuthenticationFilter extends AbstractAuthenticationProce
     public Authentication attemptAuthentication(
             final HttpServletRequest request,
             final HttpServletResponse response) {
-        final String param = ofNullable(request.getHeader(TOKEN))
+        final String param = ofNullable(request.getHeader(AUTHORIZATION))
                 .orElse(request.getParameter("t"));
 
         final String token = ofNullable(param)

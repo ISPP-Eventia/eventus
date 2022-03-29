@@ -8,9 +8,11 @@ import { Loader } from "components/atoms";
 import { LocationCard } from "components/molecules";
 
 const MyLocationsTab = () => {
+
+    const userId= 1;
     
-    const { isLoading, data: locations } = useQuery("events", () =>
-    locationApi.getLocations().then((response) => response.data as Location[])
+    const { isLoading, data: locations } = useQuery("locations", () =>
+    locationApi.getLocationsByUser(userId).then((response) => response.data as Location[])
     );
 
 

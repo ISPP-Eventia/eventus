@@ -39,6 +39,9 @@ const locationApi = {
   createLocation: (location: Location) => axios.post("/locations", location),
   updateLocation: (location: Location) => axios.put(`/locations/${location.id}`, location),
   deleteLocation: (id: number) => axios.delete(`/locations/${id}`),
+
+  //Other operations with user
+  getLocationsByUser: (id: number) => axios.get(`/users/${id}/locations`)
 };
 
 // relations

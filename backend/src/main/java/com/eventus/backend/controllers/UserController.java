@@ -24,7 +24,7 @@ public class UserController extends ValidationController{
         String token=userService.login(email,password).orElse(null);
         User user = userService.findByEmail(email).orElse(null);
         if(token!=null&&user!=null){
-            return ResponseEntity.accepted().body("{token:"+token+", id: "+user.getId()+"}");
+            return ResponseEntity.accepted().body("{token:\""+token+"\", id: "+user.getId()+"}");
         }
         return ResponseEntity.status(401).build();
     }
@@ -37,7 +37,7 @@ public class UserController extends ValidationController{
             userService.saveUser(user);
             String token=userService.login(user.getEmail(),password).orElse(null);
             if(token!=null){
-                return ResponseEntity.accepted().body("{token:"+token+", id: "+user.getId()+"}");
+                return ResponseEntity.accepted().body("{token:\""+token+"\", id: "+user.getId()+"}");
             }
         }
 

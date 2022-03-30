@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import { Location } from "types";
-import { locationApi } from "api";
+import { userApi } from "api";
 
 import { Loader } from "components/atoms";
 import { LocationCard } from "components/molecules";
@@ -11,8 +11,8 @@ const MyLocationsTab = () => {
   const loggedUserId = localStorage.getItem("userId");
 
   const { isLoading, data: locations } = useQuery("locations", () =>
-    locationApi
-      .getLocationsByUser(Number(loggedUserId))
+    userApi
+      .getLocationsByOwner(Number(loggedUserId))
       .then((response) => response.data as Location[])
   );
 
@@ -23,8 +23,8 @@ const MyLocationsTab = () => {
         <Loader />
       ) : (
         <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {locations?.map((e) => (
-            <LocationCard location={e} />
+          {locations?.map((location) => (
+            <LocationCard location={location} />
           ))}
         </section>
       )}

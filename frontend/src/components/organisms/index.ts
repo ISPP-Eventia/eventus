@@ -7,8 +7,10 @@ import EventForm from "./forms/eventForm";
 
 import LoginForm from "./forms/loginForm";
 import SignupForm from "./forms/signupForm";
+
 import ProfileInfoTab from "./tabs/profileInfo";
 import MyLocationsTab from "./tabs/myLocations";
+import MyEventsTab from "./tabs/myEvents";
 
 export {
   ModalDrawer,
@@ -19,5 +21,6 @@ export {
   LoginForm,
   SignupForm,
   ProfileInfoTab,
-  MyLocationsTab
+  MyLocationsTab,
+  MyEventsTab,
 };

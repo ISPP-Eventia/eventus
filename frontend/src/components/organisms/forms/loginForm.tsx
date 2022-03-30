@@ -1,6 +1,6 @@
 import { Form, Input, Button } from "antd";
 
-import { EventFormValues, LoginFormValues } from "types";
+import { LoginFormValues } from "types";
 
 const LoginForm = (props: { onSubmit: (values: LoginFormValues) => void }) => {
   return (

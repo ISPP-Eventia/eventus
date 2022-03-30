@@ -12,25 +12,34 @@ export const axios = Axios.create({
   },
 });
 
-axios.interceptors.request.use((request) => {
-  if (!request.headers) {
-    request.headers = {};
-  }
-  request.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
-  return request
-});
-
-// Session interceptor
+// Session interceptors
 axios.interceptors.response.use(
   (response) => {
+    if (response.data.token && response.data.id) {
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.id);
+    }
     return response;
   },
   (error) => {
     if (error.response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
       window.location.href = "/login";
     }
   }
 );
+
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (config.headers)
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      delete config.headers.Authorization;
+    }
+  return config;
+});
 
 // Error handling interceptor
 axios.interceptors.response.use(

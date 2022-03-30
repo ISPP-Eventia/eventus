@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from "react-router";
-
-import Page from "../page";
-import { LoginForm, SignupForm } from "components/organisms";
 import { Link } from "react-router-dom";
+
 import { sessionApi } from "api";
-import { LoginFormValues, SignupFormValues, User } from "types";
+import { LoginFormValues, SignupFormValues } from "types";
 import utils from "utils";
+
+import { LoginForm, SignupForm } from "components/organisms";
+import Page from "../page";
 
 const SessionPage = () => {
   const navigate = useNavigate();
@@ -13,8 +14,6 @@ const SessionPage = () => {
 
   const onLogin = (values: LoginFormValues) => {
     sessionApi.login(values.email, values.password).then((r) => {
-      localStorage.setItem("userId", r.data.id);
-      localStorage.setItem("token", r.data.token);
       navigate("/events");
     });
   };
@@ -22,8 +21,6 @@ const SessionPage = () => {
   const onSignup = (values: SignupFormValues) => {
     const user = utils.parsers.signupFormValuesToUser(values);
     sessionApi.signup(user).then((r) => {
-      localStorage.setItem("userId", r.data.id);
-      localStorage.setItem("token", r.data.token);
       navigate("/events");
     });
   };

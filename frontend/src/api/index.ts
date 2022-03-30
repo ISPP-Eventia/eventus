@@ -47,6 +47,7 @@ const eventApi = {
 const locationApi = {
   //bulk operations
   getLocations: () => axios.get("/locations"),
+  getLocationsByUser: (id: number) => axios.get(`/user/locations`),
 
   //individual operations
   getLocation: (id: number) => axios.get(`/locations/${id}`),

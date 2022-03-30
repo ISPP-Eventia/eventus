@@ -15,7 +15,8 @@ public interface IHostingService {
     public List<Hosting> findAll(Pageable p);
     public void delete(Hosting hosting);
     public void deleteById(Long id);
-    public List<Hosting> findByEventId(Long eventId, Pageable p);
+
+    public List<Hosting> findByEventId(Long eventId, Pageable p, Long userId);
     public List<Hosting> findByLocationId(Long locationId, Pageable p);
     public void update(Map<String,String> params, Long hostingId);
     public void resolveHosting(boolean b, Long id);

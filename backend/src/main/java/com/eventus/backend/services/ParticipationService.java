@@ -34,7 +34,7 @@ import java.util.List;
 @Service
 public class ParticipationService implements IParticipationService{
 
-    private ParticipationRepository partRepository;
+    private final ParticipationRepository partRepository;
 
     @Autowired
     public ParticipationService(ParticipationRepository partRepository) {

@@ -3,7 +3,6 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
-import com.eventus.backend.services.UserService;
 
 
 import java.util.List;

@@ -99,17 +99,17 @@ const EventDetailPage = () => {
             <Typography variant="h4">Descripción</Typography>
             <Typography variant="body1">{event?.description}</Typography>
           </div>
-          <div className="flex flex-col gap-y-3 md:flex-row md:gap-8 xl:gap-12">
+          <div className="flex flex-col gap-y-3 md:flex-row md:gap-8">
             <div>
               <Typography variant="h4">Precio</Typography>
-              <Typography variant="body1">{event?.price}€</Typography>
+              <Typography variant="h6">{event?.price}€</Typography>
             </div>
             <div>
               <Typography variant="h4">Fecha</Typography>
-              <Typography variant="body1">
+              <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.startDate ?? "")}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.endDate ?? "")}
               </Typography>
             </div>

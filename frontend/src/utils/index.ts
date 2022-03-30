@@ -55,7 +55,7 @@ const formatters = {
   },
   formatDateHour: (s: string) => {
     const date = new Date(s);
-    return date.toLocaleString("Es-ES");
+    return date.toLocaleString("Es-ES").replace(/:\d\d$/, "");
   },
 };
 

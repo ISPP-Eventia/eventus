@@ -88,8 +88,15 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public List<Hosting> findByLocationId(Long locationId, Pageable p) {
-        return hostingRepository.findByLocationId(locationId,p);
+    public List<Hosting> findByLocationId(Long locationId, Pageable p,Long userId) {
+        Location location=locationService.findById(locationId);
+        Validate.isTrue(location!=null,"Location does not exits");
+        if (location.getOwner().getId().equals(userId)) {
+            return hostingRepository.findByLocationId(locationId,p);
+        }else{
+            return hostingRepository.findByLocationAndState(locationId, true, p);
+        }
+
     }
 
     @Override

@@ -57,8 +57,8 @@ public class HostingController extends ValidationController{
     }
 
     @GetMapping("/locations/{locationId}/hostings")
-    public ResponseEntity<List<Hosting>> getHostingsByLocation(@PathVariable Long locationId,  @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.hostingService.findByLocationId(locationId, PageRequest.of(numPag, 20)));
+    public ResponseEntity<List<Hosting>> getHostingsByLocation(@PathVariable Long locationId,  @RequestParam(defaultValue = "0") Integer numPag,@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(this.hostingService.findByLocationId(locationId, PageRequest.of(numPag, 20), user.getId()));
 
     }
 

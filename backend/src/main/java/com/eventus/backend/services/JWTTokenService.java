@@ -74,17 +74,23 @@ final class JWTTokenService implements Clock, ITokenService {
 
     @Override
     public Map<String, String> verify(final String token) {
-        final JwtParser parser = Jwts
-                .parser()
-                .requireIssuer(issuer)
-                .setClock(this)
-                .setAllowedClockSkewSeconds(clockSkewSec)
-                .setSigningKey(secretKey);
-        Claims claims=parser.parseClaimsJws(token).getBody();
-        if(claims.getExpiration().after(now())){
-            return parseClaims(() -> claims);
+        Map<String,String> res=new HashMap<>();
+        try{
+            final JwtParser parser = Jwts
+                    .parser()
+                    .requireIssuer(issuer)
+                    .setClock(this)
+                    .setAllowedClockSkewSeconds(clockSkewSec)
+                    .setSigningKey(secretKey);
+            Claims claims=parser.parseClaimsJws(token).getBody();
+            if(claims.getExpiration().after(now())){
+                res = parseClaims(() -> claims);
+            }
+        }catch (Exception ignored){
+            return new HashMap<>();
         }
-       return new HashMap<>();
+
+       return res;
     }
 
     @Override

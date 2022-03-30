@@ -47,6 +47,7 @@ const eventApi = {
 const locationApi = {
   //bulk operations
   getLocations: () => axios.get("/locations"),
+  getLocationsByUser: (id: number) => axios.get(`/user/locations`),
 
   //individual operations
   getLocation: (id: number) => axios.get(`/locations/${id}`),
@@ -54,9 +55,6 @@ const locationApi = {
   updateLocation: (location: Location) =>
     axios.put(`/locations/${location.id}`, location),
   deleteLocation: (id: number) => axios.delete(`/locations/${id}`),
-
-  //Other operations with user
-  getLocationsByUser: (id: number) => axios.get(`/users/${id}/locations`)
 };
 
 // relations

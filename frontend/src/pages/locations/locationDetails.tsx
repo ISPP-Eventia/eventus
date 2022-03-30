@@ -6,7 +6,7 @@ import { Hosting, Location } from "types";
 import { hostingApi, locationApi } from "api";
 
 import { Loader, Map, HostingRequest } from "components/atoms";
-import { UserHorizontalCard } from "components/molecules";
+import { SelectedEventCard, UserHorizontalCard } from "components/molecules";
 import { HostingForm } from "components/organisms";
 import Page from "../page";
 
@@ -39,6 +39,12 @@ const LocationDetailPage = () => {
     price: location?.price || 0,
   };
 
+  const handleAutoHost = () => {
+    hostingApi
+      .createHosting({ eventId, locationId, price: 0 })
+      .then((response) => refetchHostings());
+  };
+
   return isLoading || !location ? (
     <Loader />
   ) : (
@@ -54,8 +60,21 @@ const LocationDetailPage = () => {
               >
                 Editar
               </Button>,
+              eventId !== null ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleAutoHost()}
+                >
+                  Alojar mi evento
+                </Button>
+              ) : null,
             ]
-          : [<HostingForm hosting={hosting} onSubmit={refetchHostings} />]
+          : [
+              eventId !== null && (
+                <HostingForm hosting={hosting} onSubmit={refetchHostings} />
+              ),
+            ]
       }
     >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
@@ -82,21 +101,26 @@ const LocationDetailPage = () => {
           </div>
           <div>
             <Typography variant="h4">Precio</Typography>
-            <Typography variant="body1">{location.price}€ / h</Typography>
+            <Typography variant="h6">{location.price}€ / h</Typography>
           </div>
+        </div>
+        <div>
+          <Typography variant="h4">Evento Seleccionado</Typography>
+          <SelectedEventCard noPicture />
         </div>
       </section>
 
-      <section className="grid-cols-full mt-4 grid h-auto">
+      <section className="mt-4 grid h-auto">
         <Typography variant="h4">Ubicación</Typography>
         <Map
           lat={location.coordinates.latitude}
           lng={location.coordinates.longitude}
         />
       </section>
+
       {!isLoadingHosting &&
         !!hostings?.filter((h) => h.isAccepted !== false).length && (
-          <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
+          <section className="mt-4 grid h-auto gap-x-8 gap-y-2">
             <Typography variant="h4">Alojamientos</Typography>
             <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
               {hostings
@@ -107,6 +131,8 @@ const LocationDetailPage = () => {
             </div>
           </section>
         )}
+
+      <section className="mt-4 grid h-auto"></section>
     </Page>
   );
 };

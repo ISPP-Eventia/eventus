@@ -64,7 +64,7 @@ export type Hosting = {
   id?: number;
   eventId: number;
   locationId: number;
-  price: number;
+  price?: number;
   isAccepted?: boolean;
   event?: EventUs;
 };

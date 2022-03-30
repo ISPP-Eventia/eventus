@@ -37,6 +37,8 @@ const eventApi = {
   getSponsorshipsByEvent: (id: number) =>
     axios.get(`/events/${id}/sponsorships`),
 
+  getEventsByOrganizer: () => axios.get('/users/events'),
+
   //individual operations
   getEvent: (id: number) => axios.get(`/events/${id}`),
   createEvent: (event: EventUs) => axios.post("/events", event),

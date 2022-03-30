@@ -44,7 +44,7 @@ const ProfilePage = () => {
         </Tabs>
       </Box>
       <TabPanel value={activeTabIndex} index={0}>
-        <MyEvents></MyEvents>
+        <MyEvents/>
       </TabPanel>
       <TabPanel value={activeTabIndex} index={1}>
         <MyLocationsTab />

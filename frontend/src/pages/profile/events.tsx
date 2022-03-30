@@ -7,17 +7,19 @@ import { eventApi } from "api";
 
 import { Loader } from "components/atoms";
 import { EventCard } from "components/molecules";
+import { Typography } from "@mui/material";
 
 
 const MyEvents = () => {
     const navigate = useNavigate();
   
     const { isLoading, data: events } = useQuery("events", () =>
-      eventApi.getEvents().then((response) => response.data as EventUs[])
+      eventApi.getEventsByOrganizer().then((response) => response.data as EventUs[])
     );
   
     return (
-      <>
+      <section>
+        <Typography variant="h4">Mis Eventos</Typography>
         {isLoading ? (
           <Loader />
         ) : (
@@ -27,7 +29,7 @@ const MyEvents = () => {
             ))}
           </section>
         )}
-      </>
+      </section>
     );
   };
   

@@ -1,12 +1,16 @@
-import { PowerSettingsNew } from "@mui/icons-material";
+import { useNavigate } from "react-router";
+import { Person, PowerSettingsNew } from "@mui/icons-material";
+
 import Logo from "assets/Logo.svg";
 
 const AppHeader = () => {
+  const navigate = useNavigate();
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("eventId");
-    window.location.pathname = "/login";
+    navigate("/login");
   };
 
   return (
@@ -18,11 +22,16 @@ const AppHeader = () => {
           <span className="text-brand-lighter">Us</span>
         </span>
       </a>
-
-      <PowerSettingsNew
-        className="cursor-pointer text-white"
-        onClick={logout}
-      />
+      <div className="flex gap-3">
+        <Person
+          className="cursor-pointer text-white"
+          onClick={() => navigate("/profile")}
+        />
+        <PowerSettingsNew
+          className="cursor-pointer text-white"
+          onClick={logout}
+        />
+      </div>
     </header>
   );
 };

@@ -57,8 +57,8 @@ public class HostingController extends ValidationController{
     }
 
     @GetMapping("/locations/{locationId}/hostings")
-    public ResponseEntity<List<Hosting>> getHostingsByLocation(@PathVariable Long locationId,  @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.hostingService.findByLocationId(locationId, PageRequest.of(numPag, 20)));
+    public ResponseEntity<List<Hosting>> getHostingsByLocation(@PathVariable Long locationId,  @RequestParam(defaultValue = "0") Integer numPag,@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(this.hostingService.findByLocationId(locationId, PageRequest.of(numPag, 20), user.getId()));
 
     }
 
@@ -124,11 +124,11 @@ public class HostingController extends ValidationController{
     }
 
     @PostMapping("/hostings/{id}")
-    public ResponseEntity<Map<String,String>> resolveHosting(@RequestBody Map<String, String> params, @PathVariable Long id) {
+    public ResponseEntity<Map<String,String>> resolveHosting(@RequestBody Map<String, String> params, @PathVariable Long id,@AuthenticationPrincipal User user) {
         try {
             boolean isAccepted = "true".equals(params.get("isAccepted"));
 
-            this.hostingService.resolveHosting(isAccepted, id);
+            this.hostingService.resolveHosting(isAccepted, id,user.getId());
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));

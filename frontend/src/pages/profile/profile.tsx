@@ -5,8 +5,8 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { Event, Info, LocationCity, Receipt } from "@mui/icons-material";
 
 import { TabPanel } from "components/molecules";
-import { ProfileInfoTab } from "components/organisms";
 import MyEvents from "./events";
+import { ProfileInfoTab, MyLocationsTab } from "components/organisms";
 import Page from "../page";
 
 const tabs = {
@@ -47,7 +47,7 @@ const ProfilePage = () => {
         <MyEvents></MyEvents>
       </TabPanel>
       <TabPanel value={activeTabIndex} index={1}>
-        TODO: Mis Ubicaciones
+        <MyLocationsTab />
       </TabPanel>
       <TabPanel value={activeTabIndex} index={2}>
         TODO: Mis Tickets

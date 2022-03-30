@@ -12,4 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface EventRepository extends CrudRepository<Event,Long>{
     
     List<Event> findAll(Pageable page);
+
+    List<Event> findByOrganizerId(Long id, Pageable page);
+
 }

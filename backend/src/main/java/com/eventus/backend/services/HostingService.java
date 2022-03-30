@@ -115,10 +115,10 @@ public class HostingService implements IHostingService {
 
 
     @Override
-    public void resolveHosting(boolean b, Long sId) {
+    public void resolveHosting(boolean b, Long sId, Long userId) {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
         Validate.isTrue(hosting != null);
-        Validate.isTrue(hosting.getEvent() != null && hosting.getEvent().getOrganizer().getId().equals(sId));
+        Validate.isTrue(hosting.getEvent() != null && hosting.getEvent().getOrganizer().getId().equals(userId));
         hosting.setAccepted(b);
         this.hostingRepository.save(hosting);
 

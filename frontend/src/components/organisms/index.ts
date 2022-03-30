@@ -5,6 +5,8 @@ import SponsorshipForm from "./forms/sponsorshipForm";
 import HostingForm from "./forms/hostingForm";
 import EventForm from "./forms/eventForm";
 
+import LoginForm from "./forms/loginForm";
+import SignupForm from "./forms/signupForm";
 import ProfileInfoTab from "./tabs/profileInfo";
 
 export {
@@ -13,5 +15,7 @@ export {
   HostingForm,
   SponsorshipForm,
   EventForm,
+  LoginForm,
+  SignupForm,
   ProfileInfoTab,
 };

@@ -3,7 +3,6 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
-import com.eventus.backend.services.UserService;
 
 
 import java.util.List;
@@ -14,18 +13,17 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class EventController extends ValidationController{
   private EventService eventService;
-  private UserService userService;
 
   @Autowired
-  public EventController(EventService eventService, UserService userService) {
+  public EventController(EventService eventService) {
     this.eventService = eventService;
-    this.userService = userService;
   }
 
   @GetMapping("/events")
@@ -57,10 +55,9 @@ public class EventController extends ValidationController{
   }
 
   @PostMapping("/events")
-  public ResponseEntity<String> createEvent(@Valid @RequestBody Event event) {
+  public ResponseEntity<String> createEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
     try {
       Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
-      User user = this.userService.findUserById(1L);
       if (user != null) {
         event.setId(null);
         event.setOrganizer(user);

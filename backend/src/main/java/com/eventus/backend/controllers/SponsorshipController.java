@@ -1,6 +1,7 @@
 package com.eventus.backend.controllers;
 
 import com.eventus.backend.models.Sponsorship;
+import com.eventus.backend.models.User;
 import com.eventus.backend.services.SponsorshipService;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -51,9 +53,9 @@ public class SponsorshipController extends ValidationController{
     }
 
     @PostMapping("/sponsorships")
-    public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String, String> params) {
+    public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String, String> params,@AuthenticationPrincipal User user) {
         try {
-            sponsorService.create(params);
+            sponsorService.create(params,user);
             
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {

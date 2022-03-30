@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class LocationService implements ILocationService{
 
-    private LocationRepository locationRepository;
-    private UserService userService;
+    private final LocationRepository locationRepository;
     
     @Autowired
-    public LocationService(LocationRepository locationRepository, UserService userService){
+    public LocationService(LocationRepository locationRepository){
         this.locationRepository = locationRepository;
-        this.userService = userService;
     }
 
     @Override

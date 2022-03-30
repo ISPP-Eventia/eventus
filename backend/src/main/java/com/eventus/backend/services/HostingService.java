@@ -1,6 +1,5 @@
 package com.eventus.backend.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class HostingService implements IHostingService {
 
-    private HostingRepository hostingRepository;
-    private LocationService locationService;
-    private EventService eventService;
+    private final HostingRepository hostingRepository;
+    private final LocationService locationService;
+    private final EventService eventService;
 
 
     @Autowired

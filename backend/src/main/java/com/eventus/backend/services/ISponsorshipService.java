@@ -7,7 +7,6 @@ import com.eventus.backend.models.Sponsorship;
 
 import com.eventus.backend.models.User;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 public interface ISponsorshipService {
     

@@ -5,7 +5,6 @@ import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
-import com.eventus.backend.services.UserService;
 import com.itextpdf.text.DocumentException;
 
 import java.util.List;

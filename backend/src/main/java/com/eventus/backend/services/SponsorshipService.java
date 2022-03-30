@@ -1,9 +1,7 @@
 package com.eventus.backend.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Sponsorship;
@@ -15,14 +13,13 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SponsorshipService implements ISponsorshipService{
     
-    private SponsorshipRepository sponsorRepository;
-    private EventService eventService;
+    private final SponsorshipRepository sponsorRepository;
+    private final EventService eventService;
 
     @Autowired
     public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService){

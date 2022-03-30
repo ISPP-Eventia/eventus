@@ -18,11 +18,11 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService{
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private JWTTokenService tokens;
+    private final JWTTokenService tokens;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     public UserService(UserRepository userRepository,JWTTokenService tokens,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;

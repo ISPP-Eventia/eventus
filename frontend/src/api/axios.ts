@@ -12,6 +12,14 @@ export const axios = Axios.create({
   },
 });
 
+axios.interceptors.request.use((request) => {
+  if (!request.headers) {
+    request.headers = {};
+  }
+  request.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
+  return request
+});
+
 // Session interceptor
 axios.interceptors.response.use(
   (response) => {

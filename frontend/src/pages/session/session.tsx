@@ -14,6 +14,7 @@ const SessionPage = () => {
   const onLogin = (values: LoginFormValues) => {
     sessionApi.login(values.email, values.password).then((r) => {
       localStorage.setItem("userId", r.data.id);
+      localStorage.setItem("token", r.data.token);
       navigate("/events");
     });
   };
@@ -22,6 +23,7 @@ const SessionPage = () => {
     const user = utils.parsers.signupFormValuesToUser(values);
     sessionApi.signup(user).then((r) => {
       localStorage.setItem("userId", r.data.id);
+      localStorage.setItem("token", r.data.token);
       navigate("/events");
     });
   };

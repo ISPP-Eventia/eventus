@@ -23,8 +23,7 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void create(Location location) {
-        User owner = userService.findUserById(1L);
+    public void create(Location location,User owner) {
         if(owner != null){
             location.setOwner(owner);
         }

@@ -13,10 +13,13 @@ import LocationDetailPage from "./locations/locationDetails";
 import NewLocationPage from "./locations/newLocation";
 import LocationListPage from "./locations/locations";
 
+import ProfilePage from "./profile/profile";
+
 export {
   AppHeader,
   LandingPage,
   AppFooter,
+  ProfilePage,
   EventListPage,
   EventDetailPage,
   NewEventPage,

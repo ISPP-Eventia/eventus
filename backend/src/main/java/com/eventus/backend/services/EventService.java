@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class EventService implements IEventService {
 
 
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     @Autowired
     public EventService(EventRepository eventRepo){
@@ -43,7 +43,10 @@ public class EventService implements IEventService {
         return this.eventRepository.findById(id).orElse(null);
     }
 
-
+    @Override
+    public List<Event> findByOrganizerId(Long id, Pageable pageable) {
+        return this.eventRepository.findByOrganizerId(id,pageable);
+    }
 
     
     

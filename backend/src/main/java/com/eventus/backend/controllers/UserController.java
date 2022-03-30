@@ -2,7 +2,11 @@ package com.eventus.backend.controllers;
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.UserService;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -55,4 +59,27 @@ public class UserController extends ValidationController{
 
     }
 
+    @GetMapping("/user/")
+    public ResponseEntity<User> getUserDetails(@AuthenticationPrincipal User user){
+        return ResponseEntity.ok(user);
+    }
+    @DeleteMapping("/user")
+    public ResponseEntity<String> deleteLoggedUser(@AuthenticationPrincipal User user){
+        this.userService.deleteUser(user.getId());
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PutMapping("/user")
+    public ResponseEntity<Object> updateUser(@RequestBody Map<String, String> params, @AuthenticationPrincipal User user) {
+        try {
+            this.userService.update(params, user.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+
+        } catch (DataAccessException | NullPointerException e) {
+            return ResponseEntity.badRequest().build();
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
+        }
+    }
 }

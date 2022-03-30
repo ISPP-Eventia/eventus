@@ -11,6 +11,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class EventController extends ValidationController{
-  private EventService eventService;
+  private final EventService eventService;
 
   @Autowired
   public EventController(EventService eventService) {
@@ -81,4 +82,8 @@ public class EventController extends ValidationController{
     }
   }
 
+  @GetMapping("/users/events")
+  public ResponseEntity<List<Event>> getEventsByOrganizer(@AuthenticationPrincipal User owner, @RequestParam(defaultValue = "0") Integer numPag) {
+    return ResponseEntity.ok(this.eventService.findByOrganizerId(owner.getId(), PageRequest.of(numPag, 20)));
+  }
 }

@@ -27,16 +27,13 @@ import java.net.MalformedURLException;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ParticipationController extends ValidationController{
+
     private final ParticipationService participationService;
-
-    private final UserService userService;
-
     private final EventService eventService;
 
     @Autowired
-    public ParticipationController(ParticipationService participationService, UserService userService, EventService eventService) {
+    public ParticipationController(ParticipationService participationService, EventService eventService) {
         this.participationService = participationService;
-        this.userService = userService;
         this.eventService = eventService;
     }
 
@@ -62,9 +59,9 @@ public class ParticipationController extends ValidationController{
         return ResponseEntity.ok(this.participationService.findUsersByEventId(eventId, PageRequest.of(numPag, 20)));
     }
 
-    @GetMapping("/users/{userId}/participations")
-    public ResponseEntity<List<Participation>> getParticipationsByUser(@PathVariable Long userId, @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.participationService.findParticipationByUserId(userId, PageRequest.of(numPag, 20)));
+    @GetMapping("/user/participations")
+    public ResponseEntity<List<Participation>> getParticipationsByUser(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") Integer numPag) {
+        return ResponseEntity.ok(this.participationService.findParticipationByUserId(user.getId(), PageRequest.of(numPag, 20)));
     }
 
     @GetMapping("/events/{eventId}/participations")
@@ -125,4 +122,5 @@ public class ParticipationController extends ValidationController{
         }
         return response;
     }
+
 }

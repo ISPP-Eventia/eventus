@@ -12,4 +12,6 @@ public interface IEventService {
     public Event findById(Long id);
     public Event save(Event event);
     public void delete(Long id);
+
+    List<Event> findByOrganizerId(Long id, Pageable pageable);
 }

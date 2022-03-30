@@ -64,7 +64,7 @@ public class LocationService implements ILocationService{
     @Override
     public void update(Location params, Long locationId) {
         Location location = locationRepository.findById(locationId).orElse(null);
-        if(location!=null){
+        if (location != null) {
             location.setDescription(location.getDescription());
             location.setCoordinates(location.getCoordinates());
             location.setName(location.getName());

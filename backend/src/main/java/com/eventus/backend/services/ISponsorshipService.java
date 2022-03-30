@@ -7,6 +7,7 @@ import com.eventus.backend.models.Sponsorship;
 
 import com.eventus.backend.models.User;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 public interface ISponsorshipService {
     
@@ -18,9 +19,9 @@ public interface ISponsorshipService {
     public void delete(Sponsorship sponsor);
     public void deleteById(Long id);
     public List<Sponsorship> findSponsorByUserId(Long userId, Pageable p);
-    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p);
+    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,Long userId);
     public void update(Map<String,String> params, Long sponorId);
-    public void resolveSponsorship(boolean b, Long id);
+    public void resolveSponsorship(boolean b, Long id, Long userId);
     public List<Sponsorship>findByEventAndState(Long eventId,String state, Pageable p);
     
     

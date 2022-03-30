@@ -1,5 +1,6 @@
 package com.eventus.backend.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -77,8 +78,14 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public List<Hosting> findByEventId(Long eventId, Pageable p) {
-        return hostingRepository.findByEventId(eventId,p);
+    public List<Hosting> findByEventId(Long eventId, Pageable p, Long userId) {
+        Event event=eventService.findById(eventId);
+        Validate.isTrue(event!=null,"Event does not exits");
+        if(event.getOrganizer().getId().equals(userId)) {
+            return hostingRepository.findByEventId(eventId,p);
+        }else {
+            return hostingRepository.findByEventAndState(eventId, true, p);
+        }
     }
 
     @Override
@@ -104,13 +111,12 @@ public class HostingService implements IHostingService {
     @Override
     public void resolveHosting(boolean b, Long sId) {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
-        if(hosting!=null){
-            hosting.setAccepted(b);
-            this.hostingRepository.save(hosting);
-        }else{
-            throw new IllegalArgumentException();
-        }
-        
+        Validate.isTrue(hosting != null);
+        Validate.isTrue(hosting.getEvent() != null && hosting.getEvent().getOrganizer().getId().equals(sId));
+        hosting.setAccepted(b);
+        this.hostingRepository.save(hosting);
+
+
     }
 
     @Override

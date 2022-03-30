@@ -1,7 +1,9 @@
 package com.eventus.backend.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Sponsorship;
@@ -13,6 +15,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,9 +46,14 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p) {
-        
-        return sponsorRepository.findSponsorByEventId(eventId,p);
+    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,Long userId) {
+        Event event=eventService.findById(eventId);
+        Validate.isTrue(event!=null,"Event does not exits");
+        if(event.getOrganizer().getId().equals(userId)){
+            return sponsorRepository.findSponsorByEventId(eventId,p);
+        }else{
+            return sponsorRepository.findByEventAndState(eventId,true,p);
+        }
     }
 
     @Override
@@ -104,15 +112,13 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void resolveSponsorship(boolean b, Long sId) {
+    public void resolveSponsorship(boolean b, Long sId, Long userId) {
         Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
-        if(sponsor!=null){
-            sponsor.setAccepted(b);
-            this.sponsorRepository.save(sponsor);
-        }else{
-            throw new IllegalArgumentException();
-        }
-        
+        Validate.isTrue(sponsor!=null,"Sponsor id doesnt exits");
+        Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(userId),"User must be event organizer");
+        sponsor.setAccepted(b);
+        this.sponsorRepository.save(sponsor);
+
     }
 
     @Override

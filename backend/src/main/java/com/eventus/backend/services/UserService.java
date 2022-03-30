@@ -10,7 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -67,4 +69,15 @@ public class UserService implements IUserService{
                 .flatMap(userRepository::findByEmail);
     }
 
+    @Override
+    public void update(Map<String, String> params, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user!=null){
+            user.setPassword(params.get("password"));
+            user.setBirthDate(LocalDate.parse(params.get("birthDate")));
+            user.setEmail(params.get("email"));
+            user.setFirstName(params.get("firstName"));
+            userRepository.save(user);
+        }
+    }
 }

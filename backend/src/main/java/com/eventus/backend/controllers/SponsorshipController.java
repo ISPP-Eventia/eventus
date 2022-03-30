@@ -42,21 +42,26 @@ public class SponsorshipController extends ValidationController{
         }
     }
 
-    @GetMapping("/users/{userId}/sponsorships")
-    public ResponseEntity<List<Sponsorship>> getSponsorByUser(@PathVariable Long userId, @RequestParam(defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(this.sponsorService.findSponsorByUserId(userId, PageRequest.of(page, 20)));
+    @GetMapping("/user/sponsorships")
+    public ResponseEntity<List<Sponsorship>> getSponsorByUser(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") Integer page) {
+        return ResponseEntity.ok(this.sponsorService.findSponsorByUserId(user.getId(), PageRequest.of(page, 20)));
     }
 
     @GetMapping("/events/{eventId}/sponsorships")
-    public ResponseEntity<List<Sponsorship>> getSponsorByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(this.sponsorService.findSponsorByEventId(eventId, PageRequest.of(page, 20)));
+    public ResponseEntity<Object> getSponsorByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer page,@AuthenticationPrincipal User user) {
+        try{
+            List<Sponsorship> sponsorships=this.sponsorService.findSponsorByEventId(eventId, PageRequest.of(page, 20),user.getId());
+            return ResponseEntity.ok().body(sponsorships);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
+        }
+
     }
 
     @PostMapping("/sponsorships")
     public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String, String> params,@AuthenticationPrincipal User user) {
         try {
             sponsorService.create(params,user);
-            
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -85,14 +90,13 @@ public class SponsorshipController extends ValidationController{
     }
 
     @PostMapping("/sponsorships/{id}")
-    public ResponseEntity<Sponsorship> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id) {
+    public ResponseEntity<Map<String,String>> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id,@AuthenticationPrincipal User user) {
         try {
             boolean isAccepted = "true".equals(body.get("isAccepted"));
-
-            this.sponsorService.resolveSponsorship(isAccepted, id);
+            this.sponsorService.resolveSponsorship(isAccepted, id,user.getId());
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
         }
     }
 

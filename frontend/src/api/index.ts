@@ -24,6 +24,11 @@ const sessionApi = {
 // main entities
 const userApi = {
   //bulk operations
+  getEventsByOrganizer: () => axios.get("/users/events"),
+  getParticipationsByParticipant: (id: number) =>
+    axios.get(`/user/${id}/participations`),
+  getLocationsByOwner: (id: number) => axios.get(`/user/locations`),
+
   //individual operations
 };
 
@@ -37,8 +42,6 @@ const eventApi = {
   getSponsorshipsByEvent: (id: number) =>
     axios.get(`/events/${id}/sponsorships`),
 
-  getEventsByOrganizer: () => axios.get('/users/events'),
-
   //individual operations
   getEvent: (id: number) => axios.get(`/events/${id}`),
   createEvent: (event: EventUs) => axios.post("/events", event),
@@ -49,7 +52,6 @@ const eventApi = {
 const locationApi = {
   //bulk operations
   getLocations: () => axios.get("/locations"),
-  getLocationsByUser: (id: number) => axios.get(`/user/locations`),
 
   //individual operations
   getLocation: (id: number) => axios.get(`/locations/${id}`),
@@ -73,8 +75,6 @@ const hostingApi = {
 const participationApi = {
   //bulk operations
   getParticipations: () => axios.get("/participations"),
-  getParticipationsByUser: (id: number) =>
-    axios.get(`/user/${id}/participations`),
 
   //individual operations
   getParticipation: (id: number) => axios.get(`/participations/${id}`),

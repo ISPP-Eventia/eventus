@@ -3,7 +3,6 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.UserService;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -59,7 +58,7 @@ public class UserController extends ValidationController{
 
     }
 
-    @GetMapping("/user/")
+    @GetMapping("/user")
     public ResponseEntity<User> getUserDetails(@AuthenticationPrincipal User user){
         return ResponseEntity.ok(user);
     }
@@ -79,7 +78,7 @@ public class UserController extends ValidationController{
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
         }catch(IllegalArgumentException e){
-            return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
+            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
         }
     }
 }

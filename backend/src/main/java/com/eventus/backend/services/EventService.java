@@ -32,6 +32,13 @@ public class EventService implements IEventService {
         Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
         return this.eventRepository.save(event);
     }
+    @Override
+    public Event update(Event event,Long userId) {
+        Validate.notNull(event.getId());
+        Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
+        Validate.isTrue(event.getOrganizer().getId().equals(userId), "You can not update an event that you are not the organizer");
+        return this.eventRepository.save(event);
+    }
 
     @Override
     public void delete(Long id) {

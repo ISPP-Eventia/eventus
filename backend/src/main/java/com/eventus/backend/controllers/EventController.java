@@ -6,6 +6,7 @@ import com.eventus.backend.services.EventService;
 
 
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,9 @@ public class EventController extends ValidationController{
   }
 
   @PutMapping("/events")
-  public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event) {
+  public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
     try {
-      Validate.notNull(event.getId());
-      this.eventService.save(event);
+      this.eventService.update(event,user.getId());
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
       return ResponseEntity.badRequest().build();
@@ -56,19 +56,16 @@ public class EventController extends ValidationController{
   }
 
   @PostMapping("/events")
-  public ResponseEntity<String> createEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
+  public ResponseEntity<Object> createEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
     try {
-      Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
-      if (user != null) {
-        event.setId(null);
-        event.setOrganizer(user);
-        this.eventService.save(event);
-      }
+      event.setId(null);
+      event.setOrganizer(user);
+      this.eventService.save(event);
       return ResponseEntity.status(HttpStatus.CREATED).build();
     } catch (DataAccessException | NullPointerException  e) {
       return ResponseEntity.badRequest().build();
     }catch(IllegalArgumentException e){
-      return ResponseEntity.badRequest().body("{ \"error\":\""+e.getMessage()+"\"}");
+      return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
     }
   }
 

@@ -53,14 +53,6 @@ const SignupForm = (props: {
         <Input type="password" placeholder="Introduce tu contraseña" />
       </Form.Item>
 
-      <Form.Item
-        name="confirmPassword"
-        label="Confirmar contraseña"
-        rules={[{ required: true, message: "Required Field" }]}
-      >
-        <Input type="password" placeholder="Confirma tu contraseña" />
-      </Form.Item>
-
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
           Sign Up

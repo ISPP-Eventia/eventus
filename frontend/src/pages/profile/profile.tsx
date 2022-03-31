@@ -28,6 +28,8 @@ const ProfilePage = () => {
     navigate(`/profile/${Object.keys(tabs)?.[index] || "events"}`);
   };
 
+  
+
   return (
     <Page title="Mi Perfil">
       <Box className="mt-5" sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -52,7 +54,6 @@ const ProfilePage = () => {
         TODO: Mis Tickets
       </TabPanel>
       <TabPanel value={activeTabIndex} index={3}>
-        TODO: Mis Datos
         <ProfileInfoTab />
       </TabPanel>
     </Page>

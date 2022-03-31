@@ -9,7 +9,6 @@ import {
 import { Loader } from "components/atoms";
 import {
   EventListPage,
-  EventDetailPage,
   NewEventPage,
   LocationDetailPage,
   LocationListPage,
@@ -36,7 +35,6 @@ const AppRoutes = () => {
 
             <Route path="/events" element={<EventListPage />} />
             <Route path="/events/new" element={<NewEventPage />} />
-            <Route path="/events/:id" element={<EventDetailPage />} />
 
             <Route path="/locations" element={<LocationListPage />} />
             <Route path="/locations/new" element={<NewLocationPage />} />

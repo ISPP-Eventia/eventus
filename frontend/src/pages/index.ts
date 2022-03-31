@@ -3,10 +3,13 @@ import LandingPage from "./landing";
 import TestPage from "./test";
 import AppFooter from "./footer";
 
+import SessionPage from "./session/session";
+
 import EventListPage from "./events/events";
 import NewEventPage from "./events/newEvent";
 
 import LocationDetailPage from "./locations/locationDetails";
+import NewLocationPage from "./locations/newLocation";
 import LocationListPage from "./locations/locations";
 
 import ProfilePage from "./profile/profile";
@@ -18,7 +21,9 @@ export {
   EventListPage,
   NewEventPage,
   LocationDetailPage,
+  NewLocationPage,
   LocationListPage,
   ProfilePage,
   TestPage,
+  SessionPage,
 };

@@ -1,5 +1,12 @@
 import { axios } from "./axios";
-import { EventUs, Hosting, Location, Participation, Sponsorship } from "types";
+import {
+  EventUs,
+  Hosting,
+  Location,
+  Participation,
+  Sponsorship,
+  User,
+} from "types";
 
 // utitlities
 const mediaApi = {
@@ -7,9 +14,21 @@ const mediaApi = {
   //individual operations
 };
 
+const sessionApi = {
+  login: (email: string, password: string) =>
+    axios.post("/session/login", { email, password }),
+  logout: () => axios.post("/session/logout"),
+  signup: (user: User) => axios.post("/session/signup", user),
+};
+
 // main entities
 const userApi = {
   //bulk operations
+  getEventsByOrganizer: () => axios.get("/users/events"),
+  getParticipationsByParticipant: (id: number) =>
+    axios.get(`/user/${id}/participations`),
+  getLocationsByOwner: (id: number) => axios.get(`/user/locations`),
+
   //individual operations
 };
 
@@ -37,25 +56,25 @@ const locationApi = {
   //individual operations
   getLocation: (id: number) => axios.get(`/locations/${id}`),
   createLocation: (location: Location) => axios.post("/locations", location),
-  updateLocation: (location: Location) => axios.put(`/locations/${location.id}`, location),
+  updateLocation: (location: Location) =>
+    axios.put(`/locations/${location.id}`, location),
   deleteLocation: (id: number) => axios.delete(`/locations/${id}`),
 };
 
 // relations
 const hostingApi = {
   //bulk operations
-  getHostings: (locationId: number) => axios.get(`/locations/${locationId}/hostings`),
+  getHostings: (locationId: number) =>
+    axios.get(`/locations/${locationId}/hostings`),
   //individual operations
   createHosting: (hosting: Hosting) => axios.post("/hostings", hosting),
   acceptHosting: (id: number, isAccepted: boolean) =>
-  axios.post(`/hostings/${id}`, { isAccepted }),
+    axios.post(`/hostings/${id}`, { isAccepted }),
 };
 
 const participationApi = {
   //bulk operations
   getParticipations: () => axios.get("/participations"),
-  getParticipationsByUser: (id: number) =>
-    axios.get(`/user/${id}/participations`),
 
   //individual operations
   getParticipation: (id: number) => axios.get(`/participations/${id}`),
@@ -83,6 +102,7 @@ const sponsorshipApi = {
 
 export {
   mediaApi,
+  sessionApi,
   userApi,
   eventApi,
   locationApi,

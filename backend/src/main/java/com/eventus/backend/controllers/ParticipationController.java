@@ -5,7 +5,6 @@ import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
-import com.eventus.backend.services.UserService;
 import com.itextpdf.text.DocumentException;
 
 import java.util.List;
@@ -18,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -26,16 +26,13 @@ import java.net.MalformedURLException;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ParticipationController extends ValidationController{
+
     private final ParticipationService participationService;
-
-    private final UserService userService;
-
     private final EventService eventService;
 
     @Autowired
-    public ParticipationController(ParticipationService participationService, UserService userService, EventService eventService) {
+    public ParticipationController(ParticipationService participationService, EventService eventService) {
         this.participationService = participationService;
-        this.userService = userService;
         this.eventService = eventService;
     }
 
@@ -61,9 +58,9 @@ public class ParticipationController extends ValidationController{
         return ResponseEntity.ok(this.participationService.findUsersByEventId(eventId, PageRequest.of(numPag, 20)));
     }
 
-    @GetMapping("/users/{userId}/participations")
-    public ResponseEntity<List<Participation>> getParticipationsByUser(@PathVariable Long userId, @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.participationService.findParticipationByUserId(userId, PageRequest.of(numPag, 20)));
+    @GetMapping("/user/participations")
+    public ResponseEntity<List<Participation>> getParticipationsByUser(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") Integer numPag) {
+        return ResponseEntity.ok(this.participationService.findParticipationByUserId(user.getId(), PageRequest.of(numPag, 20)));
     }
 
     @GetMapping("/events/{eventId}/participations")
@@ -72,10 +69,9 @@ public class ParticipationController extends ValidationController{
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p) throws MalformedURLException, DocumentException, IOException {
+    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException {
     	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
-            User user = this.userService.findUserById(1L);
             if (user != null && event != null) {
                 Participation participation = this.participationService.findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
 
@@ -125,4 +121,5 @@ public class ParticipationController extends ValidationController{
         }
         return response;
     }
+
 }

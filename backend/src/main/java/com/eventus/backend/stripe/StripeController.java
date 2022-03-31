@@ -1,5 +1,9 @@
 package com.eventus.backend.stripe;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,26 +16,32 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:3000")
 public class StripeController {
 
+    
+    StripeService stripeService;
+
     @Autowired
-    PaymentService paymentService;
+    public StripeController(StripeService stripeService){
+        this.stripeService = stripeService;
+    }
 
     @PostMapping("/paymentintent")
     public ResponseEntity<String> payment(@RequestBody PaymentIntentObj paymentIntentDto) throws StripeException {
-        PaymentIntent paymentIntent = paymentService.paymentIntent(paymentIntentDto);
-        String paymentStr = paymentIntent.toJson();
-        return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
+        Collection l = stripeService.createPaymentIntent(paymentIntentDto);
+        System.out.println(l);
+        // String paymentStr = paymentIntent.toJson();
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @PostMapping("/confirm/{id}")
     public ResponseEntity<String> confirm(@PathVariable("id") String id) throws StripeException {
-        PaymentIntent paymentIntent = paymentService.confirm(id);
+        PaymentIntent paymentIntent = stripeService.confirmPaymentIntent(id);
         String paymentStr = paymentIntent.toJson();
         return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
     }
 
     @PostMapping("/cancel/{id}")
     public ResponseEntity<String> cancel(@PathVariable("id") String id) throws StripeException {
-        PaymentIntent paymentIntent = paymentService.cancel(id);
+        PaymentIntent paymentIntent = stripeService.cancelPaymentIntent(id);
         String paymentStr = paymentIntent.toJson();
         return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
     }

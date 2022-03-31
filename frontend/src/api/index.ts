@@ -30,6 +30,8 @@ const userApi = {
   getLocationsByOwner: (id: number) => axios.get(`/user/locations`),
 
   //individual operations
+  getUserDetails: () => axios.get("/user"),
+  updateUser: (user: User) => axios.put("/user", user),
 };
 
 const eventApi = {

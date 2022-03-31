@@ -37,7 +37,7 @@ public class StripeService {
     @Value("${stripe.key.secret}")
     String secretKey;
 
-    public Collection createPaymentIntent(PaymentIntentObj paymentIntentObj) throws StripeException {
+    public PaymentIntent createPaymentIntent(PaymentIntentObj paymentIntentObj) throws StripeException {
         Stripe.apiKey = secretKey;
         Map<String, Object> params = new HashMap<>();
         params.put("amount", paymentIntentObj.getAmount()*100);
@@ -46,33 +46,7 @@ public class StripeService {
         ArrayList payment_method_types = new ArrayList();
         payment_method_types.add("card");
         params.put("payment_method_types", payment_method_types);
-
-
-        TransferCreateParams transferParams =
-        TransferCreateParams.builder()
-            .setAmount(7000L)
-            .setCurrency("eur")
-            .setDestination("acct_1KjJHU4h0FyUY0zS")
-            .setTransferGroup("PARTICIPATION")
-            .build();
-
-        Transfer transfer = Transfer.create(transferParams);
-
-        TransferCreateParams secondTransferParams =
-        TransferCreateParams.builder()
-            .setAmount(2000L)
-            .setCurrency("eur")
-            .setDestination("acct_1KjJHU4h0FyUY0zS")
-            .setTransferGroup("PARTICIPATION")
-            .build();
-
-        Transfer secondTransfer = Transfer.create(secondTransferParams);
-        PaymentIntent paymentIntent = PaymentIntent.create(params);
-
-        Collection l = new ArrayList<>();
-        l.add(secondTransfer);
-        l.add(paymentIntent);
-        return l;
+        return PaymentIntent.create(params);
     }
     
      public PaymentIntent confirmPaymentIntent(String id) throws StripeException {
@@ -91,7 +65,7 @@ public class StripeService {
         return paymentIntent;
     }
 
-    public Account createAccount(AccountCreateParams createParams) throws StripeException{
+    public Account createAccount(Map<String,String> createParams) throws StripeException{
         Stripe.apiKey = secretKey;
         Map<String, Object> cardPayments = new HashMap<>();
         cardPayments.put("requested", true);
@@ -101,9 +75,9 @@ public class StripeService {
         capabilities.put("card_payments", cardPayments);
         capabilities.put("transfers", transfers);
         Map<String, Object> params = new HashMap<>();
-        params.put("type", "standard");
-        params.put("country", "ESP");
-        params.put("email", createParams.getEmail());
+        params.put("type", "express");
+        params.put("country", "ES");
+        params.put("email", createParams.get("email"));
         params.put("capabilities", capabilities);
         return Account.create(params);
     }

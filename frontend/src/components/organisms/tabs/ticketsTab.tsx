@@ -13,7 +13,7 @@ const TicketsTab = (props: TicketsTabProps) => {
         <div>No tiene ningún ticket aún</div>
       ) : (
         participations.map((participation) => (
-          <ParticipationHorizontalCard participation={participation} />
+          <ParticipationHorizontalCard participation={participation} key={participation.id} />
         ))
       )}
     </div>

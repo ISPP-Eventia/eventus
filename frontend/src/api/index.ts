@@ -87,13 +87,13 @@ const participationApi = {
   getTicket: (id: number) => {
     const ticketUrl = API_URL + `/participation/${id}/ticket`;
     // Change this to use your HTTP client
-    fetch(ticketUrl, {
-      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-    })
-      .then((response) => response.blob())
+    axios
+      .get(ticketUrl, {
+        responseType: "blob",
+      })
       .then((blob) => {
         // RETRIEVE THE BLOB AND CREATE LOCAL URL
-        var _url = window.URL.createObjectURL(blob);
+        var _url = window.URL.createObjectURL(blob.data);
         window.open(_url, "_blank")?.focus(); // window.open + focus
       })
       .catch((err) => {

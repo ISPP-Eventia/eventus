@@ -5,6 +5,7 @@ import AppFooter from "./footer";
 
 import SessionPage from "./session/session";
 
+import EventDetailPage from "./events/eventDetails";
 import EventListPage from "./events/events";
 import NewEventPage from "./events/newEvent";
 
@@ -18,6 +19,7 @@ export {
   AppHeader,
   LandingPage,
   AppFooter,
+  EventDetailPage,
   EventListPage,
   NewEventPage,
   LocationDetailPage,

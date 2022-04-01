@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 import { Loader } from "components/atoms";
 import {
+  EventDetailPage,
   EventListPage,
   NewEventPage,
   LocationDetailPage,

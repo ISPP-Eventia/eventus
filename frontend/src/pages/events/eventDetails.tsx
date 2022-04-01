@@ -69,6 +69,17 @@ const EventDetailPage = () => {
               >
                 Editar
               </Button>,
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() =>
+                  eventApi
+                    .deleteEvent(event.id!)
+                    .then(() => navigate("/events"))
+                }
+              >
+                Eliminar
+              </Button>,
             ]
           : [
               <ParticipateForm event={event} callback={refetchParticipants} />,

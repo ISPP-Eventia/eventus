@@ -75,7 +75,7 @@ const hostingApi = {
 const participationApi = {
   //bulk operations
   getParticipations: () => axios.get("/participations"),
-  getParticipationsByUser: () => axios.get(`/user/participations`),
+  getParticipationsByUser: () => axios.get("/user/participations"),
 
   //individual operations
   getParticipation: (id: number) => axios.get(`/participations/${id}`),
@@ -96,9 +96,7 @@ const participationApi = {
         var _url = window.URL.createObjectURL(blob.data);
         window.open(_url, "_blank")?.focus(); // window.open + focus
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   },
 };
 

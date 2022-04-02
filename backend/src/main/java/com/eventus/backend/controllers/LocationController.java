@@ -71,9 +71,9 @@ public class LocationController extends ValidationController{
     }
 
     @PutMapping("/locations/{id}")
-    public ResponseEntity<Object> updateLocation(@Valid @RequestBody Location location, @PathVariable Long id) {
+    public ResponseEntity<Object> updateLocation(@Valid @RequestBody Location location, @PathVariable Long id, @AuthenticationPrincipal User user) {
         try {
-            this.locationService.update(location, id);
+            this.locationService.update(location, id,user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
 
         } catch (DataAccessException | NullPointerException e) {

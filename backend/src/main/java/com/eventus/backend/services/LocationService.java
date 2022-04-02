@@ -59,15 +59,16 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void update(Location params, Long locationId) {
+    public void update(Location params, Long locationId, User owner) {
         Location location = locationRepository.findById(locationId).orElse(null);
-        if (location != null) {
-            location.setDescription(location.getDescription());
-            location.setCoordinates(location.getCoordinates());
-            location.setName(location.getName());
-            location.setPrice(location.getPrice());
-            locationRepository.save(location);
-        }
+        Validate.notNull(location, "Location not found");
+        Validate.isTrue(location.getOwner().getId().equals(params.getOwner().getId())||owner.isAdmin(), "You are not the owner of this location");
+        location.setDescription(params.getDescription());
+        location.setCoordinates(params.getCoordinates());
+        location.setName(params.getName());
+        location.setPrice(params.getPrice());
+        locationRepository.save(location);
+
     }
     
 }

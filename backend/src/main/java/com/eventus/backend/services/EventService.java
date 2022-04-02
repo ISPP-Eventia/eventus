@@ -34,12 +34,20 @@ public class EventService implements IEventService {
         return this.eventRepository.save(event);
     }
     @Override
-    public Event update(Event event, User user) {
-        Event eventToUpdate = this.eventRepository.findById(event.getId()).orElse(null);
-        Validate.notNull(eventToUpdate, "Event not found");
+    public Event update(Event event,User user) {
+
+        Validate.notNull(event.getId());
+        Event oldEvent = this.eventRepository.findById(event.getId()).orElse(null);
+        Validate.notNull(oldEvent, "This event does not exist");
+        Validate.isTrue(oldEvent.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "You can not update an event that you are not the organizer");
         Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
-        Validate.isTrue(event.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "You can not update an event that you are not the organizer");
-        return this.eventRepository.save(event);
+
+        oldEvent.setDescription(event.getDescription());
+        oldEvent.setTitle(event.getTitle());
+        oldEvent.setStartDate(event.getStartDate());
+        oldEvent.setEndDate(event.getEndDate());
+        oldEvent.setPrice(event.getPrice());
+        return this.eventRepository.save(oldEvent);
     }
 
     @Override

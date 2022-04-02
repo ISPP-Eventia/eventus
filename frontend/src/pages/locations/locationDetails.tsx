@@ -69,6 +69,17 @@ const LocationDetailPage = () => {
                   Alojar mi evento
                 </Button>
               ) : null,
+              <Button
+              variant="contained"
+              color="error"
+              onClick={() =>
+                locationApi
+                  .deleteLocation(location.id!)
+                  .then(() => navigate("/locations"))
+              }
+            >
+              Eliminar
+            </Button>,
             ]
           : [
               eventId !== null && (

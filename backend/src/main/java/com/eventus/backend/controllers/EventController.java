@@ -47,7 +47,7 @@ public class EventController extends ValidationController{
       this.eventService.update(event,user.getId());
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
-      return ResponseEntity.badRequest().build();
+      return ResponseEntity.badRequest().body(e.getMessage());
     }catch(IllegalArgumentException e){
       return ResponseEntity.badRequest().body(e.getMessage());
     }

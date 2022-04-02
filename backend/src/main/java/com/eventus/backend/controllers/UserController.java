@@ -3,7 +3,6 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.UserService;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,7 @@ public class UserController extends ValidationController{
             Map<String,Object> res=Map.of("token",token,"id",user.getId());
             return ResponseEntity.accepted().body(res);
         }
-        return ResponseEntity.status(401).build();
+        return ResponseEntity.status(400).body(Map.of("error","Invalid credentials"));
     }
 
     @PostMapping("/session/signup")
@@ -62,18 +61,25 @@ public class UserController extends ValidationController{
     public ResponseEntity<User> getUserDetails(@AuthenticationPrincipal User user){
         return ResponseEntity.ok(user);
     }
-    @DeleteMapping("/user")
-    public ResponseEntity<String> deleteLoggedUser(@AuthenticationPrincipal User user){
-        this.userService.deleteUser(user.getId());
-        return ResponseEntity.ok().build();
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<Object> updateUser(@RequestBody Map<String, String> params, @PathVariable("id") Long id, @AuthenticationPrincipal User user){
+        try {
+            this.userService.update(params, id,user);
+            return ResponseEntity.status(200).build();
+
+        } catch (DataAccessException | NullPointerException e) {
+            return ResponseEntity.badRequest().build();
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
+        }
     }
 
-
-    @PutMapping("/user")
-    public ResponseEntity<Object> updateUser(@RequestBody Map<String, String> params, @AuthenticationPrincipal User user) {
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id, @AuthenticationPrincipal User user){
         try {
-            this.userService.update(params, user.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            this.userService.deleteUser(id,user);
+            return ResponseEntity.status(200).build();
 
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();

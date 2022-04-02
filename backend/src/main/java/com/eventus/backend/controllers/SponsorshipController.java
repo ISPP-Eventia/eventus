@@ -7,6 +7,7 @@ import com.eventus.backend.services.SponsorshipService;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,7 +30,7 @@ public class SponsorshipController extends ValidationController{
     @GetMapping("/sponsorships")
     @ResponseStatus(HttpStatus.OK)
     public List<Sponsorship> getSponsors(@RequestParam(defaultValue = "0") Integer page) {
-        return this.sponsorService.findAll(PageRequest.of(page, 20));
+        return this.sponsorService.findAll(PageRequest.of(page, 20000));
     }
 
     @GetMapping("/sponsorships/{id}")
@@ -44,13 +45,13 @@ public class SponsorshipController extends ValidationController{
 
     @GetMapping("/user/sponsorships")
     public ResponseEntity<List<Sponsorship>> getSponsorByUser(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(this.sponsorService.findSponsorByUserId(user.getId(), PageRequest.of(page, 20)));
+        return ResponseEntity.ok(this.sponsorService.findSponsorByUserId(user.getId(), PageRequest.of(page, 20000)));
     }
 
     @GetMapping("/events/{eventId}/sponsorships")
     public ResponseEntity<Object> getSponsorByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer page,@AuthenticationPrincipal User user) {
         try{
-            List<Sponsorship> sponsorships=this.sponsorService.findSponsorByEventId(eventId, PageRequest.of(page, 20),user.getId());
+            List<Sponsorship> sponsorships=this.sponsorService.findSponsorByEventId(eventId, PageRequest.of(page, 20000),user);
             return ResponseEntity.ok().body(sponsorships);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
@@ -79,7 +80,7 @@ public class SponsorshipController extends ValidationController{
     }
 
     @PutMapping("/sponsorships/{id}")
-    public ResponseEntity<Sponsorship> updateSponsor(@RequestBody Map<String, String> params, @PathVariable Long id) {
+    public ResponseEntity<Sponsorship> updateSponsor(@RequestBody Map<String, String> params, @PathVariable Long id,@AuthenticationPrincipal User user) {
         try {
             this.sponsorService.update(params, id);
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -93,7 +94,7 @@ public class SponsorshipController extends ValidationController{
     public ResponseEntity<Map<String,String>> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id,@AuthenticationPrincipal User user) {
         try {
             boolean isAccepted = "true".equals(body.get("isAccepted"));
-            this.sponsorService.resolveSponsorship(isAccepted, id,user.getId());
+            this.sponsorService.resolveSponsorship(isAccepted, id,user);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
@@ -104,7 +105,7 @@ public class SponsorshipController extends ValidationController{
     public ResponseEntity<List<Sponsorship>> getSponsorshipByEventAndState(@RequestParam(defaultValue = "0") Integer page, @PathVariable("state") String state, @PathVariable("id") Long eventId) {
         try {
             List<Sponsorship> result =
-                    this.sponsorService.findByEventAndState(eventId, state, PageRequest.of(page, 20));
+                    this.sponsorService.findByEventAndState(eventId, state, PageRequest.of(page, 20000));
             if (result == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }

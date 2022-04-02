@@ -4,6 +4,7 @@ package com.eventus.backend.services;
 import java.util.List;
 
 import com.eventus.backend.models.Event;
+import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.EventRepository;
 
 import org.apache.commons.lang3.Validate;
@@ -33,15 +34,19 @@ public class EventService implements IEventService {
         return this.eventRepository.save(event);
     }
     @Override
-    public Event update(Event event,Long userId) {
-        Validate.notNull(event.getId());
+    public Event update(Event event, User user) {
+        Event eventToUpdate = this.eventRepository.findById(event.getId()).orElse(null);
+        Validate.notNull(eventToUpdate, "Event not found");
         Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
-        Validate.isTrue(event.getOrganizer().getId().equals(userId), "You can not update an event that you are not the organizer");
+        Validate.isTrue(event.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "You can not update an event that you are not the organizer");
         return this.eventRepository.save(event);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id,User user) {
+        Event event = this.eventRepository.findById(id).orElse(null);
+        Validate.notNull(event, "Event not found");
+        Validate.isTrue(event.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "You can not delete an event that you are not the organizer");
         this.eventRepository.deleteById(id);
     }
 

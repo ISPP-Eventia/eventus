@@ -6,6 +6,7 @@ import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.LocationRepository;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,12 +31,10 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void delete(Location location) {
-        locationRepository.delete(location);
-    }
-
-    @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id, User owner) {
+        Location location = locationRepository.findById(id).orElse(null);
+        Validate.notNull(location, "Location not found");
+        Validate.isTrue(location.getOwner().getId().equals(owner.getId())||owner.isAdmin(), "You are not the owner of this location");
         locationRepository.deleteById(id);
     }
 

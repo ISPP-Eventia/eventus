@@ -3,6 +3,8 @@ package com.eventus.backend.services;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.UserRepository;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,7 @@ public class UserService implements IUserService{
     @Transactional
     public void saveUser(User user) throws DataAccessException {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setAdmin(false);
         userRepository.save(user);
     }
 
@@ -42,10 +45,6 @@ public class UserService implements IUserService{
 
     public User findUserById(Long id){
         return userRepository.findById(id).orElse(null);
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
     }
 
     public Optional<User> findByEmail(String username){
@@ -69,15 +68,29 @@ public class UserService implements IUserService{
                 .flatMap(userRepository::findByEmail);
     }
 
+    @Transactional
     @Override
-    public void update(Map<String, String> params, Long userId) {
+    public void update(Map<String, String> params, Long userId, User loggedUser) {
+        Validate.isTrue(loggedUser.getId().equals(userId) || loggedUser.isAdmin(), "You can't update other users");
         User user = userRepository.findById(userId).orElse(null);
-        if(user!=null){
-            user.setPassword(params.get("password"));
-            user.setBirthDate(LocalDate.parse(params.get("birthDate")));
-            user.setEmail(params.get("email"));
-            user.setFirstName(params.get("firstName"));
-            userRepository.save(user);
+        Validate.notNull(user, "User not found");
+        if(StringUtils.isNotBlank(params.get("password"))){
+            user.setPassword(passwordEncoder.encode(params.get("password")));
         }
+        user.setBirthDate(LocalDate.parse(params.get("birthDate")));
+        user.setEmail(params.get("email"));
+        user.setFirstName(params.get("firstName"));
+        user.setLastName(params.get("lastName"));
+        Validate.isTrue(user.getFirstName().length() < 20, "First name must be less than 20 characters");
+        Validate.isTrue(user.getLastName().length() < 40, "Last name must be less than 40 characters");
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Long userId, User loggedUser) {
+        Validate.isTrue(loggedUser.getId().equals(userId) || loggedUser.isAdmin(), "You can't delete other users");
+        User user = userRepository.findById(userId).orElse(null);
+        Validate.notNull(user, "User not found");
+        userRepository.delete(user);
     }
 }

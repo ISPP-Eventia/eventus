@@ -6,6 +6,7 @@ import java.util.Map;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.Location;
+import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.HostingRepository;
 
 import org.apache.commons.lang3.StringUtils;
@@ -77,10 +78,10 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public List<Hosting> findByEventId(Long eventId, Pageable p, Long userId) {
+    public List<Hosting> findByEventId(Long eventId, Pageable p, User user) {
         Event event=eventService.findById(eventId);
         Validate.isTrue(event!=null,"Event does not exits");
-        if(event.getOrganizer().getId().equals(userId)) {
+        if(event.getOrganizer().getId().equals(user.getId())||user.isAdmin()){
             return hostingRepository.findByEventId(eventId,p);
         }else {
             return hostingRepository.findByEventAndState(eventId, true, p);
@@ -88,10 +89,10 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public List<Hosting> findByLocationId(Long locationId, Pageable p,Long userId) {
+    public List<Hosting> findByLocationId(Long locationId, Pageable p,User user) {
         Location location=locationService.findById(locationId);
         Validate.isTrue(location!=null,"Location does not exits");
-        if (location.getOwner().getId().equals(userId)) {
+        if (location.getOwner().getId().equals(user.getId())|| user.isAdmin()) {
             return hostingRepository.findByLocationId(locationId,p);
         }else{
             return hostingRepository.findByLocationAndState(locationId, true, p);
@@ -107,18 +108,18 @@ public class HostingService implements IHostingService {
     @Override
     public void update(Map<String, String> params, Long hostingId) {
         Hosting hosting = hostingRepository.findById(hostingId).orElse(null);
-        if(hosting!=null){
-            hosting.setPrice(Double.valueOf(params.get("price")));
-            hostingRepository.save(hosting);
-        }
+        Validate.notNull(hosting,"Hosting not found");
+        hosting.setPrice(Double.valueOf(params.get("price")));
+        hostingRepository.save(hosting);
+
     }
 
 
     @Override
-    public void resolveHosting(boolean b, Long sId, Long userId) {
+    public void resolveHosting(boolean b, Long sId, User user) {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
-        Validate.isTrue(hosting != null);
-        Validate.isTrue(hosting.getEvent() != null && hosting.getEvent().getOrganizer().getId().equals(userId));
+        Validate.notNull(hosting,"Hosting not found");
+        Validate.isTrue(hosting.getEvent() != null && (hosting.getEvent().getOrganizer().getId().equals(user.getId())&& user.isAdmin()),"You are not the organizer of this event");
         hosting.setAccepted(b);
         this.hostingRepository.save(hosting);
 

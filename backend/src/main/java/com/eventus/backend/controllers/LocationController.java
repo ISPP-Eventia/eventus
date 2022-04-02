@@ -27,12 +27,6 @@ public class LocationController extends ValidationController{
         this.locationService=locationService;
     }
 
-    @GetMapping("/locations")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Location> getLocations(@RequestParam(defaultValue = "0") Integer numPag){
-        return this.locationService.findAll(PageRequest.of(numPag,20));
-    }
-
     @GetMapping("/locations/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
         Location location =
@@ -46,7 +40,12 @@ public class LocationController extends ValidationController{
 
     @GetMapping("/user/locations")
     public ResponseEntity<List<Location>> getLocationsByUser(@AuthenticationPrincipal User owner, @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.locationService.findByOwnerId(owner.getId(), PageRequest.of(numPag, 20)));
+        if(owner.isAdmin()){
+            return ResponseEntity.ok(this.locationService.findAll(PageRequest.of(numPag,20000)));
+        }else{
+            return ResponseEntity.ok(this.locationService.findByOwnerId(owner.getId(), PageRequest.of(numPag,20000)));
+        }
+
     }
 
     @PostMapping("/locations")
@@ -62,9 +61,9 @@ public class LocationController extends ValidationController{
     }
 
     @DeleteMapping("/locations/{id}")
-    public ResponseEntity<String> deleteLocation(@PathVariable Long id){
+    public ResponseEntity<String> deleteLocation(@PathVariable Long id, @AuthenticationPrincipal User user) {
         try {
-            this.locationService.deleteById(id);
+            this.locationService.deleteById(id, user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

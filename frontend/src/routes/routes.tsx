@@ -14,6 +14,8 @@ import {
   SessionPage,
   ProfilePage,
 } from "pages";
+import EditEventPage from "pages/events/editEvent";
+import EditLocationPage from "pages/locations/editLocation";
 
 const AppRoutes = () => {
   return (
@@ -36,10 +38,14 @@ const AppRoutes = () => {
           <Route path="/events" element={<EventListPage />} />
           <Route path="/events/new" element={<NewEventPage />} />
           <Route path="/events/:id" element={<EventDetailPage />} />
+          <Route path="/events/:id/edit" element={<EditEventPage />} />
+
 
           <Route path="/locations" element={<LocationListPage />} />
           <Route path="/locations/new" element={<NewLocationPage />} />
           <Route path="/locations/:id" element={<LocationDetailPage />} />
+          <Route path="/locations/:id/edit" element={<EditLocationPage />} />
+
 
           <Route path="/profile/:tab" element={<ProfilePage />} />
           <Route path="/profile" element={<Navigate to="/profile/events" />} />

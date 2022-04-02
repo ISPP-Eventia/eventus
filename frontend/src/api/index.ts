@@ -47,7 +47,7 @@ const eventApi = {
   //individual operations
   getEvent: (id: number) => axios.get(`/events/${id}`),
   createEvent: (event: EventUs) => axios.post("/events", event),
-  updateEvent: (event: EventUs) => axios.put(`/events/${event.id}`, event),
+  updateEvent: (event: EventUs) => axios.put("/events", event),
   deleteEvent: (id: number) => axios.delete(`/events/${id}`),
 };
 

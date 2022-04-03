@@ -19,7 +19,6 @@ public interface IHostingService {
 
     public List<Hosting> findByEventId(Long eventId, Pageable p, User user);
     List<Hosting> findByLocationId(Long locationId, Pageable p, User user);
-    public void update(Map<String,String> params, Long hostingId);
     public void resolveHosting(boolean b, Long id, User user);
     public List<Hosting>findByEventAndState(Long eventId,String state, Pageable p);
     Hosting findHostingByEventIdAndLocationId(Long eventId,Long locationId);

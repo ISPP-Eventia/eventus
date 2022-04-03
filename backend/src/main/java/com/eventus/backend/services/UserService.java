@@ -78,7 +78,6 @@ public class UserService implements IUserService{
             user.setPassword(passwordEncoder.encode(params.get("password")));
         }
         user.setBirthDate(LocalDate.parse(params.get("birthDate")));
-        user.setEmail(params.get("email"));
         user.setFirstName(params.get("firstName"));
         user.setLastName(params.get("lastName"));
         Validate.isTrue(user.getFirstName().length() < 20, "First name must be less than 20 characters");

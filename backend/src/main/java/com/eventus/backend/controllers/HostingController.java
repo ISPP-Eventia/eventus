@@ -94,21 +94,6 @@ public class HostingController extends ValidationController{
         }
     }
 
-
-    @PutMapping("/hostings/{id}")
-    public ResponseEntity<Object> updateHosting(@RequestBody Map<String, String> params, @PathVariable Long id) {
-        try {
-            this.hostingService.update(params, id);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-            
-        } catch (DataAccessException | NullPointerException e) {
-            return ResponseEntity.badRequest().build();
-        }catch(IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
-        }
-    }
-
-
     @GetMapping("/events/{id}/hostings/{state}")
     public ResponseEntity<List<Hosting>> getHostingsByEventAndState(@RequestParam(defaultValue = "0") Integer page, @PathVariable("state") String state, @PathVariable("id") Long eventId) {
         try {

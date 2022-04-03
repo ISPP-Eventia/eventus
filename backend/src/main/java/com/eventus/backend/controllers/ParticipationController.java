@@ -37,11 +37,15 @@ public class ParticipationController extends ValidationController{
     }
 
     @GetMapping("/participations/{id}")
-    public ResponseEntity<Participation> getParticipationById(@PathVariable Long id) {
+    public ResponseEntity<Participation> getParticipationById(@PathVariable Long id,@AuthenticationPrincipal User user) {
         Participation participation =
                 this.participationService.findParticipationById(id);
         if (participation != null) {
-            return ResponseEntity.ok(participation);
+            if(user.isAdmin() || participation.getUser().getId().equals(user.getId())) {
+                return ResponseEntity.ok(participation);
+            }else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }

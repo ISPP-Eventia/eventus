@@ -79,17 +79,6 @@ public class SponsorshipController extends ValidationController{
         }
     }
 
-    @PutMapping("/sponsorships/{id}")
-    public ResponseEntity<Sponsorship> updateSponsor(@RequestBody Map<String, String> params, @PathVariable Long id,@AuthenticationPrincipal User user) {
-        try {
-            this.sponsorService.update(params, id);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-            
-        } catch (DataAccessException | NullPointerException | IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
     @PostMapping("/sponsorships/{id}")
     public ResponseEntity<Map<String,String>> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id,@AuthenticationPrincipal User user) {
         try {

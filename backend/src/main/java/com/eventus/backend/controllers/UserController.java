@@ -26,7 +26,7 @@ public class UserController extends ValidationController{
         String token=userService.login(email,password).orElse(null);
         User user = userService.findByEmail(email).orElse(null);
         if(token!=null&&user!=null){
-            Map<String,Object> res=Map.of("token",token,"id",user.getId());
+            Map<String,Object> res=Map.of("token",token,"id",user.getId(),"isAdmin",user.isAdmin());
             return ResponseEntity.accepted().body(res);
         }
         return ResponseEntity.status(400).body(Map.of("error","Invalid credentials"));
@@ -42,7 +42,7 @@ public class UserController extends ValidationController{
             String token=userService.login(user.getEmail(),password).orElse(null);
 
             if(token!=null){
-                res = Map.of("token", token, "id", user.getId());
+                res = Map.of("token", token, "id", user.getId(), "isAdmin", user.isAdmin());
                 response = ResponseEntity.accepted().body(res);
             }else{
                 res = Map.of("error", "Error getting token");

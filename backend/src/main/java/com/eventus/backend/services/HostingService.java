@@ -106,16 +106,6 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public void update(Map<String, String> params, Long hostingId) {
-        Hosting hosting = hostingRepository.findById(hostingId).orElse(null);
-        Validate.notNull(hosting,"Hosting not found");
-        hosting.setPrice(Double.valueOf(params.get("price")));
-        hostingRepository.save(hosting);
-
-    }
-
-
-    @Override
     public void resolveHosting(boolean b, Long sId, User user) {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
         Validate.notNull(hosting,"Hosting not found");

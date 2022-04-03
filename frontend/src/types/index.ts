@@ -64,9 +64,9 @@ export type Hosting = {
   id?: number;
   eventId: number;
   locationId: number;
-  price: number;
+  price?: number;
   isAccepted?: boolean;
-  event?: EventUs
+  event?: EventUs;
 };
 
 // Form values types
@@ -86,8 +86,19 @@ export type LocationFormValues = {
   price: number;
   name: string;
   description: string;
-  longitude: number,
-  latitude: number
+  longitude: number;
+  latitude: number;
 };
 
+export type LoginFormValues = {
+  email: string;
+  password: string;
+};
 
+export type SignupFormValues = {
+  firstName: string;
+  lastName: string;
+  birthDate: Date;
+  email: string;
+  password: string;
+};

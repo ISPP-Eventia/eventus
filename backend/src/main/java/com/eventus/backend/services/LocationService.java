@@ -13,18 +13,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class LocationService implements ILocationService{
 
-    private LocationRepository locationRepository;
-    private UserService userService;
+    private final LocationRepository locationRepository;
     
     @Autowired
-    public LocationService(LocationRepository locationRepository, UserService userService){
+    public LocationService(LocationRepository locationRepository){
         this.locationRepository = locationRepository;
-        this.userService = userService;
     }
 
     @Override
-    public void create(Location location) {
-        User owner = userService.findUserById(1L);
+    public void create(Location location,User owner) {
         if(owner != null){
             location.setOwner(owner);
         }
@@ -65,11 +62,11 @@ public class LocationService implements ILocationService{
     @Override
     public void update(Location params, Long locationId) {
         Location location = locationRepository.findById(locationId).orElse(null);
-        if(location!=null){
-            location.setDescription(location.getDescription());
-            location.setCoordinates(location.getCoordinates());
-            location.setName(location.getName());
-            location.setPrice(location.getPrice());
+        if (location != null) {
+            location.setDescription(params.getDescription());
+            location.setCoordinates(params.getCoordinates());
+            location.setName(params.getName());
+            location.setPrice(params.getPrice());
             locationRepository.save(location);
         }
     }

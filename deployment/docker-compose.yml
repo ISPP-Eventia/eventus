@@ -39,8 +39,7 @@ services:
   # Database Service (Mysql)
   database:
     image: mariadb:latest
-    ports:
-        - "${DB_PORT}:3306"
+    restart: always
     environment:
         MYSQL_ROOT_USER: root
         MYSQL_ROOT_PASSWORD: root

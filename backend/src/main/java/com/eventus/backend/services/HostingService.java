@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class HostingService implements IHostingService {
 
-    private HostingRepository hostingRepository;
-    private LocationService locationService;
-    private EventService eventService;
+    private final HostingRepository hostingRepository;
+    private final LocationService locationService;
+    private final EventService eventService;
 
 
     @Autowired
@@ -77,13 +77,26 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public List<Hosting> findByEventId(Long eventId, Pageable p) {
-        return hostingRepository.findByEventId(eventId,p);
+    public List<Hosting> findByEventId(Long eventId, Pageable p, Long userId) {
+        Event event=eventService.findById(eventId);
+        Validate.isTrue(event!=null,"Event does not exits");
+        if(event.getOrganizer().getId().equals(userId)) {
+            return hostingRepository.findByEventId(eventId,p);
+        }else {
+            return hostingRepository.findByEventAndState(eventId, true, p);
+        }
     }
 
     @Override
-    public List<Hosting> findByLocationId(Long locationId, Pageable p) {
-        return hostingRepository.findByLocationId(locationId,p);
+    public List<Hosting> findByLocationId(Long locationId, Pageable p,Long userId) {
+        Location location=locationService.findById(locationId);
+        Validate.isTrue(location!=null,"Location does not exits");
+        if (location.getOwner().getId().equals(userId)) {
+            return hostingRepository.findByLocationId(locationId,p);
+        }else{
+            return hostingRepository.findByLocationAndState(locationId, true, p);
+        }
+
     }
 
     @Override
@@ -102,15 +115,14 @@ public class HostingService implements IHostingService {
 
 
     @Override
-    public void resolveHosting(boolean b, Long sId) {
+    public void resolveHosting(boolean b, Long sId, Long userId) {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
-        if(hosting!=null){
-            hosting.setAccepted(b);
-            this.hostingRepository.save(hosting);
-        }else{
-            throw new IllegalArgumentException();
-        }
-        
+        Validate.isTrue(hosting != null);
+        Validate.isTrue(hosting.getEvent() != null && hosting.getEvent().getOrganizer().getId().equals(userId));
+        hosting.setAccepted(b);
+        this.hostingRepository.save(hosting);
+
+
     }
 
     @Override

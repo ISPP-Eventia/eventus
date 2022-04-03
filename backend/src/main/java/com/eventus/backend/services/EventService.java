@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class EventService implements IEventService {
 
 
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     @Autowired
     public EventService(EventRepository eventRepo){
@@ -32,6 +32,22 @@ public class EventService implements IEventService {
         Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
         return this.eventRepository.save(event);
     }
+    @Override
+    public Event update(Event event,Long userId) {
+        
+        Validate.notNull(event.getId());
+        Event oldEvent = this.eventRepository.findById(event.getId()).orElse(null);
+        Validate.notNull(oldEvent, "This event does not exist");
+        Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
+        Validate.isTrue(oldEvent.getOrganizer().getId().equals(userId), "You can not update an event that you are not the organizer");
+
+        oldEvent.setDescription(event.getDescription());
+        oldEvent.setTitle(event.getTitle());
+        oldEvent.setStartDate(event.getStartDate());
+        oldEvent.setEndDate(event.getEndDate());
+        oldEvent.setPrice(event.getPrice());
+        return this.eventRepository.save(oldEvent);
+    }
 
     @Override
     public void delete(Long id) {
@@ -43,7 +59,10 @@ public class EventService implements IEventService {
         return this.eventRepository.findById(id).orElse(null);
     }
 
-
+    @Override
+    public List<Event> findByOrganizerId(Long id, Pageable pageable) {
+        return this.eventRepository.findByOrganizerId(id,pageable);
+    }
 
     
     

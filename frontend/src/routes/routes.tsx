@@ -16,6 +16,8 @@ import {
 } from "pages";
 import EditEventPage from "pages/events/editEvent";
 import EditLocationPage from "pages/locations/editLocation";
+import CheckoutForm from "components/CheckoutForm";
+import StripeApp from "components/StripeApp";
 
 const AppRoutes = () => {
   return (
@@ -47,7 +49,7 @@ const AppRoutes = () => {
 
           <Route path="/profile/:tab" element={<ProfilePage />} />
           <Route path="/profile" element={<Navigate to="/profile/events" />} />
-
+          <Route path="/stripe/checkout" element={<StripeApp/>}/>
           <Route path="*" element={<Navigate to="/landing" />} />
         </Routes>
       </main>

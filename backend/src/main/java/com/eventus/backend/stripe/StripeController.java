@@ -28,6 +28,7 @@ public class StripeController {
         this.stripeService = stripeService;
     }
 
+
     @PostMapping("/paymentintent")
     public ResponseEntity<String> payment(@RequestBody PaymentIntentObj paymentIntentDto) throws StripeException {
         PaymentIntent paymentIntent = stripeService.createPaymentIntent(paymentIntentDto);
@@ -49,11 +50,11 @@ public class StripeController {
         return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
     }
 
-    @PostMapping("/accounts")
-    public ResponseEntity<String> createAccount(@RequestBody Map<String,String> params) throws StripeException {
-        Account account = stripeService.createAccount(params);
-        String accountStr = account.toJson();
-        return new ResponseEntity<String>(accountStr, HttpStatus.OK);
-    }
+    // @PostMapping("/accounts")
+    // public ResponseEntity<String> createAccount(@RequestBody Map<String,String> params) throws StripeException {
+    //     Account account = stripeService.createAccount(params);
+    //     String accountStr = account.toJson();
+    //     return new ResponseEntity<String>(accountStr, HttpStatus.OK);
+    // }
 
 }

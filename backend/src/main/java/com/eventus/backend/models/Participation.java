@@ -42,7 +42,6 @@ public class Participation {
     User user;
 
     @ManyToOne
-    @JsonIgnore
     @NotNull
     @JoinColumn(name = "event_id")
     Event event;

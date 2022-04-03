@@ -109,5 +109,5 @@ export type UserFormValues = {
   lastName: string;
   birthDate?: string;
   email?: string;
-  enable: boolean;
+  enable?: boolean;
 };

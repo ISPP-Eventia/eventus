@@ -3,7 +3,9 @@ import { Form, Input, Button, DatePicker } from "antd";
 import { SignupFormValues } from "types";
 
 const SignupForm = (props: {
-  onSubmit: (values: SignupFormValues) => void;
+  editMode: boolean,
+  initialValues?: Partial<SignupFormValues>;
+  onSubmit?: (values: SignupFormValues) => void;
 }) => {
   return (
     <Form
@@ -18,7 +20,8 @@ const SignupForm = (props: {
         label="Nombre"
         rules={[{ required: true, message: "Required Field" }]}
       >
-        <Input placeholder="Introduce tu nombre" />
+      {(!props.editMode) ? <Input placeholder="Introduce tu nombre" /> : <Input placeholder="Introduce tu nombre" disabled/>}
+        
       </Form.Item>
 
       <Form.Item
@@ -26,7 +29,7 @@ const SignupForm = (props: {
         label="Apellidos"
         rules={[{ required: true, message: "Required Field" }]}
       >
-        <Input placeholder="Introduce tus apellidos" />
+      {(!props.editMode) ? <Input placeholder="Introduce tus apellidos" /> :< Input placeholder="Introduce tus apellidos" disabled/>}
       </Form.Item>
 
       <Form.Item
@@ -34,7 +37,8 @@ const SignupForm = (props: {
         label="Fecha de nacimiento"
         rules={[{ required: true, message: "Required Field" }]}
       >
-        <DatePicker style={{ width: "100%" }} showTime={false} />
+        {(!props.editMode) ? <DatePicker style={{ width: "100%" }} showTime={false}/> : <DatePicker style={{ width: "100%" }} showTime={false} disabled/>}
+        
       </Form.Item>
 
       <Form.Item
@@ -42,7 +46,8 @@ const SignupForm = (props: {
         label="Email"
         rules={[{ required: true, message: "Invalid Email", type: "email" }]}
       >
-        <Input placeholder="Introduce tu Email" />
+        {(!props.editMode) ? <Input placeholder="Introduce tu Email" /> : <Input placeholder="Introduce tu Email" disabled/>}
+        
       </Form.Item>
 
       <Form.Item
@@ -50,14 +55,15 @@ const SignupForm = (props: {
         label="Contraseña"
         rules={[{ required: true, message: "Required Field" }]}
       >
-        <Input type="password" placeholder="Introduce tu contraseña" />
+        {(!props.editMode) ? <Input type="password" placeholder="Introduce tu contraseña" /> : <Input type="password" placeholder="Introduce tu contraseña" disabled/>}
       </Form.Item>
-
-      <Form.Item>
+      
+      {(!props.editMode) ? <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
           Sign Up
         </Button>
-      </Form.Item>
+      </Form.Item> : <></>}
+      
     </Form>
   );
 };

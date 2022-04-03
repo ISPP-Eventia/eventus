@@ -1,15 +1,15 @@
 UPDATE hibernate_sequence SET next_val=99 LIMIT 1;
 
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (1, 'Juan', 'Antonio','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (2, 'Rosa', 'Margarita','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (3, 'Antonio', 'Pedro','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (4, 'Maria', 'Ana','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (5, 'Juan', 'Carlos','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (6, 'Juan', 'Jose','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (7, 'Juan', 'Luis','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (8, 'Juan', 'Manuel','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (9, 'Juan', 'Pablo','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin) VALUES (10, 'Juan', 'Ricardo','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false);
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (1, 'Juan', 'Antonio','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juan@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (2, 'Rosa', 'Margarita','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'rosa@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (3, 'Antonio', 'Pedro','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'antonio@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (4, 'Maria', 'Ana','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'maria@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (5, 'Juan', 'Carlos','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juancar@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (6, 'Juan', 'Jose','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juanjose@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (7, 'Juan', 'Luis','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juanluisl@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (8, 'Juan', 'Manuel','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juanjose@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (9, 'Juan', 'Pablo','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juanpablo@gmail.com');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (10, 'Juan', 'Ricardo','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juanricardo@gmail.com');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email) VALUES (11, 'Juan', 'Sergio','$2a$10$6LWjTo6TUadfX26Qwini2O7ufhcIb0nYM90eLvav5B9wmeF0of5um',true,'admin@gmail.com');
 
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (1,'Descripccion',10.0,'Evento',1, "2022-04-23T20:26:41.036121","2022-05-23T20:26:41.036121");

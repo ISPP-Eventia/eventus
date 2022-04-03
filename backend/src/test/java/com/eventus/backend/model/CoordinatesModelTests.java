@@ -3,7 +3,6 @@ package com.eventus.backend.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.eventus.backend.models.Coordinates;
-import com.itextpdf.text.xml.xmp.DublinCoreProperties;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;

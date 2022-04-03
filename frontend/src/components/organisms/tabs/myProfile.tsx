@@ -14,11 +14,24 @@ const MyProfileTab = () => {
   const navigate = useNavigate();
   const loggedUserId = localStorage.getItem("userId");
 
-  const { isLoading, data: profile } = useQuery("user", () =>
+  const { isLoading, data: profile } = useQuery("user", () =>  
     userApi
       .getUserDetails()
       .then((response) => response.data as SignupFormValues)
   );
+
+  //TODO 
+  //DELETE DUMMY
+  const d = new Date();
+  const dummy: SignupFormValues = {
+    firstName: "pepe",
+    lastName: "pepe",
+    birthDate: d,
+    email: "pepe",
+    password: "pepe",
+  }
+
+
 
   return (
     <section>
@@ -27,9 +40,8 @@ const MyProfileTab = () => {
         <Loader />
       ) : (
         <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-
           <SignupForm editMode={false} initialValues={profile}/>
-        </section>
+          </section>
       )}
       <Button
       variant="contained"

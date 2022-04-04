@@ -2,6 +2,7 @@ package com.eventus.backend.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,7 @@ public class ImageModelTests {
         image = new Image();
 
         image.setId(1l);
+        image.setTitle("Image 1");
         image.setPath("/home/user/images");
         image.setDescription("description");
         image.setUploadDate(fecha);
@@ -42,6 +44,7 @@ public class ImageModelTests {
         image2 = new Image();
 
         image2.setId(2l);
+        image2.setTitle("Image 2");
         image2.setPath("/home/user2/images");
         image2.setDescription("description2");
         image2.setUploadDate(fecha);
@@ -54,6 +57,7 @@ public class ImageModelTests {
         when(userDummy.getLastName()).thenReturn("Rodriguez");
         
         assertEquals(image.getId(), 1l);
+        assertEquals(image.getTitle(), "Image 1");
         assertEquals(image.getPath(), "/home/user/images");
         assertEquals(image.getDescription(), "description");
         assertEquals(image.getUploadDate(), fecha);
@@ -62,12 +66,20 @@ public class ImageModelTests {
     }
 
     @Test
-    public void imageEqualsMethodPositive(){
+    public void imageEqualsMethodPositiveTest(){
         assertTrue(image.equals(image));
+        assertEquals(image.hashCode(), image.hashCode());
     }
 
     @Test
-    public void imageEqualsMethodNegative(){
-        assertFalse(image.equals(image2));
+    public void imageEqualsMethodNegativeTest(){
+        assertFalse(image.equals((Object)image2));
+        assertFalse(image2.equals((Object)image));
+        assertNotEquals(image.hashCode(), image2.hashCode());
+    }
+
+    @Test
+    public void imageEqualsNullTest(){
+        assertFalse(image.equals(null));
     }
 }

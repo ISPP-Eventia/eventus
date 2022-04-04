@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router";
+import moment from "moment";
 
 import { userApi } from "api";
 import { SignupFormValues } from "types";
@@ -19,20 +20,17 @@ const MyProfileTab = () => {
       .getUserDetails()
       .then((response) => response.data as SignupFormValues)
   );
-
-  //TODO 
-  //DELETE DUMMY
-  const d = new Date();
-  const dummy: SignupFormValues = {
-    firstName: "pepe",
-    lastName: "pepe",
-    birthDate: d,
-    email: "pepe",
-    password: "pepe",
-  }
-
-
-
+  
+  const handleSubmit = () => {
+      };
+      
+  const initialValues: any = useMemo(
+    () => ({
+      ...profile,
+      birthDate: moment(profile?.birthDate ?? ""),
+    }),
+    [profile]
+  );
   return (
     <section>
       <Typography variant="h4">Mi Perfil</Typography>
@@ -40,7 +38,7 @@ const MyProfileTab = () => {
         <Loader />
       ) : (
         <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <SignupForm editMode={false} initialValues={profile}/>
+          <SignupForm editMode={true} initialValues={initialValues} onSubmit={handleSubmit}/>
           </section>
       )}
       <Button
@@ -48,7 +46,7 @@ const MyProfileTab = () => {
       color="primary"
       onClick={() => navigate(`/profile/${loggedUserId}/edit`)}
     >
-      Editar
+      IR A EDITAR
     </Button>
     </section>
   );

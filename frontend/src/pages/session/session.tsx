@@ -46,7 +46,7 @@ const SessionPage = () => {
       {action === "login" ? (
         <LoginForm onSubmit={onLogin} />
       ) : (
-        <SignupForm onSubmit={onSignup} editMode={false} />
+        <SignupForm onSubmit={onSignup}/>
       )}
       <Link to={`/${action === "login" ? "signup" : "login"}`}>
         {action === "login"

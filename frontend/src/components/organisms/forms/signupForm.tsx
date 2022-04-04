@@ -1,13 +1,10 @@
 import { Form, Input, Button, DatePicker } from "antd";
-
 import { SignupFormValues } from "types";
 
 export interface UserFormProps {
   initialValues?: Partial<SignupFormValues>;
-  editMode: boolean;
-  //TODO
-  //quitar el ?
-  onSubmit?: (values: SignupFormValues) => void;
+  editMode?: boolean;
+  onSubmit: (values: SignupFormValues) => void;
 }
 
 
@@ -19,7 +16,7 @@ const SignupForm = (props: UserFormProps) => {
       wrapperCol={{ span: 24 }}
       layout="vertical"
       style={{ maxWidth: "500px", marginTop: "20px" }}
-      onFinish={props.onSubmit}
+      onFinish={onSubmit}
       initialValues={initialValues}
     >
       <Form.Item
@@ -38,16 +35,15 @@ const SignupForm = (props: UserFormProps) => {
       >
       {(!props.editMode) ? <Input placeholder="Introduce tus apellidos" /> :< Input placeholder="Introduce tus apellidos" disabled/>}
       </Form.Item>
-
-      {/* <Form.Item
+    <Form.Item
         name="birthDate"
         label="Fecha de nacimiento"
         rules={[{ required: true, message: "Required Field" }]}
       >
-        {(!props.editMode) ? <DatePicker style={{ width: "100%" }} showTime={false}/> : <DatePicker style={{ width: "100%" }} showTime={false} disabled/>}
+      {(!props.editMode) ? <DatePicker style={{ width: "100%" }} showTime={false} /> :<DatePicker style={{ width: "100%" }} showTime={false} disabled/>}
         
-      </Form.Item> */}
-
+      </Form.Item>
+      
       <Form.Item
         name="email"
         label="Email"
@@ -67,7 +63,7 @@ const SignupForm = (props: UserFormProps) => {
       
       {(!props.editMode) ? <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          Sign Up
+         Confirmar
         </Button>
       </Form.Item> : <></>}
       

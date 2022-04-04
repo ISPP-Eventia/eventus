@@ -14,6 +14,7 @@ import NewLocationPage from "./locations/newLocation";
 import LocationListPage from "./locations/locations";
 
 import ProfilePage from "./profile/profile";
+import EditProfilePage from "./profile/profile";
 
 export {
   AppHeader,
@@ -26,6 +27,7 @@ export {
   NewLocationPage,
   LocationListPage,
   ProfilePage,
+  EditProfilePage,
   TestPage,
   SessionPage,
 };

@@ -10,7 +10,7 @@ public interface IParticipationService {
 
     List<Participation> findAllParticipation(Pageable p);
     Participation findParticipationById(Long id);
-    void deleteParticipation(Long id);
+    void deleteParticipation(Long id,User user);
     List<Participation> findParticipationByUserId(Long userId,Pageable p);
     List<Participation> findParticipationByEventId(Long eventId,Pageable p);
     List<User> findUsersByEventId(Long eventId, Pageable p);

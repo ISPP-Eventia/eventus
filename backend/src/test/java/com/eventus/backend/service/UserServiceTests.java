@@ -60,9 +60,9 @@ public class UserServiceTests {
     @Transactional
     public void deleteUserTest() {
         userService.deleteUser(2l);
-        User user = userService.findUserById(2l);
+        User deletedUser = userService.findUserById(2l);
         
-        assertTrue(user == null);
+        assertTrue(deletedUser == null);
     }
 
     @Test

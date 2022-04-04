@@ -49,6 +49,7 @@ export type Participation = {
   buyDate: string;
   ticket: string;
   price: number;
+  event: EventUs;
 };
 
 export type Sponsorship = {

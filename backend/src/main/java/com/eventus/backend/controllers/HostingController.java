@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -42,7 +41,7 @@ public class HostingController extends ValidationController{
     @GetMapping("/hostings")
     @ResponseStatus(HttpStatus.OK)
     public List<Hosting> getHostings(@RequestParam(defaultValue = "0") Integer numPag){
-        return this.hostingService.findAll(PageRequest.of(numPag,20));
+        return this.hostingService.findAll(PageRequest.of(numPag,20000));
     }
 
     @GetMapping("/hostings/{id}")
@@ -58,14 +57,14 @@ public class HostingController extends ValidationController{
 
     @GetMapping("/locations/{locationId}/hostings")
     public ResponseEntity<List<Hosting>> getHostingsByLocation(@PathVariable Long locationId,  @RequestParam(defaultValue = "0") Integer numPag,@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(this.hostingService.findByLocationId(locationId, PageRequest.of(numPag, 20), user.getId()));
+        return ResponseEntity.ok(this.hostingService.findByLocationId(locationId, PageRequest.of(numPag, 20000), user));
 
     }
 
     @GetMapping("/events/{eventId}/hostings")
     public ResponseEntity<Object> getHostingsByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag,@AuthenticationPrincipal User user) {
         try {
-            return ResponseEntity.ok().body(this.hostingService.findByEventId(eventId, PageRequest.of(numPag, 20), user.getId()));
+            return ResponseEntity.ok().body(this.hostingService.findByEventId(eventId, PageRequest.of(numPag, 20000), user));
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
         }
@@ -94,26 +93,11 @@ public class HostingController extends ValidationController{
         }
     }
 
-
-    @PutMapping("/hostings/{id}")
-    public ResponseEntity<Object> updateHosting(@RequestBody Map<String, String> params, @PathVariable Long id) {
-        try {
-            this.hostingService.update(params, id);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-            
-        } catch (DataAccessException | NullPointerException e) {
-            return ResponseEntity.badRequest().build();
-        }catch(IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
-        }
-    }
-
-
     @GetMapping("/events/{id}/hostings/{state}")
     public ResponseEntity<List<Hosting>> getHostingsByEventAndState(@RequestParam(defaultValue = "0") Integer page, @PathVariable("state") String state, @PathVariable("id") Long eventId) {
         try {
             List<Hosting> result =
-                    this.hostingService.findByEventAndState(eventId, state, PageRequest.of(page, 20));
+                    this.hostingService.findByEventAndState(eventId, state, PageRequest.of(page, 20000));
             if (result == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
@@ -128,7 +112,7 @@ public class HostingController extends ValidationController{
         try {
             boolean isAccepted = "true".equals(params.get("isAccepted"));
 
-            this.hostingService.resolveHosting(isAccepted, id,user.getId());
+            this.hostingService.resolveHosting(isAccepted, id,user);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));

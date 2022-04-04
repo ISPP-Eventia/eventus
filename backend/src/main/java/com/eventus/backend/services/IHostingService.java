@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.eventus.backend.models.Hosting;
 
+import com.eventus.backend.models.User;
 import org.springframework.data.domain.Pageable;
 
 public interface IHostingService {
@@ -16,10 +17,9 @@ public interface IHostingService {
     public void delete(Hosting hosting);
     public void deleteById(Long id);
 
-    public List<Hosting> findByEventId(Long eventId, Pageable p, Long userId);
-    List<Hosting> findByLocationId(Long locationId, Pageable p,Long userId);
-    public void update(Map<String,String> params, Long hostingId);
-    public void resolveHosting(boolean b, Long id,Long userId);
+    public List<Hosting> findByEventId(Long eventId, Pageable p, User user);
+    List<Hosting> findByLocationId(Long locationId, Pageable p, User user);
+    public void resolveHosting(boolean b, Long id, User user);
     public List<Hosting>findByEventAndState(Long eventId,String state, Pageable p);
     Hosting findHostingByEventIdAndLocationId(Long eventId,Long locationId);
 }

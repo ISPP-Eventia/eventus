@@ -59,8 +59,9 @@ public class UserServiceTests {
     @Test
     @Transactional
     public void deleteUserTest() {
-        userService.deleteUser(2l);
         User deletedUser = userService.findUserById(2l);
+        userService.deleteUser(2l, deletedUser);
+        deletedUser = userService.findUserById(2l);
         
         assertTrue(deletedUser == null);
     }

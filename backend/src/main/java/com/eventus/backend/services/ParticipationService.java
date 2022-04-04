@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
@@ -62,7 +63,10 @@ public class ParticipationService implements IParticipationService{
         return partRepository.findById(id).orElse(null);
     }
 
-    public void deleteParticipation(Long id) {
+    public void deleteParticipation(Long id,User user) {
+        Participation participation=findParticipationById(id);
+        Validate.notNull(participation,"Participation not found");
+        Validate.isTrue(participation.getUser().getId().equals(user.getId())||user.isAdmin(),"You can't delete this participation");
         partRepository.deleteById(id);
     }
 

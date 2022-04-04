@@ -43,10 +43,10 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,Long userId) {
+    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,User user) {
         Event event=eventService.findById(eventId);
         Validate.isTrue(event!=null,"Event does not exits");
-        if(event.getOrganizer().getId().equals(userId)){
+        if(event.getOrganizer().getId().equals(user.getId())||user.isAdmin()){
             return sponsorRepository.findSponsorByEventId(eventId,p);
         }else{
             return sponsorRepository.findByEventAndState(eventId,true,p);
@@ -88,31 +88,10 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void update(Map<String, String> params, Long sponsorId) {
-        Sponsorship newSponsor = this.findSponsorById(sponsorId);
-        if(newSponsor != null){
-            String quantity=params.get("quantity");
-            Validate.isTrue(StringUtils.isNotBlank(quantity)&& NumberUtils.isCreatable(quantity),"Quantity should be a double");
-            newSponsor.setQuantity(Double.valueOf(quantity));
-            newSponsor.setName(params.get("name"));
-            //
-            // When Image functionality is implemented: 
-            //
-            // List<Image> images = new ArrayList<Image>();
-            // String[] imagesArr = params.get("images").split(",");
-            // for(String imageId: imagesArr){
-            //     images.add(imageService.findById(Long.valueOf(imageId)));
-            // }
-            //
-            sponsorRepository.save(newSponsor);
-        }
-    }
-
-    @Override
-    public void resolveSponsorship(boolean b, Long sId, Long userId) {
+    public void resolveSponsorship(boolean b, Long sId, User user) {
         Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
         Validate.isTrue(sponsor!=null,"Sponsor id doesnt exits");
-        Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(userId),"User must be event organizer");
+        Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(user.getId())||user.isAdmin(),"User must be event organizer");
         sponsor.setAccepted(b);
         this.sponsorRepository.save(sponsor);
 

@@ -77,9 +77,4 @@ public class ImageModelTests {
         assertFalse(image2.equals((Object)image));
         assertNotEquals(image.hashCode(), image2.hashCode());
     }
-
-    @Test
-    public void imageEqualsNullTest(){
-        assertFalse(image.equals(null));
-    }
 }

@@ -45,7 +45,7 @@ public class UserServiceTests {
        
        assertTrue(user != null);
        assertEquals(user.getFirstName(), "Juan");
-       assertEquals(user.getLastName(), "Antonio");
+       assertEquals(user.getLastName(), "Rodriguez");
     }
 
     @Test

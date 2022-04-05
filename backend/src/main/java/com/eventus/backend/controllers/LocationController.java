@@ -61,12 +61,14 @@ public class LocationController extends ValidationController{
     }
 
     @DeleteMapping("/locations/{id}")
-    public ResponseEntity<String> deleteLocation(@PathVariable Long id, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Object> deleteLocation(@PathVariable Long id, @AuthenticationPrincipal User user) {
         try {
             this.locationService.deleteById(id, user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
         }
     }
 

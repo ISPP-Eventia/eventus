@@ -1,21 +1,18 @@
-package com.eventus.backend.stripe;
+package com.eventus.backend.services;
 
-import java.util.HashMap;
 import java.util.Map;
-
 
 import com.eventus.backend.models.User;
 import com.stripe.Stripe;
+import com.stripe.exception.CardException;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Account;
-import com.stripe.model.AccountCollection;
 import com.stripe.model.Customer;
 import com.stripe.model.PaymentIntent;
-import com.stripe.model.Token;
-import com.stripe.model.Transfer;
-import com.stripe.model.TransferCollection;
+import com.stripe.model.PaymentMethod;
+import com.stripe.model.PaymentMethodCollection;
+import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.PaymentIntentCreateParams;
-import com.stripe.param.TransferCreateParams;
+import com.stripe.param.PaymentMethodListParams;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,41 +21,94 @@ import org.springframework.stereotype.Service;
 @Service
 public class StripeService {
 
-
-
-
     @Value("${stripe.key.secret}")
     String secretKey;
 
-    public PaymentIntent createPaymentIntent(PaymentIntentObj paymentIntentObj) throws StripeException {
+    public PaymentIntent createNewPaymentIntent(Map<String,String> paymentIntentObj, User user) throws StripeException {
         Stripe.apiKey = secretKey;
-        PaymentIntentCreateParams params =
-        PaymentIntentCreateParams.builder()
-          .setAmount(Long.valueOf(paymentIntentObj.getAmount()))
-          .setCurrency("eur")
-          .setAutomaticPaymentMethods(PaymentIntentCreateParams.AutomaticPaymentMethods
+
+        PaymentMethodListParams methodParams =
+          PaymentMethodListParams
             .builder()
-            .setEnabled(true)
-            .build())
+            .setCustomer(user.getCustomerId())
+            .setType(PaymentMethodListParams.Type.CARD)
+            .build();
+
+        PaymentMethodCollection paymentMethods = PaymentMethod.list(methodParams);
+
+        PaymentIntentCreateParams paymentParams =
+        PaymentIntentCreateParams.builder()
+          .setAmount(Long.valueOf(paymentIntentObj.get("amount")))
+          .setCurrency("eur")
+          .setCustomer(user.getCustomerId())
+          .setPaymentMethod(paymentMethods.getData().get(0).getId())
+          .setConfirm(true)
+          .setOffSession(true)
           .build();
-        return PaymentIntent.create(params);
+
+          PaymentIntent payment = null;
+          try {
+            PaymentIntent.create(paymentParams);
+          } catch (CardException err) {
+            System.out.println("Error code is : " + err.getCode());
+            String paymentIntentId = err.getStripeError().getPaymentIntent().getId();
+            PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
+            System.out.println(paymentIntent.getId());
+          }
+
+          return payment;
     }
     
-     public PaymentIntent confirmPaymentIntent(String id) throws StripeException {
-        Stripe.apiKey = secretKey;
-        PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
-        Map<String, Object> params = new HashMap<>();
-        params.put("payment_method", "pm_card_visa");
-        paymentIntent.confirm(params);
-        return paymentIntent;
+
+    public String createCustomer(User user) {
+      Stripe.apiKey = secretKey;
+
+      CustomerCreateParams params = CustomerCreateParams.builder()
+        .setEmail(user.getEmail())
+        .setName(user.getFirstName() + " " + user.getLastName())
+        .build();
+
+      Customer customer = null;
+      try {
+        customer = Customer.create(params);
+        return customer.getId();
+      } catch (StripeException e) {
+        e.printStackTrace();
+      }
+      return "";
     }
 
-    public PaymentIntent cancelPaymentIntent(String id) throws StripeException {
-        Stripe.apiKey = secretKey;
-        PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
-        paymentIntent.cancel();
-        return paymentIntent;
+    public PaymentIntent createInitialPaymentIntent(User user) throws StripeException {
+      Stripe.apiKey = secretKey;
+      PaymentIntentCreateParams params =
+      PaymentIntentCreateParams.builder()
+        .setAmount(50L)
+        .setCurrency("eur")
+        .setCustomer(user.getCustomerId())
+        .setAutomaticPaymentMethods(PaymentIntentCreateParams.AutomaticPaymentMethods
+          .builder()
+          .setEnabled(true)
+          .build())
+        .build();
+      return PaymentIntent.create(params);
     }
+    //  public PaymentIntent confirmPaymentIntent(String id) throws StripeException {
+    //     Stripe.apiKey = secretKey;
+    //     PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
+    //     Map<String, Object> params = new HashMap<>();
+    //     params.put("payment_method", "pm_card_visa");
+    //     paymentIntent.confirm(params);
+    //     return paymentIntent;
+    // }
+
+    // public PaymentIntent cancelPaymentIntent(String id) throws StripeException {
+    //     Stripe.apiKey = secretKey;
+    //     PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
+    //     paymentIntent.cancel();
+    //     return paymentIntent;
+    // }
+
+    
 
     // public Account createAccount(Map<String,String> createParams) throws StripeException{
     //     Stripe.apiKey = secretKey;

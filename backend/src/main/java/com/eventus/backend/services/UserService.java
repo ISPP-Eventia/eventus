@@ -23,15 +23,20 @@ public class UserService implements IUserService{
     private final JWTTokenService tokens;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final StripeService stripeService;
+
     @Autowired
-    public UserService(UserRepository userRepository,JWTTokenService tokens,PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,JWTTokenService tokens,PasswordEncoder passwordEncoder, StripeService stripeService) {
         this.userRepository = userRepository;
         this.tokens=tokens;
         this.passwordEncoder=passwordEncoder;
+        this.stripeService = stripeService;
     }
 
     @Transactional
     public void saveUser(User user) throws DataAccessException {
+        user.setCustomerId(stripeService.createCustomer(user));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

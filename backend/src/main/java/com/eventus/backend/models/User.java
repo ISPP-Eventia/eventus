@@ -68,6 +68,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<Location> locations = new HashSet<>();
 
+    @Column
+    @JsonIgnore
+    private String customerId;
+
 
     public Set<Sponsorship> getSponsors() {
         return sponsors;
@@ -147,6 +151,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email=email;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     @JsonProperty("password")

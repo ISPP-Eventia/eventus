@@ -11,10 +11,12 @@ import com.stripe.model.Customer;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.PaymentMethod;
 import com.stripe.model.PaymentMethodCollection;
+import com.stripe.model.SetupIntent;
 import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.CustomerListPaymentMethodsParams;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.PaymentMethodListParams;
+import com.stripe.param.SetupIntentCreateParams;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -76,26 +78,21 @@ public class StripeService {
       return "";
     }
 
-    public PaymentIntent createInitialPaymentIntent(User user) throws StripeException {
+    public SetupIntent createInitialPaymentIntent(User user) throws StripeException {
       Stripe.apiKey = secretKey;
-      PaymentIntentCreateParams params =
-      PaymentIntentCreateParams.builder()
-        .setAmount(50L)
-        .setCurrency("eur")
+      SetupIntentCreateParams  params =
+      SetupIntentCreateParams .builder()
         .setCustomer(user.getCustomerId())
-        .setAutomaticPaymentMethods(PaymentIntentCreateParams.AutomaticPaymentMethods
-          .builder()
-          .setEnabled(true)
-          .build())
+        .addPaymentMethodType("card")
         .build();
-      return PaymentIntent.create(params);
+      return SetupIntent.create(params);
     }
     
 
 
     public PaymentMethodCollection getPaymentMethods(User user) {
       try {
-        Customer customer = Customer.retrieve("cus_LSEhKRWFFfOLt1");
+        Customer customer = Customer.retrieve(user.getCustomerId());
         CustomerListPaymentMethodsParams params =
           CustomerListPaymentMethodsParams.builder()
             .setType(CustomerListPaymentMethodsParams.Type.CARD)

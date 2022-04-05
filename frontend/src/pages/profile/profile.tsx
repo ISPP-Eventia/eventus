@@ -2,7 +2,7 @@ import { SyntheticEvent, useMemo } from "react";
 
 import { useNavigate, useParams } from "react-router";
 import { Box, Tab, Tabs } from "@mui/material";
-import { Event, Info, LocationCity, Receipt } from "@mui/icons-material";
+import { Event, Info, LocationCity, Receipt, CreditCard } from "@mui/icons-material";
 
 import { TabPanel } from "components/molecules";
 import {
@@ -11,17 +11,19 @@ import {
   MyEventsTab,
 } from "components/organisms";
 import Page from "../page";
+import PaymentMethods from "./paymentMethods";
 
 const tabs = {
   events: 0,
   locations: 1,
   tickets: 2,
   info: 3,
+  payments: 4
 };
 
 const ProfilePage = () => {
   const activeTabName =
-    useParams<{ tab: "events" | "locations" | "tickets" | "info" }>().tab;
+    useParams<{ tab: "events" | "locations" | "tickets" | "info" | "payments" }>().tab;
   const navigate = useNavigate();
 
   const activeTabIndex = useMemo(() => {
@@ -44,6 +46,7 @@ const ProfilePage = () => {
           <Tab icon={<LocationCity />} />
           <Tab icon={<Receipt />} />
           <Tab icon={<Info />} />
+          <Tab icon={<CreditCard />} />
         </Tabs>
       </Box>
       <TabPanel value={activeTabIndex} index={0}>
@@ -58,6 +61,9 @@ const ProfilePage = () => {
       <TabPanel value={activeTabIndex} index={3}>
         TODO: Mis Datos
         <ProfileInfoTab />
+      </TabPanel>
+      <TabPanel value={activeTabIndex} index={4}>
+        <PaymentMethods />
       </TabPanel>
     </Page>
   );

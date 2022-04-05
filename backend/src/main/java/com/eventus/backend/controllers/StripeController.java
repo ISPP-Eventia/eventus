@@ -9,6 +9,7 @@ import com.eventus.backend.services.StripeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.PaymentMethod;
+import com.stripe.model.SetupIntent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class StripeController {
 
     @PostMapping("/initial")
     public ResponseEntity<String> createIntial(@AuthenticationPrincipal User user){
-        PaymentIntent paymentIntent = null;
+        SetupIntent paymentIntent = null;
         try {
             paymentIntent = stripeService.createInitialPaymentIntent(user);
         } catch (StripeException e) {

@@ -16,8 +16,8 @@ import {
 } from "pages";
 import EditEventPage from "pages/events/editEvent";
 import EditLocationPage from "pages/locations/editLocation";
-import CheckoutForm from "components/CheckoutForm";
 import StripeApp from "components/StripeApp";
+import PaymentStatus from "pages/profile/paymentStatus";
 
 const AppRoutes = () => {
   return (
@@ -40,16 +40,14 @@ const AppRoutes = () => {
           <Route path="/events/:id" element={<EventDetailPage />} />
           <Route path="/events/:id/edit" element={<EditEventPage />} />
 
-
           <Route path="/locations" element={<LocationListPage />} />
           <Route path="/locations/new" element={<NewLocationPage />} />
           <Route path="/locations/:id" element={<LocationDetailPage />} />
           <Route path="/locations/:id/edit" element={<EditLocationPage />} />
 
-
           <Route path="/profile/:tab" element={<ProfilePage />} />
           <Route path="/profile" element={<Navigate to="/profile/events" />} />
-          <Route path="/stripe/checkout" element={<StripeApp/>}/>
+          <Route path="/profile/payments/status" element={<PaymentStatus />} />
           <Route path="*" element={<Navigate to="/landing" />} />
         </Routes>
       </main>

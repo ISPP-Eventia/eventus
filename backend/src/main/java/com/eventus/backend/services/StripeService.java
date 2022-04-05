@@ -1,5 +1,6 @@
 package com.eventus.backend.services;
 
+import java.util.List;
 import java.util.Map;
 
 import com.eventus.backend.models.User;
@@ -11,10 +12,12 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.PaymentMethod;
 import com.stripe.model.PaymentMethodCollection;
 import com.stripe.param.CustomerCreateParams;
+import com.stripe.param.CustomerListPaymentMethodsParams;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.PaymentMethodListParams;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -26,25 +29,17 @@ public class StripeService {
 
     public PaymentIntent createNewPaymentIntent(Map<String,String> paymentIntentObj, User user) throws StripeException {
         Stripe.apiKey = secretKey;
-
-        PaymentMethodListParams methodParams =
-          PaymentMethodListParams
-            .builder()
+        PaymentMethodCollection paymentMethods = getPaymentMethods(user);
+        if(!paymentMethods.getData().isEmpty()){
+          PaymentIntentCreateParams paymentParams =
+          PaymentIntentCreateParams.builder()
+            .setAmount(Long.valueOf(paymentIntentObj.get("amount")))
+            .setCurrency("eur")
             .setCustomer(user.getCustomerId())
-            .setType(PaymentMethodListParams.Type.CARD)
+            .setPaymentMethod(paymentMethods.getData().get(0).getId())
+            .setConfirm(true)
+            .setOffSession(true)
             .build();
-
-        PaymentMethodCollection paymentMethods = PaymentMethod.list(methodParams);
-
-        PaymentIntentCreateParams paymentParams =
-        PaymentIntentCreateParams.builder()
-          .setAmount(Long.valueOf(paymentIntentObj.get("amount")))
-          .setCurrency("eur")
-          .setCustomer(user.getCustomerId())
-          .setPaymentMethod(paymentMethods.getData().get(0).getId())
-          .setConfirm(true)
-          .setOffSession(true)
-          .build();
 
           PaymentIntent payment = null;
           try {
@@ -55,8 +50,11 @@ public class StripeService {
             PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
             System.out.println(paymentIntent.getId());
           }
-
           return payment;
+        }else{
+          return null;
+        }
+          
     }
     
 
@@ -92,6 +90,25 @@ public class StripeService {
         .build();
       return PaymentIntent.create(params);
     }
+    
+
+
+    public PaymentMethodCollection getPaymentMethods(User user) {
+      try {
+        Customer customer = Customer.retrieve("cus_LSEhKRWFFfOLt1");
+        CustomerListPaymentMethodsParams params =
+          CustomerListPaymentMethodsParams.builder()
+            .setType(CustomerListPaymentMethodsParams.Type.CARD)
+            .build();
+        PaymentMethodCollection paymentMethods = customer.listPaymentMethods(params);
+        return paymentMethods;
+      } catch (StripeException e) {
+        e.printStackTrace();
+        return null;
+      }
+    }
+
+
     //  public PaymentIntent confirmPaymentIntent(String id) throws StripeException {
     //     Stripe.apiKey = secretKey;
     //     PaymentIntent paymentIntent = PaymentIntent.retrieve(id);

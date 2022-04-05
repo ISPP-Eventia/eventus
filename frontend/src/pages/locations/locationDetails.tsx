@@ -16,6 +16,7 @@ const LocationDetailPage = () => {
   const locationId = Number(useParams().id);
   const eventId = Number(localStorage.getItem("eventId"));
   const loggedUserId = localStorage.getItem("userId");
+  const isAdmin = localStorage.getItem("isAdmin");
 
   const { isLoading, data: location } = useQuery("location", () =>
     locationApi.getLocation(locationId).then((response) => {
@@ -51,7 +52,7 @@ const LocationDetailPage = () => {
     <Page
       title={location.name}
       actions={
-        location.owner?.id === Number(loggedUserId)
+        (location.owner?.id === Number(loggedUserId) || isAdmin === 'true')
           ? [
               <Button
                 variant="contained"

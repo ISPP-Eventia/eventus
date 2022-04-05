@@ -18,16 +18,17 @@ const EditProfile = (props: EditProfileProps) => {
   const navigate = useNavigate();
   const loggedUserId = localStorage.getItem("userId");
   const handleSubmit = (values: SignupFormValues) => {
-  const profileBody = utils.parsers.signupFormValuesToUser(values);
-  console.log(profile)
-  userApi
-  .updateUser(profileBody)
-  .then(() => {
-      navigate("/profile");
-    })
-    .catch((e) => {
-    setError(e?.response?.data?.error ?? "");
-    });
+    const profileBody = utils.parsers.signupFormValuesToUser(values);
+    profileBody.id = Number(loggedUserId) || -1;
+    console.log(profileBody);
+    userApi
+    .updateUser(profileBody)
+    .then(() => {
+        navigate("/profile");
+        })
+        .catch((e) => {
+        setError(e?.response?.data?.error ?? "");
+        });
    };
   
   const initialValues: any = useMemo(

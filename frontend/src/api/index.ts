@@ -31,7 +31,7 @@ const userApi = {
 
   //individual operations
   getUserDetails: () => axios.get("/user"),
-  updateUser: (user: User) => axios.put("/user", user),
+  updateUser: (user: User) => axios.put(`/user/${user.id}`, user),
 };
 
 const eventApi = {

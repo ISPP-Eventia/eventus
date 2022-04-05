@@ -27,6 +27,13 @@ public class LocationController extends ValidationController{
         this.locationService=locationService;
     }
 
+
+
+    @GetMapping("/locations")
+    public ResponseEntity<List<Location>> getLocations(@RequestParam(defaultValue = "0") Integer numPag) {
+        return ResponseEntity.ok(this.locationService.findAll(PageRequest.of(numPag,20000)));
+    }
+
     @GetMapping("/locations/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
         Location location =

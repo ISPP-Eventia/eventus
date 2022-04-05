@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.eventus.backend.models.Event;
@@ -16,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -36,10 +34,10 @@ public class SponsorshipModelTests {
     public void setUp(){
 
 
-        Mockito.when(event.getTitle()).thenReturn("Event 1");
-        Mockito.when(event.getPrice()).thenReturn(10.0);
-        Mockito.when(owner.getEmail()).thenReturn("pablo@gmail.com");
-        Mockito.when(owner.getLastName()).thenReturn("Gonzalez");
+        when(event.getTitle()).thenReturn("Event 1");
+        when(event.getPrice()).thenReturn(10.0);
+        when(owner.getEmail()).thenReturn("pablo@gmail.com");
+        when(owner.getLastName()).thenReturn("Gonzalez");
 
         sponsorship = new Sponsorship();
         sponsorship.setId(1L);

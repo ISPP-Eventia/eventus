@@ -17,6 +17,7 @@ const EventDetailPage = () => {
 
   const eventId = Number(useParams().id);
   const loggedUserId = localStorage.getItem("userId");
+  const isAdmin = localStorage.getItem("isAdmin");
 
   const { isLoading: loadingEvent, data: event } = useQuery("event", () =>
     eventApi.getEvent(eventId).then((response) => {
@@ -60,7 +61,7 @@ const EventDetailPage = () => {
     <Page
       title={event.title}
       actions={
-        event.organizer?.id === Number(loggedUserId)
+        (event.organizer?.id === Number(loggedUserId) || isAdmin === 'true')
           ? [
               <Button
                 variant="contained"

@@ -18,6 +18,7 @@ axios.interceptors.response.use(
     if (response.data.token && response.data.id) {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.id);
+      localStorage.setItem("isAdmin", response.data.isAdmin);
     }
     return response;
   },
@@ -25,6 +26,7 @@ axios.interceptors.response.use(
     if (error.response.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
+      localStorage.removeItem("isAdmin");
       window.location.href = "/login";
     }
   }

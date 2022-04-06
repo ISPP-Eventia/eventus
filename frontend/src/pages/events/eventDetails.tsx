@@ -17,7 +17,9 @@ const EventDetailPage = () => {
   const navigate = useNavigate();
 
   const eventId = Number(useParams().id);
+
   const loggedUserId = Number(localStorage.getItem("userId"));
+  const isAdmin = localStorage.getItem("isAdmin");
 
   const {
     isLoading: loadingEvent,
@@ -75,7 +77,7 @@ const EventDetailPage = () => {
     <Page
       title={event.title}
       actions={
-        event.organizer?.id === loggedUserId
+        event.organizer?.id === loggedUserId || isAdmin === "true"
           ? [
               <Button
                 variant="contained"

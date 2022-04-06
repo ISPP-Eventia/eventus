@@ -27,6 +27,13 @@ public class LocationController extends ValidationController{
         this.locationService=locationService;
     }
 
+
+
+    @GetMapping("/locations")
+    public ResponseEntity<List<Location>> getLocations(@RequestParam(defaultValue = "0") Integer numPag) {
+        return ResponseEntity.ok(this.locationService.findAll(PageRequest.of(numPag,20000)));
+    }
+
     @GetMapping("/locations/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
         Location location =
@@ -61,12 +68,14 @@ public class LocationController extends ValidationController{
     }
 
     @DeleteMapping("/locations/{id}")
-    public ResponseEntity<String> deleteLocation(@PathVariable Long id, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Object> deleteLocation(@PathVariable Long id, @AuthenticationPrincipal User user) {
         try {
             this.locationService.deleteById(id, user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
         }
     }
 

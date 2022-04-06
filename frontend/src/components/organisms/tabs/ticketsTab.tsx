@@ -12,7 +12,7 @@ const TicketsTab = (props: TicketsTabProps) => {
   return (
     <section>
       <Typography variant="h4">Mis Tickets</Typography>
-      <div className="flex flex-wrap gap-3">
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4">
         {participations.length === 0 ? (
           <div>
             No tiene ningún ticket,

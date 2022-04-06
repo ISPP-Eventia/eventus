@@ -143,7 +143,7 @@ public class StripeService {
         PaymentIntentCreateParams.builder()
           .setAmount(Long.valueOf((int) (participation.getPrice() *100)))
           .setCurrency("eur")
-          .setDescription("PARTICIAPTION " + participation.getEvent().getTitle())
+          .setDescription("PARTICIPATION " + participation.getEvent().getTitle())
           .setCustomer(participation.getUser().getCustomerId())
           .setPaymentMethod(paymentMethods.getData().get(0).getId())
           .setConfirm(true)

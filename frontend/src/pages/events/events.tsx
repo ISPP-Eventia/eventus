@@ -73,7 +73,7 @@ const EventListPage = () => {
     setSortBy("premio");
     const results = events
       ?.filter((event) => !!event.prize)
-      .sort((a, b) => a?.prize || 0 - (b.prize || 0));
+      .sort((a, b) => (b?.prize || 0) - (a.prize || 0));
     setDisplayed(results?.slice(0, 10) || []);
   };
 

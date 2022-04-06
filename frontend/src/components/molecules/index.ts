@@ -7,6 +7,7 @@ import EventCard from "./Cards/eventCard";
 import SelectedEventCard from "./Cards/selectedEventCard";
 import LocationCard from "./Cards/locationCard";
 import UserHorizontalCard from "./Cards/userHorizontalCard";
+import TicketHorizontalCard from "./Cards/participationCard";
 
 import TabPanel from "./TabPanel/tabPanel";
 
@@ -17,6 +18,7 @@ export {
   EventCard,
   SelectedEventCard,
   UserHorizontalCard,
+  TicketHorizontalCard,
   LocationCard,
   TabPanel,
 };

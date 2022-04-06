@@ -8,6 +8,7 @@ import { hostingApi, locationApi } from "api";
 import { Loader, Map, HostingRequest } from "components/atoms";
 import { SelectedEventCard, UserHorizontalCard } from "components/molecules";
 import { HostingForm } from "components/organisms";
+import { ErrorPage } from "pages";
 import Page from "../page";
 
 const LocationDetailPage = () => {
@@ -17,9 +18,14 @@ const LocationDetailPage = () => {
   const eventId = Number(localStorage.getItem("eventId"));
   const loggedUserId = localStorage.getItem("userId");
 
-  const { isLoading, data: location } = useQuery("location", () =>
+  const {
+    isLoading,
+    data: location,
+    error: locationError,
+    isError: isLocationError,
+  } = useQuery("location", () =>
     locationApi.getLocation(locationId).then((response) => {
-      return response.data as Location;
+      return response?.data as Location;
     })
   );
 
@@ -29,7 +35,7 @@ const LocationDetailPage = () => {
     refetch: refetchHostings,
   } = useQuery("hosting", () =>
     hostingApi.getHostings(locationId).then((response) => {
-      return response.data as Hosting[];
+      return response?.data as Hosting[];
     })
   );
 
@@ -42,11 +48,13 @@ const LocationDetailPage = () => {
   const handleAutoHost = () => {
     hostingApi
       .createHosting({ eventId, locationId, price: 0 })
-      .then((response) => refetchHostings());
+      .then(() => refetchHostings());
   };
 
-  return isLoading || !location ? (
+  return isLoading ? (
     <Loader />
+  ) : isLocationError || !location ? (
+    <ErrorPage errorMessage={(locationError as Error)?.message} />
   ) : (
     <Page
       title={location.name}
@@ -70,16 +78,16 @@ const LocationDetailPage = () => {
                 </Button>
               ) : null,
               <Button
-              variant="contained"
-              color="error"
-              onClick={() =>
-                locationApi
-                  .deleteLocation(location.id!)
-                  .then(() => navigate("/locations"))
-              }
-            >
-              Eliminar
-            </Button>,
+                variant="contained"
+                color="error"
+                onClick={() =>
+                  locationApi
+                    .deleteLocation(location.id!)
+                    .then(() => navigate("/locations"))
+                }
+              >
+                Eliminar
+              </Button>,
             ]
           : [
               eventId !== null && (

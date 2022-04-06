@@ -7,6 +7,7 @@ import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.SponsorshipRepository;
+import com.stripe.exception.StripeException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -18,15 +19,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class SponsorshipService implements ISponsorshipService{
     
-    private SponsorshipRepository sponsorRepository;
-    private UserService userService;
-    private EventService eventService;
+    private final SponsorshipRepository sponsorRepository;
+    private final EventService eventService;
+    private final StripeService stripeService;
 
     @Autowired
-    public SponsorshipService(SponsorshipRepository sponsorRepo,UserService userService, EventService eventService){
+    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService, StripeService stripeService){
         this.sponsorRepository = sponsorRepo;
         this.eventService = eventService;
-        this.userService = userService;
+        this.stripeService = stripeService;
     }
 
     @Override
@@ -45,9 +46,14 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p) {
-        
-        return sponsorRepository.findSponsorByEventId(eventId,p);
+    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,User user) {
+        Event event=eventService.findById(eventId);
+        Validate.isTrue(event!=null,"Event does not exits");
+        if(event.getOrganizer().getId().equals(user.getId())||user.isAdmin()){
+            return sponsorRepository.findSponsorByEventId(eventId,p);
+        }else{
+            return sponsorRepository.findByEventAndState(eventId,true,p);
+        }
     }
 
     @Override
@@ -66,14 +72,13 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void create(Map<String,String> params) {
+    public void create(Map<String,String> params,User user) {
         String eventId =params.get("eventId");
         String quantity=params.get("quantity");
         Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Incorrect format for eventId");
         Validate.isTrue(StringUtils.isNotBlank(quantity)&& NumberUtils.isCreatable(quantity),"Quantity should be a double");
         Sponsorship entity = new Sponsorship();
         Event event = eventService.findById(Long.valueOf(eventId));
-        User user = userService.findUserById(1L);
         if(event != null && user != null){
             entity.setEvent(event);
             entity.setUser(user);
@@ -86,36 +91,18 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void update(Map<String, String> params, Long sponsorId) {
-        Sponsorship newSponsor = this.findSponsorById(sponsorId);
-        if(newSponsor != null){
-            String quantity=params.get("quantity");
-            Validate.isTrue(StringUtils.isNotBlank(quantity)&& NumberUtils.isCreatable(quantity),"Quantity should be a double");
-            newSponsor.setQuantity(Double.valueOf(quantity));
-            newSponsor.setName(params.get("name"));
-            //
-            // When Image functionality is implemented: 
-            //
-            // List<Image> images = new ArrayList<Image>();
-            // String[] imagesArr = params.get("images").split(",");
-            // for(String imageId: imagesArr){
-            //     images.add(imageService.findById(Long.valueOf(imageId)));
-            // }
-            //
-            sponsorRepository.save(newSponsor);
-        }
-    }
-
-    @Override
-    public void resolveSponsorship(boolean b, Long sId) {
+    public void resolveSponsorship(boolean b, Long sId, User user) throws StripeException {
         Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
-        if(sponsor!=null){
-            sponsor.setAccepted(b);
-            this.sponsorRepository.save(sponsor);
-        }else{
-            throw new IllegalArgumentException();
+        Validate.isTrue(sponsor!=null,"Sponsor id doesnt exits");
+        Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(user.getId())||user.isAdmin(),"User must be event organizer");
+        Boolean paid = false;
+        if(b){
+            stripeService.createSponsorshipPayment(sponsor);
+            paid = true;
         }
-        
+        if(paid) sponsor.setAccepted(true);
+        this.sponsorRepository.save(sponsor);
+
     }
 
     @Override

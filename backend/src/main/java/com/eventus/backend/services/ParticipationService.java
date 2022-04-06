@@ -15,8 +15,11 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +30,6 @@ import org.springframework.util.ResourceUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -35,24 +37,28 @@ import java.util.List;
 @Service
 public class ParticipationService implements IParticipationService{
 
-    private ParticipationRepository partRepository;
+    private final ParticipationRepository partRepository;
+    private final StripeService stripeService;
 
     @Autowired
-    public ParticipationService(ParticipationRepository partRepository) {
+    public ParticipationService(ParticipationRepository partRepository, StripeService stripeService) {
        this.partRepository = partRepository;
+       this.stripeService = stripeService;
     }
 
     @Transactional
-    public void saveParticipation(Event event, User user) throws DataAccessException {
+    public void saveParticipation(Event event, User user) throws DataAccessException, StripeException {
         Participation participation=new Participation();
         participation.setTicket(RandomStringUtils.randomAlphanumeric(20)+user.getId()+event.getId());
         participation.setPrice(event.getPrice());
         participation.setEvent(event);
         participation.setUser(user);
-        partRepository.save(participation);
+        PaymentIntent payment = stripeService.createParticipationPayment(participation);
+        if(payment != null) partRepository.save(participation);
     }
     
-    public Participation createParticipationAndTicket(Event event, User user) throws MalformedURLException, DocumentException, IOException {
+    public Participation createParticipationAndTicket(Event event, User user) throws DocumentException, IOException, DataAccessException, StripeException {
+
     	saveParticipation(event, user);
         Participation part = findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
         if(part!=null) createTicketPDF(part);
@@ -63,7 +69,10 @@ public class ParticipationService implements IParticipationService{
         return partRepository.findById(id).orElse(null);
     }
 
-    public void deleteParticipation(Long id) {
+    public void deleteParticipation(Long id,User user) {
+        Participation participation=findParticipationById(id);
+        Validate.notNull(participation,"Participation not found");
+        Validate.isTrue(participation.getUser().getId().equals(user.getId())||user.isAdmin(),"You can't delete this participation");
         partRepository.deleteById(id);
     }
 
@@ -86,10 +95,10 @@ public class ParticipationService implements IParticipationService{
        return partRepository.findByUserIdEqualsAndEventIdEquals(userId,evenId).orElse(null);
     }
     
-    public Document insertImageInPDF(Document d, String path) throws DocumentException, MalformedURLException, IOException {
+    public Document insertImageInPDF(Document d, String path) throws DocumentException, IOException {
         File file = ResourceUtils.getFile(path);
 
-        Image img = Image.getInstance(file.getAbsolutePath().toString());
+        Image img = Image.getInstance(file.getAbsolutePath());
         img.scalePercent(20);
         img.setAlignment(Element.ALIGN_CENTER);
         d.add(img);
@@ -181,7 +190,7 @@ public class ParticipationService implements IParticipationService{
     	return d;
     }
     
-    public byte[] createTicketPDF(Participation participation) throws DocumentException, MalformedURLException, IOException {
+    public byte[] createTicketPDF(Participation participation) throws DocumentException, IOException {
     	Document document = new Document();
     	ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
         PdfWriter.getInstance(document,outputStream);

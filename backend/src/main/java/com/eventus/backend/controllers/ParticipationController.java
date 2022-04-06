@@ -5,8 +5,10 @@ import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
-import com.eventus.backend.services.UserService;
+import com.eventus.backend.services.StripeService;
 import com.itextpdf.text.DocumentException;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentMethodCollection;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -26,31 +30,28 @@ import java.net.MalformedURLException;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ParticipationController extends ValidationController{
+
     private final ParticipationService participationService;
-
-    private final UserService userService;
-
     private final EventService eventService;
+    private final StripeService stripeService;
 
     @Autowired
-    public ParticipationController(ParticipationService participationService, UserService userService, EventService eventService) {
+    public ParticipationController(ParticipationService participationService, EventService eventService,StripeService stripeService) {
         this.participationService = participationService;
-        this.userService = userService;
         this.eventService = eventService;
-    }
-
-    @GetMapping("/participations")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Participation> getParticipations(@RequestParam(defaultValue = "0") Integer numPag) {
-        return this.participationService.findAllParticipation(PageRequest.of(numPag, 20));
+        this.stripeService = stripeService;
     }
 
     @GetMapping("/participations/{id}")
-    public ResponseEntity<Participation> getParticipationById(@PathVariable Long id) {
+    public ResponseEntity<Participation> getParticipationById(@PathVariable Long id,@AuthenticationPrincipal User user) {
         Participation participation =
                 this.participationService.findParticipationById(id);
         if (participation != null) {
-            return ResponseEntity.ok(participation);
+            if(user.isAdmin() || participation.getUser().getId().equals(user.getId())) {
+                return ResponseEntity.ok(participation);
+            }else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -58,33 +59,39 @@ public class ParticipationController extends ValidationController{
 
     @GetMapping("/events/{eventId}/participants")
     public ResponseEntity<List<User>> getUsersByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.participationService.findUsersByEventId(eventId, PageRequest.of(numPag, 20)));
+        return ResponseEntity.ok(this.participationService.findUsersByEventId(eventId, PageRequest.of(numPag, 20000)));
     }
 
-    @GetMapping("/users/{userId}/participations")
-    public ResponseEntity<List<Participation>> getParticipationsByUser(@PathVariable Long userId, @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.participationService.findParticipationByUserId(userId, PageRequest.of(numPag, 20)));
+    @GetMapping("/user/participations")
+    public ResponseEntity<List<Participation>> getParticipationsByUser(@AuthenticationPrincipal User user, @RequestParam(defaultValue = "0") Integer numPag) {
+        if(user.isAdmin()) {
+            return ResponseEntity.ok(this.participationService.findAllParticipation(PageRequest.of(numPag, 20000)));
+        }else{
+            return ResponseEntity.ok(this.participationService.findParticipationByUserId(user.getId(), PageRequest.of(numPag, 20000)));
+        }
     }
 
     @GetMapping("/events/{eventId}/participations")
     public ResponseEntity<List<Participation>> getParticipationsByEvent(@PathVariable Long eventId, @RequestParam(defaultValue = "0") Integer numPag) {
-        return ResponseEntity.ok(this.participationService.findParticipationByEventId(eventId, PageRequest.of(numPag, 20)));
+        return ResponseEntity.ok(this.participationService.findParticipationByEventId(eventId, PageRequest.of(numPag, 20000)));
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p) throws MalformedURLException, DocumentException, IOException {
+    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException, StripeException {
     	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
-            User user = this.userService.findUserById(1L);
             if (user != null && event != null) {
                 Participation participation = this.participationService.findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
 
                 if (participation != null) {
                     return ResponseEntity.badRequest().build();
                 }
-
-                participation = this.participationService.createParticipationAndTicket(event, user);
-
+                PaymentMethodCollection paymentMethods = stripeService.getPaymentMethods(user);
+                if(paymentMethods.getData().isEmpty()){
+                    return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+                }else{
+                    participation = this.participationService.createParticipationAndTicket(event, user);
+                }
                 return new ResponseEntity<>(participation, HttpStatus.OK);
             } else {
                 return ResponseEntity.notFound().build();
@@ -95,20 +102,20 @@ public class ParticipationController extends ValidationController{
     }
 
     @DeleteMapping("/participations/{id}")
-    public ResponseEntity<String> deleteParticipation(@PathVariable Long id) {
+    public ResponseEntity<Map<String,String>> deleteParticipation(@PathVariable Long id,@AuthenticationPrincipal User user) {
         try {
-            this.participationService.deleteParticipation(id);
+            this.participationService.deleteParticipation(id, user);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (DataAccessException e) {
-            return ResponseEntity.notFound().build();
+        } catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
         }
     }
 
     @GetMapping("/participation/{id}/ticket")
-    public ResponseEntity<byte[]> generateTicket(@PathVariable Long id){
+    public ResponseEntity<byte[]> generateTicket(@PathVariable Long id, @AuthenticationPrincipal User user) {
         ResponseEntity<byte[]> response = null;
         Participation participation=this.participationService.findParticipationById(id);
-        if(participation!=null){
+        if(participation!=null&&(participation.getUser().getId().equals(user.getId())||user.isAdmin())) {
             try {
             	byte[] array = this.participationService.createTicketPDF(participation);
                 HttpHeaders headers = new HttpHeaders();
@@ -125,4 +132,5 @@ public class ParticipationController extends ValidationController{
         }
         return response;
     }
+
 }

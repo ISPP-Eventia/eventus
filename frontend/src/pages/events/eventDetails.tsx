@@ -5,21 +5,30 @@ import { useQuery } from "react-query";
 
 import { EventUs, Sponsorship, User } from "types";
 import { eventApi } from "api";
+import utils from "utils";
 
 import { Ad, Loader, Map } from "components/atoms";
-import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import { UserHorizontalCard } from "components/molecules";
+import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
-import utils from "utils";
+import ErrorPage from "pages/error";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();
 
   const eventId = Number(useParams().id);
 
-  const { isLoading: loadingEvent, data: event } = useQuery("event", () =>
+  const loggedUserId = Number(localStorage.getItem("userId"));
+  const isAdmin = localStorage.getItem("isAdmin");
+
+  const {
+    isLoading: loadingEvent,
+    data: event,
+    error: eventError,
+    isError: isEventError,
+  } = useQuery("event", () =>
     eventApi.getEvent(eventId).then((response) => {
-      return response.data as EventUs;
+      return response?.data as EventUs;
     })
   );
 
@@ -30,7 +39,7 @@ const EventDetailPage = () => {
   } = useQuery("participants", () =>
     eventApi
       .getUsersByEvent(eventId)
-      .then((response) => response.data as User[])
+      .then((response) => response?.data as User[])
   );
 
   const {
@@ -40,7 +49,7 @@ const EventDetailPage = () => {
   } = useQuery("sponsorships", () =>
     eventApi
       .getSponsorshipsByEvent(Number(eventId))
-      .then((response) => response.data as Sponsorship[])
+      .then((response) => response?.data as Sponsorship[])
   );
 
   const onSearchLocation = () => {
@@ -48,18 +57,52 @@ const EventDetailPage = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("eventId", event?.id?.toString() ?? "1");
-  }, [event]);
+    if (
+      event?.organizer?.id === loggedUserId &&
+      !event?.coordinates &&
+      eventId
+    ) {
+      localStorage.setItem("eventId", eventId.toString());
+    } else localStorage.removeItem("eventId");
 
-  return loadingEvent || !event ? (
+    refetchSponsorships();
+    refetchParticipants();
+  }, [event, refetchSponsorships, refetchParticipants, loggedUserId, eventId]);
+
+  return loadingEvent ? (
     <Loader />
+  ) : isEventError || !event ? (
+    <ErrorPage errorMessage={(eventError as Error)?.message || ""} />
   ) : (
     <Page
       title={event.title}
-      actions={[
-        <ParticipateForm event={event} callback={refetchParticipants} />,
-        <SponsorshipForm event={event} callback={refetchSponsorships} />,
-      ]}
+      actions={
+        event.organizer?.id === loggedUserId || isAdmin === "true"
+          ? [
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate(`/events/${event.id}/edit`)}
+              >
+                Editar
+              </Button>,
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() =>
+                  eventApi
+                    .deleteEvent(event.id!)
+                    .then(() => navigate("/events"))
+                }
+              >
+                Eliminar
+              </Button>,
+            ]
+          : [
+              <ParticipateForm event={event} callback={refetchParticipants} />,
+              <SponsorshipForm event={event} callback={refetchSponsorships} />,
+            ]
+      }
     >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
@@ -84,39 +127,49 @@ const EventDetailPage = () => {
             <Typography variant="h4">Descripción</Typography>
             <Typography variant="body1">{event?.description}</Typography>
           </div>
-          <div className="flex flex-col gap-y-3 md:flex-row md:gap-8 xl:gap-12">
+          <div className="flex flex-col gap-y-3 md:flex-row md:gap-8">
             <div>
               <Typography variant="h4">Precio</Typography>
-              <Typography variant="body1">{event?.price}€</Typography>
+              <Typography variant="h6">{event?.price}€</Typography>
+              {event?.prize && (
+                <div>
+                  <Typography variant="h4">Premio</Typography>
+                  <Typography variant="h6">{event?.prize}€</Typography>
+                </div>
+              )}
             </div>
             <div>
               <Typography variant="h4">Fecha</Typography>
-              <Typography variant="body1">
+              <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.startDate ?? "")}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.endDate ?? "")}
               </Typography>
             </div>
           </div>
+          <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>
         </div>
-        <div className="flex flex-col md:col-span-2 xl:col-span-1">
-          <Typography variant="h4">Ubicación</Typography>
-          {event?.coordinates ? (
-            <Map
-              lat={event?.coordinates.latitude}
-              lng={event?.coordinates.longitude}
-            />
-          ) : (
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={onSearchLocation}
-            >
-              Buscar alojamiento
-            </Button>
-          )}
-        </div>
+        {!!event?.coordinates ||
+          (event.organizer?.id === Number(loggedUserId) && (
+            <div className="flex flex-col md:col-span-2 xl:col-span-1">
+              <Typography variant="h4">Ubicación</Typography>
+              {!!event?.coordinates ? (
+                <Map
+                  lat={event.coordinates?.latitude}
+                  lng={event.coordinates?.longitude}
+                />
+              ) : (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={onSearchLocation}
+                >
+                  Buscar alojamiento
+                </Button>
+              )}
+            </div>
+          ))}
       </section>
 
       {!loadingParticipants && !!participants?.length && (
@@ -139,6 +192,7 @@ const EventDetailPage = () => {
             <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
+                .sort((a, b) => b.quantity - a.quantity)
                 .map((ad) => (
                   <Ad callback={refetchSponsorships} sponsorship={ad} />
                 ))}

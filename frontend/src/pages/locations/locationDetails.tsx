@@ -1,23 +1,32 @@
-import { Typography } from "@mui/material";
-import { useParams } from "react-router";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router";
+import { Button, Typography } from "@mui/material";
 
 import { Hosting, Location } from "types";
-
-import { Loader, Map } from "components/atoms";
-import { HostingForm } from "components/organisms";
-import Page from "../page";
 import { hostingApi, locationApi } from "api";
-import { useQuery } from "react-query";
-import { UserHorizontalCard } from "components/molecules";
-import HostingRequest from "components/atoms/HostingRequest/HostingRequest";
+
+import { Loader, Map, HostingRequest } from "components/atoms";
+import { SelectedEventCard, UserHorizontalCard } from "components/molecules";
+import { HostingForm } from "components/organisms";
+import { ErrorPage } from "pages";
+import Page from "../page";
 
 const LocationDetailPage = () => {
+  const navigate = useNavigate();
+
   const locationId = Number(useParams().id);
   const eventId = Number(localStorage.getItem("eventId"));
+  const loggedUserId = localStorage.getItem("userId");
+  const isAdmin = localStorage.getItem("isAdmin");
 
-  const { isLoading, data: location } = useQuery("location", () =>
+  const {
+    isLoading,
+    data: location,
+    error: locationError,
+    isError: isLocationError,
+  } = useQuery("location", () =>
     locationApi.getLocation(locationId).then((response) => {
-      return response.data as Location;
+      return response?.data as Location;
     })
   );
 
@@ -27,7 +36,7 @@ const LocationDetailPage = () => {
     refetch: refetchHostings,
   } = useQuery("hosting", () =>
     hostingApi.getHostings(locationId).then((response) => {
-      return response.data as Hosting[];
+      return response?.data as Hosting[];
     })
   );
 
@@ -36,12 +45,57 @@ const LocationDetailPage = () => {
     locationId,
     price: location?.price || 0,
   };
-  return isLoading || !location ? (
+
+  const handleAutoHost = () => {
+    hostingApi
+      .createHosting({ eventId, locationId, price: 0 })
+      .then(() => refetchHostings());
+  };
+
+  return isLoading ? (
     <Loader />
+  ) : isLocationError || !location ? (
+    <ErrorPage errorMessage={(locationError as Error)?.message} />
   ) : (
     <Page
       title={location.name}
-      actions={[<HostingForm hosting={hosting} onSubmit={refetchHostings} />]}
+      actions={
+        location.owner?.id === Number(loggedUserId) || isAdmin === "true"
+          ? [
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate(`/locations/${locationId}/edit`)}
+              >
+                Editar
+              </Button>,
+              !!eventId ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleAutoHost()}
+                >
+                  Alojar mi evento
+                </Button>
+              ) : null,
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() =>
+                  locationApi
+                    .deleteLocation(location.id!)
+                    .then(() => navigate("/locations"))
+                }
+              >
+                Eliminar
+              </Button>,
+            ]
+          : [
+              !!eventId !== null && (
+                <HostingForm hosting={hosting} onSubmit={refetchHostings} />
+              ),
+            ]
+      }
     >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
@@ -67,30 +121,40 @@ const LocationDetailPage = () => {
           </div>
           <div>
             <Typography variant="h4">Precio</Typography>
-            <Typography variant="body1">{location.price}€ / h</Typography>
+            <Typography variant="h6">{location.price}€ / h</Typography>
           </div>
         </div>
+        {!!eventId && (
+          <div>
+            <Typography variant="h4">Evento Seleccionado</Typography>
+            <SelectedEventCard noPicture />
+          </div>
+        )}
       </section>
 
-      <section className="grid-cols-full mt-4 grid h-auto">
+      <section className="mt-4 grid h-auto">
         <Typography variant="h4">Ubicación</Typography>
         <Map
           lat={location.coordinates.latitude}
           lng={location.coordinates.longitude}
         />
       </section>
-      {!isLoadingHosting && !!hostings?.filter((hosting) => hosting.isAccepted !== false).length && (
-        <section className="grid-cols-full mt-4 grid h-auto gap-x-8 gap-y-2">
-          <Typography variant="h4">Alojamientos</Typography>
-          <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
-            {hostings
-              .filter((hosting) => hosting.isAccepted !== false)
-              .map((hosting) => (
-                <HostingRequest callback={refetchHostings} hosting={hosting} />
-              ))}
-          </div>
-        </section>
-      )}
+
+      {!isLoadingHosting &&
+        !!hostings?.filter((h) => h.isAccepted !== false).length && (
+          <section className="mt-4 grid h-auto gap-x-8 gap-y-2">
+            <Typography variant="h4">Alojamientos</Typography>
+            <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
+              {hostings
+                .filter((h) => h.isAccepted !== false)
+                .map((h) => (
+                  <HostingRequest callback={refetchHostings} hosting={h} />
+                ))}
+            </div>
+          </section>
+        )}
+
+      <section className="mt-4 grid h-auto"></section>
     </Page>
   );
 };

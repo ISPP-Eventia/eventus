@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
+import { Button } from "antd";
 
 import { participationApi } from "api";
 
 import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
-import { API_URL } from "api/axios";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = useState<boolean>(false);
@@ -17,34 +17,29 @@ const Component = (props: { event?: any; callback: () => void }) => {
         if (closeModalRef.current) {
           closeModalRef.current();
         }
-        window.open(
-          API_URL + `/participation/${response.data.id}/ticket`,
-          "_blank"
-        );
+        participationApi.getTicket(response.data.id);
         props.callback();
       })
-      .catch((e) => setError(true));
+      .catch(() => setError(true));
   };
 
   return (
     <ModalDrawer
       title="Participar"
       opener={{
-        title: `Participar por ${props.event?.price} €`,
+        title: `Participar ${props.event?.price}€`,
         color: "primary",
       }}
-      actions={[
-        {
-          title: `Participar por ${props.event?.price} €`,
-          onClick: onSubmit,
-          color: "primary",
-        },
-      ]}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;
       }}
     >
-      {error && <Error error="Ya estás participando en este evento" />}
+      <>
+        <Button type="primary" onClick={onSubmit} style={{ width: "100%" }}>
+          Participar {props.event?.price}€
+        </Button>
+        {error && <Error error="Ya estás participando en este evento" />}
+      </>
     </ModalDrawer>
   );
 };

@@ -6,6 +6,7 @@ import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.LocationRepository;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,18 +14,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class LocationService implements ILocationService{
 
-    private LocationRepository locationRepository;
-    private UserService userService;
+    private final LocationRepository locationRepository;
     
     @Autowired
-    public LocationService(LocationRepository locationRepository, UserService userService){
+    public LocationService(LocationRepository locationRepository){
         this.locationRepository = locationRepository;
-        this.userService = userService;
     }
 
     @Override
-    public void create(Location location) {
-        User owner = userService.findUserById(1L);
+    public void create(Location location,User owner) {
         if(owner != null){
             location.setOwner(owner);
         }
@@ -33,12 +31,10 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void delete(Location location) {
-        locationRepository.delete(location);
-    }
-
-    @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id, User owner) {
+        Location location = locationRepository.findById(id).orElse(null);
+        Validate.notNull(location, "Location not found");
+        Validate.isTrue(location.getOwner().getId().equals(owner.getId())||owner.isAdmin(), "You are not the owner of this location");
         locationRepository.deleteById(id);
     }
 
@@ -63,15 +59,16 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void update(Location params, Long locationId) {
+    public void update(Location params, Long locationId, User owner) {
         Location location = locationRepository.findById(locationId).orElse(null);
-        if(location!=null){
-            location.setDescription(location.getDescription());
-            location.setCoordinates(location.getCoordinates());
-            location.setName(location.getName());
-            location.setPrice(location.getPrice());
-            locationRepository.save(location);
-        }
+        Validate.notNull(location, "Location not found");
+        Validate.isTrue(location.getOwner().getId().equals(owner.getId())||owner.isAdmin(), "You are not the owner of this location");
+        location.setDescription(params.getDescription());
+        location.setCoordinates(params.getCoordinates());
+        location.setName(params.getName());
+        location.setPrice(params.getPrice());
+        locationRepository.save(location);
+
     }
     
 }

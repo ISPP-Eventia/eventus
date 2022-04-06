@@ -19,7 +19,7 @@ const ParticipationHorizontalCard = (
   const { participation } = props;
   return (
     <Card
-      className="w-[334px] cursor-pointer p-2 hover:shadow-xl"
+      className="w-auto cursor-pointer p-2 hover:shadow-xl"
       onClick={() => participationApi.getTicket(participation.id!)}
     >
       <div className="flex items-center justify-start gap-4">

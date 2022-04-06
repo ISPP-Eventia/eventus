@@ -23,7 +23,6 @@ const SessionPage = () => {
         !!r && navigate("/events");
       })
       .catch((e) => {
-        console.log(e);
         setError(e?.response?.data?.error || "Datos incorrectos");
       });
   };
@@ -45,7 +44,7 @@ const SessionPage = () => {
       {action === "login" ? (
         <LoginForm onSubmit={onLogin} />
       ) : (
-        <SignupForm onSubmit={onSignup}/>
+        <SignupForm onSubmit={onSignup} />
       )}
       {error !== "" && <Error error={error} />}
 

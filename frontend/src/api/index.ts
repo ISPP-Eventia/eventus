@@ -87,10 +87,8 @@ const participationApi = {
     axios.put(`/participations/${participation.id}`, participation),
   deleteParticipation: (id: number) => axios.delete(`/participations/${id}`),
   getTicket: (id: number) => {
-    const ticketUrl = API_URL + `/participation/${id}/ticket`;
-    // Change this to use your HTTP client
     axios
-      .get(ticketUrl, {
+      .get(`/participation/${id}/ticket`, {
         responseType: "blob",
       })
       .then((blob) => {

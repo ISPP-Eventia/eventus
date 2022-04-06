@@ -7,6 +7,7 @@ import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.SponsorshipRepository;
+import com.stripe.exception.StripeException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -20,11 +21,13 @@ public class SponsorshipService implements ISponsorshipService{
     
     private final SponsorshipRepository sponsorRepository;
     private final EventService eventService;
+    private final StripeService stripeService;
 
     @Autowired
-    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService){
+    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService, StripeService stripeService){
         this.sponsorRepository = sponsorRepo;
         this.eventService = eventService;
+        this.stripeService = stripeService;
     }
 
     @Override
@@ -88,11 +91,16 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void resolveSponsorship(boolean b, Long sId, User user) {
+    public void resolveSponsorship(boolean b, Long sId, User user) throws StripeException {
         Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
         Validate.isTrue(sponsor!=null,"Sponsor id doesnt exits");
         Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(user.getId())||user.isAdmin(),"User must be event organizer");
-        sponsor.setAccepted(b);
+        Boolean paid = false;
+        if(b){
+            stripeService.createSponsorshipPayment(sponsor);
+            paid = true;
+        }
+        if(paid) sponsor.setAccepted(true);
         this.sponsorRepository.save(sponsor);
 
     }

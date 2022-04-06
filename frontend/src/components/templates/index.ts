@@ -1,1 +1,3 @@
-export default {};
+import PaymentTable from "./paymentTable/paymentTable";
+
+export { PaymentTable };

@@ -117,6 +117,11 @@ const sponsorshipApi = {
   deleteSponsorship: (id: number) => axios.delete(`/sponsorships/${id}`),
 };
 
+const paymentApi = {
+  getPaymentIntent: () => axios.post("/stripe/initial"),
+  getPaymentMethods: () => axios.get("/stripe/paymentmethods"),
+};
+
 export {
   mediaApi,
   sessionApi,
@@ -126,4 +131,5 @@ export {
   hostingApi,
   participationApi,
   sponsorshipApi,
+  paymentApi,
 };

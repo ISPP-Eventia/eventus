@@ -16,6 +16,9 @@ import {
   EditEventPage,
   EditLocationPage,
 } from "pages";
+import PaymentStatus from "pages/profile/paymentStatus";
+
+
 
 const AppRoutes = () => {
   return (
@@ -46,6 +49,7 @@ const AppRoutes = () => {
 
           <Route path="/profile/:tab" element={<ProfilePage />} />
           <Route path="/profile" element={<Navigate to="/profile/events" />} />
+          <Route path="/profile/payments/status" element={<PaymentStatus />} />
 
           <Route
             path="/404"

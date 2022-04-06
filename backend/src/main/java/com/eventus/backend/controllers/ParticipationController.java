@@ -5,7 +5,10 @@ import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
+import com.eventus.backend.services.StripeService;
 import com.itextpdf.text.DocumentException;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentMethodCollection;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.io.*;
 import java.net.MalformedURLException;
 
@@ -29,11 +33,13 @@ public class ParticipationController extends ValidationController{
 
     private final ParticipationService participationService;
     private final EventService eventService;
+    private final StripeService stripeService;
 
     @Autowired
-    public ParticipationController(ParticipationService participationService, EventService eventService) {
+    public ParticipationController(ParticipationService participationService, EventService eventService,StripeService stripeService) {
         this.participationService = participationService;
         this.eventService = eventService;
+        this.stripeService = stripeService;
     }
 
     @GetMapping("/participations/{id}")
@@ -71,7 +77,7 @@ public class ParticipationController extends ValidationController{
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException {
+    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException, StripeException {
     	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
             if (user != null && event != null) {
@@ -80,9 +86,12 @@ public class ParticipationController extends ValidationController{
                 if (participation != null) {
                     return ResponseEntity.badRequest().build();
                 }
-
-                participation = this.participationService.createParticipationAndTicket(event, user);
-
+                PaymentMethodCollection paymentMethods = stripeService.getPaymentMethods(user);
+                if(paymentMethods.getData().isEmpty()){
+                    return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+                }else{
+                    participation = this.participationService.createParticipationAndTicket(event, user);
+                }
                 return new ResponseEntity<>(participation, HttpStatus.OK);
             } else {
                 return ResponseEntity.notFound().build();

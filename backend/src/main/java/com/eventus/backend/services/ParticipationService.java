@@ -15,6 +15,8 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
@@ -36,23 +38,27 @@ import java.util.List;
 public class ParticipationService implements IParticipationService{
 
     private final ParticipationRepository partRepository;
+    private final StripeService stripeService;
 
     @Autowired
-    public ParticipationService(ParticipationRepository partRepository) {
+    public ParticipationService(ParticipationRepository partRepository, StripeService stripeService) {
        this.partRepository = partRepository;
+       this.stripeService = stripeService;
     }
 
     @Transactional
-    public void saveParticipation(Event event, User user) throws DataAccessException {
+    public void saveParticipation(Event event, User user) throws DataAccessException, StripeException {
         Participation participation=new Participation();
         participation.setTicket(RandomStringUtils.randomAlphanumeric(20)+user.getId()+event.getId());
         participation.setPrice(event.getPrice());
         participation.setEvent(event);
         participation.setUser(user);
-        partRepository.save(participation);
+        PaymentIntent payment = stripeService.createParticipationPayment(participation);
+        if(payment != null) partRepository.save(participation);
     }
     
-    public Participation createParticipationAndTicket(Event event, User user) throws DocumentException, IOException {
+    public Participation createParticipationAndTicket(Event event, User user) throws DocumentException, IOException, DataAccessException, StripeException {
+
     	saveParticipation(event, user);
         Participation part = findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
         if(part!=null) createTicketPDF(part);

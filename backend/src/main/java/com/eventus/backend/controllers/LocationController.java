@@ -55,6 +55,7 @@ public class LocationController extends ValidationController{
 
     }
 
+
     @PostMapping("/locations")
     public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user){
         try{

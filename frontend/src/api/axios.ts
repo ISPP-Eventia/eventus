@@ -28,6 +28,8 @@ axios.interceptors.response.use(
       localStorage.removeItem("userId");
       localStorage.removeItem("isAdmin");
       window.location.href = "/login";
+    } else if (error.response.status === 402) {
+      window.location.href = "/profile/payments";
     } else {
       return Promise.reject(error);
     }

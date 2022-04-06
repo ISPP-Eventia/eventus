@@ -3,7 +3,7 @@ import { SyntheticEvent, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
 import { Box, Tab, Tabs } from "@mui/material";
-import { Event, Info, LocationCity, Receipt } from "@mui/icons-material";
+import { Event, Info, LocationCity, Receipt, CreditCard } from "@mui/icons-material";
 
 import { participationApi } from "api";
 import { Participation } from "types";
@@ -18,12 +18,14 @@ import {
   MyEventsTab,
   TicketsTab,
 } from "components/organisms";
+import PaymentMethods from "./paymentMethods";
 
 const tabs = {
   events: 0,
   locations: 1,
   tickets: 2,
   info: 3,
+  payments: 4
 };
 
 const ProfilePage = () => {
@@ -31,7 +33,7 @@ const ProfilePage = () => {
   const userId = userIdStr ? Number(userIdStr) : 0;
 
   const activeTabName =
-    useParams<{ tab: "events" | "locations" | "tickets" | "info" }>().tab;
+    useParams<{ tab: "events" | "locations" | "tickets" | "info" | "payments" }>().tab;
   const navigate = useNavigate();
 
   const activeTabIndex = useMemo(() => {
@@ -64,12 +66,16 @@ const ProfilePage = () => {
         <Tabs
           value={activeTabIndex}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
+          aria-label="scrollable force tabs example"
         >
           <Tab icon={<Event />} />
           <Tab icon={<LocationCity />} />
           <Tab icon={<Receipt />} />
           <Tab icon={<Info />} />
+          <Tab icon={<CreditCard />} />
         </Tabs>
       </Box>
       <TabPanel value={activeTabIndex} index={0}>
@@ -87,6 +93,9 @@ const ProfilePage = () => {
       </TabPanel>
       <TabPanel value={activeTabIndex} index={3}>
         <MyProfileTab />
+      </TabPanel>
+      <TabPanel value={activeTabIndex} index={4}>
+        <PaymentMethods />
       </TabPanel>
     </Page>
   );

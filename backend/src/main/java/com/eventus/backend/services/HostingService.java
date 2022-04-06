@@ -8,6 +8,8 @@ import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.HostingRepository;
+import com.stripe.exception.StripeException;
+import com.stripe.model.StripeSearchResult;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -22,13 +24,15 @@ public class HostingService implements IHostingService {
     private final HostingRepository hostingRepository;
     private final LocationService locationService;
     private final EventService eventService;
+    private final StripeService stripeService;
 
 
     @Autowired
-    public HostingService(HostingRepository hostingRepository, LocationService locationService, EventService eventService){
+    public HostingService(HostingRepository hostingRepository, LocationService locationService, EventService eventService, StripeService stripeService){
         this.hostingRepository = hostingRepository;
         this.locationService = locationService;
         this.eventService = eventService;
+        this.stripeService = stripeService;
     }
 
 
@@ -106,11 +110,16 @@ public class HostingService implements IHostingService {
     }
 
     @Override
-    public void resolveHosting(boolean b, Long sId, User user) {
+    public void resolveHosting(boolean b, Long sId, User user) throws StripeException {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
         Validate.notNull(hosting,"Hosting not found");
-        Validate.isTrue(hosting.getEvent() != null && (hosting.getEvent().getOrganizer().getId().equals(user.getId())&& user.isAdmin()),"You are not the organizer of this event");
-        hosting.setAccepted(b);
+        Validate.isTrue(hosting.getEvent() != null && (hosting.getLocation().getOwner().getId().equals(user.getId()) || user.isAdmin()),"You are not the organizer of this event");
+        Boolean paid = false;
+        if(b){
+            stripeService.createHostingPayment(hosting);
+            paid = true;
+        }
+        if(paid) hosting.setAccepted(true);
         this.hostingRepository.save(hosting);
 
 

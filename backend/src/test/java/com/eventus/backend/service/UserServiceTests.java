@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.UserService;
+import com.stripe.exception.StripeException;
 
 import org.junit.Test;
 import org.junit.jupiter.api.MethodOrderer;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -68,7 +70,7 @@ public class UserServiceTests {
 
     @Test
     @Transactional
-    public void createNewUserTest() { 
+    public void createNewUserTest() throws DataAccessException, StripeException { 
         user = new User();
         user.setFirstName("Pepe");
         user.setLastName("Rodriguez");
@@ -85,7 +87,7 @@ public class UserServiceTests {
 
     @Test
     @Transactional
-    public void loginTest(){
+    public void loginTest() throws DataAccessException, StripeException{
         user = new User();
         user.setFirstName("Alvaro");
         user.setLastName("Martínez");

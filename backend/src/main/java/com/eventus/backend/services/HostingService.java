@@ -113,7 +113,7 @@ public class HostingService implements IHostingService {
     public void resolveHosting(boolean b, Long sId, User user) throws StripeException {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
         Validate.notNull(hosting,"Hosting not found");
-        Validate.isTrue(hosting.getEvent() != null && (hosting.getEvent().getOrganizer().getId().equals(user.getId())&& user.isAdmin()),"You are not the organizer of this event");
+        Validate.isTrue(hosting.getEvent() != null && (hosting.getLocation().getOwner().getId().equals(user.getId()) || user.isAdmin()),"You are not the organizer of this event");
         Boolean paid = false;
         if(b){
             stripeService.createHostingPayment(hosting);

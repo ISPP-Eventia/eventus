@@ -21,7 +21,7 @@ public interface ISponsorshipService {
     public void deleteById(Long id);
     public List<Sponsorship> findSponsorByUserId(Long userId, Pageable p);
     public void resolveSponsorship(boolean b, Long id, User user) throws StripeException;
-    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,Long userId);
+    public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,User user);
     public List<Sponsorship>findByEventAndState(Long eventId,String state, Pageable p);
     
     

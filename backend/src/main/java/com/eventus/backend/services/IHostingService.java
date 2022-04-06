@@ -20,8 +20,8 @@ public interface IHostingService {
     public void deleteById(Long id);
 
     public void resolveHosting(boolean b, Long id,User user) throws StripeException;
-    public List<Hosting> findByEventId(Long eventId, Pageable p, Long userId);
-    List<Hosting> findByLocationId(Long locationId, Pageable p,Long userId);
+    public List<Hosting> findByEventId(Long eventId, Pageable p, User user);
+    List<Hosting> findByLocationId(Long locationId, Pageable p,User user);
     public List<Hosting>findByEventAndState(Long eventId,String state, Pageable p);
     Hosting findHostingByEventIdAndLocationId(Long eventId,Long locationId);
 }

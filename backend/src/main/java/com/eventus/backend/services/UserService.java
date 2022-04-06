@@ -3,6 +3,8 @@ package com.eventus.backend.services;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.UserRepository;
 import com.google.common.collect.ImmutableMap;
+import com.stripe.exception.StripeException;
+
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

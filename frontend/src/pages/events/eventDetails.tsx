@@ -126,7 +126,7 @@ const EventDetailPage = () => {
             </div>
           </div>
         </div>
-        {event?.coordinates ||
+        {!!event?.coordinates ||
           (event.organizer?.id === Number(loggedUserId) && (
             <div className="flex flex-col md:col-span-2 xl:col-span-1">
               <Typography variant="h4">Ubicación</Typography>

@@ -20,10 +20,11 @@ const SessionPage = () => {
     sessionApi
       .login(values.email, values.password)
       .then((r) => {
-        navigate("/events");
+        !!r && navigate("/events");
       })
       .catch((e) => {
-        setError(e?.response?.data?.error ?? "");
+        console.log(e);
+        setError(e?.response?.data?.error || "Datos incorrectos");
       });
   };
 
@@ -31,7 +32,7 @@ const SessionPage = () => {
     const user = utils.parsers.signupFormValuesToUser(values);
     sessionApi
       .signup(user)
-      .then((r) => {
+      .then(() => {
         navigate("/events");
       })
       .catch((e) => {
@@ -41,13 +42,13 @@ const SessionPage = () => {
 
   return (
     <Page title={action}>
-      {error !== "" && <Error error={error} />}
-
       {action === "login" ? (
         <LoginForm onSubmit={onLogin} />
       ) : (
-        <SignupForm onSubmit={onSignup} />
+        <SignupForm onSubmit={onSignup}/>
       )}
+      {error !== "" && <Error error={error} />}
+
       <Link to={`/${action === "login" ? "signup" : "login"}`}>
         {action === "login"
           ? "No tienes cuenta? Registrate ya!"

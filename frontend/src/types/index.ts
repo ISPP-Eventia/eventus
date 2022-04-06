@@ -31,6 +31,8 @@ export type EventUs = {
   media?: Media[];
   startDate?: string;
   endDate?: string;
+  prize?: number;
+  rating?: number;
 };
 
 export type Location = {
@@ -102,4 +104,13 @@ export type SignupFormValues = {
   birthDate: Date;
   email: string;
   password: string;
+};
+
+export type UserFormValues = {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  birthDate?: string;
+  email?: string;
+  enable?: boolean;
 };

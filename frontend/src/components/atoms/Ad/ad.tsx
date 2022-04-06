@@ -1,10 +1,9 @@
-import React from "react";
 import { Typography } from "@mui/material";
 
+import { sponsorshipApi } from "api";
 import { Sponsorship } from "types";
 
 import { Accept } from "components/molecules";
-import { sponsorshipApi } from "api";
 
 const Component = (props: {
   sponsorship: Sponsorship;
@@ -19,7 +18,7 @@ const Component = (props: {
   };
 
   return (
-    <div className="flex h-auto w-full flex-col items-center justify-center rounded-md bg-black bg-opacity-5">
+    <div className="relative flex h-auto w-full flex-col items-center justify-center rounded-md bg-black bg-opacity-5">
       <img
         alt="img"
         className="max-h-24 w-full rounded-md object-cover"
@@ -28,7 +27,7 @@ const Component = (props: {
           "https://via.placeholder.com/1000"
         }
       />
-      {props.sponsorship.isAccepted === null && (
+      {props.sponsorship.isAccepted === null ? (
         <Accept
           onAccept={onAccept}
           info={
@@ -37,6 +36,12 @@ const Component = (props: {
             </Typography>
           }
         />
+      ) : (
+        <div className="absolute inset-0 z-20 flex items-end justify-end rounded-md bg-black bg-opacity-20 px-2 opacity-0 transition-opacity duration-200 hover:opacity-100">
+          <Typography variant="h5" color="whitesmoke" className="font-bold">
+            {props.sponsorship.quantity}€
+          </Typography>
+        </div>
       )}
     </div>
   );

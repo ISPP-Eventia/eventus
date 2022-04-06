@@ -6,12 +6,13 @@ import { userApi } from "api";
 
 import { Loader } from "components/atoms";
 import { EventCard } from "components/molecules";
+import { Link } from "react-router-dom";
 
 const MyEvents = () => {
   const { isLoading, data: events } = useQuery("events", () =>
     userApi
       .getEventsByOrganizer()
-      .then((response) => response.data as EventUs[])
+      .then((response) => response?.data as EventUs[])
   );
 
   return (
@@ -19,6 +20,10 @@ const MyEvents = () => {
       <Typography variant="h4">Mis Eventos</Typography>
       {isLoading ? (
         <Loader />
+      ) : events?.length === 0 ? (
+        <div>
+          No tiene ningún evento, <Link to="/events/new">crea uno!</Link>
+        </div>
       ) : (
         <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {events?.map((event) => (

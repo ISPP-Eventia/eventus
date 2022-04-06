@@ -16,7 +16,7 @@ const NewEvent = () => {
     eventApi
       .createEvent(eventBody)
       .then(() => {
-        navigate("/events");
+        navigate(-1);
       })
       .catch((e) => {
         setError(e?.response?.data?.error ?? "");

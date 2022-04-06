@@ -7,7 +7,13 @@ import { AppHeader, AppFooter } from "pages";
 import "antd/dist/antd.css";
 
 import theme from "config/theme.config.json";
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 function App() {
   return (

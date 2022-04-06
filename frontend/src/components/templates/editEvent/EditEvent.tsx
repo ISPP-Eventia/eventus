@@ -22,8 +22,8 @@ const EditEvent = (props: EditEventProps) => {
     eventBody.id = event.id;
     eventApi
       .updateEvent(eventBody)
-      .then((r) => {
-        navigate("/events");
+      .then(() => {
+        navigate(-1);
       })
       .catch((e) => {
         setError(e?.response?.data?.error ?? "");

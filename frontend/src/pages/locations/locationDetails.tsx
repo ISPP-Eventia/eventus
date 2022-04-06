@@ -60,7 +60,7 @@ const LocationDetailPage = () => {
     <Page
       title={location.name}
       actions={
-        (location.owner?.id === Number(loggedUserId) || isAdmin === 'true')
+        location.owner?.id === Number(loggedUserId) || isAdmin === "true"
           ? [
               <Button
                 variant="contained"
@@ -69,7 +69,7 @@ const LocationDetailPage = () => {
               >
                 Editar
               </Button>,
-              eventId !== null ? (
+              !!eventId ? (
                 <Button
                   variant="contained"
                   color="primary"
@@ -91,7 +91,7 @@ const LocationDetailPage = () => {
               </Button>,
             ]
           : [
-              eventId !== null && (
+              !!eventId !== null && (
                 <HostingForm hosting={hosting} onSubmit={refetchHostings} />
               ),
             ]
@@ -124,10 +124,12 @@ const LocationDetailPage = () => {
             <Typography variant="h6">{location.price}€ / h</Typography>
           </div>
         </div>
-        <div>
-          <Typography variant="h4">Evento Seleccionado</Typography>
-          <SelectedEventCard noPicture />
-        </div>
+        {!!eventId && (
+          <div>
+            <Typography variant="h4">Evento Seleccionado</Typography>
+            <SelectedEventCard noPicture />
+          </div>
+        )}
       </section>
 
       <section className="mt-4 grid h-auto">

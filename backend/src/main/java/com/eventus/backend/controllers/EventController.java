@@ -42,14 +42,14 @@ public class EventController extends ValidationController{
   }
 
   @PutMapping("/events")
-  public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
+  public ResponseEntity<Object> updateEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
     try {
       this.eventService.update(event,user);
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
       return ResponseEntity.badRequest().build();
-    }catch(IllegalArgumentException e){
-      return ResponseEntity.badRequest().body(e.getMessage());
+    } catch(IllegalArgumentException e){
+      return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
     }
   }
 

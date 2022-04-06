@@ -11,6 +11,7 @@ const AppHeader = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("eventId");
+    localStorage.removeItem("isAdmin");
     navigate("/login");
   };
 

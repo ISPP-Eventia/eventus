@@ -22,6 +22,9 @@ RUN ./mvnw dependency:go-offline -B
 
 # Copy the project source
 COPY src src
+#Insert stripe secret key
+ARG STRIPE_KEY_PRIVATE
+RUN echo "\nstripe.key.secret = ${STRIPE_KEY_PRIVATE}" >> src/main/resources/application.properties
 
 # Package the application
 RUN ./mvnw package -DskipTests

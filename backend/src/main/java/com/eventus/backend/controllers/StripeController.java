@@ -9,6 +9,7 @@ import com.eventus.backend.services.StripeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.PaymentMethod;
+import com.stripe.model.PaymentMethodCollection;
 import com.stripe.model.SetupIntent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,13 +67,10 @@ public class StripeController {
 
 
     @GetMapping("/paymentmethods")
-    public ResponseEntity<List<PaymentMethod>> getPaymentMethods(@AuthenticationPrincipal User user){
-        List<PaymentMethod> list = stripeService.getPaymentMethods(user).getData();
-        if(list.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else{
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        }
+    public ResponseEntity<String> getPaymentMethods(@AuthenticationPrincipal User user) throws StripeException{
+        PaymentMethodCollection list = stripeService.getPaymentMethods(user);
+        String listStr = list.toJson();
+        return new ResponseEntity<>(listStr, HttpStatus.OK);
     }
 
     // @PostMapping("/confirm/{id}")

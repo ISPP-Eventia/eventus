@@ -2,6 +2,8 @@ package com.eventus.backend.controllers;
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.UserService;
+import com.stripe.exception.StripeException;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class UserController extends ValidationController{
     }
 
     @PostMapping("/session/signup")
-    public ResponseEntity<Map<String,Object>> register(@RequestBody @Valid User user){
+    public ResponseEntity<Map<String,Object>> register(@RequestBody @Valid User user) throws DataAccessException, StripeException{
         ResponseEntity<Map<String,Object>> response=null;
         Map<String, Object> res;
         if(this.userService.findByEmail(user.getEmail()).isEmpty()){

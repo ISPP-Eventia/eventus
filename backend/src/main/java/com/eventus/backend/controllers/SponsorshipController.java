@@ -3,6 +3,7 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.SponsorshipService;
+import com.stripe.exception.StripeException;
 
 import java.util.List;
 import java.util.Map;
@@ -90,10 +91,10 @@ public class SponsorshipController extends ValidationController{
     }
 
     @PostMapping("/sponsorships/{id}")
-    public ResponseEntity<Map<String,String>> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id,@AuthenticationPrincipal User user) {
+    public ResponseEntity<Map<String,String>> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id,@AuthenticationPrincipal User user) throws StripeException {
         try {
             boolean isAccepted = "true".equals(body.get("isAccepted"));
-            this.sponsorService.resolveSponsorship(isAccepted, id,user.getId());
+            this.sponsorService.resolveSponsorship(isAccepted, id,user);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));

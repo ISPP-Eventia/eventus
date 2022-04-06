@@ -6,6 +6,7 @@ import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.ParticipationService;
 import com.itextpdf.text.DocumentException;
+import com.stripe.exception.StripeException;
 
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,7 @@ public class ParticipationController extends ValidationController{
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException {
+    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException, StripeException {
     	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
             if (user != null && event != null) {

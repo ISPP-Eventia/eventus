@@ -3,6 +3,8 @@ package com.eventus.backend.services;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.UserRepository;
 import com.google.common.collect.ImmutableMap;
+import com.stripe.exception.StripeException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +37,7 @@ public class UserService implements IUserService{
     }
 
     @Transactional
-    public void saveUser(User user) throws DataAccessException {
+    public void saveUser(User user) throws DataAccessException, StripeException {
         user.setCustomerId(stripeService.createCustomer(user));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);

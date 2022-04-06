@@ -7,6 +7,7 @@ import com.eventus.backend.models.Hosting;
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.HostingService;
+import com.stripe.exception.StripeException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -124,11 +125,11 @@ public class HostingController extends ValidationController{
     }
 
     @PostMapping("/hostings/{id}")
-    public ResponseEntity<Map<String,String>> resolveHosting(@RequestBody Map<String, String> params, @PathVariable Long id,@AuthenticationPrincipal User user) {
+    public ResponseEntity<Map<String,String>> resolveHosting(@RequestBody Map<String, String> params, @PathVariable Long id,@AuthenticationPrincipal User user) throws StripeException {
         try {
             boolean isAccepted = "true".equals(params.get("isAccepted"));
 
-            this.hostingService.resolveHosting(isAccepted, id,user.getId());
+            this.hostingService.resolveHosting(isAccepted, id,user);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));

@@ -22,7 +22,7 @@ const EditLocation = (props: EditLocationProps) => {
     locationApi
       .updateLocation(locationBody)
       .then(() => {
-        navigate("/locations");
+        navigate(-1);
       })
       .catch((e) => {
         setError(e?.response?.data?.error ?? "");

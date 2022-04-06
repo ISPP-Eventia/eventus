@@ -1,21 +1,23 @@
-import { SyntheticEvent, useMemo } from "react";
+import { SyntheticEvent, useEffect, useMemo } from "react";
 
 import { useNavigate, useParams } from "react-router";
+import { useQuery } from "react-query";
 import { Box, Tab, Tabs } from "@mui/material";
 import { Event, Info, LocationCity, Receipt, CreditCard } from "@mui/icons-material";
 
-import { TabPanel } from "components/molecules";
-import {
-  ProfileInfoTab,
-  MyLocationsTab,
-  MyEventsTab,
-} from "components/organisms";
-import Page from "../page";
-import TicketsTab from "components/organisms/tabs/ticketsTab";
-import { useQuery } from "react-query";
 import { participationApi } from "api";
 import { Participation } from "types";
+
+import Page from "../page";
 import { Loader } from "components/atoms";
+import { TabPanel } from "components/molecules";
+
+import {
+  MyProfileTab,
+  MyLocationsTab,
+  MyEventsTab,
+  TicketsTab,
+} from "components/organisms";
 import PaymentMethods from "./paymentMethods";
 
 const tabs = {
@@ -47,12 +49,16 @@ const ProfilePage = () => {
     () =>
       participationApi
         .getParticipationsByUser()
-        .then((response) => response.data as Participation[])
+        .then((response) => response?.data as Participation[])
   );
 
   if (!userId) {
     navigate("/login");
   }
+
+  useEffect(() => {
+    localStorage.removeItem("eventId");
+  }, []);
 
   return (
     <Page title="Mi Perfil">
@@ -86,8 +92,7 @@ const ProfilePage = () => {
         )}
       </TabPanel>
       <TabPanel value={activeTabIndex} index={3}>
-        TODO: Mis Datos
-        <ProfileInfoTab />
+        <MyProfileTab />
       </TabPanel>
       <TabPanel value={activeTabIndex} index={4}>
         <PaymentMethods />

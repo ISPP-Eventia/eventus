@@ -14,13 +14,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.Instant;
+
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
@@ -31,10 +33,11 @@ public class UserService implements IUserService{
     private final StripeService stripeService;
 
     @Autowired
-    public UserService(UserRepository userRepository,JWTTokenService tokens,PasswordEncoder passwordEncoder, StripeService stripeService) {
+    public UserService(UserRepository userRepository, JWTTokenService tokens, PasswordEncoder passwordEncoder,
+            StripeService stripeService) {
         this.userRepository = userRepository;
-        this.tokens=tokens;
-        this.passwordEncoder=passwordEncoder;
+        this.tokens = tokens;
+        this.passwordEncoder = passwordEncoder;
         this.stripeService = stripeService;
     }
 
@@ -50,11 +53,11 @@ public class UserService implements IUserService{
         return userRepository.findAll(p);
     }
 
-    public User findUserById(Long id){
+    public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public Optional<User> findByEmail(String username){
+    public Optional<User> findByEmail(String username) {
         return userRepository.findByEmail(username);
 
     }
@@ -63,7 +66,7 @@ public class UserService implements IUserService{
     public Optional<String> login(final String email, final String password) {
         return userRepository
                 .findByEmail(email)
-                .filter(user -> passwordEncoder.matches(password,user.getPassword()))
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
                 .map(user -> tokens.expiring(ImmutableMap.of("email", email)));
     }
 
@@ -81,10 +84,10 @@ public class UserService implements IUserService{
         Validate.isTrue(loggedUser.getId().equals(userId) || loggedUser.isAdmin(), "You can't update other users");
         User user = userRepository.findById(userId).orElse(null);
         Validate.notNull(user, "User not found");
-        if(StringUtils.isNotBlank(params.get("password"))){
+        if (StringUtils.isNotBlank(params.get("password"))) {
             user.setPassword(passwordEncoder.encode(params.get("password")));
         }
-        user.setBirthDate(LocalDate.parse(params.get("birthDate")));
+        user.setBirthDate(Instant.parse(params.get("birthDate")).atZone(ZoneId.systemDefault()).toLocalDate());
         user.setFirstName(params.get("firstName"));
         user.setLastName(params.get("lastName"));
         Validate.isTrue(user.getFirstName().length() < 20, "First name must be less than 20 characters");

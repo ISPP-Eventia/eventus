@@ -3,21 +3,22 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 import { Loader } from "components/atoms";
 import {
-  EventListPage,
   EventDetailPage,
+  EventListPage,
   NewEventPage,
   LocationDetailPage,
   NewLocationPage,
   LocationListPage,
   LandingPage,
-  TestPage,
   SessionPage,
   ProfilePage,
+  ErrorPage,
+  EditEventPage,
+  EditLocationPage,
 } from "pages";
-import EditEventPage from "pages/events/editEvent";
-import EditLocationPage from "pages/locations/editLocation";
-import StripeApp from "components/StripeApp";
 import PaymentStatus from "pages/profile/paymentStatus";
+
+
 
 const AppRoutes = () => {
   return (
@@ -33,8 +34,9 @@ const AppRoutes = () => {
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/login" element={<SessionPage />} />
           <Route path="/signup" element={<SessionPage />} />
-          <Route path="/test" element={<TestPage />} />
 
+          <Route path="/events" element={<EventListPage />} />
+          <Route path="/events/new" element={<NewEventPage />} />
           <Route path="/events" element={<EventListPage />} />
           <Route path="/events/new" element={<NewEventPage />} />
           <Route path="/events/:id" element={<EventDetailPage />} />
@@ -48,6 +50,11 @@ const AppRoutes = () => {
           <Route path="/profile/:tab" element={<ProfilePage />} />
           <Route path="/profile" element={<Navigate to="/profile/events" />} />
           <Route path="/profile/payments/status" element={<PaymentStatus />} />
+
+          <Route
+            path="/404"
+            element={<ErrorPage errorMessage="404!, not found!" />}
+          />
           <Route path="*" element={<Navigate to="/landing" />} />
         </Routes>
       </main>

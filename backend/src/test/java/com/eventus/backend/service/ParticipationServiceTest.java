@@ -45,8 +45,8 @@ public class ParticipationServiceTest {
         Event event= eventService.findById(1L);
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
-        List<User> users=participationService.findUsersByEventId(event.getId(),PageRequest.of(0,3));
-        assertEquals(users.size(),2);
+        List<User> users=participationService.findUsersByEventId(event.getId(),PageRequest.of(0,20));
+        assertEquals(users.size(),11);
 
     }
     @Test
@@ -58,8 +58,8 @@ public class ParticipationServiceTest {
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
 
-        List<Participation> users=participationService.findParticipationByUserId(user1.getId(),PageRequest.of(0,3));
-        assertEquals(users.size(),1);
+        List<Participation> users=participationService.findParticipationByUserId(user1.getId(),PageRequest.of(0,20));
+        assertEquals(users.size(),3);
     }
 
     @Test
@@ -71,8 +71,8 @@ public class ParticipationServiceTest {
         participationService.saveParticipation(event,user1);
         participationService.saveParticipation(event,user2);
 
-        List<Participation> users=participationService.findParticipationByEventId(event.getId(),PageRequest.of(0,3));
-        assertEquals(users.size(),2);
+        List<Participation> users=participationService.findParticipationByEventId(event.getId(),PageRequest.of(0,20));
+        assertEquals(users.size(),9);
     }
 
 }

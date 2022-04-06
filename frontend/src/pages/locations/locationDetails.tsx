@@ -8,6 +8,7 @@ import { hostingApi, locationApi } from "api";
 import { Loader, Map, HostingRequest } from "components/atoms";
 import { SelectedEventCard, UserHorizontalCard } from "components/molecules";
 import { HostingForm } from "components/organisms";
+import { ErrorPage } from "pages";
 import Page from "../page";
 
 const LocationDetailPage = () => {
@@ -16,10 +17,16 @@ const LocationDetailPage = () => {
   const locationId = Number(useParams().id);
   const eventId = Number(localStorage.getItem("eventId"));
   const loggedUserId = localStorage.getItem("userId");
+  const isAdmin = localStorage.getItem("isAdmin");
 
-  const { isLoading, data: location } = useQuery("location", () =>
+  const {
+    isLoading,
+    data: location,
+    error: locationError,
+    isError: isLocationError,
+  } = useQuery("location", () =>
     locationApi.getLocation(locationId).then((response) => {
-      return response.data as Location;
+      return response?.data as Location;
     })
   );
 
@@ -29,7 +36,7 @@ const LocationDetailPage = () => {
     refetch: refetchHostings,
   } = useQuery("hosting", () =>
     hostingApi.getHostings(locationId).then((response) => {
-      return response.data as Hosting[];
+      return response?.data as Hosting[];
     })
   );
 
@@ -42,16 +49,18 @@ const LocationDetailPage = () => {
   const handleAutoHost = () => {
     hostingApi
       .createHosting({ eventId, locationId, price: 0 })
-      .then((response) => refetchHostings());
+      .then(() => refetchHostings());
   };
 
-  return isLoading || !location ? (
+  return isLoading ? (
     <Loader />
+  ) : isLocationError || !location ? (
+    <ErrorPage errorMessage={(locationError as Error)?.message} />
   ) : (
     <Page
       title={location.name}
       actions={
-        location.owner?.id === Number(loggedUserId)
+        location.owner?.id === Number(loggedUserId) || isAdmin === "true"
           ? [
               <Button
                 variant="contained"
@@ -60,7 +69,7 @@ const LocationDetailPage = () => {
               >
                 Editar
               </Button>,
-              eventId !== null ? (
+              !!eventId ? (
                 <Button
                   variant="contained"
                   color="primary"
@@ -70,19 +79,19 @@ const LocationDetailPage = () => {
                 </Button>
               ) : null,
               <Button
-              variant="contained"
-              color="error"
-              onClick={() =>
-                locationApi
-                  .deleteLocation(location.id!)
-                  .then(() => navigate("/locations"))
-              }
-            >
-              Eliminar
-            </Button>,
+                variant="contained"
+                color="error"
+                onClick={() =>
+                  locationApi
+                    .deleteLocation(location.id!)
+                    .then(() => navigate("/locations"))
+                }
+              >
+                Eliminar
+              </Button>,
             ]
           : [
-              eventId !== null && (
+              !!eventId !== null && (
                 <HostingForm hosting={hosting} onSubmit={refetchHostings} />
               ),
             ]
@@ -115,10 +124,12 @@ const LocationDetailPage = () => {
             <Typography variant="h6">{location.price}€ / h</Typography>
           </div>
         </div>
-        <div>
-          <Typography variant="h4">Evento Seleccionado</Typography>
-          <SelectedEventCard noPicture />
-        </div>
+        {!!eventId && (
+          <div>
+            <Typography variant="h4">Evento Seleccionado</Typography>
+            <SelectedEventCard noPicture />
+          </div>
+        )}
       </section>
 
       <section className="mt-4 grid h-auto">

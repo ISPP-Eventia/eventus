@@ -1,6 +1,6 @@
 import AppHeader from "./header";
 import LandingPage from "./landing";
-import TestPage from "./test";
+import ErrorPage from "./error";
 import AppFooter from "./footer";
 
 import SessionPage from "./session/session";
@@ -26,6 +26,6 @@ export {
   LocationDetailPage,
   NewLocationPage,
   LocationListPage,
-  TestPage,
+  ErrorPage,
   SessionPage,
 };

@@ -31,6 +31,8 @@ export type EventUs = {
   media?: Media[];
   startDate?: string;
   endDate?: string;
+  prize?: number;
+  rating?: number;
 };
 
 export type Location = {

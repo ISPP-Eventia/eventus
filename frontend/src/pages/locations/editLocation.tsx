@@ -14,7 +14,7 @@ const EditLocationPage = () => {
     () =>
       locationApi
         .getLocation(locationId)
-        .then((response) => response.data as Location)
+        .then((response) => response?.data as Location)
   );
   return (
     <Page title="Nueva Ubicación">

@@ -8,20 +8,26 @@ import { eventApi } from "api";
 import utils from "utils";
 
 import { Ad, Loader, Map } from "components/atoms";
-import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import { UserHorizontalCard } from "components/molecules";
+import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
+import ErrorPage from "pages/error";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();
 
   const eventId = Number(useParams().id);
-  const loggedUserId = localStorage.getItem("userId");
+  const loggedUserId = Number(localStorage.getItem("userId"));
   const isAdmin = localStorage.getItem("isAdmin");
 
-  const { isLoading: loadingEvent, data: event } = useQuery("event", () =>
+  const {
+    isLoading: loadingEvent,
+    data: event,
+    error: eventError,
+    isError: isEventError,
+  } = useQuery("event", () =>
     eventApi.getEvent(eventId).then((response) => {
-      return response.data as EventUs;
+      return response?.data as EventUs;
     })
   );
 
@@ -32,7 +38,7 @@ const EventDetailPage = () => {
   } = useQuery("participants", () =>
     eventApi
       .getUsersByEvent(eventId)
-      .then((response) => response.data as User[])
+      .then((response) => response?.data as User[])
   );
 
   const {
@@ -42,7 +48,7 @@ const EventDetailPage = () => {
   } = useQuery("sponsorships", () =>
     eventApi
       .getSponsorshipsByEvent(Number(eventId))
-      .then((response) => response.data as Sponsorship[])
+      .then((response) => response?.data as Sponsorship[])
   );
 
   const onSearchLocation = () => {
@@ -50,18 +56,27 @@ const EventDetailPage = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("eventId", event?.id?.toString() ?? "1");
+    if (
+      event?.organizer?.id === loggedUserId &&
+      !event?.coordinates &&
+      eventId
+    ) {
+      localStorage.setItem("eventId", eventId.toString());
+    } else localStorage.removeItem("eventId");
+
     refetchSponsorships();
     refetchParticipants();
-  }, [event, refetchSponsorships, refetchParticipants]);
+  }, [event, refetchSponsorships, refetchParticipants, loggedUserId, eventId]);
 
-  return loadingEvent || !event ? (
+  return loadingEvent ? (
     <Loader />
+  ) : isEventError || !event ? (
+    <ErrorPage errorMessage={(eventError as Error)?.message || ""} />
   ) : (
     <Page
       title={event.title}
       actions={
-        (event.organizer?.id === Number(loggedUserId) || isAdmin === 'true')
+        event.organizer?.id === loggedUserId || isAdmin === "true"
           ? [
               <Button
                 variant="contained"
@@ -115,6 +130,12 @@ const EventDetailPage = () => {
             <div>
               <Typography variant="h4">Precio</Typography>
               <Typography variant="h6">{event?.price}€</Typography>
+              {event?.prize && (
+                <div>
+                  <Typography variant="h4">Premio</Typography>
+                  <Typography variant="h6">{event?.prize}€</Typography>
+                </div>
+              )}
             </div>
             <div>
               <Typography variant="h4">Fecha</Typography>
@@ -126,15 +147,16 @@ const EventDetailPage = () => {
               </Typography>
             </div>
           </div>
+          <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>
         </div>
-        {event?.coordinates ||
+        {!!event?.coordinates ||
           (event.organizer?.id === Number(loggedUserId) && (
             <div className="flex flex-col md:col-span-2 xl:col-span-1">
               <Typography variant="h4">Ubicación</Typography>
-              {event?.coordinates ? (
+              {!!event?.coordinates ? (
                 <Map
-                  lat={event?.coordinates.latitude}
-                  lng={event?.coordinates.longitude}
+                  lat={event.coordinates?.latitude}
+                  lng={event.coordinates?.longitude}
                 />
               ) : (
                 <Button
@@ -169,6 +191,7 @@ const EventDetailPage = () => {
             <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
+                .sort((a, b) => b.quantity - a.quantity)
                 .map((ad) => (
                   <Ad callback={refetchSponsorships} sponsorship={ad} />
                 ))}

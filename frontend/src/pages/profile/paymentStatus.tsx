@@ -3,12 +3,23 @@
 import React, { useState, useEffect } from "react";
 import { Elements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { Box } from "@mui/material";
+import Notification from "components/atoms/Notification/notification";
+import { Severity } from "components/atoms/Notification/severity";
+
 const stripePromise = loadStripe(
   "pk_test_51KiLGlGL8A1xVoNtYB3BREtLiZ6z2VZzRStRg1DtB1LDkUHWC8Ins3whKwCnJEDhKpJNTuIZabwKNLGU8LAYa3Ly00dOx0qyda"
 );
 const PaymentStatus = () => {
   const stripe = useStripe();
   const [message, setMessage] = useState<any>(null);
+  const [notifications, setNotifications] = React.useState<
+    { type: Severity; message: string }[]
+  >([]);
+
+  const notify = (type: Severity, message: string) => {
+    setNotifications((prev) => [...prev, { type, message }]);
+  };
 
   useEffect(() => {
     if (!stripe) {
@@ -35,10 +46,12 @@ const PaymentStatus = () => {
       // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
       switch (setupIntent.status) {
         case "succeeded":
+          notify?.("success", "Success! Your payment method has been saved.");
           setMessage("Success! Your payment method has been saved.");
           break;
 
         case "processing":
+          notify?.("info", "Processing payment details. We'll update you when processing is complete.");
           setMessage(
             "Processing payment details. We'll update you when processing is complete."
           );
@@ -47,6 +60,7 @@ const PaymentStatus = () => {
         case "requires_payment_method":
           // Redirect your user back to your payment page to attempt collecting
           // payment again
+          notify?.("error", "Failed to process payment details. Please try another payment method.");
           setMessage(
             "Failed to process payment details. Please try another payment method."
           );
@@ -55,7 +69,16 @@ const PaymentStatus = () => {
     });
   }, [stripe]);
 
-  return <h1>{message}</h1>;
+  return (
+        <div id="Notifications">
+          {notifications?.map((notification) => (
+            <Notification
+              severity={notification.type}
+              message={notification.message}
+            />
+          ))}
+        </div>
+      );
 };
 
 export default () => (

@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import { paymentApi } from "api";
 import { useQuery } from "react-query";
-import { EventUs } from "types";
+import { PaymentMethod } from "types";
+import { Button } from "@mui/material";
+import { PaymentTable } from './templates';
 
 const SetupForm = () => {
   const stripe = useStripe();
@@ -12,7 +14,7 @@ const SetupForm = () => {
   const { isLoading, data: payments } = useQuery("stripe", () =>
     paymentApi
       .getPaymentMethods()
-      .then((response) => response.data as EventUs[])
+      .then((response) => console.log(response.data))
   );
   const handleSubmit = async (event: any) => {
     // We don't want to let default form submission happen here,
@@ -46,11 +48,19 @@ const SetupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <PaymentElement />
-      <button disabled={!stripe}>Submit</button>
+      <Button
+      variant="contained"
+                color="primary"
+            disabled={!stripe} onClick={handleSubmit}
+              >
+                Submit
+              </Button>
       {/* Show error message to your customers */}
       {errorMessage && <div>{errorMessage}</div>}
+      {(payments) ? <PaymentTable payments={payments} />: <></>}
+      
     </form>
   )
 };

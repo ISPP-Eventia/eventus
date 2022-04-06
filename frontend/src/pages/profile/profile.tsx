@@ -60,7 +60,10 @@ const ProfilePage = () => {
         <Tabs
           value={activeTabIndex}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
+          aria-label="scrollable force tabs example"
         >
           <Tab icon={<Event />} />
           <Tab icon={<LocationCity />} />

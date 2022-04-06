@@ -1,37 +1,29 @@
- 
-import React from "react";
-import { GridColDef } from "@mui/x-data-grid";
-
 import { PaymentMethod } from "types";
-import { Table } from "components/molecules";
+import { Table } from "antd";
 
-const columns: GridColDef[] = [
+const columns = [
   {
-    field: "data.card.last4",
-    headerName: "Ultimos 4 dígitos tarjeta",
-    minWidth: 140,
+    title: "Ultimos 4 dígitos tarjeta",
+    render: (data: any) => (
+      <span>
+        <b>**** **** ****</b> {data.card.last4}
+      </span>
+    ),
+    key: "name",
   },
   {
-    field: "data.card.exp_month",
-    headerName: "Mes expiracion",
-    minWidth: 170,
+    title: "Mes expiracion",
+    render: (data: any) => <span>{data.card.exp_month}</span>,
+    key: "age",
   },
   {
-    field: "data.card.exp_year",
-    headerName: "Año expiracion",
-    minWidth: 170,
+    title: "Año expiracion",
+    render: (data: any) => <span>{data.card.exp_year}</span>,
+    key: "address",
   },
 ];
-
-const Component = (props: {
-  payments: PaymentMethod[];
-}) => {
-  return (
-    <Table
-      rows={props.payments}
-      columns={columns}
-    />
-  );
+const Component = (props: { payments: PaymentMethod }) => {
+  return <Table dataSource={props?.payments?.data ?? []} columns={columns} />;
 };
 
 export default Component;

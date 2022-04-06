@@ -19,7 +19,6 @@ export default function StripeApp() {
   });
 
   const clientSecret = data?.client_secret;
-  console.log(data);
 
   const appearance: any = {
     theme: "stripe",

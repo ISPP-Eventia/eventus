@@ -9,6 +9,7 @@ import LocationCard from "./Cards/locationCard";
 import UserHorizontalCard from "./Cards/userHorizontalCard";
 
 import TabPanel from "./TabPanel/tabPanel";
+import Table from "./Table/table";
 
 export {
   Accept,
@@ -19,4 +20,5 @@ export {
   UserHorizontalCard,
   LocationCard,
   TabPanel,
+  Table,
 };

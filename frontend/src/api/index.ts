@@ -117,6 +117,7 @@ const sponsorshipApi = {
 
 const paymentApi = {
   getPaymentIntent: () => axios.post("/stripe/initial"),
+  getPaymentMethods: () => axios.get("/stripe/paymentmethods"),
 };
 
 export {

@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
+import { paymentApi } from "api";
+import { useQuery } from "react-query";
+import { EventUs } from "types";
 
 const SetupForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [errorMessage, setErrorMessage] = useState<any>(null);
-
+  const { isLoading, data: payments } = useQuery("stripe", () =>
+    paymentApi
+      .getPaymentMethods()
+      .then((response) => response.data as EventUs[])
+  );
   const handleSubmit = async (event: any) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.

@@ -11,6 +11,11 @@ import {
   MyEventsTab,
 } from "components/organisms";
 import Page from "../page";
+import TicketsTab from "components/organisms/tabs/ticketsTab";
+import { useQuery } from "react-query";
+import { participationApi } from "api";
+import { Participation } from "types";
+import { Loader } from "components/atoms";
 import PaymentMethods from "./paymentMethods";
 
 const tabs = {
@@ -22,6 +27,9 @@ const tabs = {
 };
 
 const ProfilePage = () => {
+  const userIdStr = localStorage.getItem("userId");
+  const userId = userIdStr ? Number(userIdStr) : 0;
+
   const activeTabName =
     useParams<{ tab: "events" | "locations" | "tickets" | "info" | "payments" }>().tab;
   const navigate = useNavigate();
@@ -33,6 +41,18 @@ const ProfilePage = () => {
   const handleChange = (event: SyntheticEvent, index: number) => {
     navigate(`/profile/${Object.keys(tabs)?.[index] || "events"}`);
   };
+
+  const { isLoading: isLoadingParticipations, data: participations } = useQuery(
+    "participations",
+    () =>
+      participationApi
+        .getParticipationsByUser()
+        .then((response) => response.data as Participation[])
+  );
+
+  if (!userId) {
+    navigate("/login");
+  }
 
   return (
     <Page title="Mi Perfil">
@@ -56,7 +76,11 @@ const ProfilePage = () => {
         <MyLocationsTab />
       </TabPanel>
       <TabPanel value={activeTabIndex} index={2}>
-        TODO: Mis Tickets
+        {isLoadingParticipations || !participations ? (
+          <Loader />
+        ) : (
+          <TicketsTab participations={participations} />
+        )}
       </TabPanel>
       <TabPanel value={activeTabIndex} index={3}>
         TODO: Mis Datos

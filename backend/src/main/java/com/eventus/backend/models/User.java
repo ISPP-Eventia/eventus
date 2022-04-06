@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.*;
@@ -46,6 +47,11 @@ public class User implements UserDetails {
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     @JsonProperty("birthDate")
     private LocalDate birthDate;
+
+    @Column
+    @JsonProperty("isAdmin")
+    @NotNull
+    private boolean isAdmin;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
@@ -207,27 +213,37 @@ public class User implements UserDetails {
         return true;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate) && Objects.equals(image, user.image);
+        return isAdmin == user.isAdmin && Objects.equals(id, user.id) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(birthDate, user.birthDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthDate, image);
+        return Objects.hash(id, password, email, firstName, lastName, birthDate, isAdmin);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDate=" + birthDate +
-                ", image=" + image +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }

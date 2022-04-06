@@ -28,7 +28,7 @@ public class EventController extends ValidationController{
 
   @GetMapping("/events")
   public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag) {
-    return this.eventService.findAll(PageRequest.of(numPag, 20));
+    return this.eventService.findAll(PageRequest.of(numPag, 20000));
   }
 
   @GetMapping("/events/{id}")
@@ -44,10 +44,10 @@ public class EventController extends ValidationController{
   @PutMapping("/events")
   public ResponseEntity<String> updateEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
     try {
-      this.eventService.update(event,user.getId());
+      this.eventService.update(event,user);
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
-      return ResponseEntity.badRequest().body(e.getMessage());
+      return ResponseEntity.badRequest().build();
     }catch(IllegalArgumentException e){
       return ResponseEntity.badRequest().body(e.getMessage());
     }
@@ -68,9 +68,9 @@ public class EventController extends ValidationController{
   }
 
   @DeleteMapping("/events/{id}")
-  public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
+  public ResponseEntity<String> deleteEvent(@PathVariable Long id,@AuthenticationPrincipal User user) {
     try {
-      this.eventService.delete(id);
+      this.eventService.delete(id,user);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (DataAccessException e) {
       return ResponseEntity.notFound().build();
@@ -79,6 +79,11 @@ public class EventController extends ValidationController{
 
   @GetMapping("/users/events")
   public ResponseEntity<List<Event>> getEventsByOrganizer(@AuthenticationPrincipal User owner, @RequestParam(defaultValue = "0") Integer numPag) {
-    return ResponseEntity.ok(this.eventService.findByOrganizerId(owner.getId(), PageRequest.of(numPag, 20)));
+    if(owner.isAdmin()){
+      return ResponseEntity.ok(this.eventService.findAll(PageRequest.of(numPag, 20000)));
+    }else{
+      return ResponseEntity.ok(this.eventService.findByOrganizerId(owner.getId(), PageRequest.of(numPag, 20000)));
+    }
+
   }
 }

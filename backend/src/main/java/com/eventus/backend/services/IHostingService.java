@@ -7,6 +7,7 @@ import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.User;
 import com.stripe.exception.StripeException;
 
+import com.eventus.backend.models.User;
 import org.springframework.data.domain.Pageable;
 
 public interface IHostingService {
@@ -18,10 +19,9 @@ public interface IHostingService {
     public void delete(Hosting hosting);
     public void deleteById(Long id);
 
+    public void resolveHosting(boolean b, Long id,User user) throws StripeException;
     public List<Hosting> findByEventId(Long eventId, Pageable p, Long userId);
     List<Hosting> findByLocationId(Long locationId, Pageable p,Long userId);
-    public void update(Map<String,String> params, Long hostingId);
-    public void resolveHosting(boolean b, Long id,User user) throws StripeException;
     public List<Hosting>findByEventAndState(Long eventId,String state, Pageable p);
     Hosting findHostingByEventIdAndLocationId(Long eventId,Long locationId);
 }

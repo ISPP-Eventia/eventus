@@ -1,4 +1,4 @@
-import { axios } from "./axios";
+import { API_URL, axios } from "./axios";
 import {
   EventUs,
   Hosting,
@@ -75,6 +75,7 @@ const hostingApi = {
 const participationApi = {
   //bulk operations
   getParticipations: () => axios.get("/participations"),
+  getParticipationsByUser: () => axios.get("/user/participations"),
 
   //individual operations
   getParticipation: (id: number) => axios.get(`/participations/${id}`),
@@ -83,6 +84,20 @@ const participationApi = {
   updateParticipation: (participation: Participation) =>
     axios.put(`/participations/${participation.id}`, participation),
   deleteParticipation: (id: number) => axios.delete(`/participations/${id}`),
+  getTicket: (id: number) => {
+    const ticketUrl = API_URL + `/participation/${id}/ticket`;
+    // Change this to use your HTTP client
+    axios
+      .get(ticketUrl, {
+        responseType: "blob",
+      })
+      .then((blob) => {
+        // RETRIEVE THE BLOB AND CREATE LOCAL URL
+        var _url = window.URL.createObjectURL(blob.data);
+        window.open(_url, "_blank")?.focus(); // window.open + focus
+      })
+      .catch(() => {});
+  },
 };
 
 const sponsorshipApi = {

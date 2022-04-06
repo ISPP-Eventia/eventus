@@ -15,10 +15,11 @@ public interface IUserService{
     void saveUser(User user) throws DataAccessException, StripeException;
     List<User> findAllUsers(Pageable p);
     User findUserById(Long id);
-    void deleteUser(Long id);
 
     Optional<String> login(final String username, final String password);
     Optional<User> findByToken(final String token);
 
-    void update(Map<String, String> params, Long userId);
+    void update(Map<String, String> params, Long userId,User loggedUser);
+
+    void deleteUser(Long id,User loggedUser);
 }

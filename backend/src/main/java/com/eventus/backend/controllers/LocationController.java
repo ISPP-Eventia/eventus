@@ -55,10 +55,6 @@ public class LocationController extends ValidationController{
 
     }
 
-    @GetMapping("/locations")
-    public  ResponseEntity<List<Location>> getLocations(@RequestParam(defaultValue = "0") Integer numPag){
-        return new ResponseEntity<>(locationService.findAll(PageRequest.of(numPag,20000)), HttpStatus.OK);
-    }
 
     @PostMapping("/locations")
     public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user){

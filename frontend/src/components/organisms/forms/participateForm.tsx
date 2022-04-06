@@ -4,7 +4,6 @@ import { participationApi } from "api";
 
 import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
-import { API_URL } from "api/axios";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = useState<boolean>(false);
@@ -20,7 +19,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
         participationApi.getTicket(response.data.id);
         props.callback();
       })
-      .catch((e) => setError(true));
+      .catch(() => setError(true));
   };
 
   return (

@@ -1,21 +1,23 @@
 import { SyntheticEvent, useEffect, useMemo } from "react";
 
 import { useNavigate, useParams } from "react-router";
+import { useQuery } from "react-query";
 import { Box, Tab, Tabs } from "@mui/material";
 import { Event, Info, LocationCity, Receipt } from "@mui/icons-material";
 
+import { participationApi } from "api";
+import { Participation } from "types";
+
+import Page from "../page";
+import { Loader } from "components/atoms";
 import { TabPanel } from "components/molecules";
+
 import {
   MyProfileTab,
   MyLocationsTab,
   MyEventsTab,
+  TicketsTab,
 } from "components/organisms";
-import Page from "../page";
-import TicketsTab from "components/organisms/tabs/ticketsTab";
-import { useQuery } from "react-query";
-import { participationApi } from "api";
-import { Participation } from "types";
-import { Loader } from "components/atoms";
 
 const tabs = {
   events: 0,
@@ -40,7 +42,6 @@ const ProfilePage = () => {
     navigate(`/profile/${Object.keys(tabs)?.[index] || "events"}`);
   };
 
-  
   const { isLoading: isLoadingParticipations, data: participations } = useQuery(
     "participations",
     () =>

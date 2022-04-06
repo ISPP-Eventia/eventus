@@ -3,15 +3,15 @@ import { SignupFormValues } from "types";
 
 export interface UserFormProps {
   initialValues?: Partial<SignupFormValues>;
-  editMode?: boolean;
+  disabled?: boolean;
   onSubmit: (values: SignupFormValues) => void;
 }
-
 
 const SignupForm = (props: UserFormProps) => {
   const { initialValues, onSubmit } = props;
   return (
     <Form
+      autoComplete="off"
       labelCol={{ span: 10 }}
       wrapperCol={{ span: 24 }}
       layout="vertical"
@@ -24,8 +24,7 @@ const SignupForm = (props: UserFormProps) => {
         label="Nombre"
         rules={[{ required: true, message: "Required Field" }]}
       >
-      {(!props.editMode) ? <Input placeholder="Introduce tu nombre" /> : <Input placeholder="Introduce tu nombre" disabled/>}
-        
+        <Input placeholder="Introduce tu nombre" disabled={props.disabled} />
       </Form.Item>
 
       <Form.Item
@@ -33,24 +32,30 @@ const SignupForm = (props: UserFormProps) => {
         label="Apellidos"
         rules={[{ required: true, message: "Required Field" }]}
       >
-      {(!props.editMode) ? <Input placeholder="Introduce tus apellidos" /> :< Input placeholder="Introduce tus apellidos" disabled/>}
+        <Input
+          placeholder="Introduce tus apellidos"
+          disabled={props.disabled}
+        />
       </Form.Item>
-    <Form.Item
+      <Form.Item
         name="birthDate"
         label="Fecha de nacimiento"
         rules={[{ required: true, message: "Required Field" }]}
       >
-      {(!props.editMode) ? <DatePicker style={{ width: "100%" }} showTime={false} /> :<DatePicker style={{ width: "100%" }} showTime={false} disabled/>}
-        
+        <DatePicker
+          disabledDate={(date) => date.isAfter(new Date(), "day")}
+          style={{ width: "100%" }}
+          showTime={false}
+          disabled={props.disabled}
+        />
       </Form.Item>
-      
+
       <Form.Item
         name="email"
         label="Email"
         rules={[{ required: true, message: "Invalid Email", type: "email" }]}
       >
-        {(!props.editMode) ? <Input placeholder="Introduce tu Email" /> : <Input placeholder="Introduce tu Email" disabled/>}
-        
+        <Input placeholder="Introduce tu Email" disabled={props.disabled} />
       </Form.Item>
 
       <Form.Item
@@ -58,15 +63,20 @@ const SignupForm = (props: UserFormProps) => {
         label="Contraseña"
         rules={[{ required: true, message: "Required Field" }]}
       >
-        {(!props.editMode) ? <Input type="password" placeholder="Introduce tu contraseña" /> : <Input type="password" placeholder="Introduce tu contraseña" disabled/>}
+        <Input
+          type="password"
+          placeholder="Introduce tu contraseña"
+          disabled={props.disabled}
+        />
       </Form.Item>
-      
-      {(!props.editMode) ? <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-         Confirmar
-        </Button>
-      </Form.Item> : <></>}
-      
+
+      {!props.disabled && (
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            Confirmar
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   );
 };

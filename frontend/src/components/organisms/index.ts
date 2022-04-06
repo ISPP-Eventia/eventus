@@ -11,6 +11,7 @@ import SignupForm from "./forms/signupForm";
 import MyProfileTab from "./tabs/myProfile";
 import MyLocationsTab from "./tabs/myLocations";
 import MyEventsTab from "./tabs/myEvents";
+import TicketsTab from "./tabs/ticketsTab";
 
 export {
   ModalDrawer,
@@ -23,4 +24,5 @@ export {
   MyProfileTab,
   MyLocationsTab,
   MyEventsTab,
+  TicketsTab,
 };

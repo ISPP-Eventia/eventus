@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { createTheme, responsiveFontSizes, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";

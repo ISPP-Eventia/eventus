@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.*;
@@ -46,6 +47,7 @@ public class User implements UserDetails {
     @Column
     @DateTimeFormat(pattern = "YYYY-MM-DD")
     @JsonProperty("birthDate")
+    @Past(message = "La fecha de nacimiento no puede ser presente o futura.")
     private LocalDate birthDate;
 
     @Column

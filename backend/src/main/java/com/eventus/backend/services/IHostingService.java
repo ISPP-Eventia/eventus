@@ -7,7 +7,6 @@ import com.eventus.backend.models.Hosting;
 import com.eventus.backend.models.User;
 import com.stripe.exception.StripeException;
 
-import com.eventus.backend.models.User;
 import org.springframework.data.domain.Pageable;
 
 public interface IHostingService {

@@ -1,14 +1,11 @@
 package com.eventus.backend.controllers;
 
-import java.util.List;
 import java.util.Map;
-
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.StripeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
-import com.stripe.model.PaymentMethod;
 import com.stripe.model.PaymentMethodCollection;
 import com.stripe.model.SetupIntent;
 
@@ -72,28 +69,5 @@ public class StripeController {
         String listStr = list.toJson();
         return new ResponseEntity<>(listStr, HttpStatus.OK);
     }
-
-    // @PostMapping("/confirm/{id}")
-    // public ResponseEntity<String> confirm(@PathVariable("id") String id) throws StripeException {
-    //     PaymentIntent paymentIntent = stripeService.confirmPaymentIntent(id);
-    //     String paymentStr = paymentIntent.toJson();
-    //     return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
-    // }
-
-    // @PostMapping("/cancel/{id}")
-    // public ResponseEntity<String> cancel(@PathVariable("id") String id) throws StripeException {
-    //     PaymentIntent paymentIntent = stripeService.cancelPaymentIntent(id);
-    //     String paymentStr = paymentIntent.toJson();
-    //     return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
-    // }
-
-
-    
-    // @PostMapping("/accounts")
-    // public ResponseEntity<String> createAccount(@RequestBody Map<String,String> params) throws StripeException {
-    //     Account account = stripeService.createAccount(params);
-    //     String accountStr = account.toJson();
-    //     return new ResponseEntity<String>(accountStr, HttpStatus.OK);
-    // }
 
 }

@@ -6,6 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Box } from "@mui/material";
 import Notification from "components/atoms/Notification/notification";
 import { Severity } from "components/atoms/Notification/severity";
+import { useNavigate } from "react-router";
 
 const stripePromise = loadStripe(
   "pk_test_51KiLGlGL8A1xVoNtYB3BREtLiZ6z2VZzRStRg1DtB1LDkUHWC8Ins3whKwCnJEDhKpJNTuIZabwKNLGU8LAYa3Ly00dOx0qyda"
@@ -16,6 +17,8 @@ const PaymentStatus = () => {
   const [notifications, setNotifications] = React.useState<
     { type: Severity; message: string }[]
   >([]);
+
+  const navigate = useNavigate();
 
   const notify = (type: Severity, message: string) => {
     setNotifications((prev) => [...prev, { type, message }]);
@@ -51,7 +54,10 @@ const PaymentStatus = () => {
           break;
 
         case "processing":
-          notify?.("info", "Processing payment details. We'll update you when processing is complete.");
+          notify?.(
+            "info",
+            "Processing payment details. We'll update you when processing is complete."
+          );
           setMessage(
             "Processing payment details. We'll update you when processing is complete."
           );
@@ -60,25 +66,29 @@ const PaymentStatus = () => {
         case "requires_payment_method":
           // Redirect your user back to your payment page to attempt collecting
           // payment again
-          notify?.("error", "Failed to process payment details. Please try another payment method.");
+          notify?.(
+            "error",
+            "Failed to process payment details. Please try another payment method."
+          );
           setMessage(
             "Failed to process payment details. Please try another payment method."
           );
           break;
       }
+      navigate("/profile/payments");
     });
-  }, [stripe]);
+  }, [navigate, stripe]);
 
   return (
-        <div id="Notifications">
-          {notifications?.map((notification) => (
-            <Notification
-              severity={notification.type}
-              message={notification.message}
-            />
-          ))}
-        </div>
-      );
+    <div id="Notifications">
+      {notifications?.map((notification) => (
+        <Notification
+          severity={notification.type}
+          message={notification.message}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default () => (

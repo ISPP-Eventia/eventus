@@ -2,7 +2,6 @@ package com.eventus.backend.model;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Participation;
-import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +31,6 @@ public class ParticipationModelTest {
         Participation participation;
         static LocalDate date1 = LocalDate.of(2000, Month.FEBRUARY, 14);
         Participation participation2;
-        static LocalDate date2 = LocalDate.of(2001, Month.NOVEMBER, 14);
 
         @Before
         public void setUp(){

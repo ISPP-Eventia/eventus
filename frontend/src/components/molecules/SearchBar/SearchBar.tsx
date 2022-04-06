@@ -1,6 +1,6 @@
+import { useNavigate } from "react-router";
 import { Form } from "antd";
 import Search from "antd/lib/input/Search";
-import { useNavigate } from "react-router";
 
 export default function SearchBar() {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ export default function SearchBar() {
     <Form layout="inline">
       <Form.Item>
         <Search
+          style={{ minWidth: 30 }}
           placeholder="Busca eventos ..."
           onSearch={handleSearch}
-          style={{ minWidth: 30 }}
         />
       </Form.Item>
     </Form>

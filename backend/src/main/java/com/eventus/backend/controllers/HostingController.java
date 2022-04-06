@@ -7,7 +7,9 @@ import com.eventus.backend.models.Hosting;
 
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.HostingService;
+import com.eventus.backend.services.StripeService;
 import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentMethodCollection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -33,10 +35,12 @@ import org.springframework.http.ResponseEntity;
 public class HostingController extends ValidationController{
     
     private final HostingService hostingService;
+    private final StripeService stripeService;
     
     @Autowired
-    public HostingController(HostingService hostingService){
+    public HostingController(HostingService hostingService,StripeService stripeService){
         this.hostingService = hostingService;
+        this.stripeService = stripeService;
     }
 
     @GetMapping("/hostings")
@@ -73,9 +77,14 @@ public class HostingController extends ValidationController{
     }
 
     @PostMapping("/hostings")
-    public ResponseEntity<Object> createHosting(@RequestBody Map<String,String> params){
+    public ResponseEntity<Object> createHosting(@RequestBody Map<String,String> params, @AuthenticationPrincipal User user) throws StripeException{
         try{
-            hostingService.create(params);
+            PaymentMethodCollection paymentMethods = stripeService.getPaymentMethods(user);
+            if(paymentMethods.getData().isEmpty()){
+                return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+            }else{
+                hostingService.create(params);
+            }
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();

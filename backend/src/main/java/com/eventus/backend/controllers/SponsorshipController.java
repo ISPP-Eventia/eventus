@@ -3,7 +3,9 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.SponsorshipService;
+import com.eventus.backend.services.StripeService;
 import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentMethodCollection;
 
 import java.util.List;
 import java.util.Map;
@@ -21,10 +23,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class SponsorshipController extends ValidationController{
     private final SponsorshipService sponsorService;
+    private final StripeService stripeService;
 
     @Autowired
-    public SponsorshipController(SponsorshipService sponsorService) {
+    public SponsorshipController(SponsorshipService sponsorService, StripeService stripeService) {
         this.sponsorService = sponsorService;
+        this.stripeService = stripeService;
     }
 
     @GetMapping("/sponsorships")
@@ -60,9 +64,14 @@ public class SponsorshipController extends ValidationController{
     }
 
     @PostMapping("/sponsorships")
-    public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String, String> params,@AuthenticationPrincipal User user) {
+    public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String, String> params,@AuthenticationPrincipal User user) throws StripeException {
         try {
-            sponsorService.create(params,user);
+            PaymentMethodCollection paymentMethods = stripeService.getPaymentMethods(user);
+            if(paymentMethods.getData().isEmpty()){
+                return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+            }else{
+                sponsorService.create(params,user);
+            }
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -82,6 +91,7 @@ public class SponsorshipController extends ValidationController{
     @PostMapping("/sponsorships/{id}")
     public ResponseEntity<Map<String,String>> resolveSponsorship(@RequestBody Map<String,String> body, @PathVariable Long id,@AuthenticationPrincipal User user) throws StripeException {
         try {
+            
             boolean isAccepted = "true".equals(body.get("isAccepted"));
             this.sponsorService.resolveSponsorship(isAccepted, id,user);
             return ResponseEntity.ok().build();

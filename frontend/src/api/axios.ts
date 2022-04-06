@@ -26,6 +26,8 @@ axios.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
       window.location.href = "/login";
+    }else if(error.response.status === 402) {
+      window.location.href = "/profile/payments"
     }
   }
 );

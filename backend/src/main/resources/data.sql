@@ -20,7 +20,7 @@ INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VAL
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (19, 'Daniel', 'Torres','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'joselu3@gmail.com','2000/06/06');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (20, 'Rafael', 'Ramos','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'feralonso2@gmail.com','2000/05/20');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (21, 'Pablo', 'Serrano','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'muller2@gmail.com','2000/10/18');
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (22, 'Jose', 'Montiel','$2a$10$6LWjTo6TUadfX26Qwini2O7ufhcIb0nYM90eLvav5B9wmeF0of5um',true,'noadmin@gmail.com','2000/03/29');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (22, 'Jose', 'Montiel','$2a$10$6LWjTo6TUadfX26Qwini2O7ufhcIb0nYM90eLvav5B9wmeF0of5um',false,'noadmin@gmail.com','2000/03/29');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (23, 'Josefa', 'Castro','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'juan2@gmail.com','1993/08/23');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (24, 'Isabel', 'Marin','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'rosa2@gmail.com','1980/02/14');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (25, 'Lucia', 'Sanz','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'antonio2@gmail.com','1999/12/27');
@@ -29,7 +29,7 @@ INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VAL
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (28, 'Laura', 'Ramos','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'moncalvillo2@gmail.com','2000/04/30');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (29, 'Anguela', 'Martin','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'beabeltran2@gmail.com','2000/11/15');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (30, 'Cristina', 'Gutierrez','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'joselu2@gmail.com','2000/06/06');
-INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (11, 'Admin', 'admin','$2a$10$6LWjTo6TUadfX26Qwini2O7ufhcIb0nYM90eLvav5B9wmeF0of5um',false,'admin@gmail.com','2000/03/29');
+INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (11, 'Admin', 'admin','$2a$10$6LWjTo6TUadfX26Qwini2O7ufhcIb0nYM90eLvav5B9wmeF0of5um',true,'admin@gmail.com','2000/03/29');
 
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (1,'Torneo de fútbol sala. Se necesitan 8 equipos para realizar el sorteo de las eliminatorias.',5.0,'Torneo fútbol sala',1, "2022-04-22T20:00:00.000000","2022-04-24T20:00:00.000000");
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (2,'Gran final del carnaval de Cádiz',50.0,'Carnaval de Cádiz',2, "2022-06-21T19:30:00.000000","2022-06-22T19:30:00.000000");

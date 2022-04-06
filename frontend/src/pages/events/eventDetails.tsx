@@ -17,6 +17,7 @@ const EventDetailPage = () => {
   const navigate = useNavigate();
 
   const eventId = Number(useParams().id);
+
   const loggedUserId = Number(localStorage.getItem("userId"));
   const isAdmin = localStorage.getItem("isAdmin");
 

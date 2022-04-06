@@ -39,25 +39,25 @@ public class StripeController {
         }
         if(paymentIntent != null){
             String paymentStr = paymentIntent.toJson();
-            return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
+            return new ResponseEntity<>(paymentStr, HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>("Could not create the payment.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Could not create the payment.", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/initial")
-    public ResponseEntity<String> createIntial(@AuthenticationPrincipal User user){
+    public ResponseEntity<String> addPaymentMethod(@AuthenticationPrincipal User user){
         SetupIntent paymentIntent = null;
         try {
-            paymentIntent = stripeService.createInitialPaymentIntent(user);
+            paymentIntent = stripeService.addPaymentMethod(user);
         } catch (StripeException e) {
             e.printStackTrace();
         }
         if(paymentIntent != null){
             String paymentStr = paymentIntent.toJson();
-            return new ResponseEntity<String>(paymentStr, HttpStatus.OK);
+            return new ResponseEntity<>(paymentStr, HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>("Could not create the payment.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Could not create the payment.", HttpStatus.BAD_REQUEST);
         }
         
     }

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StripeService {
 
+    public static final String PAYMENT_METHOD_ERROR = "User must have at least one payment method.";
     @Value("${stripe.key.secret}")
     String secretKey;
 
@@ -47,10 +48,7 @@ public class StripeService {
           try {
             PaymentIntent.create(paymentParams);
           } catch (CardException err) {
-            System.out.println("Error code is : " + err.getCode());
-            String paymentIntentId = err.getStripeError().getPaymentIntent().getId();
-            PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
-            System.out.println(paymentIntent.getId());
+            return null;
           }
           return payment;
         }else{
@@ -74,7 +72,7 @@ public class StripeService {
       
     }
 
-    public SetupIntent createInitialPaymentIntent(User user) throws StripeException {
+    public SetupIntent addPaymentMethod(User user) throws StripeException {
       Stripe.apiKey = secretKey;
       SetupIntentCreateParams  params =
       SetupIntentCreateParams .builder()
@@ -89,7 +87,7 @@ public class StripeService {
 
       Stripe.apiKey = secretKey;
       PaymentMethodCollection paymentMethods = getPaymentMethods(hosting.getEvent().getOrganizer());
-      Validate.isTrue(paymentMethods.getData().size() > 0, "User must have at least one payment method.");
+      Validate.isTrue(!paymentMethods.getData().isEmpty(), PAYMENT_METHOD_ERROR);
       if(!paymentMethods.getData().isEmpty()){
         PaymentIntentCreateParams paymentParams =
         PaymentIntentCreateParams.builder()
@@ -102,8 +100,7 @@ public class StripeService {
           .setOffSession(true)
           .build();
 
-        PaymentIntent payment =  PaymentIntent.create(paymentParams);
-        return payment;
+        return PaymentIntent.create(paymentParams);
       }else{
         return null;
       }
@@ -115,7 +112,7 @@ public class StripeService {
     public PaymentIntent createSponsorshipPayment(Sponsorship sponsorship) throws StripeException {
       Stripe.apiKey = secretKey;
       PaymentMethodCollection paymentMethods = getPaymentMethods(sponsorship.getUser());
-      Validate.isTrue(paymentMethods.getData().size() > 0, "User must have at least one payment method.");
+      Validate.isTrue(!paymentMethods.getData().isEmpty(), PAYMENT_METHOD_ERROR);
       if(!paymentMethods.getData().isEmpty()){
         PaymentIntentCreateParams paymentParams =
         PaymentIntentCreateParams.builder()
@@ -128,8 +125,7 @@ public class StripeService {
           .setOffSession(true)
           .build();
 
-        PaymentIntent payment =  PaymentIntent.create(paymentParams);
-        return payment;
+        return PaymentIntent.create(paymentParams);
       }else{
         return null;
       }
@@ -141,7 +137,7 @@ public class StripeService {
     public PaymentIntent createParticipationPayment(Participation participation) throws StripeException {
       Stripe.apiKey = secretKey;
       PaymentMethodCollection paymentMethods = getPaymentMethods(participation.getUser());
-      Validate.isTrue(paymentMethods.getData().size() > 0, "User must have at least one payment method.");
+      Validate.isTrue(!paymentMethods.getData().isEmpty(), PAYMENT_METHOD_ERROR);
       if(!paymentMethods.getData().isEmpty()){
         PaymentIntentCreateParams paymentParams =
         PaymentIntentCreateParams.builder()
@@ -154,8 +150,7 @@ public class StripeService {
           .setOffSession(true)
           .build();
 
-        PaymentIntent payment =  PaymentIntent.create(paymentParams);
-        return payment;
+        return PaymentIntent.create(paymentParams);
       }else{
         return null;
       }
@@ -169,115 +164,9 @@ public class StripeService {
         CustomerListPaymentMethodsParams.builder()
           .setType(CustomerListPaymentMethodsParams.Type.CARD)
           .build();
-      PaymentMethodCollection paymentMethods = customer.listPaymentMethods(params);
-      return paymentMethods;
+
+      return customer.listPaymentMethods(params);
       
     }
-
-
-    //  public PaymentIntent confirmPaymentIntent(String id) throws StripeException {
-    //     Stripe.apiKey = secretKey;
-    //     PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("payment_method", "pm_card_visa");
-    //     paymentIntent.confirm(params);
-    //     return paymentIntent;
-    // }
-
-    // public PaymentIntent cancelPaymentIntent(String id) throws StripeException {
-    //     Stripe.apiKey = secretKey;
-    //     PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
-    //     paymentIntent.cancel();
-    //     return paymentIntent;
-    // }
-
-    
-
-    // public Account createAccount(Map<String,String> createParams) throws StripeException{
-    //     Stripe.apiKey = secretKey;
-    //     Map<String, Object> cardPayments = new HashMap<>();
-    //     cardPayments.put("requested", true);
-    //     Map<String, Object> transfers = new HashMap<>();
-    //     transfers.put("requested", true);
-    //     Map<String, Object> capabilities = new HashMap<>();
-    //     capabilities.put("card_payments", cardPayments);
-    //     capabilities.put("transfers", transfers);
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("type", "express");
-    //     params.put("country", "ES");
-    //     params.put("email", createParams.get("email"));
-    //     params.put("capabilities", capabilities);
-    //     return Account.create(params);
-    // }
-
-    // public AccountCollection findAllAccounts(Integer size) throws StripeException{
-    //     Stripe.apiKey = secretKey;
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("limit", size);
-    //     return Account.list(params);
-    // }
-
-    // public Transfer createTransfer(TransferCreateParams createParams) throws StripeException{
-    //     Stripe.apiKey = secretKey;
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("amount", createParams.getAmount()*100);
-    //     params.put("currency", "eur");
-    //     params.put("destination", createParams.getDestination());
-    //     params.put("transfer_group", createParams.getTransferGroup());
-    //     params.put("description", createParams.getDescription());
-    //     return Transfer.create(params);
-    // }
-
-    // public TransferCollection findAllTransfers(Integer size) throws StripeException{
-    //     Stripe.apiKey = secretKey;
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("limit", size);
-    //     return Transfer.list(params);
-    // }
-
-
-    // // public ExternalAccount createExternalAccount() throws StripeException{
-
-    // // }
-
-    // public Token createAccountToken(User user) throws StripeException{
-    //     Stripe.apiKey = secretKey;
-
-    //     Map<String, Object> individual = new HashMap<>();
-    //     individual.put("first_name", user.getFirstName());
-    //     individual.put("last_name", user.getLastName());
-    //     Map<String, Object> account = new HashMap<>();
-    //     account.put("individual", individual);
-    //     account.put("tos_shown_and_accepted", true);
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("account", account);
-    //     params.put("account_token", createPIIToken());
-
-    //     return Token.create(params);
-    // }
-
-    // public Customer createCustomer(User user) throws StripeException{
-    //     Stripe.apiKey = secretKey;
-
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("name", user.getFirstName() + " " + user.getLastName());
-    //     params.put("email", user.getEmail());
-    //     params.put("description", "Usuario: " + user.getUsername());
-
-    //     return  Customer.create(params);    
-
-    // }
-
-    // public Token createPIIToken() throws StripeException{
-    //     Stripe.apiKey = secretKey;
-
-    //     Map<String, Object> pii = new HashMap<>();
-    //     pii.put("id_number", String.valueOf(0 + (int)(Math.random() * ((1000000000 - 0) + 1))));
-    //     Map<String, Object> params = new HashMap<>();
-    //     params.put("pii", pii);
-
-    //     return Token.create(params);
-
-    // }
 
 }

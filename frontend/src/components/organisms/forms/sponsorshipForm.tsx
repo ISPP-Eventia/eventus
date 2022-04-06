@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { Form, Button, InputNumber, Input } from "antd";
+import { Typography } from "@mui/material";
+import { Form, Button, InputNumber, Input, Divider } from "antd";
 
 import { SponsorshipFormValues } from "types";
 import { sponsorshipApi } from "api";
@@ -29,7 +30,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
 
   return (
     <ModalDrawer
-      title="Patrocinador"
+      title="Patrocinar evento"
       opener={{
         title: "Patrocinar",
         color: "success",
@@ -50,7 +51,10 @@ const Component = (props: { event?: any; callback: () => void }) => {
         <Form.Item name="quantity" label="Cantidad" rules={required}>
           <InputNumber min={0} style={{ width: "100%" }} />
         </Form.Item>
-
+        <Typography variant="body1" color="textSecondary">
+          Nota: Mostraremos las ofertas ordenadas por cantidad ofrecida.
+        </Typography>
+        <Divider />
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Patrocinar

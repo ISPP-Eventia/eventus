@@ -5,6 +5,7 @@ import { participationApi } from "api";
 import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
 import { API_URL } from "api/axios";
+import { Button } from "antd";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = useState<boolean>(false);
@@ -27,21 +28,19 @@ const Component = (props: { event?: any; callback: () => void }) => {
     <ModalDrawer
       title="Participar"
       opener={{
-        title: `Participar por ${props.event?.price} €`,
+        title: `Participar ${props.event?.price}€`,
         color: "primary",
       }}
-      actions={[
-        {
-          title: `Participar por ${props.event?.price} €`,
-          onClick: onSubmit,
-          color: "primary",
-        },
-      ]}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;
       }}
     >
-      {error && <Error error="Ya estás participando en este evento" />}
+      <>
+        <Button type="primary" onClick={onSubmit} style={{ width: "100%" }}>
+          Participar {props.event?.price}€
+        </Button>
+        {error && <Error error="Ya estás participando en este evento" />}
+      </>
     </ModalDrawer>
   );
 };

@@ -17,7 +17,13 @@ import {
   TrophyFilled,
 } from "@ant-design/icons";
 
-type SortBy = "precio" | "calificación" | "fecha" | "premio" | "search" | "all";
+type SortBy =
+  | "precio"
+  | "calificación"
+  | "fecha"
+  | "premio"
+  | "búsqueda"
+  | "all";
 
 const EventListPage = () => {
   const navigate = useNavigate();
@@ -49,7 +55,7 @@ const EventListPage = () => {
     setSortBy("calificación");
     const results = events
       ?.filter((event) => !!event.rating)
-      .sort((a, b) => b?.rating || 0 - (a?.rating || 0));
+      .sort((a, b) => (b?.rating || 0) - (a?.rating || 0));
     setDisplayed(results?.slice(0, 10) || []);
   }, [events]);
 
@@ -73,7 +79,7 @@ const EventListPage = () => {
 
   const selectBySearch = useCallback(
     (search: string) => {
-      setSortBy("search");
+      setSortBy("búsqueda");
       const results = events?.filter(
         (event) =>
           event?.title?.toLowerCase().includes(search.toLowerCase()) ||
@@ -143,8 +149,8 @@ const EventListPage = () => {
             </Button>
             <Button
               onClick={selectByPrice}
-              variant={sortBy === "search" ? "contained" : "outlined"}
-              disabled={sortBy !== "search"}
+              variant={sortBy === "búsqueda" ? "contained" : "outlined"}
+              disabled={sortBy !== "búsqueda"}
             >
               <Search />
             </Button>

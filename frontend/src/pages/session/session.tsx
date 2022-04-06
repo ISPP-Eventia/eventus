@@ -45,7 +45,7 @@ const SessionPage = () => {
       {action === "login" ? (
         <LoginForm onSubmit={onLogin} />
       ) : (
-        <SignupForm onSubmit={onSignup} />
+        <SignupForm onSubmit={onSignup}/>
       )}
       {error !== "" && <Error error={error} />}
 

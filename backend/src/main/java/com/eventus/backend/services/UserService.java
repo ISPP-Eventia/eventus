@@ -5,6 +5,7 @@ import com.eventus.backend.repositories.UserRepository;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -77,7 +81,7 @@ public class UserService implements IUserService{
         if(StringUtils.isNotBlank(params.get("password"))){
             user.setPassword(passwordEncoder.encode(params.get("password")));
         }
-        user.setBirthDate(LocalDate.parse(params.get("birthDate")));
+        user.setBirthDate(Instant.parse(params.get("birthDate")).atZone(ZoneId.systemDefault()).toLocalDate());
         user.setFirstName(params.get("firstName"));
         user.setLastName(params.get("lastName"));
         Validate.isTrue(user.getFirstName().length() < 20, "First name must be less than 20 characters");

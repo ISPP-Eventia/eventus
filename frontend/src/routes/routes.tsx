@@ -3,8 +3,8 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 import { Loader } from "components/atoms";
 import {
-  EventListPage,
   EventDetailPage,
+  EventListPage,
   NewEventPage,
   LocationDetailPage,
   NewLocationPage,
@@ -13,9 +13,9 @@ import {
   SessionPage,
   ProfilePage,
   ErrorPage,
+  EditEventPage,
+  EditLocationPage,
 } from "pages";
-import EditEventPage from "pages/events/editEvent";
-import EditLocationPage from "pages/locations/editLocation";
 
 const AppRoutes = () => {
   return (
@@ -32,6 +32,8 @@ const AppRoutes = () => {
           <Route path="/login" element={<SessionPage />} />
           <Route path="/signup" element={<SessionPage />} />
 
+          <Route path="/events" element={<EventListPage />} />
+          <Route path="/events/new" element={<NewEventPage />} />
           <Route path="/events" element={<EventListPage />} />
           <Route path="/events/new" element={<NewEventPage />} />
           <Route path="/events/:id" element={<EventDetailPage />} />

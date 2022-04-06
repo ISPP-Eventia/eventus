@@ -105,3 +105,12 @@ export type SignupFormValues = {
   email: string;
   password: string;
 };
+
+export type UserFormValues = {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  birthDate?: string;
+  email?: string;
+  enable?: boolean;
+};

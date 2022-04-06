@@ -8,8 +8,8 @@ import { eventApi } from "api";
 import utils from "utils";
 
 import { Ad, Loader, Map } from "components/atoms";
-import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import { UserHorizontalCard } from "components/molecules";
+import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
 import ErrorPage from "pages/error";
 
@@ -190,6 +190,7 @@ const EventDetailPage = () => {
             <div className="grid h-auto grid-cols-1 gap-2 gap-x-8 gap-y-2 md:grid-cols-3 xl:grid-cols-4">
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
+                .sort((a, b) => b.quantity - a.quantity)
                 .map((ad) => (
                   <Ad callback={refetchSponsorships} sponsorship={ad} />
                 ))}

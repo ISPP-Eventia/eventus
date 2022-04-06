@@ -1,4 +1,4 @@
-import { SyntheticEvent, useMemo } from "react";
+import { SyntheticEvent, useEffect, useMemo } from "react";
 
 import { useNavigate, useParams } from "react-router";
 import { Box, Tab, Tabs } from "@mui/material";
@@ -45,12 +45,16 @@ const ProfilePage = () => {
     () =>
       participationApi
         .getParticipationsByUser()
-        .then((response) => response.data as Participation[])
+        .then((response) => response?.data as Participation[])
   );
 
   if (!userId) {
     navigate("/login");
   }
+
+  useEffect(() => {
+    localStorage.removeItem("eventId");
+  }, []);
 
   return (
     <Page title="Mi Perfil">

@@ -41,6 +41,10 @@ public class Event {
     private Double price;
 
     @Column
+    @JsonProperty("prize")
+    private Double prize;
+
+    @Column
     @JsonProperty("startDate")
     @DateTimeFormat(pattern = "YYYY-MM-DDTHH:MM:SS")
     @Future
@@ -177,6 +181,30 @@ public class Event {
         this.endDate = endDate;
     }
 
+    public Double getPrize() {
+        return prize;
+    }
+
+    public void setPrize(Double prize) {
+        this.prize = prize;
+    }
+
+    @JsonProperty("rating")
+    public Double getRating(){
+        int numPart=participations.size();
+        int numSpons=sponsors.size();
+        double totalParticipaciones=0;
+        if(numPart!=0){
+            totalParticipaciones=participations.stream().mapToDouble(Participation::getPrice).sum();
+        }
+        double totalSponsors=0;
+        if(numSpons!=0){
+            totalSponsors=sponsors.stream().mapToDouble(Sponsorship::getQuantity).sum();
+        }
+
+        return numPart*0.4+numSpons*0.3+(totalParticipaciones+totalSponsors)*0.3;
+    }
+
     @JsonProperty("coordinates")
     public Coordinates getEventCoordinates(){
         Hosting hosting=null;
@@ -191,26 +219,29 @@ public class Event {
     }
 
     @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", images=" + images +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equals(id, event.id) && Objects.equals(organizer, event.organizer) && Objects.equals(title, event.title) && Objects.equals(price, event.price) && Objects.equals(description, event.description) && Objects.equals(images, event.images);
+        return Objects.equals(id, event.id) && Objects.equals(organizer, event.organizer) && Objects.equals(title, event.title) && Objects.equals(price, event.price) && Objects.equals(prize, event.prize) && Objects.equals(startDate, event.startDate) && Objects.equals(endDate, event.endDate) && Objects.equals(description, event.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, organizer, title, price, description, images);
+        return Objects.hash(id, organizer, title, price, prize, startDate, endDate, description);
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", organizer=" + organizer +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", prize=" + prize +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

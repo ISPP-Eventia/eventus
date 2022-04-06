@@ -11,7 +11,7 @@ const Page = (props: {
       <Box className="flex items-center justify-between md:flex-row">
         {props.title && (
           <Typography
-            variant="h2"
+            variant="h3"
             className="max-w-[200px] overflow-hidden text-ellipsis md:max-w-none"
           >
             {props.title}

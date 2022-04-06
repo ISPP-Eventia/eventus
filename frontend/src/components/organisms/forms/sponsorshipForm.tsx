@@ -22,7 +22,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
         }
         props.callback();
       })
-      .catch((e) => {
+      .catch(() => {
         setError(true);
       });
   };
@@ -44,7 +44,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
         layout="vertical"
         onFinish={handleSubmit}
       >
-        <Form.Item name="name" label="Nombre de patrocinador" rules={required}>
+        <Form.Item name="name" label="Mensaje" rules={required}>
           <Input style={{ width: "100%" }} />
         </Form.Item>
         <Form.Item name="quantity" label="Cantidad" rules={required}>

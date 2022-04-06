@@ -16,7 +16,7 @@ const NewLocation = () => {
     locationApi
       .createLocation(locationBody)
       .then(() => {
-        navigate("/locations");
+        navigate(-1);
       })
       .catch((e) => {
         setError(e?.response?.data?.error ?? "");

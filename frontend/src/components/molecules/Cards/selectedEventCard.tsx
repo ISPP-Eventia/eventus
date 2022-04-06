@@ -12,7 +12,7 @@ const SelectedEventCard = (props: { noPicture?: boolean }) => {
   const eventId = Number(localStorage.getItem("eventId"));
 
   const { data: event } = useQuery("event", () =>
-    eventApi.getEvent(eventId).then((response) => response.data as EventUs)
+    eventApi.getEvent(eventId).then((response) => response?.data as EventUs)
   );
 
   const onClick = () => {

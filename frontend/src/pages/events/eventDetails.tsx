@@ -13,6 +13,8 @@ import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
 import ErrorPage from "pages/error";
 
+import TwitterIcon from '@mui/icons-material/Twitter';
+
 const EventDetailPage = () => {
   const navigate = useNavigate();
 
@@ -146,7 +148,14 @@ const EventDetailPage = () => {
               <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.endDate ?? "")}
               </Typography>
+              
             </div>
+            <div className="shareButtons ml-8">
+                <Typography variant="h4" className="font-bold">
+                  Compartir
+                </Typography>
+                <a href="https://twitter.com/intent/tweet?url=myUrl&text=myTitle" target="_blank"><TwitterIcon/></a>
+              </div>
           </div>
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>
         </div>

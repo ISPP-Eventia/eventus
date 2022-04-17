@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
@@ -16,6 +16,8 @@ import ErrorPage from "pages/error";
 import TwitterIcon from '@mui/icons-material/Twitter';
 
 const EventDetailPage = () => {
+  const [twitterText, setTwitterText] = useState("");
+
   const navigate = useNavigate();
 
   const eventId = Number(useParams().id);
@@ -59,16 +61,26 @@ const EventDetailPage = () => {
   };
 
   useEffect(() => {
+
+    const shareTwitter = (event: EventUs) => {
+      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
+      const hora = event.startDate!.substring(11,16);
+      const text = "🙌Estoy%20participando%20en%20el%20evento%20"+ event.title +"%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A✅Tú%20también%20puedes%20inscribirte%20en%20el%20siguiente%20enlace%20➡%0A&url="+window.location.href+"";
+      setTwitterText(text);
+    }
+    if(event !== undefined) shareTwitter(event);
+
     if (
       event?.organizer?.id === loggedUserId &&
       !event?.coordinates &&
       eventId
     ) {
       localStorage.setItem("eventId", eventId.toString());
+      
     } else localStorage.removeItem("eventId");
 
     refetchSponsorships();
-    refetchParticipants();
+    refetchParticipants();    
   }, [event, refetchSponsorships, refetchParticipants, loggedUserId, eventId]);
 
   return loadingEvent ? (
@@ -154,7 +166,7 @@ const EventDetailPage = () => {
                 <Typography variant="h4" className="font-bold">
                   Compartir
                 </Typography>
-                <a href="https://twitter.com/intent/tweet?url=myUrl&text=myTitle" target="_blank"><TwitterIcon/></a>
+                <a href={"https://twitter.com/intent/tweet?text="+twitterText+""} target="_blank"><TwitterIcon/></a>
               </div>
           </div>
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>

@@ -4,6 +4,7 @@ import {
   Location,
   LocationFormValues,
   SignupFormValues,
+  SocialMedia,
   User,
 } from "types";
 
@@ -59,6 +60,12 @@ const formatters = {
   },
 };
 
-const utils = { parsers, formatters };
+const share = {
+  shareEvent: (socialMedia: SocialMedia) => {
+    // TODO
+  },
+};
+
+const utils = { parsers, formatters, share };
 
 export default utils;

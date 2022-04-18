@@ -10,10 +10,14 @@ import org.springframework.data.domain.Pageable;
 public interface IEventService {
     
     public List<Event> findAll(Pageable page);
+
+    List<Event> findAllNotFinished(Pageable page);
     public Event findById(Long id);
     public Event save(Event event);
     public void delete(Long id, User user);
     Event update(Event event, User user);
 
     List<Event> findByOrganizerId(Long id, Pageable pageable);
+
+    List<Event> findRecommendedEvents(User user);
 }

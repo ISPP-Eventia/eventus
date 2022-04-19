@@ -30,17 +30,17 @@ public class EventService implements IEventService {
 
     @Override
     public Event save(Event event) {
-        Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
+        Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "La fecha de inicio no puede ser mayor a la fecha de fin");
         return this.eventRepository.save(event);
     }
     @Override
     public Event update(Event event,User user) {
 
-        Validate.notNull(event.getId());
+        Validate.isTrue(event.getId()!=null, "El evento no tiene id");
         Event oldEvent = this.eventRepository.findById(event.getId()).orElse(null);
-        Validate.notNull(oldEvent, "This event does not exist");
-        Validate.isTrue(oldEvent.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "You can not update an event that you are not the organizer");
-        Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "Start date and end date can not overlap");
+        Validate.isTrue(oldEvent!=null, "Evento no encontrado");
+        Validate.isTrue(oldEvent.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "No puedes modificar un evento del que no eres el organizador");
+        Validate.isTrue(event.getStartDate().isBefore(event.getEndDate()), "La fecha de inicio no puede ser mayor a la fecha de fin");
 
         oldEvent.setDescription(event.getDescription());
         oldEvent.setTitle(event.getTitle());
@@ -53,8 +53,8 @@ public class EventService implements IEventService {
     @Override
     public void delete(Long id,User user) {
         Event event = this.eventRepository.findById(id).orElse(null);
-        Validate.notNull(event, "Event not found");
-        Validate.isTrue(event.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "You can not delete an event that you are not the organizer");
+        Validate.isTrue(event!=null, "Evento no encontrado");
+        Validate.isTrue(event.getOrganizer().getId().equals(user.getId())||user.isAdmin(), "No puedes eliminar un evento del que no eres el organizador");
         this.eventRepository.deleteById(id);
     }
 

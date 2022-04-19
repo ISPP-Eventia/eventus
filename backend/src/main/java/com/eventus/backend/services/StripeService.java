@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StripeService {
 
-    public static final String PAYMENT_METHOD_ERROR = "User must have at least one payment method.";
+    public static final String PAYMENT_METHOD_ERROR = "El usuario debe tener al menos un metodo de pago.";
     @Value("${stripe.key.secret}")
     String secretKey;
 

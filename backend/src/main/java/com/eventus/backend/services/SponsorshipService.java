@@ -48,7 +48,7 @@ public class SponsorshipService implements ISponsorshipService{
     @Override
     public List<Sponsorship> findSponsorByEventId(Long eventId, Pageable p,User user) {
         Event event=eventService.findById(eventId);
-        Validate.isTrue(event!=null,"Event does not exits");
+        Validate.isTrue(event!=null,"Evento no encontrado");
         if(event.getOrganizer().getId().equals(user.getId())||user.isAdmin()){
             return sponsorRepository.findSponsorByEventId(eventId,p);
         }else{
@@ -75,8 +75,8 @@ public class SponsorshipService implements ISponsorshipService{
     public void create(Map<String,String> params,User user) {
         String eventId =params.get("eventId");
         String quantity=params.get("quantity");
-        Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Incorrect format for eventId");
-        Validate.isTrue(StringUtils.isNotBlank(quantity)&& NumberUtils.isCreatable(quantity),"Quantity should be a double");
+        Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Formato incorrecto de eventId");
+        Validate.isTrue(StringUtils.isNotBlank(quantity)&& NumberUtils.isCreatable(quantity),"La cantidad debe ser un numero");
         Sponsorship entity = new Sponsorship();
         Event event = eventService.findById(Long.valueOf(eventId));
         if(event != null && user != null){
@@ -93,8 +93,8 @@ public class SponsorshipService implements ISponsorshipService{
     @Override
     public void resolveSponsorship(boolean b, Long sId, User user) throws StripeException {
         Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
-        Validate.isTrue(sponsor!=null,"Sponsor id doesnt exits");
-        Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(user.getId())||user.isAdmin(),"User must be event organizer");
+        Validate.isTrue(sponsor!=null,"Sponsorship no encontrado");
+        Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(user.getId())||user.isAdmin(),"Debes ser el organizador del evento");
         Boolean paid = false;
         if(b){
             stripeService.createSponsorshipPayment(sponsor);

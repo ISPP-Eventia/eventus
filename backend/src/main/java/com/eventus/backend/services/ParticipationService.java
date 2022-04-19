@@ -71,8 +71,8 @@ public class ParticipationService implements IParticipationService{
 
     public void deleteParticipation(Long id,User user) {
         Participation participation=findParticipationById(id);
-        Validate.notNull(participation,"Participation not found");
-        Validate.isTrue(participation.getUser().getId().equals(user.getId())||user.isAdmin(),"You can't delete this participation");
+        Validate.isTrue(participation!=null,"Participacion no encontrada");
+        Validate.isTrue(participation.getUser().getId().equals(user.getId())||user.isAdmin(),"No puedes borrar participaciones de otros usuarios");
         partRepository.deleteById(id);
     }
 

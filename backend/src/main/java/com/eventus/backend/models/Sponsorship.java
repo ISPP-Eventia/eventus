@@ -48,9 +48,11 @@ public class Sponsorship {
     @Column
     @JsonProperty("isAccepted")
     private Boolean isAccepted;
-
-    // @OneToMany
-    // private List<Media> media;
+    
+    @ManyToOne
+    @JoinColumn(name = "media_id")
+    @JsonIgnore
+    private Media media;
 
 
     public Long getId() {
@@ -93,7 +95,15 @@ public class Sponsorship {
         this.name = name;
     }
 
-    @JsonIgnore
+    public Media getMedia() {
+		return media;
+	}
+
+	public void setMedia(Media media) {
+		this.media = media;
+	}
+
+	@JsonIgnore
     public Boolean isAccepted() {
         return isAccepted;
     }

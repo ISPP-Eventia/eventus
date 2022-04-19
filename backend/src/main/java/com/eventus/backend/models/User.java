@@ -55,10 +55,9 @@ public class User implements UserDetails {
     @NotNull
     private boolean isAdmin;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     @JsonIgnore
-    private Image image;
+    private Set<Media> media;
 
     @OneToMany(mappedBy = "organizer")
     @JsonIgnore
@@ -113,12 +112,12 @@ public class User implements UserDetails {
         this.participations = participations;
     }
 
-    public Image getImage() {
-        return image;
+    public Set<Media> getMedia() {
+        return media;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setMedia(Set<Media> media) {
+        this.media = media;
     }
 
     public Long getId() {

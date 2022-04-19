@@ -51,7 +51,9 @@ public class Location {
     @JsonIgnore
     private Set<Hosting> hostings = new HashSet<>();
 
-
+    @OneToMany(mappedBy = "location")
+    @JsonIgnore
+    private Set<Media> media = new HashSet<>();
 
     public Set<Hosting> getHostings() {
         return hostings;
@@ -69,7 +71,15 @@ public class Location {
         this.id = id;
     }
 
-    @JsonProperty("owner")
+    public Set<Media> getMedia() {
+		return media;
+	}
+
+	public void setMedia(Set<Media> media) {
+		this.media = media;
+	}
+
+	@JsonProperty("owner")
     public User getOwner() {
         return owner;
     }

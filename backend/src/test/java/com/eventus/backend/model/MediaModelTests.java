@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.time.Month;
 
-import com.eventus.backend.models.Image;
+import com.eventus.backend.models.Media;
 import com.eventus.backend.models.User;
 
 import org.junit.Before;
@@ -20,35 +20,35 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class ImageModelTests {
+public class MediaModelTests {
 
     @Mock
     User userDummy;
-    Image image;
-    Image image2;
+    Media image;
+    Media image2;
     static LocalDate fecha = LocalDate.of(2022, Month.APRIL, 4);
 
 
 
     @Before
     public void setUp(){
-        image = new Image();
+        image = new Media();
 
         image.setId(1l);
         image.setTitle("Image 1");
         image.setPath("/home/user/images");
         image.setDescription("description");
         image.setUploadDate(fecha);
-        image.setUploadedBy(userDummy);
+        image.setOwner(userDummy);
 
-        image2 = new Image();
+        image2 = new Media();
 
         image2.setId(2l);
         image2.setTitle("Image 2");
         image2.setPath("/home/user2/images");
         image2.setDescription("description2");
         image2.setUploadDate(fecha);
-        image2.setUploadedBy(userDummy);
+        image2.setOwner(userDummy);
     }
 
     @Test
@@ -61,8 +61,8 @@ public class ImageModelTests {
         assertEquals(image.getPath(), "/home/user/images");
         assertEquals(image.getDescription(), "description");
         assertEquals(image.getUploadDate(), fecha);
-        assertEquals(image.getUploadedBy().getFirstName(), "Pepe");
-        assertEquals(image.getUploadedBy().getLastName(), "Rodriguez");
+        assertEquals(image.getOwner().getFirstName(), "Pepe");
+        assertEquals(image.getOwner().getLastName(), "Rodriguez");
     }
 
     @Test

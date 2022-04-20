@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Typography } from "@mui/material";
 import { Form, Button, InputNumber, Input, Divider } from "antd";
+import { DollarOutlined } from "@ant-design/icons";
 
 import { SponsorshipFormValues } from "types";
 import { sponsorshipApi } from "api";
@@ -32,8 +33,8 @@ const Component = (props: { event?: any; callback: () => void }) => {
     <ModalDrawer
       title="Patrocinar evento"
       opener={{
-        title: "Patrocinar",
         color: "success",
+        icon: <DollarOutlined />,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;

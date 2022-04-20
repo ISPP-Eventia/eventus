@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 // Utility types
 export type Coordinates = {
   latitude: number;
@@ -197,4 +199,12 @@ export type UserFormValues = {
 };
 
 // Share, social media
-export type SocialMedia = "twitter" | "insta" | "whatsapp";
+export type SocialMedia = "twitter" | "facebook" | "whatsapp" | "telegram" | "mail";
+
+// Modal opener
+export type Opener = {
+  title?: string;
+  color?: "primary" | "secondary" | "success";
+  disable?: boolean;
+  icon?: ReactNode;
+};

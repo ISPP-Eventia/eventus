@@ -8,6 +8,7 @@ import { hostingApi, locationApi } from "api";
 import { Loader, Map, HostingRequest } from "components/atoms";
 import { SelectedEventCard, UserHorizontalCard } from "components/molecules";
 import { HostingForm } from "components/organisms";
+import { ShareModal } from "components/templates";
 import { ErrorPage } from "pages";
 import Page from "../page";
 
@@ -89,11 +90,13 @@ const LocationDetailPage = () => {
               >
                 Eliminar
               </Button>,
+              <ShareModal type="location" entity={location} />,
             ]
           : [
               !!eventId !== null && (
                 <HostingForm hosting={hosting} onSubmit={refetchHostings} />
               ),
+              <ShareModal type="location" entity={location} />,
             ]
       }
     >

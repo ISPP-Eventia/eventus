@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { Button, IconButton, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
+import { Delete, Edit } from "@mui/icons-material";
 
 import { EventUs, Sponsorship, User } from "types";
 import { eventApi } from "api";
@@ -12,19 +13,12 @@ import { UserHorizontalCard } from "components/molecules";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
 import ErrorPage from "pages/error";
+import { ShareModal } from "components/templates";
 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { Facebook, Telegram, WhatsApp } from "@mui/icons-material";
 
 const EventDetailPage = () => {
-  const [twitterText, setTwitterText] = useState("");
-  const [facebookText, setFacebookText] = useState("");
-  const [whatsappText, setWhatsappText] = useState("");
-  const [telegramText, setTelegramText] = useState("");
-
-  
-
-
   const navigate = useNavigate();
 
   const eventId = Number(useParams().id);
@@ -68,43 +62,6 @@ const EventDetailPage = () => {
   };
 
   useEffect(() => {
-
-      
-    const shareFacebook = () => {
-      const text = "https://www.facebook.com/sharer/sharer.php?u=https://yoururl.com&t=your message"
-      setFacebookText(text);
-    }
-    const shareTwitter = (event: EventUs) => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const text = "🙌Estoy%20participando%20en%20el%20evento%20"+ event.title +"%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A✅Tú%20también%20puedes%20inscribirte%20en%20el%20siguiente%20enlace%20➡%0A&url="+window.location.href+"";
-      setTwitterText(text);
-    }
-
-    const shareWhatsapp = (event: EventUs) => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const text = "https://wa.me/?text=Estoy%20participando%20en%20"+ event.title +"%0AEl%20día%20"+ fecha + "%20a%20las%20"+ hora + ".%0ATú%20también%20puedes%20inscribirte%20desde%20el%20siguiente%20enlace%20"+window.location.href+"";
-      setWhatsappText(text);
-    }
-
-    const shareTelegram = (event: EventUs) => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const text = "🙌Estoy%20participando%20en%20el%20evento%20"+ event.title +"%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A✅Tú%20también%20puedes%20inscribirte%20en%20el%20siguiente%20enlace%20➡%0A&url="+ window.location.href;
-      const fullLink = "https://t.me/share/url?text="+text+"";
-      console.log(fullLink);
-      setTelegramText(fullLink);
-    }
-
-    if(event !== undefined) {
-      shareTwitter(event);
-      shareFacebook();
-      shareWhatsapp(event);
-      shareTelegram(event);
-
-    }
-
     if (
       event?.organizer?.id === loggedUserId &&
       !event?.coordinates &&
@@ -128,15 +85,13 @@ const EventDetailPage = () => {
       actions={
         event.organizer?.id === loggedUserId || isAdmin === "true"
           ? [
-              <Button
-                variant="contained"
+              <IconButton
                 color="primary"
                 onClick={() => navigate(`/events/${event.id}/edit`)}
               >
-                Editar
-              </Button>,
-              <Button
-                variant="contained"
+                <Edit />
+              </IconButton>,
+              <IconButton
                 color="error"
                 onClick={() =>
                   eventApi
@@ -144,12 +99,14 @@ const EventDetailPage = () => {
                     .then(() => navigate("/events"))
                 }
               >
-                Eliminar
-              </Button>,
+                <Delete />
+              </IconButton>,
+              <ShareModal type="event" entity={event} />,
             ]
           : [
               <ParticipateForm event={event} callback={refetchParticipants} />,
               <SponsorshipForm event={event} callback={refetchSponsorships} />,
+              <ShareModal type="event" entity={event} />,
             ]
       }
     >
@@ -197,15 +154,6 @@ const EventDetailPage = () => {
               </Typography>
               
             </div>
-            <div className="shareButtons ml-8">
-                <Typography variant="h4" className="font-bold">
-                  Compartir
-                </Typography>
-                <a href={"https://twitter.com/intent/tweet?text="+twitterText+""} target="_blank"><TwitterIcon/></a>
-                <a href={"https://www.facebook.com/sharer/sharer.php?u="+window.location.href} target="_blank"><Facebook/></a>
-                <a href={whatsappText} target="_blank"><WhatsApp/></a>
-                <a href={telegramText} target="_blank"><Telegram/></a>
-              </div>
           </div>
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>
         </div>

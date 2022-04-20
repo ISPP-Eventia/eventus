@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-
 import {
   Button,
   Dialog,
@@ -8,13 +7,11 @@ import {
   DialogTitle,
 } from "@mui/material";
 
+import { Opener } from "types";
+
 const Component = (props: {
   title: string;
-  opener: {
-    title: string;
-    color?: "primary" | "secondary" | "success";
-    disable?: boolean;
-  };
+  opener: Opener;
   children?: ReactNode;
   actions?: {
     title: string;
@@ -33,8 +30,9 @@ const Component = (props: {
         color={props.opener.color}
         onClick={() => setOpen(true)}
         disabled={props.opener.disable}
+        className="flex items-center gap-2"
       >
-        {props.opener.title}
+        {props.opener.icon} {props.opener.title}
       </Button>
       <Dialog
         open={open}

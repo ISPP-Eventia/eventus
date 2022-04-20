@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
+import { Opener } from "types";
+
 const drawerBleeding = 30;
 
 const Puller = styled(Box)(({ theme }) => ({
@@ -20,11 +22,7 @@ const Puller = styled(Box)(({ theme }) => ({
 
 export default function Component(props: {
   title: string;
-  opener: {
-    title: string;
-    color?: "primary" | "secondary" | "success";
-    disable?: boolean;
-  };
+  opener: Opener;
   children?: React.ReactNode;
   actions?: {
     title: string;
@@ -43,7 +41,9 @@ export default function Component(props: {
         color={props.opener.color}
         onClick={() => setOpen(true)}
         disabled={props.opener.disable}
+        className="flex items-center gap-2"
       >
+        {props.opener.icon}
         {props.opener.title}
       </Button>
       <CssBaseline />

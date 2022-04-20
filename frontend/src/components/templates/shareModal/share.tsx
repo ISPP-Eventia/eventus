@@ -1,25 +1,38 @@
 import { useRef } from "react";
 import { IconButton } from "@mui/material";
-import { Instagram, Twitter, WhatsApp } from "@mui/icons-material";
+import { Facebook, Mail, Share, Twitter, WhatsApp } from "@mui/icons-material";
 
 import utils from "utils";
 import { SocialMedia } from "types";
 
 import { ModalDrawer } from "components/organisms";
 
-const Component = () => {
+const Component = (props: {
+  type: "event" | "location" | "sponsorship";
+  entity: any;
+}) => {
   const closeModalRef = useRef<any>(null);
 
   const onShare = (socialMedia: SocialMedia) => {
-    utils.share.shareEvent(socialMedia);
+    switch (props.type) {
+      case "event":
+        utils.share.shareEvent(socialMedia, props.entity);
+        break;
+      case "location":
+        utils.share.shareLocation(socialMedia, props.entity);
+        break;
+      case "sponsorship":
+        utils.share.shareSponsorship(socialMedia, props.entity);
+        break;
+    }
   };
 
   return (
     <ModalDrawer
-      title="Compartir"
+      title={"Compartir " + props.type}
       opener={{
-        title: "Compartir",
         color: "primary",
+        icon: <Share />,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;
@@ -29,11 +42,14 @@ const Component = () => {
         <IconButton onClick={() => onShare("twitter")}>
           <Twitter />
         </IconButton>
-        <IconButton onClick={() => onShare("insta")}>
-          <Instagram />
+        <IconButton onClick={() => onShare("facebook")}>
+          <Facebook />
         </IconButton>
         <IconButton onClick={() => onShare("whatsapp")}>
           <WhatsApp />
+        </IconButton>
+        <IconButton onClick={() => onShare("mail")}>
+          <Mail />
         </IconButton>
       </div>
     </ModalDrawer>

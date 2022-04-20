@@ -61,7 +61,13 @@ const formatters = {
 };
 
 const share = {
-  shareEvent: (socialMedia: SocialMedia) => {
+  shareEvent: (socialMedia: SocialMedia, event: any) => {
+    // TODO
+  },
+  shareLocation: (socialMedia: SocialMedia, event: any) => {
+    // TODO
+  },
+  shareSponsorship: (socialMedia: SocialMedia, event: any) => {
     // TODO
   },
 };

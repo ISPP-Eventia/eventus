@@ -167,26 +167,38 @@ const share = {
       window.open(text);
     }
     const shareTwitter = () => {
-      const text = sponsorship.user?.firstName +"Está%20patrocinandose%20en%20el%20evento:%20"+ event.title +"%0A🙌Puedes%20patrocinar%20tu%20empresa%20en%20cualquier%20evento%20💸%0A✅Solo%20en%20eventus.space";
+      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
+      const hora = event.startDate!.substring(11,16);
+      const eventdata = "%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰";
+      const text = "🔥%20"+(sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title +   eventdata + window.location.href +"%0A🙌Puedes%20patrocinar%20cualquier%20evento%20en%20eventus.space%20💸";
       const fullLink = "https://twitter.com/intent/tweet?text="+ text;
       window.open(fullLink);
     }
 
     const shareWhatsapp = () => {
-      const text = sponsorship.user?.firstName +"Está%20patrocinandose%20en%20el%20evento:%20"+ event.title +"%0A🙌Puedes%20patrocinar%20tu%20empresa%20en%20cualquier%20evento%20💸%0A✅Solo%20en%20eventus.space";
+      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
+      const hora = event.startDate!.substring(11,16);
+      const eventdata = "%0AEl%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20%0A";
+      const text = (sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title + eventdata + window.location.href +"%0APuedes%20patrocinar%20cualquier%20evento%20en%20eventus.space";
       const fullLink = "https://wa.me/?text="+text;
       window.open(fullLink);
     }
 
     const shareTelegram = () => {
-      const text = sponsorship.user?.firstName +"Está%20patrocinandose%20en%20el%20evento:%20"+ event.title +"%0A🙌Puedes%20patrocinar%20tu%20empresa%20en%20cualquier%20evento%20💸%0A✅Solo%20en%20eventus.space";
+      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
+      const hora = event.startDate!.substring(11,16);
+      const eventdata = "%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰";
+      const text = "🔥%20"+(sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title + eventdata + "%0A🙌Puedes%20patrocinar%20cualquier%20evento%20en%20nuestra%20web💸.&url=eventus.space";
       const fullLink = "https://t.me/share/url?text="+text+"";
       window.open(fullLink);
     }
 
     const shareMail = () => {
-      //const text = "mailto:?subject=👀%20¡Mira%20esta%20localización:%20🎪%20"+location.name+"! &body=🙌Puedes%20alojar%20cualquier%20evento%20por%20"+ location.price + "€💸%20desde%20Eventus.✅%0A"+window.location.href+"";
-      //window.open(text);
+      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
+      const hora = event.startDate!.substring(11,16);
+      const eventdata = "%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A";
+      const text = "mailto:?subject=🔥%20"+(sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title +"&body="+ eventdata + window.location.href +"%0A🙌Puedes%20patrocinar%20cualquier%20evento%20en%20eventus.space%20💸";
+      window.open(text);
     }
 
     switch(socialMedia) {

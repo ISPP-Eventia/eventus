@@ -141,6 +141,7 @@ export type Sponsorship = {
   id?: number;
   eventId?: number;
   user?: User;
+  name?: String;
   quantity: number;
   isAccepted?: boolean;
   media?: Media[];

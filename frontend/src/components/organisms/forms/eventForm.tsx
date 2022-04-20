@@ -34,7 +34,7 @@ const EventForm = (props: EventFormProps) => {
         />
       </Form.Item>
 
-      <Form.Item name="description" label="Descripción">
+      <Form.Item name="description" label="Descripción" rules={required}>
         <Input.TextArea placeholder="Descripción de evento" />
       </Form.Item>
 

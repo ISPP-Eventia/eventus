@@ -43,90 +43,88 @@ export type Location = {
   coordinates: Coordinates;
   price: number;
   media?: Media[];
-}; 
+};
 
 export type PaymentMethod = {
-  object: string,
+  object: string;
   data: [
     {
-      acss_debit: null,
-      afterpay_clearpay: null,
-      alipay: null,
-      au_becs_debit: null,
-      bacs_debit: null,
-      bancontact: null,
+      acss_debit: null;
+      afterpay_clearpay: null;
+      alipay: null;
+      au_becs_debit: null;
+      bacs_debit: null;
+      bancontact: null;
       billing_details: {
         address: {
-          city: null,
-          country: string,
-          line1: null,
-          line2: null,
-          postal_code: null,
-          state: null
-        },
-        email: null,
-        name: null,
-        phone: null
-      },
-      boleto: null,
+          city: null;
+          country: string;
+          line1: null;
+          line2: null;
+          postal_code: null;
+          state: null;
+        };
+        email: null;
+        name: null;
+        phone: null;
+      };
+      boleto: null;
       card: {
-        brand: string,
+        brand: string;
         checks: {
-          address_line1_check: null,
-          address_postal_code_check: null,
-          cvc_check: string
-        },
-        country: string,
-        description: null,
-        exp_month: number,
-        exp_year: number,
-        fingerprint: string,
-        funding: string,
-        iin: null,
-        issuer: null,
-        last4: number,
+          address_line1_check: null;
+          address_postal_code_check: null;
+          cvc_check: string;
+        };
+        country: string;
+        description: null;
+        exp_month: number;
+        exp_year: number;
+        fingerprint: string;
+        funding: string;
+        iin: null;
+        issuer: null;
+        last4: number;
         networks: {
-          available: [
-            string
-          ],
-          preferred: null
-        },
+          available: [string];
+          preferred: null;
+        };
         three_d_secure_usage: {
-          supported: boolean
-        },
-        wallet: null
-      },
-      card_present: null,
-      created: number,
-      customer: string,
-      eps: null,
-      fpx: null,
-      giropay: null,
-      grabpay: null,
-      id: string,
-      ideal: null,
-      interac_present: null,
-      klarna: null,
-      konbini: null,
-      livemode: boolean,
-      metadata: {},
-      object: string,
-      oxxo: null,
-      p24: null,
-      paynow: null,
-      sepa_debit: null,
-      sofort: null,
-      type: string,
-      us_bank_account: null,
-      wechat_pay: null
+          supported: boolean;
+        };
+        wallet: null;
+      };
+      card_present: null;
+      created: number;
+      customer: string;
+      eps: null;
+      fpx: null;
+      giropay: null;
+      grabpay: null;
+      id: string;
+      ideal: null;
+      interac_present: null;
+      klarna: null;
+      konbini: null;
+      livemode: boolean;
+      metadata: {};
+      object: string;
+      oxxo: null;
+      p24: null;
+      paynow: null;
+      sepa_debit: null;
+      sofort: null;
+      type: string;
+      us_bank_account: null;
+      wechat_pay: null;
     }
-  ],
-  has_more: boolean,
-  url: string,
+  ];
+  has_more: boolean;
+  url: string;
   request_params: {
-    type: string
-  }
-}
+    type: string;
+  };
+};
 
 // Relation types
 export type Participation = {
@@ -197,3 +195,6 @@ export type UserFormValues = {
   email?: string;
   enable?: boolean;
 };
+
+// Share, social media
+export type SocialMedia = "twitter" | "insta" | "whatsapp";

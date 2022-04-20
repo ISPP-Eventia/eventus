@@ -15,9 +15,6 @@ import Page from "../page";
 import ErrorPage from "pages/error";
 import { ShareModal } from "components/templates";
 
-import TwitterIcon from '@mui/icons-material/Twitter';
-import { Facebook, Telegram, WhatsApp } from "@mui/icons-material";
-
 const EventDetailPage = () => {
   const navigate = useNavigate();
 
@@ -200,8 +197,8 @@ const EventDetailPage = () => {
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
                 .sort((a, b) => b.quantity - a.quantity)
-                .map((ad) => (
-                  <Ad callback={refetchSponsorships} sponsorship={ad} />
+                .map((ad:Sponsorship) => (
+                  <Ad callback={refetchSponsorships} sponsorship={ad} event={event}/>
                 ))}
             </div>
           </section>

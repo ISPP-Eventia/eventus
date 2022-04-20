@@ -22,7 +22,7 @@ const Component = (props: {
         utils.share.shareLocation(socialMedia, props.entity);
         break;
       case "sponsorship":
-        utils.share.shareSponsorship(socialMedia, props.entity);
+        utils.share.shareSponsorship(socialMedia, props.entity.sponsorship, props.entity.event);
         break;
     }
   };

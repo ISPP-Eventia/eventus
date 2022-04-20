@@ -5,6 +5,7 @@ import {
   LocationFormValues,
   SignupFormValues,
   SocialMedia,
+  Sponsorship,
   User,
 } from "types";
 
@@ -160,8 +161,51 @@ const share = {
     }
   },
 
-  shareSponsorship: (socialMedia: SocialMedia, event: any) => {
-    // TODO
+  shareSponsorship: (socialMedia: SocialMedia, sponsorship: Sponsorship, event:EventUs) => {
+    const shareFacebook = () => {
+      const text = "https://www.facebook.com/sharer/sharer.php?u="+window.location.href;
+      window.open(text);
+    }
+    const shareTwitter = () => {
+      const text = sponsorship.user?.firstName +"Está%20patrocinandose%20en%20el%20evento:%20"+ event.title +"%0A🙌Puedes%20patrocinar%20tu%20empresa%20en%20cualquier%20evento%20💸%0A✅Solo%20en%20eventus.space";
+      const fullLink = "https://twitter.com/intent/tweet?text="+ text;
+      window.open(fullLink);
+    }
+
+    const shareWhatsapp = () => {
+      const text = sponsorship.user?.firstName +"Está%20patrocinandose%20en%20el%20evento:%20"+ event.title +"%0A🙌Puedes%20patrocinar%20tu%20empresa%20en%20cualquier%20evento%20💸%0A✅Solo%20en%20eventus.space";
+      const fullLink = "https://wa.me/?text="+text;
+      window.open(fullLink);
+    }
+
+    const shareTelegram = () => {
+      const text = sponsorship.user?.firstName +"Está%20patrocinandose%20en%20el%20evento:%20"+ event.title +"%0A🙌Puedes%20patrocinar%20tu%20empresa%20en%20cualquier%20evento%20💸%0A✅Solo%20en%20eventus.space";
+      const fullLink = "https://t.me/share/url?text="+text+"";
+      window.open(fullLink);
+    }
+
+    const shareMail = () => {
+      //const text = "mailto:?subject=👀%20¡Mira%20esta%20localización:%20🎪%20"+location.name+"! &body=🙌Puedes%20alojar%20cualquier%20evento%20por%20"+ location.price + "€💸%20desde%20Eventus.✅%0A"+window.location.href+"";
+      //window.open(text);
+    }
+
+    switch(socialMedia) {
+      case ("twitter"):
+        shareTwitter();
+        break;
+      case ("facebook"):
+        shareFacebook();
+        break;
+      case ("whatsapp"):
+        shareWhatsapp();
+        break;
+      case ("telegram"):
+        shareTelegram();
+        break;
+      case ("mail"):
+        shareMail();
+        break;
+    }
   }
 };
 

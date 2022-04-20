@@ -51,11 +51,12 @@ const SetupForm = () => {
   };
   return (
     <div>
-      <PaymentTable payments={payments} />
+      <PaymentTable payments={payments} loading={isLoading} />
       <br />
       {showPayment ? (
         <form>
           <PaymentElement />
+          <br />
           <Button
             variant="contained"
             color="primary"

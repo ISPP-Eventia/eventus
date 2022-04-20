@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Typography } from "@mui/material";
+import { AttachMoney } from "@mui/icons-material";
 import { Form, Button, InputNumber, Input, Divider } from "antd";
-import { DollarOutlined } from "@ant-design/icons";
 
 import { SponsorshipFormValues } from "types";
 import { sponsorshipApi } from "api";
@@ -34,7 +34,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
       title="Patrocinar evento"
       opener={{
         color: "success",
-        icon: <DollarOutlined />,
+        icon: <AttachMoney />,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;

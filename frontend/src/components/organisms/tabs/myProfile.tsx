@@ -47,7 +47,7 @@ const MyProfileTab = () => {
   return (
     <section>
       <div className="flex items-center justify-between">
-        <Typography variant="h4">Mi Perfil</Typography>
+        <Typography variant="h4">Mis datos</Typography>
         <Button
           variant="contained"
           color={edit ? "error" : "primary"}

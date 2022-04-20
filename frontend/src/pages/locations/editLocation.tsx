@@ -17,7 +17,7 @@ const EditLocationPage = () => {
         .then((response) => response?.data as Location)
   );
   return (
-    <Page title="Nueva Ubicación">
+    <Page title="Editar Ubicación">
       {loadingLocation || !location ? (
         <Loader />
       ) : (

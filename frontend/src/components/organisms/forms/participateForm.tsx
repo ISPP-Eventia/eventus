@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Button } from "antd";
-import { Receipt } from "@mui/icons-material";
+import { Style } from "@mui/icons-material";
 
 import { participationApi } from "api";
 
@@ -30,7 +30,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
       opener={{
         title: `${props.event?.price}€`,
         color: "primary",
-        icon: <Receipt />,
+        icon: <Style />,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;

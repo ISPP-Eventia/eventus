@@ -12,21 +12,21 @@ const TicketsTab = (props: TicketsTabProps) => {
   return (
     <section>
       <Typography variant="h4">Mis Tickets</Typography>
-      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4">
-        {participations.length === 0 ? (
-          <div>
-            No tiene ningún ticket,
-            <Link to="/events"> encuentra un evento!</Link>
-          </div>
-        ) : (
-          participations.map((participation) => (
+      {participations.length === 0 ? (
+        <div>
+          No tiene ningún ticket,
+          <Link to="/events"> encuentra un evento!</Link>
+        </div>
+      ) : (
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4">
+          {participations.map((participation) => (
             <TicketHorizontalCard
               participation={participation}
               key={participation.id}
             />
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 };

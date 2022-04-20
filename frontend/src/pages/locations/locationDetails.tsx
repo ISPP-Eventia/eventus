@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router";
-import { Button, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 
 import { Hosting, Location } from "types";
 import { hostingApi, locationApi } from "api";
@@ -11,6 +11,7 @@ import { HostingForm } from "components/organisms";
 import { ShareModal } from "components/templates";
 import { ErrorPage } from "pages";
 import Page from "../page";
+import { Delete, Edit } from "@mui/icons-material";
 
 const LocationDetailPage = () => {
   const navigate = useNavigate();
@@ -63,13 +64,22 @@ const LocationDetailPage = () => {
       actions={
         location.owner?.id === Number(loggedUserId) || isAdmin === "true"
           ? [
-              <Button
-                variant="contained"
+              <IconButton
                 color="primary"
                 onClick={() => navigate(`/locations/${locationId}/edit`)}
               >
-                Editar
-              </Button>,
+                <Edit />
+              </IconButton>,
+              <IconButton
+                color="error"
+                onClick={() =>
+                  locationApi
+                    .deleteLocation(location.id!)
+                    .then(() => navigate("/locations"))
+                }
+              >
+                <Delete />
+              </IconButton>,
               !!eventId ? (
                 <Button
                   variant="contained"
@@ -79,17 +89,6 @@ const LocationDetailPage = () => {
                   Alojar mi evento
                 </Button>
               ) : null,
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() =>
-                  locationApi
-                    .deleteLocation(location.id!)
-                    .then(() => navigate("/locations"))
-                }
-              >
-                Eliminar
-              </Button>,
               <ShareModal type="location" entity={location} />,
             ]
           : [

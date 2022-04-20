@@ -39,8 +39,11 @@ const Component = (props: {
           }
         />
       ) : (
-        <div className="absolute inset-0 z-20 flex items-end justify-between rounded-md bg-black bg-opacity-20 px-2 opacity-0 transition-opacity duration-200 hover:opacity-100">
-          <ShareModal type="sponsorship" entity={{sponsorship: props.sponsorship, event: props.event}} />
+        <div className="absolute inset-0 z-20 flex items-end justify-between rounded-md bg-black bg-opacity-20 px-2 pb-1 opacity-0 transition-opacity duration-200 hover:opacity-100">
+          <ShareModal
+            type="sponsorship"
+            entity={{ sponsorship: props.sponsorship, event: props.event }}
+          />
           <Typography variant="h5" color="whitesmoke" className="font-bold">
             {props.sponsorship.quantity}€
           </Typography>

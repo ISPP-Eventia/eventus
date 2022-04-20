@@ -200,12 +200,17 @@ export type UserFormValues = {
 };
 
 // Share, social media
-export type SocialMedia = "twitter" | "facebook" | "whatsapp" | "telegram" | "mail";
+export type SocialMedia =
+  | "twitter"
+  | "facebook"
+  | "whatsapp"
+  | "telegram"
+  | "mail";
 
 // Modal opener
 export type Opener = {
   title?: string;
   color?: "primary" | "secondary" | "success";
   disable?: boolean;
-  icon?: ReactNode;
+  icon: ReactNode;
 };

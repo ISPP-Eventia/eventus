@@ -42,9 +42,9 @@ export default function Component(props: {
         onClick={() => setOpen(true)}
         disabled={props.opener.disable}
         className="flex items-center gap-2"
+        size="small"
       >
         {props.opener.icon}
-        {props.opener.title}
       </Button>
       <CssBaseline />
       <Global

@@ -61,164 +61,76 @@ const formatters = {
   },
 };
 
+const facebookShareEndpoint = "https://www.facebook.com/sharer/sharer.php?u=";
+const twitterShareEndpoint = "https://twitter.com/intent/tweet?text=";
+const whatsappShareEndpoint = "https://wa.me/?text=";
+const telegramShareEndpoint = "https://t.me/share/url?text=";
+const mailShareEndpoint = "mailto:?subject=Eventus&body=";
+
+const getDate = (date?: string) => {
+  return `${date!.substring(8, 10)} / ${date!.substring(5, 7)}`;
+};
+
 const share = {
-  shareEvent: (socialMedia: SocialMedia, event: EventUs) => {  
-    const shareFacebook = () => {
-      const text = "https://www.facebook.com/sharer/sharer.php?u="+window.location.href;
-      window.open(text);
+  endpoint: (socialMedia: SocialMedia) => {
+    switch (socialMedia) {
+      case "facebook":
+        return facebookShareEndpoint;
+      case "twitter":
+        return twitterShareEndpoint;
+      case "whatsapp":
+        return whatsappShareEndpoint;
+      case "telegram":
+        return telegramShareEndpoint;
+      case "mail":
+        return mailShareEndpoint;
     }
-    const shareTwitter = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const text = "https://twitter.com/intent/tweet?text=🙌Estoy%20participando%20en%20el%20evento%20"+ event.title +"%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A✅Tú%20también%20puedes%20inscribirte%20en%20el%20siguiente%20enlace%20➡%0A&url="+window.location.href+"";
-      window.open(text);
-    }
+  },
+  text: (socialMedia: SocialMedia, text: string) =>
+    socialMedia !== "facebook" ? encodeURI(text) : window.location.href,
+  share: (socialMedia: SocialMedia, text: string) =>
+    window.open(share.endpoint(socialMedia) + share.text(socialMedia, text)),
 
-    const shareWhatsapp = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const text = "https://wa.me/?text=Estoy%20participando%20en%20"+ event.title +"%0AEl%20día%20"+ fecha + "%20a%20las%20"+ hora + ".%0ATú%20también%20puedes%20inscribirte%20desde%20el%20siguiente%20enlace%20"+window.location.href+"";
-      window.open(text);
-    }
+  shareEvent: (socialMedia: SocialMedia, event: EventUs) => {
+    const text = `
+🙌 Estoy participando en el evento: 
+🎪 ${event.title}
+📆 El día ${getDate(event.startDate)}
+⏰ A las ${event.startDate!.substring(11, 16)}
+💰 Precio: ${event.price}€
 
-    const shareTelegram = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const text = "🙌Estoy%20participando%20en%20el%20evento%20"+ event.title +"%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A✅Tú%20también%20puedes%20inscribirte%20en%20el%20siguiente%20enlace%20➡%0A&url="+ window.location.href;
-      const fullLink = "https://t.me/share/url?text="+text+"";
-      window.open(fullLink);
-    }
-
-    const shareMail = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const text = "mailto:?subject=¡Mira este evento: "+event.title+"! &body=📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A✅Tú%20también%20puedes%20inscribirte%20en%20el%20siguiente%20enlace%20desde%20Eventus%20➡%0A"+ window.location.href;
-      window.open(text);
-    }
-
-    switch(socialMedia) {
-      case ("twitter"):
-        shareTwitter();
-        break;
-      case ("facebook"):
-        shareFacebook();
-        break;
-      case ("whatsapp"):
-        shareWhatsapp();
-        break;
-      case ("telegram"):
-        shareTelegram();
-        break;
-      case ("mail"):
-        shareMail();
-        break;
-    }
+🙌 Tú también puedes inscribirte aquí:
+${window.location.href}
+    `;
+    share.share(socialMedia, text);
   },
 
   shareLocation: (socialMedia: SocialMedia, location: Location) => {
-    const shareFacebook = () => {
-      const text = "https://www.facebook.com/sharer/sharer.php?u="+window.location.href;
-      window.open(text);
-    }
-    const shareTwitter = () => {
-      const text = "👀Mira%20esta%20localización%20que%20he%20encontrado:%20🎪%0A"+ location.name +"%0A🙌Puedes%20alojar%20cualquier%20evento%20por%20"+ location.price + "€💸%20desde%20Eventus.✅%0A"+window.location.href+"";
-      const fullLink = "https://twitter.com/intent/tweet?text="+ text;
-      window.open(fullLink);
-    }
-
-    const shareWhatsapp = () => {
-      const text = "https://wa.me/?text=Mira%20esta%20localización%20que%20he%20encontrado:%20"+ location.name +"%0APuedes%20alojar%20cualquier%20evento%20por%20"+ location.price + "€%20desde%20Eventus.%0A"+window.location.href+"";
-      window.open(text);
-    }
-
-    const shareTelegram = () => {
-      const text = "👀%20Mira%20esta%20localización%20que%20he%20encontrado:%20🎪%0A"+ location.name +"%0A🙌Puedes%20alojar%20cualquier%20evento%20por%20"+ location.price + "€💸%20desde%20Eventus.✅%0A&url="+window.location.href+"";
-      const fullLink = "https://t.me/share/url?text="+text+"";
-      window.open(fullLink);
-    }
-
-    const shareMail = () => {
-      const text = "mailto:?subject=👀%20¡Mira%20esta%20localización:%20🎪%20"+location.name+"! &body=🙌Puedes%20alojar%20cualquier%20evento%20por%20"+ location.price + "€💸%20desde%20Eventus.✅%0A"+window.location.href+"";
-      window.open(text);
-    }
-
-    switch(socialMedia) {
-      case ("twitter"):
-        shareTwitter();
-        break;
-      case ("facebook"):
-        shareFacebook();
-        break;
-      case ("whatsapp"):
-        shareWhatsapp();
-        break;
-      case ("telegram"):
-        shareTelegram();
-        break;
-      case ("mail"):
-        shareMail();
-        break;
-    }
+    const text = `
+👀 Mira este alojamiento para eventos: 
+🎪 ${location.name}
+      
+🙌 Puedes alojar cualquier evento por ${location.price} 💸 desde Eventus.
+${window.location.href}
+`;
+    share.share(socialMedia, text);
   },
 
-  shareSponsorship: (socialMedia: SocialMedia, sponsorship: Sponsorship, event:EventUs) => {
-    const shareFacebook = () => {
-      const text = "https://www.facebook.com/sharer/sharer.php?u="+window.location.href;
-      window.open(text);
-    }
-    const shareTwitter = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const eventdata = "%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰";
-      const text = "🔥%20"+(sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title +   eventdata + window.location.href +"%0A🙌Puedes%20patrocinar%20cualquier%20evento%20en%20eventus.space%20💸";
-      const fullLink = "https://twitter.com/intent/tweet?text="+ text;
-      window.open(fullLink);
-    }
+  shareSponsorship: (
+    socialMedia: SocialMedia,
+    sponsorship: Sponsorship,
+    event: EventUs
+  ) => {
+    const text = `
+🔥 ${sponsorship.name || "Alguien"} ha patrocinado el evento: 
+🎪 ${event.title}
+📆 El día ${getDate(event.startDate)}
+⏰ A las ${event.startDate!.substring(11, 16)}
 
-    const shareWhatsapp = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const eventdata = "%0AEl%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20%0A";
-      const text = (sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title + eventdata + window.location.href +"%0APuedes%20patrocinar%20cualquier%20evento%20en%20eventus.space";
-      const fullLink = "https://wa.me/?text="+text;
-      window.open(fullLink);
-    }
-
-    const shareTelegram = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const eventdata = "%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰";
-      const text = "🔥%20"+(sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title + eventdata + "%0A🙌Puedes%20patrocinar%20cualquier%20evento%20en%20nuestra%20web💸.&url=eventus.space";
-      const fullLink = "https://t.me/share/url?text="+text+"";
-      window.open(fullLink);
-    }
-
-    const shareMail = () => {
-      const fecha = event.startDate!.substring(8,10)+"-"+event.startDate!.substring(5,7);
-      const hora = event.startDate!.substring(11,16);
-      const eventdata = "%0A📆El%20día%20"+ fecha + "%20a%20las%20"+ hora + "%20⏰%0A";
-      const text = "mailto:?subject=🔥%20"+(sponsorship.name || "Alguien") +"%20ha%20patrocinado%20el%20evento:%20"+ event.title +"&body="+ eventdata + window.location.href +"%0A🙌Puedes%20patrocinar%20cualquier%20evento%20en%20eventus.space%20💸";
-      window.open(text);
-    }
-
-    switch(socialMedia) {
-      case ("twitter"):
-        shareTwitter();
-        break;
-      case ("facebook"):
-        shareFacebook();
-        break;
-      case ("whatsapp"):
-        shareWhatsapp();
-        break;
-      case ("telegram"):
-        shareTelegram();
-        break;
-      case ("mail"):
-        shareMail();
-        break;
-    }
-  }
+🙌 Puedes patrocinar cualquier evento y darte a conocer en eventus.space 💸
+    `;
+    share.share(socialMedia, text);
+  },
 };
 
 const utils = { parsers, formatters, share };

@@ -13,40 +13,7 @@ export type Media = {
   description?: string;
 };
 
-// Main types
-export type User = {
-  id?: number;
-  firstName: string;
-  lastName: string;
-  birthDate?: string;
-  email?: string;
-  password?: string;
-};
-
-export type EventUs = {
-  id?: number;
-  organizer?: User;
-  title: string;
-  description?: string;
-  price: number;
-  coordinates?: Coordinates;
-  media?: Media[];
-  startDate?: string;
-  endDate?: string;
-  prize?: number;
-  rating?: number;
-};
-
-export type Location = {
-  id?: number;
-  owner?: User;
-  name: string;
-  description?: string;
-  coordinates: Coordinates;
-  price: number;
-  media?: Media[];
-};
-
+/* eslint-disable camelcase */
 export type PaymentMethod = {
   object: string;
   data: [
@@ -126,6 +93,40 @@ export type PaymentMethod = {
   request_params: {
     type: string;
   };
+};
+
+// Main types
+export type User = {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  birthDate?: string;
+  email?: string;
+  password?: string;
+};
+
+export type EventUs = {
+  id?: number;
+  organizer?: User;
+  title: string;
+  description?: string;
+  price: number;
+  coordinates?: Coordinates;
+  media?: Media[];
+  startDate?: string;
+  endDate?: string;
+  prize?: number;
+  rating?: number;
+};
+
+export type Location = {
+  id?: number;
+  owner?: User;
+  name: string;
+  description?: string;
+  coordinates: Coordinates;
+  price: number;
+  media?: Media[];
 };
 
 // Relation types

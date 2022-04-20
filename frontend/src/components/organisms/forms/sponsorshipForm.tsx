@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Typography } from "@mui/material";
+import { AttachMoney } from "@mui/icons-material";
 import { Form, Button, InputNumber, Input, Divider } from "antd";
 
 import { SponsorshipFormValues } from "types";
@@ -32,8 +33,8 @@ const Component = (props: { event?: any; callback: () => void }) => {
     <ModalDrawer
       title="Patrocinar evento"
       opener={{
-        title: "Patrocinar",
         color: "success",
+        icon: <AttachMoney />,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;

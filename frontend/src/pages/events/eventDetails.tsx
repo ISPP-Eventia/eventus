@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
+import { Delete, Edit } from "@mui/icons-material";
 
 import { EventUs, Sponsorship, User } from "types";
 import { eventApi } from "api";
@@ -12,6 +13,7 @@ import { UserHorizontalCard } from "components/molecules";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
 import ErrorPage from "pages/error";
+import { ShareModal } from "components/templates";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();
@@ -63,10 +65,11 @@ const EventDetailPage = () => {
       eventId
     ) {
       localStorage.setItem("eventId", eventId.toString());
+      
     } else localStorage.removeItem("eventId");
 
     refetchSponsorships();
-    refetchParticipants();
+    refetchParticipants();    
   }, [event, refetchSponsorships, refetchParticipants, loggedUserId, eventId]);
 
   return loadingEvent ? (
@@ -79,15 +82,13 @@ const EventDetailPage = () => {
       actions={
         event.organizer?.id === loggedUserId || isAdmin === "true"
           ? [
-              <Button
-                variant="contained"
+              <IconButton
                 color="primary"
                 onClick={() => navigate(`/events/${event.id}/edit`)}
               >
-                Editar
-              </Button>,
-              <Button
-                variant="contained"
+                <Edit />
+              </IconButton>,
+              <IconButton
                 color="error"
                 onClick={() =>
                   eventApi
@@ -95,12 +96,14 @@ const EventDetailPage = () => {
                     .then(() => navigate("/events"))
                 }
               >
-                Eliminar
-              </Button>,
+                <Delete />
+              </IconButton>,
+              <ShareModal type="event" entity={event} />,
             ]
           : [
               <ParticipateForm event={event} callback={refetchParticipants} />,
               <SponsorshipForm event={event} callback={refetchSponsorships} />,
+              <ShareModal type="event" entity={event} />,
             ]
       }
     >
@@ -146,6 +149,7 @@ const EventDetailPage = () => {
               <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.endDate ?? "")}
               </Typography>
+              
             </div>
           </div>
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>
@@ -193,8 +197,8 @@ const EventDetailPage = () => {
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
                 .sort((a, b) => b.quantity - a.quantity)
-                .map((ad) => (
-                  <Ad callback={refetchSponsorships} sponsorship={ad} />
+                .map((ad:Sponsorship) => (
+                  <Ad callback={refetchSponsorships} sponsorship={ad} event={event}/>
                 ))}
             </div>
           </section>

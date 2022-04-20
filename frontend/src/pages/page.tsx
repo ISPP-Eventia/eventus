@@ -8,18 +8,15 @@ const Page = (props: {
 }) => {
   return (
     <section className="block w-full animate-fade-in py-5 px-4 md:px-8 lg:px-24 xl:px-48">
-      <Box className="flex items-center justify-between md:flex-row">
+      <Box className="flex flex-col justify-between gap-y-2 md:flex-row md:items-center">
         {props.title && (
-          <Typography
-            variant="h3"
-            className="max-w-[200px] overflow-hidden text-ellipsis md:max-w-none"
-          >
+          <Typography variant="h3" className="overflow-hidden text-ellipsis">
             {props.title}
           </Typography>
         )}
 
         {props.actions && (
-          <div className="flex flex-col gap-2 md:flex-row md:justify-end">
+          <div className="flex items-center gap-2 md:justify-end">
             {props.actions}
           </div>
         )}

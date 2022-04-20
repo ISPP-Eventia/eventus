@@ -1,12 +1,14 @@
 import { Typography } from "@mui/material";
 
 import { sponsorshipApi } from "api";
-import { Sponsorship } from "types";
+import { EventUs, Sponsorship } from "types";
 
 import { Accept } from "components/molecules";
+import { ShareModal } from "components/templates";
 
 const Component = (props: {
   sponsorship: Sponsorship;
+  event: EventUs;
   callback: () => void;
 }) => {
   const onAccept = (accepted: boolean) => {
@@ -37,7 +39,11 @@ const Component = (props: {
           }
         />
       ) : (
-        <div className="absolute inset-0 z-20 flex items-end justify-end rounded-md bg-black bg-opacity-20 px-2 opacity-0 transition-opacity duration-200 hover:opacity-100">
+        <div className="absolute inset-0 z-20 flex items-end justify-between rounded-md bg-black bg-opacity-20 px-2 pb-1 opacity-0 transition-opacity duration-200 hover:opacity-100">
+          <ShareModal
+            type="sponsorship"
+            entity={{ sponsorship: props.sponsorship, event: props.event }}
+          />
           <Typography variant="h5" color="whitesmoke" className="font-bold">
             {props.sponsorship.quantity}€
           </Typography>

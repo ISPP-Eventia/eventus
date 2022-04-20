@@ -22,8 +22,14 @@ const columns = [
     key: "address",
   },
 ];
-const Component = (props: { payments: PaymentMethod }) => {
-  return <Table dataSource={props?.payments?.data ?? []} columns={columns} />;
+const Component = (props: { payments: PaymentMethod; loading: boolean }) => {
+  return (
+    <Table
+      loading={props.loading}
+      dataSource={props?.payments?.data ?? []}
+      columns={columns}
+    />
+  );
 };
 
 export default Component;

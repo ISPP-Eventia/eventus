@@ -1,10 +1,12 @@
 import { ReactNode, useState } from "react";
 
+import { Opener } from "types";
+
 import { Modal, SwipeableDrawer } from "components/molecules";
 
 const Component = (props: {
   title: string;
-  opener: { title: string; color?: "primary" | "secondary" | "success", disable?: boolean };
+  opener: Opener;
   children?: ReactNode;
   actions?: {
     title: string;

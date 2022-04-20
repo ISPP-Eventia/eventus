@@ -30,7 +30,6 @@ export default function StripeApp() {
 
   return (
     <div className="App">
-      <h2>Añadir un método de pago</h2>
       {isLoading && <Loader />}
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>

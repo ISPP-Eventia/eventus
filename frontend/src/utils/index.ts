@@ -64,7 +64,7 @@ const formatters = {
 const facebookShareEndpoint = "https://www.facebook.com/sharer/sharer.php?u=";
 const twitterShareEndpoint = "https://twitter.com/intent/tweet?text=";
 const whatsappShareEndpoint = "https://wa.me/?text=";
-const telegramShareEndpoint = "https://t.me/share/url?text=";
+const telegramShareEndpoint = `https://t.me/share/url?url=Eventus&text=`;
 const mailShareEndpoint = "mailto:?subject=Eventus&body=";
 
 const getDate = (date?: string) => {

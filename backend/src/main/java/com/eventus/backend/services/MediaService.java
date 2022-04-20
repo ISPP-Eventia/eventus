@@ -1,8 +1,11 @@
 package com.eventus.backend.services;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Media;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.FileSystemRepository;
@@ -48,6 +52,7 @@ public class MediaService implements IMediaService {
         return this.fileSystemRepository.findInFileSystem(media.getPath());
     }
 
+
 	@Override
 	public List<Media> findAll(Pageable p) {
 		return this.mediaRepository.findAll(p);
@@ -58,5 +63,18 @@ public class MediaService implements IMediaService {
 		List<Long> media = this.mediaRepository.findByUserId(p,id);
 		return media;
 	}
+
+    
+    @Override
+    public void parseEventMediaIds(List<Long> mediaIds, Event event) {
+        //Validate that those media owner is the logged user
+        Set<Media> media = new HashSet<>();
+        mediaIds.stream().forEach(id ->{
+            Media m = this.mediaRepository.findById(id).orElse(null);
+            m.setEvent(event);
+            media.add(m);
+        });
+        this.mediaRepository.saveAll(media);
+    }
 
 }

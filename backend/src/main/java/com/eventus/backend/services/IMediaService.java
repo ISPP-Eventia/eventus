@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Pageable;
 
+import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Media;
 import com.eventus.backend.models.User;
 
@@ -14,5 +15,5 @@ public interface IMediaService {
 	 public List<Media> findAll(Pageable p);
 	 public FileSystemResource findById(Long mediaId);
 	 public List<Long> findByUser(Pageable p, Long id);
-
+	 public void parseEventMediaIds(List<Long> mediaIds, Event event);
 }

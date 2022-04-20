@@ -2,7 +2,9 @@ package com.eventus.backend.models;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -76,6 +78,8 @@ public class Event {
     @OneToMany(mappedBy = "event")
     @JsonIgnore
     private Set<Hosting> hostings = new HashSet<>();
+
+
 
     public Event(){
 
@@ -153,6 +157,11 @@ public class Event {
     @JsonIgnore
     public void setOrganizer(User organizer) {
         this.organizer = organizer;
+    }
+
+    @JsonProperty("media")
+    public List<Long> getMediaIds(){
+        return media.stream().map(x->x.getId()).collect(Collectors.toList());
     }
 
     public Set<Media> getMedia() {

@@ -34,9 +34,9 @@ public class MediaController {
 	}
 	
 	@PostMapping("/media")
-	public ResponseEntity<Long> uploadImage(@RequestParam MultipartFile multipartImage, @AuthenticationPrincipal User user) throws Exception {
+	public ResponseEntity<Long> uploadImage(@RequestParam MultipartFile media, @AuthenticationPrincipal User user) throws Exception {
 		try {
-			this.mediaService.save(multipartImage.getBytes(), multipartImage.getOriginalFilename(), user);
+			this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
 			return ResponseEntity.ok().build();
 		} catch(Exception e) {
 			return ResponseEntity.badRequest().build();

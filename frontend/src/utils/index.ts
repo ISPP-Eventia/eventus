@@ -9,6 +9,8 @@ import {
   User,
 } from "types";
 
+var _ = require('lodash');
+
 const parsers = {
   eventusFormValuesToEventus: (eventFormValues: EventFormValues): EventUs => {
     const { title, fromTo, price, description } = eventFormValues;
@@ -67,6 +69,11 @@ const whatsappShareEndpoint = "https://wa.me/?text=";
 const telegramShareEndpoint = `https://t.me/share/url?url=Eventus&text=`;
 const mailShareEndpoint = "mailto:?subject=Eventus&body=";
 
+const getHashtag = (event?: EventUs) =>{
+    if(event){
+        return "#"+_.camelCase("#EventUS"+`${event.title}`+`${event.id}`);
+    }
+}
 const getDate = (date?: string) => {
   return `${date!.substring(8, 10)} / ${date!.substring(5, 7)}`;
 };
@@ -133,6 +140,6 @@ ${window.location.href}
   },
 };
 
-const utils = { parsers, formatters, share };
+const utils = { parsers, formatters, share, getHashtag };
 
 export default utils;

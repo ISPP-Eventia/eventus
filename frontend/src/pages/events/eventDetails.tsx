@@ -57,6 +57,9 @@ const EventDetailPage = () => {
   const onSearchLocation = () => {
     navigate("/locations");
   };
+  
+  const hashtag = utils.getHashtag(event);
+  console.log(hashtag)
 
   useEffect(() => {
     if (
@@ -116,6 +119,9 @@ const EventDetailPage = () => {
               event?.media?.[0]?.path || "https://via.placeholder.com/2000x1000"
             }
           />
+        </div>
+        <div className="col-span-1 flex flex-col xl:col-span-2">
+          <Typography variant="body1">{hashtag}</Typography>
         </div>
         <div className="flex flex-col gap-3">
           <div>

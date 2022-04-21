@@ -16,7 +16,8 @@ const Component = (props: {
   const onShare = (socialMedia: SocialMedia) => {
     switch (props.type) {
       case "event":
-        utils.share.shareEvent(socialMedia, props.entity);
+        const hashtag = (props.entity) ? utils.share.hashtag(props.entity) : "#eventUs";
+        utils.share.shareEvent(socialMedia, props.entity, (hashtag) ? (hashtag) : "#eventUs");
         break;
       case "location":
         utils.share.shareLocation(socialMedia, props.entity);

@@ -58,8 +58,7 @@ const EventDetailPage = () => {
     navigate("/locations");
   };
   
-  const hashtag = utils.getHashtag(event);
-  console.log(hashtag)
+  const hashtag = (event) ? utils.share.hashtag(event) : "#eventUs";
 
   useEffect(() => {
     if (
@@ -120,9 +119,6 @@ const EventDetailPage = () => {
             }
           />
         </div>
-        <div className="col-span-1 flex flex-col xl:col-span-2">
-          <Typography variant="body1">{hashtag}</Typography>
-        </div>
         <div className="flex flex-col gap-3">
           <div>
             <Typography variant="h4">Organizador</Typography>
@@ -148,6 +144,8 @@ const EventDetailPage = () => {
               )}
             </div>
             <div>
+            <Typography variant="h4">Hashtag</Typography>
+              <Typography variant="h6">{hashtag}</Typography>
               <Typography variant="h4">Fecha</Typography>
               <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.startDate ?? "")}

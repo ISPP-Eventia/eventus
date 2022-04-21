@@ -69,11 +69,6 @@ const whatsappShareEndpoint = "https://wa.me/?text=";
 const telegramShareEndpoint = `https://t.me/share/url?url=Eventus&text=`;
 const mailShareEndpoint = "mailto:?subject=Eventus&body=";
 
-const getHashtag = (event?: EventUs) =>{
-    if(event){
-        return "#"+_.camelCase("#EventUS"+`${event.title}`+`${event.id}`);
-    }
-}
 const getDate = (date?: string) => {
   return `${date!.substring(8, 10)} / ${date!.substring(5, 7)}`;
 };
@@ -93,18 +88,24 @@ const share = {
         return mailShareEndpoint;
     }
   },
+  hashtag : (event: EventUs) =>{
+    if(event){
+        return "#"+_.camelCase("#EventUS"+`${event.title}`+`${event.id}`);
+    }
+  },
   text: (socialMedia: SocialMedia, text: string) =>
     socialMedia !== "facebook" ? encodeURI(text) : window.location.href,
   share: (socialMedia: SocialMedia, text: string) =>
     window.open(share.endpoint(socialMedia) + share.text(socialMedia, text)),
 
-  shareEvent: (socialMedia: SocialMedia, event: EventUs) => {
+  shareEvent: (socialMedia: SocialMedia, event: EventUs, hashtag: String) => {
     const text = `
 🙌 Estoy participando en el evento: 
 🎪 ${event.title}
 📆 El día ${getDate(event.startDate)}
 ⏰ A las ${event.startDate!.substring(11, 16)}
 💰 Precio: ${event.price}€
+#️⃣Comparte tu experiencia en el hashtag: ${hashtag}
 
 🙌 Tú también puedes inscribirte aquí:
 ${window.location.href}
@@ -140,6 +141,6 @@ ${window.location.href}
   },
 };
 
-const utils = { parsers, formatters, share, getHashtag };
+const utils = { parsers, formatters, share };
 
 export default utils;

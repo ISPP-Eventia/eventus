@@ -9,7 +9,7 @@ import {
   User,
 } from "types";
 
-var _ = require('lodash');
+var _ = require("lodash");
 
 const parsers = {
   eventusFormValuesToEventus: (eventFormValues: EventFormValues): EventUs => {
@@ -88,7 +88,7 @@ const share = {
         return mailShareEndpoint;
     }
   },
-  hashtag : (event: EventUs) =>{
+  hashtag : (event: EventUs) => {
     if(event){
         return "#"+_.camelCase("#EventUS"+`${event.title}`+`${event.id}`);
     }
@@ -105,7 +105,7 @@ const share = {
 📆 El día ${getDate(event.startDate)}
 ⏰ A las ${event.startDate!.substring(11, 16)}
 💰 Precio: ${event.price}€
-#️⃣Comparte tu experiencia en el hashtag: ${hashtag}
+${hashtag}
 
 🙌 Tú también puedes inscribirte aquí:
 ${window.location.href}

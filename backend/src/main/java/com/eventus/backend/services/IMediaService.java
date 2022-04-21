@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Location;
@@ -20,4 +21,5 @@ public interface IMediaService {
 	 public void parseEventMediaIds(List<Long> mediaIds, Event event);
 	 public void parseLocationMediaIds(List<Long> mediaIds, Location location);
 	 public void parseSponsorshipMediaIds(Long mediaId, Sponsorship sponsorship);
+	 public boolean validate(MultipartFile media);
 }

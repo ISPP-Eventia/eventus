@@ -1,6 +1,7 @@
 package com.eventus.backend.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -34,10 +35,15 @@ public class MediaController {
 	}
 	
 	@PostMapping("/media")
-	public ResponseEntity<Long> uploadImage(@RequestParam MultipartFile media, @AuthenticationPrincipal User user) throws Exception {
+	public ResponseEntity<Object> uploadImage(@RequestParam MultipartFile media, @AuthenticationPrincipal User user) throws Exception {
 		try {
-			this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
-			return ResponseEntity.ok().build();
+			if(this.mediaService.validate(media)){
+				this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
+				return ResponseEntity.ok().build();
+			}else{
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(Map.of("error","Extension no permitida. Debe ser JPG, PNG, JPEG, JFIF o MP4."));
+			}
+			
 		} catch(Exception e) {
 			return ResponseEntity.badRequest().build();
 		}

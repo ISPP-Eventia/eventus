@@ -22,14 +22,12 @@ public class SponsorshipService implements ISponsorshipService{
     private final SponsorshipRepository sponsorRepository;
     private final EventService eventService;
     private final StripeService stripeService;
-    private final MediaService mediaService;
 
     @Autowired
-    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService, StripeService stripeService, MediaService mediaService){
+    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService, StripeService stripeService){
         this.sponsorRepository = sponsorRepo;
         this.eventService = eventService;
         this.stripeService = stripeService;
-        this.mediaService = mediaService;
     }
 
     @Override

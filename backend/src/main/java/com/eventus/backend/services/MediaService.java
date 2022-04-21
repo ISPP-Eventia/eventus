@@ -5,13 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.eventus.backend.models.Event;
@@ -98,6 +97,15 @@ public class MediaService implements IMediaService {
     public void parseSponsorshipMediaIds(Long mediaId, Sponsorship sponsorship) {
         sponsorship.setMedia(this.mediaRepository.findById(mediaId).orElse(null));
         this.sponsorshipRepository.save(sponsorship);
+    }
+
+    @Override
+    public boolean validate(MultipartFile media) {
+        String[] arr = media.getOriginalFilename().trim().split("\\.");
+        String extension = arr[arr.length-1];
+        System.out.println(extension);
+        System.out.println(extension == "png" || extension == "jpg" || extension == "jpeg" || extension ==  "mp4");
+        return extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg") || extension.equals("jfif") || extension.equals("mp4");
     }
 
 }

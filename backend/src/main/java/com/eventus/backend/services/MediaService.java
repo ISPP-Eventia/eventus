@@ -15,21 +15,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.eventus.backend.models.Event;
+import com.eventus.backend.models.Location;
 import com.eventus.backend.models.Media;
+import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.FileSystemRepository;
 import com.eventus.backend.repositories.MediaRepository;
+import com.eventus.backend.repositories.SponsorshipRepository;
 
 @Service
 public class MediaService implements IMediaService {
 	
     private final FileSystemRepository fileSystemRepository;
     private final MediaRepository mediaRepository;
+    private final SponsorshipRepository sponsorshipRepository;
     
     @Autowired
-    public MediaService(FileSystemRepository fileSystemRepository, MediaRepository mediaRepository) {
+    public MediaService(FileSystemRepository fileSystemRepository, MediaRepository mediaRepository, SponsorshipRepository sponsorshipRepository) {
     	this.fileSystemRepository = fileSystemRepository;
     	this.mediaRepository = mediaRepository;
+        this.sponsorshipRepository = sponsorshipRepository;
     }
 
     @Override
@@ -75,6 +80,24 @@ public class MediaService implements IMediaService {
             media.add(m);
         });
         this.mediaRepository.saveAll(media);
+    }
+
+    @Override
+    public void parseLocationMediaIds(List<Long> mediaIds, Location location) {
+        //Validate that those media owner is the logged user
+        Set<Media> media = new HashSet<>();
+        mediaIds.stream().forEach(id ->{
+            Media m = this.mediaRepository.findById(id).orElse(null);
+            m.setLocation(location);
+            media.add(m);
+        });
+        this.mediaRepository.saveAll(media);
+    }
+
+    @Override
+    public void parseSponsorshipMediaIds(Long mediaId, Sponsorship sponsorship) {
+        sponsorship.setMedia(this.mediaRepository.findById(mediaId).orElse(null));
+        this.sponsorshipRepository.save(sponsorship);
     }
 
 }

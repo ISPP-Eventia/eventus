@@ -63,8 +63,9 @@ public class LocationController extends ValidationController{
     @PostMapping("/locations")
     public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user,@RequestParam(name="media") List<Long> mediaIds){
         try{
-            // location.setMedia(this.mediaService.parseMediaIds(mediaIds));
             locationService.create(location,user);
+            this.mediaService.parseLocationMediaIds(mediaIds, location);
+            
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();

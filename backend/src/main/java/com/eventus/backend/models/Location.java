@@ -34,9 +34,6 @@ public class Location {
     @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double price;
 
-    // @OneToMany
-    // private Media media;
-
     @Column
     @JsonProperty("name")
     @NotBlank

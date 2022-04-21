@@ -22,12 +22,14 @@ public class SponsorshipService implements ISponsorshipService{
     private final SponsorshipRepository sponsorRepository;
     private final EventService eventService;
     private final StripeService stripeService;
+    private final MediaService mediaService;
 
     @Autowired
-    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService, StripeService stripeService){
+    public SponsorshipService(SponsorshipRepository sponsorRepo, EventService eventService, StripeService stripeService, MediaService mediaService){
         this.sponsorRepository = sponsorRepo;
         this.eventService = eventService;
         this.stripeService = stripeService;
+        this.mediaService = mediaService;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void create(Map<String,String> params,User user) {
+    public Sponsorship create(Map<String,String> params,User user) {
         String eventId =params.get("eventId");
         String quantity=params.get("quantity");
         Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Incorrect format for eventId");
@@ -87,7 +89,8 @@ public class SponsorshipService implements ISponsorshipService{
         entity.setName(params.get("name"));
         entity.setQuantity(Double.valueOf(params.get("quantity")));
         entity.setAccepted(null);
-        sponsorRepository.save(entity);
+        return sponsorRepository.save(entity);
+        
     }
 
     @Override

@@ -9,7 +9,7 @@ import { eventApi } from "api";
 import utils from "utils";
 
 import { Ad, Loader, Map } from "components/atoms";
-import { UserHorizontalCard } from "components/molecules";
+import { UserHorizontalCard, ImageSlider} from "components/molecules";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
 import ErrorPage from "pages/error";
@@ -109,13 +109,7 @@ const EventDetailPage = () => {
     >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
-          <img
-            alt="img"
-            className="w-full rounded-md object-cover"
-            src={
-              event?.media?.[0]?.path || "https://via.placeholder.com/2000x1000"
-            }
-          />
+        <ImageSlider media={event?.media}/>
         </div>
         <div className="flex flex-col gap-3">
           <div>

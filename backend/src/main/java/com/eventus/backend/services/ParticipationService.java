@@ -53,8 +53,10 @@ public class ParticipationService implements IParticipationService{
         participation.setPrice(event.getPrice());
         participation.setEvent(event);
         participation.setUser(user);
-        PaymentIntent payment = stripeService.createParticipationPayment(participation);
-        if(payment != null) partRepository.save(participation);
+        if(event.getPrice()>=0.5){
+            stripeService.createParticipationPayment(participation);
+        }
+        partRepository.save(participation);
     }
     
     public Participation createParticipationAndTicket(Event event, User user) throws DocumentException, IOException, DataAccessException, StripeException {

@@ -37,7 +37,6 @@ public class MediaModelTests {
         image.setId(1l);
         image.setTitle("Image 1");
         image.setPath("/home/user/images");
-        image.setDescription("description");
         image.setUploadDate(fecha);
         image.setOwner(userDummy);
 
@@ -46,7 +45,6 @@ public class MediaModelTests {
         image2.setId(2l);
         image2.setTitle("Image 2");
         image2.setPath("/home/user2/images");
-        image2.setDescription("description2");
         image2.setUploadDate(fecha);
         image2.setOwner(userDummy);
     }
@@ -59,7 +57,6 @@ public class MediaModelTests {
         assertEquals(image.getId(), 1l);
         assertEquals(image.getTitle(), "Image 1");
         assertEquals(image.getPath(), "/home/user/images");
-        assertEquals(image.getDescription(), "description");
         assertEquals(image.getUploadDate(), fecha);
         assertEquals(image.getOwner().getFirstName(), "Pepe");
         assertEquals(image.getOwner().getLastName(), "Rodriguez");

@@ -39,6 +39,15 @@ public class Tag {
         this.name = name;
     }
 
+    
+    public Set<EventTag> getEventTags() {
+        return eventTags;
+    }
+
+    public void setEventTags(Set<EventTag> eventTags) {
+        this.eventTags = eventTags;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

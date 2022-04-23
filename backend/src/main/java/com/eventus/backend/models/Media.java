@@ -38,22 +38,22 @@ public class Media {
     @JsonIgnore
     private LocalDate uploadDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User owner;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "event_id")
     @JsonIgnore
     private Event event;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     @JsonIgnore
     private Location location;
     
-    @OneToMany(mappedBy = "media")
+    @OneToMany(mappedBy = "media", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Sponsorship> sponsorship = new HashSet<>();
 

@@ -63,7 +63,7 @@ public class EventController extends ValidationController{
       event.setId(null);
       event.setOrganizer(user);
       this.eventService.save(event);
-      this.mediaService.parseEventMediaIds(mediaIds, event);
+      this.mediaService.parseEventMediaIds(mediaIds, event, user);
 
       return ResponseEntity.status(HttpStatus.CREATED).build();
     } catch (DataAccessException | NullPointerException  e) {

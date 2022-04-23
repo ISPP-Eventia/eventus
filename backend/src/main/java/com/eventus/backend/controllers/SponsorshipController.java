@@ -75,7 +75,7 @@ public class SponsorshipController extends ValidationController{
                 return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
             }else{
                 Sponsorship sponsor =  sponsorService.create(params,user);
-                this.mediaService.parseSponsorshipMediaIds(mediaId, sponsor);
+                this.mediaService.parseSponsorshipMediaIds(mediaId, sponsor,user);
             }
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {

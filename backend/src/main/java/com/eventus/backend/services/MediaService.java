@@ -70,23 +70,27 @@ public class MediaService implements IMediaService {
 
     
     @Override
-    public void parseEventMediaIds(List<Long> mediaIds, Event event) {
+    public void parseEventMediaIds(List<Long> mediaIds, Event event, User user) {
         //Validate that those media owner is the logged user
+
         Set<Media> media = new HashSet<>();
         mediaIds.stream().forEach(id ->{
             Media m = this.mediaRepository.findById(id).orElse(null);
+            if(!m.getOwner().getId().equals(user.getId()) || !event.getOrganizer().getId().equals(user.getId())) throw new IllegalArgumentException("No eres el propietario de la foto o del evento.");
             m.setEvent(event);
             media.add(m);
         });
         this.mediaRepository.saveAll(media);
+        
     }
 
     @Override
-    public void parseLocationMediaIds(List<Long> mediaIds, Location location) {
+    public void parseLocationMediaIds(List<Long> mediaIds, Location location, User user) {
         //Validate that those media owner is the logged user
         Set<Media> media = new HashSet<>();
         mediaIds.stream().forEach(id ->{
             Media m = this.mediaRepository.findById(id).orElse(null);
+            if(!m.getOwner().getId().equals(user.getId()) || !location.getOwner().getId().equals(user.getId())) throw new IllegalArgumentException("No eres el propietario de la foto o de la infraestructura.");
             m.setLocation(location);
             media.add(m);
         });
@@ -94,18 +98,22 @@ public class MediaService implements IMediaService {
     }
 
     @Override
-    public void parseSponsorshipMediaIds(Long mediaId, Sponsorship sponsorship) {
-        sponsorship.setMedia(this.mediaRepository.findById(mediaId).orElse(null));
+    public void parseSponsorshipMediaIds(Long mediaId, Sponsorship sponsorship, User user) {
+        Media m = this.mediaRepository.findById(mediaId).orElse(null);
+        if(!m.getOwner().getId().equals(user.getId()) || !sponsorship.getUser().getId().equals(user.getId())) throw new IllegalArgumentException("No eres el propietario de la foto o del patrocinio.");
+        sponsorship.setMedia(m);
         this.sponsorshipRepository.save(sponsorship);
     }
 
     @Override
-    public boolean validate(MultipartFile media) {
+    public void validate(MultipartFile media) throws IllegalArgumentException {
         String[] arr = media.getOriginalFilename().trim().split("\\.");
         String extension = arr[arr.length-1];
-        System.out.println(extension);
-        System.out.println(extension == "png" || extension == "jpg" || extension == "jpeg" || extension ==  "mp4");
-        return extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg") || extension.equals("jfif") || extension.equals("mp4");
+        if(!(extension.equals("png") || extension.equals("jpg") ||
+         extension.equals("jpeg") || extension.equals("jfif") ||
+          extension.equals("mp4"))){
+            throw new IllegalArgumentException("Extension no permitida. Debe ser PNG, JPG, JPEG, JFIF o MP4.");
+        }
     }
 
     @Override

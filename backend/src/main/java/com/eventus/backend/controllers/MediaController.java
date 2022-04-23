@@ -38,14 +38,12 @@ public class MediaController {
 	@PostMapping("/media")
 	public ResponseEntity<Object> uploadImage(@RequestParam MultipartFile media, @AuthenticationPrincipal User user) throws Exception {
 		try {
-			if(this.mediaService.validate(media)){
-				this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
-				return ResponseEntity.ok().build();
-			}else{
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(Map.of("error","Extension no permitida. Debe ser JPG, PNG, JPEG, JFIF o MP4."));
-			}
-			
-		} catch(Exception e) {
+			this.mediaService.validate(media);
+			this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
+			return ResponseEntity.ok().build();
+		} catch(IllegalArgumentException e){	
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(Map.of("error",e.getMessage()));
+		}catch(Exception e) {
 			return ResponseEntity.badRequest().build();
 		}
 	}

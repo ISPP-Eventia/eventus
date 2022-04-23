@@ -16,8 +16,6 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +47,7 @@ public class TagService implements ITagService {
         Optional<Tag> optTag = tagRepository.findByName(name);
 
         if (optTag.isPresent()) {
-            throw new DuplicateKeyException("Tag already exists");
+            throw new IllegalArgumentException("La etiqueta ya existe");
         }
 
         return tagRepository.save(tag);
@@ -70,29 +68,29 @@ public class TagService implements ITagService {
         String eventId = params.get("eventId");
         String tagId = params.get("tagId");
         Validate.isTrue(StringUtils.isNotBlank(eventId) && StringUtils.isNumeric(eventId),
-                "Incorrect format for eventId");
-        Validate.isTrue(StringUtils.isNotBlank(tagId) && StringUtils.isNumeric(tagId), "Incorrect format for tagId");
+                "El eventId debe ser un número");
+        Validate.isTrue(StringUtils.isNotBlank(tagId) && StringUtils.isNumeric(tagId), "El tagId debe ser un número");
 
         Event event = eventRepository.findById(Long.valueOf(eventId)).orElse(null);
 
         if (event == null) {
-            throw new IllegalArgumentException("Event not found");
+            throw new IllegalArgumentException("Evento no encontrado");
         }
 
         Tag tag = tagRepository.findById(Long.valueOf(tagId)).orElse(null);
 
         if (tag == null) {
-            throw new IllegalArgumentException("Tag not found");
+            throw new IllegalArgumentException("Etiqueta no encontrada");
         }
 
         if (!event.getOrganizer().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("You are not the organizer of this event");
+            throw new IllegalArgumentException("No eres el organizador de este evento");
         }
 
         Optional<EventTag> optEventTag = eventTagRepository.findByEventIdAndTagId(event.getId(), tag.getId());
 
         if (optEventTag.isPresent()) {
-            throw new DuplicateKeyException("Tag already associated with the event");
+            throw new IllegalArgumentException("La etiqueta ya está asociada al evento");
         }
 
         EventTag eventTag = new EventTag();
@@ -111,7 +109,7 @@ public class TagService implements ITagService {
         }
 
         if (!eventTag.getEvent().getOrganizer().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("You are not the organizer of this event");
+            throw new IllegalArgumentException("No eres el organizador de este evento");
         }
 
         eventTagRepository.delete(eventTag);

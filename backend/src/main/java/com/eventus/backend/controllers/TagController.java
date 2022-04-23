@@ -1,17 +1,13 @@
 package com.eventus.backend.controllers;
 
-import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Tag;
 import com.eventus.backend.models.User;
-import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.TagService;
 
-import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

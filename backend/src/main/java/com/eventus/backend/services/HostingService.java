@@ -9,7 +9,6 @@ import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.HostingRepository;
 import com.stripe.exception.StripeException;
-import com.stripe.model.StripeSearchResult;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;

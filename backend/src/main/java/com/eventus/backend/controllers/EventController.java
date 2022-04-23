@@ -44,10 +44,11 @@ public class EventController extends ValidationController{
   }
 
   @PutMapping("/events")
-  public ResponseEntity<Object> updateEvent(@Valid @RequestBody Event event, @RequestParam(name="media") List<Long> mediaIds,@AuthenticationPrincipal User user) {
+  public ResponseEntity<Object> updateEvent(@Valid @RequestBody Event event, @RequestParam(name="mediaIds") List<Long> mediaIds,@AuthenticationPrincipal User user) {
     try {
-      // event.setMedia(this.mediaService.parseMediaIds(mediaIds));
       this.eventService.update(event,user);
+      this.mediaService.parseEventMediaIds(mediaIds, event, user);
+
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
       return ResponseEntity.badRequest().build();

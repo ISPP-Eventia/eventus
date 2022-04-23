@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Button } from "antd";
+import { Style } from "@mui/icons-material";
 
 import { participationApi } from "api";
 
@@ -27,8 +28,9 @@ const Component = (props: { event?: any; callback: () => void }) => {
     <ModalDrawer
       title="Participar"
       opener={{
-        title: `Participar ${props.event?.price}€`,
+        title: `${props.event?.price}€`,
         color: "primary",
+        icon: <Style />,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;

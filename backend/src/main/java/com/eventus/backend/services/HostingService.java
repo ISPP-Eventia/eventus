@@ -9,7 +9,6 @@ import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.HostingRepository;
 import com.stripe.exception.StripeException;
-import com.stripe.model.StripeSearchResult;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -43,14 +42,14 @@ public class HostingService implements IHostingService {
         String eventId= params.get("eventId");
         String locationId= params.get("locationId");
         String price = params.get("price");
-        Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Incorrect format for eventId");
-        Validate.isTrue(StringUtils.isNotBlank(locationId)&&StringUtils.isNumeric(locationId),"Incorrect format for locationId");
-        Validate.isTrue(NumberUtils.isCreatable(price),"Price should be a double");
-        Validate.isTrue(findHostingByEventIdAndLocationId(Long.valueOf(eventId),Long.valueOf(locationId))==null,"There is already a hosting with this event and location");
+        Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Formato incorrecto del eventId");
+        Validate.isTrue(StringUtils.isNotBlank(locationId)&&StringUtils.isNumeric(locationId),"Formato incorrecto del locationId");
+        Validate.isTrue(NumberUtils.isCreatable(price),"El precio debe ser un numero");
+        Validate.isTrue(findHostingByEventIdAndLocationId(Long.valueOf(eventId),Long.valueOf(locationId))==null,"Ya existe un alojamiento para este evento en esta ubicacion");
         Event event = eventService.findById(Long.valueOf(eventId));
         Location location = locationService.findById(Long.valueOf(locationId));
-        Validate.isTrue(event!=null,"Event not found");
-        Validate.isTrue(location!=null,"Location not found");
+        Validate.isTrue(event!=null,"Evento no encontrado");
+        Validate.isTrue(location!=null,"Localizacion no encontrada");
         Hosting entity = new Hosting();
         entity.setEvent(event);
         entity.setLocation(location);
@@ -84,7 +83,7 @@ public class HostingService implements IHostingService {
     @Override
     public List<Hosting> findByEventId(Long eventId, Pageable p, User user) {
         Event event=eventService.findById(eventId);
-        Validate.isTrue(event!=null,"Event does not exits");
+        Validate.isTrue(event!=null,"El evento no existe");
         if(event.getOrganizer().getId().equals(user.getId())||user.isAdmin()){
             return hostingRepository.findByEventId(eventId,p);
         }else {
@@ -95,7 +94,7 @@ public class HostingService implements IHostingService {
     @Override
     public List<Hosting> findByLocationId(Long locationId, Pageable p,User user) {
         Location location=locationService.findById(locationId);
-        Validate.isTrue(location!=null,"Location does not exits");
+        Validate.isTrue(location!=null,"Localizacion no encontrada");
         if (location.getOwner().getId().equals(user.getId())|| user.isAdmin()) {
             return hostingRepository.findByLocationId(locationId,p);
         }else{
@@ -112,8 +111,8 @@ public class HostingService implements IHostingService {
     @Override
     public void resolveHosting(boolean b, Long sId, User user) throws StripeException {
         Hosting hosting = this.hostingRepository.findById(sId).orElse(null);
-        Validate.notNull(hosting,"Hosting not found");
-        Validate.isTrue(hosting.getEvent() != null && (hosting.getLocation().getOwner().getId().equals(user.getId()) || user.isAdmin()),"You are not the organizer of this event");
+        Validate.isTrue(hosting!=null,"Alojamiento no encontrado");
+        Validate.isTrue(hosting.getEvent() != null && (hosting.getLocation().getOwner().getId().equals(user.getId()) || user.isAdmin()),"No eres el dueño del evento");
         Boolean paid = false;
         if(b){
             stripeService.createHostingPayment(hosting);

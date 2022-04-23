@@ -17,7 +17,7 @@ const EditEventPage = () => {
   );
 
   return (
-    <Page title="Nuevo Evento">
+    <Page title="Editar Evento">
       {loadingEvent || !event ? <Loader /> : <EditEvent event={event} />}
     </Page>
   );

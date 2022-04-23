@@ -22,12 +22,11 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void create(Location location,User owner) {
+    public Location create(Location location,User owner) {
         if(owner != null){
             location.setOwner(owner);
         }
-
-        locationRepository.save(location);
+        return locationRepository.save(location);
     }
 
     @Override

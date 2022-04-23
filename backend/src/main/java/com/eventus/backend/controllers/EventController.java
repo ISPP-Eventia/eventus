@@ -3,7 +3,7 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
-
+import com.eventus.backend.services.MediaService;
 
 import java.util.List;
 import java.util.Map;
@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class EventController extends ValidationController{
   private final EventService eventService;
+  private final MediaService mediaService;
 
   @Autowired
-  public EventController(EventService eventService) {
+  public EventController(EventService eventService, MediaService mediaService) {
     this.eventService = eventService;
+    this.mediaService = mediaService;
   }
 
   @GetMapping("/events")
@@ -42,8 +44,9 @@ public class EventController extends ValidationController{
   }
 
   @PutMapping("/events")
-  public ResponseEntity<Object> updateEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
+  public ResponseEntity<Object> updateEvent(@Valid @RequestBody Event event, @RequestParam(name="media") List<Long> mediaIds,@AuthenticationPrincipal User user) {
     try {
+      // event.setMedia(this.mediaService.parseMediaIds(mediaIds));
       this.eventService.update(event,user);
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
@@ -54,11 +57,14 @@ public class EventController extends ValidationController{
   }
 
   @PostMapping("/events")
-  public ResponseEntity<Object> createEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
+  public ResponseEntity<Object> createEvent(@RequestParam(value =  "mediaIds") List<Long> mediaIds, @Valid @RequestBody Event event,@AuthenticationPrincipal User user ) {
     try {
+
       event.setId(null);
       event.setOrganizer(user);
       this.eventService.save(event);
+      this.mediaService.parseEventMediaIds(mediaIds, event, user);
+
       return ResponseEntity.status(HttpStatus.CREATED).build();
     } catch (DataAccessException | NullPointerException  e) {
       return ResponseEntity.badRequest().build();
@@ -86,4 +92,6 @@ public class EventController extends ValidationController{
     }
 
   }
+
+
 }

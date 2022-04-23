@@ -72,7 +72,7 @@ public class SponsorshipService implements ISponsorshipService{
     }
 
     @Override
-    public void create(Map<String,String> params,User user) {
+    public Sponsorship create(Map<String,String> params,User user) {
         String eventId =params.get("eventId");
         String quantity=params.get("quantity");
         Validate.isTrue(StringUtils.isNotBlank(eventId)&&StringUtils.isNumeric(eventId),"Formato incorrecto de eventId");
@@ -82,12 +82,12 @@ public class SponsorshipService implements ISponsorshipService{
         if(event != null && user != null){
             entity.setEvent(event);
             entity.setUser(user);
+            entity.setName(params.get("name"));
+            entity.setQuantity(Double.valueOf(params.get("quantity")));
+            entity.setAccepted(null);
+            return sponsorRepository.save(entity);
         }
-        // entity.setImages(new ArrayList<Image>());
-        entity.setName(params.get("name"));
-        entity.setQuantity(Double.valueOf(params.get("quantity")));
-        entity.setAccepted(null);
-        sponsorRepository.save(entity);
+        return null;
     }
 
     @Override

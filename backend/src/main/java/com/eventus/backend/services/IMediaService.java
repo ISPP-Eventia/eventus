@@ -22,4 +22,5 @@ public interface IMediaService {
 	 public void parseLocationMediaIds(List<Long> mediaIds, Location location);
 	 public void parseSponsorshipMediaIds(Long mediaId, Sponsorship sponsorship);
 	 public boolean validate(MultipartFile media);
+	 public void delete(Long id,User user);
 }

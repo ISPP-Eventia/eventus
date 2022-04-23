@@ -108,4 +108,14 @@ public class MediaService implements IMediaService {
         return extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg") || extension.equals("jfif") || extension.equals("mp4");
     }
 
+    @Override
+    public void delete(Long id, User user){
+        Media media = this.mediaRepository.findById(id).orElse(null);
+        if(user.isAdmin() || media.getOwner().equals(user)){
+            this.mediaRepository.deleteById(id);
+        }else{
+            throw new IllegalArgumentException("No eres el propietario de este archivo.");
+        }
+    }
+
 }

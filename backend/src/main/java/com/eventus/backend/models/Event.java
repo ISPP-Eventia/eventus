@@ -2,7 +2,6 @@ package com.eventus.backend.models;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,10 +61,8 @@ public class Event {
     @Size(max = 120)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "event_id")
-    @JsonProperty("images")
-    private List<Image> images;
+    @OneToMany(mappedBy = "event", orphanRemoval = true)
+    private Set<Media> media = new HashSet<>();
 
     @OneToMany(mappedBy = "event")
     @JsonIgnore
@@ -84,6 +81,7 @@ public class Event {
     private Set<EventTag> eventTags = new HashSet<>();
 
     public Event() {
+
 
     }
 
@@ -173,12 +171,14 @@ public class Event {
         this.organizer = organizer;
     }
 
-    public List<Image> getImages() {
-        return images;
+    @JsonProperty("media")
+    public Set<Media> getMedia() {
+        return media;
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    @JsonIgnore
+    public void setMedia(Set<Media> media) {
+        this.media = media;
     }
 
     public LocalDateTime getStartDate() {

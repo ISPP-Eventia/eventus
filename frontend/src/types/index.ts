@@ -10,7 +10,7 @@ export type Media = {
   id?: number;
   path: string;
   title?: string;
-  description?: string;
+  uploadDate?: string;
 };
 
 /* eslint-disable camelcase */

@@ -61,7 +61,7 @@ public class LocationController extends ValidationController{
 
 
     @PostMapping("/locations")
-    public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user,@RequestParam(name="media") List<Long> mediaIds){
+    public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user,@RequestParam(name="mediaIds") List<Long> mediaIds){
         try{
             locationService.create(location,user);
             this.mediaService.parseLocationMediaIds(mediaIds, location, user);

@@ -2,13 +2,34 @@ import { useNavigate } from "react-router";
 import { Card, Typography } from "@mui/material";
 
 import { Location } from "types";
+import { useQuery } from "react-query";
+import { mediaApi } from "api";
 
 const LocationCard = (props: { location: Location }) => {
+  const { location } = props;
   const navigate = useNavigate();
 
   const onClick = () => {
     navigate(`/locations/${props.location.id}`);
   };
+
+  const mediaIdQuery = "media" + location.id;
+  const { isLoading, data: media } = useQuery(mediaIdQuery, async () => {
+    if (!location || !location.media || location.media.length === 0)
+      return {
+        id: "0",
+        title: "Placeholder",
+        url: "https://via.placeholder.com/1000x500",
+      };
+
+    const url = await mediaApi.getMedia(location.media[0].id!);
+
+    return {
+      id: location.media[0].id,
+      title: location.media[0].title,
+      url,
+    };
+  });
 
   return (
     <Card
@@ -17,12 +38,9 @@ const LocationCard = (props: { location: Location }) => {
     >
       <header className="w-full">
         <img
-          alt="img"
+          alt={media?.title}
           className="h-28 w-full object-cover"
-          src={
-            props.location.media?.[0]?.path ||
-            "https://via.placeholder.com/1000x500"
-          }
+          src={media?.url}
         />
       </header>
       <section className="line-clamp-4 mt-2 mb-2 flex h-auto flex-col px-2">

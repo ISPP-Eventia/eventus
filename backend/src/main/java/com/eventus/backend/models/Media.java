@@ -31,7 +31,6 @@ public class Media {
     @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @CreationTimestamp
-    @JsonIgnore
     private LocalDate uploadDate;
 
     @ManyToOne(cascade = CascadeType.REMOVE)

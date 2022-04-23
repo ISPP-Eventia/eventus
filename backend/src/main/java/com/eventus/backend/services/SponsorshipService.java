@@ -82,12 +82,13 @@ public class SponsorshipService implements ISponsorshipService{
         if(event != null && user != null){
             entity.setEvent(event);
             entity.setUser(user);
+            entity.setName(params.get("name"));
+            entity.setQuantity(Double.valueOf(params.get("quantity")));
+            entity.setAccepted(null);
+            sponsorRepository.save(entity);
         }
         // entity.setImages(new ArrayList<Image>());
-        entity.setName(params.get("name"));
-        entity.setQuantity(Double.valueOf(params.get("quantity")));
-        entity.setAccepted(null);
-        sponsorRepository.save(entity);
+        
     }
 
     @Override

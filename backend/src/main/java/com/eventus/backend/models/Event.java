@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
@@ -15,7 +16,6 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
-
 
 @Entity
 public class Event {
@@ -31,13 +31,13 @@ public class Event {
 
     @Column
     @JsonProperty("title")
-    @Size(max=25)
+    @Size(max = 25)
     @NotBlank
     private String title;
 
     @Column
     @JsonProperty("price")
-    @Min(value=0)
+    @Min(value = 0)
     private Double price;
 
     @Column
@@ -59,7 +59,7 @@ public class Event {
     @Column
     @JsonProperty("description")
     @NotBlank
-    @Size(max=120)
+    @Size(max = 120)
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -79,7 +79,11 @@ public class Event {
     @JsonIgnore
     private Set<Hosting> hostings = new HashSet<>();
 
-    public Event(){
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<EventTag> eventTags = new HashSet<>();
+
+    public Event() {
 
     }
 
@@ -98,7 +102,18 @@ public class Event {
         this.sponsors = sponsors;
     }
 
-    
+    @JsonProperty("tags")
+    public Set<Tag> getTags() {
+        return eventTags.stream()
+                .map(eventTag -> {
+                    Tag tag = eventTag.getTag();
+
+                    tag.setId(eventTag.getId());
+
+                    return tag;
+                })
+                .collect(Collectors.toSet());
+    }
 
     public Set<Hosting> getHostings() {
         return hostings;
@@ -152,6 +167,7 @@ public class Event {
     public User getOrganizer() {
         return organizer;
     }
+
     @JsonIgnore
     public void setOrganizer(User organizer) {
         this.organizer = organizer;
@@ -190,40 +206,45 @@ public class Event {
     }
 
     @JsonProperty("rating")
-    public Double getRating(){
-        int numPart=participations.size();
-        int numSpons=sponsors.size();
-        double totalParticipaciones=0;
-        if(numPart!=0){
-            totalParticipaciones=participations.stream().mapToDouble(Participation::getPrice).sum();
+    public Double getRating() {
+        int numPart = participations.size();
+        int numSpons = sponsors.size();
+        double totalParticipaciones = 0;
+        if (numPart != 0) {
+            totalParticipaciones = participations.stream().mapToDouble(Participation::getPrice).sum();
         }
-        double totalSponsors=0;
-        if(numSpons!=0){
-            totalSponsors=sponsors.stream().mapToDouble(Sponsorship::getQuantity).sum();
+        double totalSponsors = 0;
+        if (numSpons != 0) {
+            totalSponsors = sponsors.stream().mapToDouble(Sponsorship::getQuantity).sum();
         }
 
-        return numPart*0.4+numSpons*0.3+(totalParticipaciones+totalSponsors)*0.3;
+        return numPart * 0.4 + numSpons * 0.3 + (totalParticipaciones + totalSponsors) * 0.3;
     }
 
     @JsonProperty("coordinates")
-    public Coordinates getEventCoordinates(){
-        Hosting hosting=null;
-        Coordinates coordinates=null;
-        if(!hostings.isEmpty()){
-            hosting=hostings.stream().filter(x -> x.isAccepted() != null && x.isAccepted()).findFirst().orElse(null);
+    public Coordinates getEventCoordinates() {
+        Hosting hosting = null;
+        Coordinates coordinates = null;
+        if (!hostings.isEmpty()) {
+            hosting = hostings.stream().filter(x -> x.isAccepted() != null && x.isAccepted()).findFirst().orElse(null);
         }
-        if(hosting!=null){
-            coordinates=hosting.getLocation().getCoordinates();
+        if (hosting != null) {
+            coordinates = hosting.getLocation().getCoordinates();
         }
         return coordinates;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Event event = (Event) o;
-        return Objects.equals(id, event.id) && Objects.equals(organizer, event.organizer) && Objects.equals(title, event.title) && Objects.equals(price, event.price) && Objects.equals(prize, event.prize) && Objects.equals(startDate, event.startDate) && Objects.equals(endDate, event.endDate) && Objects.equals(description, event.description);
+        return Objects.equals(id, event.id) && Objects.equals(organizer, event.organizer)
+                && Objects.equals(title, event.title) && Objects.equals(price, event.price)
+                && Objects.equals(prize, event.prize) && Objects.equals(startDate, event.startDate)
+                && Objects.equals(endDate, event.endDate) && Objects.equals(description, event.description);
     }
 
     @Override

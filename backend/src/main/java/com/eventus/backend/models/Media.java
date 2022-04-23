@@ -29,31 +29,27 @@ public class Media {
     private String title;
 
     @Column
-    @JsonProperty("description")
-    private String description;
-
-    @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @CreationTimestamp
     @JsonIgnore
     private LocalDate uploadDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User owner;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "event_id")
     @JsonIgnore
     private Event event;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "location_id")
     @JsonIgnore
     private Location location;
     
-    @OneToMany(mappedBy = "media", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "media", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private Set<Sponsorship> sponsorship = new HashSet<>();
 
@@ -71,14 +67,6 @@ public class Media {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public LocalDate getUploadDate() {
@@ -133,7 +121,7 @@ public class Media {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Objects.hash(description, id, path, title, uploadDate, owner);
+		result = prime * result + Objects.hash(id, path, title, uploadDate, owner);
 		return result;
 	}
 
@@ -146,8 +134,7 @@ public class Media {
 		if (getClass() != obj.getClass())
 			return false;
 		Media other = (Media) obj;
-		return Objects.equals(description, other.description)
-				&& Objects.equals(id, other.id) && Objects.equals(path, other.path)
+		return Objects.equals(id, other.id) && Objects.equals(path, other.path)
 				&& Objects.equals(title, other.title) && Objects.equals(uploadDate, other.uploadDate)
 				&& Objects.equals(owner, other.owner);
 	}
@@ -155,7 +142,7 @@ public class Media {
 	@Override
 	public String toString() {
 		return "Image [id=" + id + ", path=" + path + ", title=" + title
-				+ ", description=" + description + ", uploadDate=" + uploadDate + ", owner=" + owner + "]";
+				+ ", uploadDate=" + uploadDate + ", owner=" + owner + "]";
 	}
 	
 	

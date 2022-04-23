@@ -63,8 +63,7 @@ public class Event {
     @Size(max=120)
     private String description;
 
-    @OneToMany(mappedBy = "event")
-    @JsonIgnore
+    @OneToMany(mappedBy = "event", orphanRemoval = true)
     private Set<Media> media = new HashSet<>();
 
     @OneToMany(mappedBy = "event")
@@ -160,14 +159,11 @@ public class Event {
     }
 
     @JsonProperty("media")
-    public List<Long> getMediaIds(){
-        return media.stream().map(x->x.getId()).collect(Collectors.toList());
-    }
-
     public Set<Media> getMedia() {
         return media;
     }
 
+    @JsonIgnore
     public void setMedia(Set<Media> media) {
         this.media = media;
     }

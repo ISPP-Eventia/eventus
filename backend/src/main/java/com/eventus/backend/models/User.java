@@ -55,8 +55,7 @@ public class User implements UserDetails {
     @NotNull
     private boolean isAdmin;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
     private Set<Media> media;
 
     @OneToMany(mappedBy = "organizer")
@@ -112,10 +111,12 @@ public class User implements UserDetails {
         this.participations = participations;
     }
 
+    @JsonProperty("media")
     public Set<Media> getMedia() {
         return media;
     }
-
+    
+    @JsonIgnore
     public void setMedia(Set<Media> media) {
         this.media = media;
     }

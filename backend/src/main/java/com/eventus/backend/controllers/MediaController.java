@@ -36,15 +36,13 @@ public class MediaController {
 	}
 	
 	@PostMapping("/media")
-	public ResponseEntity<Object> uploadImage(@RequestParam MultipartFile media, @AuthenticationPrincipal User user) throws Exception {
+	public ResponseEntity<Object> uploadImage(@RequestParam MultipartFile media, @AuthenticationPrincipal User user) {
 		try {
 			this.mediaService.validate(media);
 			this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
 			return ResponseEntity.ok().build();
-		} catch(IllegalArgumentException e){	
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(Map.of("error",e.getMessage()));
 		}catch(Exception e) {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error",e.getMessage()));
 		}
 	}
 	

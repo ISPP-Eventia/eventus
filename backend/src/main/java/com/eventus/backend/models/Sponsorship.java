@@ -51,7 +51,6 @@ public class Sponsorship {
     
     @ManyToOne
     @JoinColumn(name = "media_id")
-    @JsonIgnore
     private Media media;
 
 
@@ -95,13 +94,15 @@ public class Sponsorship {
         this.name = name;
     }
 
+    @JsonProperty("media")
     public Media getMedia() {
-		return media;
-	}
-
-	public void setMedia(Media media) {
-		this.media = media;
-	}
+        return media;
+    }
+    
+    @JsonIgnore
+    public void setMedia(Media media) {
+        this.media = media;
+    }
 
 	@JsonIgnore
     public Boolean isAccepted() {

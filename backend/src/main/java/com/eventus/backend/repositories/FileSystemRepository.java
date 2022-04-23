@@ -14,7 +14,6 @@ public class FileSystemRepository {
 	String RESOURCES_DIR = System.getProperty("user.dir") + "\\src\\main\\resources\\media\\";
 
 	public String save(byte[] content, String imageName) throws Exception {
-		System.out.println(RESOURCES_DIR);
 		Path newFile = Paths.get(RESOURCES_DIR + new Date().getTime() + "-" + imageName);
 		Files.createDirectories(newFile.getParent());
 		Files.write(newFile, content);
@@ -25,7 +24,7 @@ public class FileSystemRepository {
 	    try {
 	        return new FileSystemResource(Paths.get(location));
 	    } catch (Exception e) {
-	        throw new RuntimeException();
+	        throw new IllegalArgumentException();
 	    }
 	}
 

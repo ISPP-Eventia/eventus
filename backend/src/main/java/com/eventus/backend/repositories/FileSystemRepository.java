@@ -7,25 +7,28 @@ import java.util.Date;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ResourceUtils;
 
 @Repository
 public class FileSystemRepository {
 	
-	String WORKING_DIR = System.getProperty("user.dir");
-	String RESOURCES_DIR = "\\src\\main\\resources\\media\\";
+	
+	String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/media/";
 
 	public String save(byte[] content, String imageName) throws Exception {
+		
 		long date = new Date().getTime();
-		Path newFile = Paths.get(WORKING_DIR + RESOURCES_DIR + date + "-" + imageName);
+		Path newFile = Paths.get(RESOURCES_DIR + date + "-" + imageName);
 		Files.createDirectories(newFile.getParent());
 		Files.write(newFile, content);
-		return RESOURCES_DIR + date + "-" + imageName;
+		return date + "-" + imageName;
 	}
 	
 	public FileSystemResource findInFileSystem(String location) {
 	    try {
-			System.out.println(location);
-	        return new FileSystemResource(Paths.get(WORKING_DIR + location));
+			String path = ResourceUtils.getFile("classpath:media/" + location).getAbsolutePath();
+			System.out.println("------------------------------------------------------" + path);
+	        return new FileSystemResource(Paths.get(path));
 	    } catch (Exception e) {
 	        throw new IllegalArgumentException();
 	    }

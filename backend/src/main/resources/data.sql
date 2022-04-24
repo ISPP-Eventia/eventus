@@ -148,17 +148,17 @@ INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (9, 12
 
 
 
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (1, "\\src\\main\\resources\\media\\basket.jpg","basket.jpg", "2022-04-23",11,10,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (2, "\\src\\main\\resources\\media\\captheflag.jpg","captheflag.jpg", "2022-04-23",11,14,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (3, "\\src\\main\\resources\\media\\carnaval.jpg","carnaval.jpg", "2022-04-23",11,2,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (4, "\\src\\main\\resources\\media\\cripto.jpg","cripto.jpg", "2022-04-23",11,12,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (5, "\\src\\main\\resources\\media\\educativa.jpg","educativa.jpg", "2022-04-23",11,6,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (6, "\\src\\main\\resources\\media\\escalada.jpg","escalada.jpg", "2022-04-23",11,7,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (7, "\\src\\main\\resources\\media\\flamenco.jpg","flamenco.jpg", "2022-04-23",11,3,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (8, "\\src\\main\\resources\\media\\futbolsala.jpg","futbolsala.jpg", "2022-04-23",11,1,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (9, "\\src\\main\\resources\\media\\lol.jpg","lol.jpg", "2022-04-23",11,9,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (10, "\\src\\main\\resources\\media\\poker.jpg","poker.jpg", "2022-04-23",11,11,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (11, "\\src\\main\\resources\\media\\robotica.jpg","robotica.jpg", "2022-04-23",11,13,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (12, "\\src\\main\\resources\\media\\rocketleague.jpg","rocketleague.jpg", "2022-04-23",11,8,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (13, "\\src\\main\\resources\\media\\shushi.jpg","shushi.jpg", "2022-04-23",11,5,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (14, "\\src\\main\\resources\\media\\vinos.jpg","vinos.jpg", "2022-04-23",11,4,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (1, "basket.jpg","basket.jpg", "2022-04-23",11,10,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (2, "captheflag.jpg","captheflag.jpg", "2022-04-23",11,14,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (3, "carnaval.jpg","carnaval.jpg", "2022-04-23",11,2,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (4, "cripto.jpg","cripto.jpg", "2022-04-23",11,12,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (5, "educativa.jpg","educativa.jpg", "2022-04-23",11,6,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (6, "escalada.jpg","escalada.jpg", "2022-04-23",11,7,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (7, "flamenco.jpg","flamenco.jpg", "2022-04-23",11,3,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (8, "futbolsala.jpg","futbolsala.jpg", "2022-04-23",11,1,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (9, "lol.jpg","lol.jpg", "2022-04-23",11,9,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (10, "poker.jpg","poker.jpg", "2022-04-23",11,11,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (11, "robotica.jpg","robotica.jpg", "2022-04-23",11,13,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (12, "rocketleague.jpg","rocketleague.jpg", "2022-04-23",11,8,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (13, "shushi.jpg","shushi.jpg", "2022-04-23",11,5,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (14, "vinos.jpg","vinos.jpg", "2022-04-23",11,4,null,null);

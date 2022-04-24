@@ -19,5 +19,7 @@ public interface IEventService {
 
     List<Event> findByOrganizerId(Long id, Pageable pageable);
 
-    List<Event> findRecommendedEvents(User user);
+    List<Event> findRecommendedEventsByUser(User user);
+
+    List<Event> findRecommendedByEvent(User user,Event event);
 }

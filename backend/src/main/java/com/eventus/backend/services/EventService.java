@@ -2,11 +2,11 @@ package com.eventus.backend.services;
 
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.eventus.backend.models.Event;
+import com.eventus.backend.models.Tag;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.EventRepository;
 
@@ -78,13 +78,49 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public List<Event> findRecommendedEvents(User user) {
-        List<Event> lastUserEvents = this.eventRepository.findByParticipationsUserIdEqualsAndEndDateIsGreaterThanOrderByStartDateAsc(user.getId(), LocalDateTime.now(),PageRequest.of(0,30));
-        double maxRating = lastUserEvents.stream().mapToDouble(Event::getRating).max().orElse(0);
-        double median = lastUserEvents.stream().mapToDouble(x-> (x.getRating()/maxRating)*0.2+x.getParticipations().size()*0.5+x.getSponsors().size()*0.3).average().orElse(0.0);
-        return this.eventRepository.findDistinctByParticipationsUserIdIsNotAndEndDateIsGreaterThanOrderByStartDateAsc(user.getId(),LocalDateTime.now(),PageRequest.of(0,100)).stream().sorted(Comparator.comparing(x-> Math.abs(((x.getRating()/maxRating)*0.2+x.getParticipations().size()*0.5+x.getSponsors().size()*0.3)-median))).collect(Collectors.toList());
+    public List<Event> findRecommendedEventsByUser(User user) {
+        List<Event> lastUserEvents = this.eventRepository.findByParticipationsUserIdEqualsOrderByStartDateAsc(user.getId(), PageRequest.of(0,30));
+        List<Tag> topTags = lastUserEvents.stream().flatMap(e->e.getTags().stream()).collect(Collectors.groupingBy(x->x, Collectors.counting())).entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(5).map(Map.Entry::getKey).collect(Collectors.toList());
+        return findSimilarEventsByTag(user.getId(),topTags);
 
     }
-    
-    
+
+    @Override
+    public List<Event> findRecommendedByEvent(User user,Event event) {
+        List<Event> res = findSimilarEventsByTag(user.getId(),new ArrayList<>(event.getTags()));
+        res.remove(event);
+        return res;
+
+    }
+    private Double getDiceCoefficient(List<Tag> tags1, List<Tag> tags2){
+        Set<Tag> intersection = tags1.stream().filter(tags2::contains).collect(Collectors.toSet());
+        int size=tags1.size()+tags2.size();
+        if(size==0){
+            return 0.0;
+        }
+        return (2.0*intersection.size())/size;
+    }
+
+    private List<Event> findSimilarEventsByTag(Long userId,List<Tag> tags) {
+        List<Event> similarEvents = this.eventRepository.findDistinctByParticipationsUserIdIsNotAndEndDateIsGreaterThanOrderByStartDateAsc(userId,LocalDateTime.now(),PageRequest.of(0,100));
+        Double maxPart= eventRepository.getMaxPartPrice();
+        Double maxSpon= eventRepository.getMaxSponsorshipPrice();
+        similarEvents.sort(Comparator.comparing(e->getDiceCoefficient(tags,new ArrayList<>(e.getTags()))+0.00001*getRealRating(e,maxPart,maxSpon),Comparator.reverseOrder()));
+        return similarEvents.subList(0,Math.min(similarEvents.size(),10));
+    }
+
+    private Double getRealRating(Event event,Double maxPart,Double maxSpon){
+        int numPart = event.getParticipations().size();
+        int numSpons = event.getSponsors().size();
+        double totalDineroParticipaciones = 0;
+        if (numPart != 0) {
+            totalDineroParticipaciones = event.getParticipations().stream().mapToDouble(p -> (p.getPrice()*10)/maxPart).average().orElse(0.0);
+        }
+        double totalDineroSponsors = 0;
+        if (numSpons != 0) {
+            totalDineroSponsors = event.getSponsors().stream().mapToDouble(p -> (p.getQuantity()*10)/maxSpon).average().orElse(0.0);
+        }
+
+        return numPart * 0.4 + numSpons * 0.3 + ((totalDineroParticipaciones + totalDineroSponsors)/2) * 0.3;
+    }
 }

@@ -1,6 +1,8 @@
 package com.eventus.backend.controllers;
 
 import com.eventus.backend.models.Event;
+import com.eventus.backend.models.Participation;
+import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.MediaService;
@@ -100,6 +102,17 @@ public class EventController extends ValidationController{
   }
   @GetMapping("/events/recommend")
   public ResponseEntity<List<Event>> getRecommendedEvents(@AuthenticationPrincipal User user) {
-    return ResponseEntity.ok(this.eventService.findRecommendedEvents(user));
+    return ResponseEntity.ok(this.eventService.findRecommendedEventsByUser(user));
+  }
+
+  @GetMapping("/events/recommend/{eventId}")
+  public ResponseEntity<List<Event>> getRecommendedEventsByEvent(@AuthenticationPrincipal User user,@PathVariable Long eventId) {
+    Event event = this.eventService.findById(eventId);
+    if(event!=null){
+      return ResponseEntity.ok(this.eventService.findRecommendedByEvent(user,event));
+    }else{
+      return ResponseEntity.notFound().build();
+    }
+
   }
 }

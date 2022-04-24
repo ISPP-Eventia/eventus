@@ -39,8 +39,8 @@ public class MediaController {
 	public ResponseEntity<Object> uploadImage(@RequestParam MultipartFile media, @AuthenticationPrincipal User user) {
 		try {
 			this.mediaService.validate(media);
-			this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
-			return ResponseEntity.ok().build();
+			Media mediaRes = this.mediaService.save(media.getBytes(), media.getOriginalFilename(), user);
+			return ResponseEntity.ok(mediaRes);
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error",e.getMessage()));
 		}

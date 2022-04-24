@@ -95,12 +95,10 @@ public class SponsorshipService implements ISponsorshipService{
         Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
         Validate.isTrue(sponsor!=null,"Sponsorship no encontrado");
         Validate.isTrue(sponsor.getEvent().getOrganizer().getId().equals(user.getId())||user.isAdmin(),"Debes ser el organizador del evento");
-        Boolean paid = false;
         if(b){
             stripeService.createSponsorshipPayment(sponsor);
-            paid = true;
         }
-        if(paid) sponsor.setAccepted(true);
+        sponsor.setAccepted(b);
         this.sponsorRepository.save(sponsor);
 
     }

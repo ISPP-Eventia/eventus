@@ -48,7 +48,7 @@ public class Location {
     @JsonIgnore
     private Set<Hosting> hostings = new HashSet<>();
 
-    @OneToMany(mappedBy = "location", orphanRemoval = true)
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Media> media = new HashSet<>();
 
     public Set<Hosting> getHostings() {

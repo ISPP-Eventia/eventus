@@ -6,7 +6,11 @@ import { Hosting, Location } from "types";
 import { hostingApi, locationApi } from "api";
 
 import { Loader, Map, HostingRequest } from "components/atoms";
-import { SelectedEventCard, UserHorizontalCard, ImageSlider} from "components/molecules";
+import {
+  SelectedEventCard,
+  UserHorizontalCard,
+  ImageSlider,
+} from "components/molecules";
 import { HostingForm } from "components/organisms";
 import { ShareModal } from "components/templates";
 import { ErrorPage } from "pages";
@@ -101,7 +105,7 @@ const LocationDetailPage = () => {
     >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
-            <ImageSlider media={location.media}/>
+          <ImageSlider media={location.media} />
         </div>
         <div className="flex flex-col gap-3">
           <div>

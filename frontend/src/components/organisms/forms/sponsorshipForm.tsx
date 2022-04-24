@@ -8,6 +8,7 @@ import { sponsorshipApi } from "api";
 
 import { Error } from "components/atoms";
 import { ModalDrawer } from "components/organisms";
+import { UploadForm } from "./uploadForm";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = useState<boolean>(false);
@@ -17,7 +18,12 @@ const Component = (props: { event?: any; callback: () => void }) => {
   const handleSubmit = (values: SponsorshipFormValues) => {
     setError(false);
     sponsorshipApi
-      .createSponsorship({ ...values, eventId: props.event.id })
+      .createSponsorship({
+        ...values,
+        eventId: props.event.id,
+        media: undefined,
+        mediaIds: values.media.map((m) => m.id).join(","),
+      })
       .then(() => {
         if (closeModalRef.current) {
           closeModalRef.current();
@@ -52,6 +58,10 @@ const Component = (props: { event?: any; callback: () => void }) => {
         <Form.Item name="quantity" label="Cantidad" rules={required}>
           <InputNumber min={0} style={{ width: "100%" }} />
         </Form.Item>
+        <Form.Item name="media" label="Media">
+          <UploadForm />
+        </Form.Item>
+
         <Typography variant="body1" color="textSecondary">
           Nota: Mostraremos las ofertas ordenadas por cantidad ofrecida.
         </Typography>
@@ -61,6 +71,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
             Patrocinar
           </Button>
         </Form.Item>
+
         {error && <Error error="No se pudo crear el patrocinio" />}
       </Form>
     </ModalDrawer>

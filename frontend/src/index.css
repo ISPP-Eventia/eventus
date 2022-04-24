@@ -7,3 +7,11 @@
   border-color: rgb(47, 112, 213) !important;
   background: rgb(47, 112, 213) !important;
 }
+
+.ant-carousel * {
+  height: 100%;
+}
+
+.ant-carousel {
+  height: 100%;
+}

@@ -31,8 +31,8 @@ INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VAL
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date) VALUES (30, 'Cristina', 'Gutierrez','$2a$10$aQ2qGzK5p7gmimjx.JDkU.FvIe6Mo17B6SVSZhCGwNP9MEriYfsJi',false,'joselu2@gmail.com','2000/06/06');
 INSERT INTO user(id,first_Name,last_Name,password,is_Admin,email,birth_Date,customer_id) VALUES (11, 'Admin', 'admin','$2a$10$6LWjTo6TUadfX26Qwini2O7ufhcIb0nYM90eLvav5B9wmeF0of5um',true,'admin@gmail.com','2000/03/29', 'cus_LSbhTOdH7eOKMS');
 
-INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date,prize) VALUES (1,'Torneo de fútbol sala. Se necesitan 8 equipos para realizar el sorteo de las eliminatorias.',5.0,'Torneo fútbol sala',1, "2022-04-22T20:00:00.000000","2022-04-24T20:00:00.000000",200.0);
-INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (2,'Gran final del carnaval de Cádiz',50.0,'Carnaval de Cádiz',2, "2022-06-21T19:30:00.000000","2022-06-22T19:30:00.000000");
+INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date,prize) VALUES (1,'Torneo de futbol sala. Se necesitan 8 equipos para realizar el sorteo de las eliminatorias.',5.0,'Torneo futbol sala',1, "2022-04-22T20:00:00.000000","2022-04-24T20:00:00.000000",200.0);
+INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (2,'Gran final del carnaval de Cadiz',50.0,'Carnaval de Cadiz',2, "2022-06-21T19:30:00.000000","2022-06-22T19:30:00.000000");
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (3,'Concierto de artistas flamencos en Sevilla',10.0,'Concierto flamenco',3, "2022-04-21T22:00:00.000000","2022-04-22T00:00:00.000000");
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (4,'Ven a nuestra bodega a probar nuestros vinos de frabicacion nacional',35.5,'Cata de vinos',3, "2022-05-01T12:00:00.000000","2022-05-01T15:30:00.000000");
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (5,'¿Te gusta la cocina japonesa? Haz nuestro curso para aprender a hacer sushi en un día.',20.0,'Curso de sushi',4, "2022-05-05T09:00:00.000000","2022-05-05T13:45:00.000000");
@@ -41,9 +41,9 @@ INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date,prize) VALUES (8,'Participa en el torneo online de Rocket League y gana dinero con tus victorias',10.0,'Torneo Rocket League',7, "2022-04-22T20:30:00.000000","2022-04-22T23:30:00.000000",100.0);
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date,prize) VALUES (9,'Participa en el torneo online de League of Legends y gana dinero con tus victorias',10.0,'Torneo LOL',7, "2022-04-23T20:30:00.000000","2022-04-23T20:30:00.000000",500.0);
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date,prize) VALUES (10,'Torneo de baloncesto 3x3. Se necesitan 8 equipos para realizar el sorteo de las eliminatorias.',8.0,'Torneo baloncesto',8, "2022-05-03T10:00:00.000000","2022-05-03T20:00:00.000000",400.0);
-INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date,prize) VALUES (11,'Juega una partida de póker. El premio se repartirá entre los dos mejores',100.0,'Partida de póker',9, "2022-05-05T20:00:00.000000","2022-05-05T23:00:00.000000",1000.0);
+INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date,prize) VALUES (11,'Juega una partida de póker. El premio se repartirá entre los dos mejores',100.0,'Partida de poker',9, "2022-05-05T20:00:00.000000","2022-05-05T23:00:00.000000",1000.0);
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (12,'¿Quieres ser un experto en criptos? Ven a nuestra charla',10.0,'Ponencia criptomonedas',9, "2022-05-30T10:00:00.000000","2022-05-30T13:00:00.000000");
-INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (13,'Aprende robótica en nuestro taller',10.0,'Taller de robótica',9,"2022-05-15T10:00:00.000000","2022-05-15T13:00:00.000000");
+INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (13,'Aprende robotica en nuestro taller',10.0,'Taller de robotica',9,"2022-05-15T10:00:00.000000","2022-05-15T13:00:00.000000");
 INSERT INTO event(id,description,price,title,user_id,start_Date,end_Date) VALUES (14,'Aprende ciberseguridad jugando a capture the flag',5.0,'Capture the flag',10,"2022-05-22T10:00:00.000000","2022-05-22T12:30:00.000000");
 
 INSERT INTO participation(id, buy_date, price, ticket, event_id, user_id) VALUES (1, "2022-04-20T20:26:41.036121", 5.0, 1, 1, 2);
@@ -145,3 +145,20 @@ INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (6, 7,
 INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (7, 10, 3, 100.0, true);
 INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (8, 11, 4, 350.0, true);
 INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (9, 12, 10, 100.0, false);
+
+
+
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (1, "\\src\\main\\resources\\media\\basket.jpg","basket.jpg", "2022-04-23",11,10,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (2, "\\src\\main\\resources\\media\\captheflag.jpg","captheflag.jpg", "2022-04-23",11,14,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (3, "\\src\\main\\resources\\media\\carnaval.jpg","carnaval.jpg", "2022-04-23",11,2,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (4, "\\src\\main\\resources\\media\\cripto.jpg","cripto.jpg", "2022-04-23",11,12,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (5, "\\src\\main\\resources\\media\\educativa.jpg","educativa.jpg", "2022-04-23",11,6,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (6, "\\src\\main\\resources\\media\\escalada.jpg","escalada.jpg", "2022-04-23",11,7,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (7, "\\src\\main\\resources\\media\\flamenco.jpg","flamenco.jpg", "2022-04-23",11,3,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (8, "\\src\\main\\resources\\media\\futbolsala.jpg","futbolsala.jpg", "2022-04-23",11,1,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (9, "\\src\\main\\resources\\media\\lol.jpg","lol.jpg", "2022-04-23",11,9,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (10, "\\src\\main\\resources\\media\\poker.jpg","poker.jpg", "2022-04-23",11,11,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (11, "\\src\\main\\resources\\media\\robotica.jpg","robotica.jpg", "2022-04-23",11,13,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (12, "\\src\\main\\resources\\media\\rocketleague.jpg","rocketleague.jpg", "2022-04-23",11,8,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (13, "\\src\\main\\resources\\media\\shushi.jpg","shushi.jpg", "2022-04-23",11,5,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (14, "\\src\\main\\resources\\media\\vinos.jpg","vinos.jpg", "2022-04-23",11,4,null,null);

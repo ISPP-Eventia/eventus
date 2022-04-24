@@ -11,18 +11,21 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FileSystemRepository {
 	
-	String RESOURCES_DIR = System.getProperty("user.dir") + "\\src\\main\\resources\\media\\";
+	String WORKING_DIR = System.getProperty("user.dir");
+	String RESOURCES_DIR = "\\src\\main\\resources\\media\\";
 
 	public String save(byte[] content, String imageName) throws Exception {
-		Path newFile = Paths.get(RESOURCES_DIR + new Date().getTime() + "-" + imageName);
+		long date = new Date().getTime();
+		Path newFile = Paths.get(WORKING_DIR + RESOURCES_DIR + date + "-" + imageName);
 		Files.createDirectories(newFile.getParent());
 		Files.write(newFile, content);
-		return newFile.toAbsolutePath().toString();
+		return RESOURCES_DIR + date + "-" + imageName;
 	}
 	
 	public FileSystemResource findInFileSystem(String location) {
 	    try {
-	        return new FileSystemResource(Paths.get(location));
+			System.out.println(location);
+	        return new FileSystemResource(Paths.get(WORKING_DIR + location));
 	    } catch (Exception e) {
 	        throw new IllegalArgumentException();
 	    }

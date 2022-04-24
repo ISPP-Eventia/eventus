@@ -234,16 +234,3 @@ INSERT INTO event_tag(id,event_id, tag_id) VALUES (56,14, 9);
 INSERT INTO event_tag(id,event_id, tag_id) VALUES (57,14, 10);
 INSERT INTO event_tag(id,event_id, tag_id) VALUES (58,14, 12);
 INSERT INTO event_tag(id,event_id, tag_id) VALUES (59,14, 15);
-
-
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (3,2, 2);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (4,2, 1);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (5,3, 3);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (6,3, 4);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (7,4, 4);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (8,4, 3);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (9,5, 5);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (10,5, 4);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (11,5, 1);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (12,5, 2);
-# INSERT INTO event_tag(id,event_id, tag_id) VALUES (13,5, 3);

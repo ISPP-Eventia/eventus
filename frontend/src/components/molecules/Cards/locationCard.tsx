@@ -14,7 +14,7 @@ const LocationCard = (props: { location: Location }) => {
   };
 
   const mediaIdQuery = "media" + location.id;
-  const { isLoading, data: media } = useQuery(mediaIdQuery, async () => {
+  const { data: media } = useQuery(mediaIdQuery, async () => {
     if (!location || !location.media || location.media.length === 0)
       return {
         id: "0",
@@ -43,7 +43,7 @@ const LocationCard = (props: { location: Location }) => {
           src={media?.url}
         />
       </header>
-      <section className="line-clamp-4 mt-2 mb-2 flex h-auto flex-col px-2">
+      <section className="mt-2 mb-2 flex h-auto flex-col px-2 line-clamp-4">
         {props.location.name && (
           <Typography variant="h5">{props.location.name}</Typography>
         )}

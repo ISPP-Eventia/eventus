@@ -1,4 +1,4 @@
-import { API_URL, axios } from "./axios";
+import { axios } from "./axios";
 import {
   EventUs,
   Hosting,
@@ -67,6 +67,9 @@ const userApi = {
 const eventApi = {
   //bulk operations
   getEvents: () => axios.get("/events"),
+  getRecommendedEvents: () => axios.get("/events/recommend"),
+  getRecommendedEventsByEvent: (id: number) =>
+    axios.get(`/events/recommend/${id}`),
 
   getUsersByEvent: (id: number) => axios.get(`/events/${id}/participants`),
   getParticipationsByEvent: (id: number) =>

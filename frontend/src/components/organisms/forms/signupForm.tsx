@@ -1,6 +1,6 @@
-import { Typography } from "@mui/material";
 import { Form, Input, Button, DatePicker, Checkbox } from "antd";
 import { Link } from "react-router-dom";
+
 import { SignupFormValues } from "types";
 
 export interface UserFormProps {
@@ -73,18 +73,23 @@ const SignupForm = (props: UserFormProps) => {
       </Form.Item>
 
       <Form.Item
-                name="checkbox"
-                valuePropName="checked"
-                
-                rules={[
-                  {
-                    validator: (_, value) =>
-                      value ? Promise.resolve() : Promise.reject(new Error("Debe aceptar los términos")),
-                  },]}>
-          <Checkbox
-          disabled={props.disabled}>
-                    Acepto los <Link target="_blank" to={"/terms"}>Términos y condiciones</Link>
-          </Checkbox>
+        name="checkbox"
+        valuePropName="checked"
+        rules={[
+          {
+            validator: (_, value) =>
+              value
+                ? Promise.resolve()
+                : Promise.reject(new Error("Debe aceptar los términos")),
+          },
+        ]}
+      >
+        <Checkbox disabled={props.disabled}>
+          Acepto los{" "}
+          <Link target="_blank" to={"/terms"}>
+            Términos y condiciones
+          </Link>
+        </Checkbox>
       </Form.Item>
 
       {!props.disabled && (

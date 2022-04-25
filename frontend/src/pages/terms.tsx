@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+
 import Page from "./page";
 
 const Terms = () => {
@@ -88,7 +89,8 @@ const Terms = () => {
             facilitarnos sus datos personales, pero entonces es posible que no
             pueda aprovechar algunas de las funciones del sitio web. Los
             usuarios que no estén seguros de qué información es obligatoria
-            pueden ponerse en contacto con nosotros a través de <a href="mailto:space.eventus@gmail.com"> space.eventus@gmail.com </a>
+            pueden ponerse en contacto con nosotros a través de{" "}
+            <a href="mailto:space.eventus@gmail.com">space.eventus@gmail.com</a>
           </Typography>
         </div>
       </div>
@@ -172,8 +174,9 @@ const Terms = () => {
             Si desea ponerse en contacto con nosotros para saber más sobre esta
             Política o desea ponerse en contacto con nosotros sobre cualquier
             asunto relacionado con los derechos individuales y su Información
-            Personal, puede enviar un correo electrónico a 
-            <a href="mailto:space.eventus@gmail.com"> space.eventus@gmail.com</a>.
+            Personal, puede enviar un correo electrónico a
+            <a href="mailto:space.eventus@gmail.com">space.eventus@gmail.com</a>
+            .
           </Typography>
         </div>
       </div>

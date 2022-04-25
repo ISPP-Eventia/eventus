@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Facebook,
@@ -47,10 +48,9 @@ const AppFooter = () => {
         </FooterSection>
         <div className="mt-4">
           <FooterSection title="Términos">
-          <a href="/terms">Términos y condiciones</a>
-        </FooterSection>
+            <Link to="/terms">Términos y condiciones</Link>
+          </FooterSection>
         </div>
-        
       </div>
       <FooterSection title="Siguenos">
         <a href="https://twitter.com/eventus_space">

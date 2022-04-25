@@ -12,6 +12,14 @@ import {
 const mediaApi = {
   //bulk operations
   //individual operations
+  getMedia: (id: number): Promise<string> =>
+    axios
+      .get(`/media/${id}`, {
+        responseType: "blob",
+        headers: {Accept: '*/*'}
+      })
+      .then((blob) => window.URL.createObjectURL(blob.data))
+      .catch(() => ""),
 };
 
 const sessionApi = {

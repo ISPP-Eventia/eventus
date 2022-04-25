@@ -34,9 +34,6 @@ public class Location {
     @NotNull(message = "Price shouldn't be null. Set it to 0.")
     private Double price;
 
-    // @OneToMany
-    // private Media media;
-
     @Column
     @JsonProperty("name")
     @NotBlank
@@ -51,7 +48,8 @@ public class Location {
     @JsonIgnore
     private Set<Hosting> hostings = new HashSet<>();
 
-
+    @OneToMany(mappedBy = "location", orphanRemoval = true)
+    private Set<Media> media = new HashSet<>();
 
     public Set<Hosting> getHostings() {
         return hostings;
@@ -69,7 +67,17 @@ public class Location {
         this.id = id;
     }
 
-    @JsonProperty("owner")
+    @JsonProperty("media")
+    public Set<Media> getMedia() {
+        return media;
+    }
+    
+    @JsonIgnore
+    public void setMedia(Set<Media> media) {
+        this.media = media;
+    }
+
+	@JsonProperty("owner")
     public User getOwner() {
         return owner;
     }

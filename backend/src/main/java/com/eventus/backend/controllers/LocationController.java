@@ -3,6 +3,8 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.LocationService;
+import com.eventus.backend.services.MediaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,10 +23,12 @@ import java.util.Map;
 public class LocationController extends ValidationController{
 
     private final LocationService locationService;
+    private final MediaService mediaService;
 
     @Autowired
-    public LocationController(LocationService locationService){
+    public LocationController(LocationService locationService, MediaService mediaService){
         this.locationService=locationService;
+        this.mediaService = mediaService;
     }
 
 
@@ -57,9 +61,11 @@ public class LocationController extends ValidationController{
 
 
     @PostMapping("/locations")
-    public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user){
+    public ResponseEntity<Object> createLocation(@Valid @RequestBody Location location,@AuthenticationPrincipal User user,@RequestParam(name="mediaIds") List<Long> mediaIds){
         try{
             locationService.create(location,user);
+            this.mediaService.parseLocationMediaIds(mediaIds, location, user);
+            
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException e) {
             return ResponseEntity.badRequest().build();
@@ -81,8 +87,9 @@ public class LocationController extends ValidationController{
     }
 
     @PutMapping("/locations/{id}")
-    public ResponseEntity<Object> updateLocation(@Valid @RequestBody Location location, @PathVariable Long id, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Object> updateLocation(@Valid @RequestBody Location location, @PathVariable Long id, @AuthenticationPrincipal User user, @RequestParam(name="media") List<Long> mediaIds) {
         try {
+            // location.setMedia(this.mediaService.parseMediaIds(mediaIds));
             this.locationService.update(location, id,user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
 

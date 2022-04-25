@@ -29,8 +29,13 @@ public class EventController extends ValidationController{
   }
 
   @GetMapping("/events")
-  public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag) {
-    return this.eventService.findAll(PageRequest.of(numPag, 20000));
+  public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag, @AuthenticationPrincipal User user) {
+    if(user.isAdmin()){
+      return this.eventService.findAll(PageRequest.of(numPag, 20000));
+    }else {
+      return this.eventService.findAllNotFinished(PageRequest.of(numPag, 20000));
+    }
+
   }
 
   @GetMapping("/events/{id}")
@@ -93,6 +98,19 @@ public class EventController extends ValidationController{
     }
 
   }
+  @GetMapping("/events/recommend")
+  public ResponseEntity<List<Event>> getRecommendedEvents(@AuthenticationPrincipal User user) {
+    return ResponseEntity.ok(this.eventService.findRecommendedEventsByUser(user));
+  }
 
+  @GetMapping("/events/recommend/{eventId}")
+  public ResponseEntity<List<Event>> getRecommendedEventsByEvent(@AuthenticationPrincipal User user,@PathVariable Long eventId) {
+    Event event = this.eventService.findById(eventId);
+    if(event!=null){
+      return ResponseEntity.ok(this.eventService.findRecommendedByEvent(user,event));
+    }else{
+      return ResponseEntity.notFound().build();
+    }
 
+  }
 }

@@ -14,7 +14,7 @@ const stripePromise = loadStripe(
 );
 
 export default function StripeApp() {
-  const { isLoading, data, isError } = useQuery("initialPayment", () => {
+  const { isLoading, data } = useQuery("initialPayment", () => {
     return paymentApi.getPaymentIntent().then((res) => res.data);
   });
 

@@ -1,4 +1,4 @@
-import { API_URL, axios } from "./axios";
+import { axios } from "./axios";
 import {
   EventUs,
   Hosting,
@@ -16,7 +16,7 @@ const mediaApi = {
     axios
       .get(`/media/${id}`, {
         responseType: "blob",
-        headers: {Accept: '*/*'}
+        headers: { Accept: "*/*" },
       })
       .then((blob) => window.URL.createObjectURL(blob.data))
       .catch(() => ""),
@@ -45,6 +45,9 @@ const userApi = {
 const eventApi = {
   //bulk operations
   getEvents: () => axios.get("/events"),
+  getRecommendedEvents: () => axios.get("/events/recommend"),
+  getRecommendedEventsByEvent: (id: number) =>
+    axios.get(`/events/recommend/${id}`),
 
   getUsersByEvent: (id: number) => axios.get(`/events/${id}/participants`),
   getParticipationsByEvent: (id: number) =>

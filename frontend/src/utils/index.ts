@@ -9,6 +9,8 @@ import {
   User,
 } from "types";
 
+var _ = require("lodash");
+
 const parsers = {
   eventusFormValuesToEventus: (eventFormValues: EventFormValues): EventUs => {
     const { title, fromTo, price, description } = eventFormValues;
@@ -86,8 +88,11 @@ const share = {
         return mailShareEndpoint;
     }
   },
+  hashtag: (event: EventUs) => `#EventUs #${_.camelCase(event.title)}`,
   text: (socialMedia: SocialMedia, text: string) =>
-    socialMedia !== "facebook" ? encodeURI(text) : window.location.href,
+    socialMedia !== "facebook"
+      ? encodeURI(text).replaceAll("#", "%23")
+      : window.location.href,
   share: (socialMedia: SocialMedia, text: string) =>
     window.open(share.endpoint(socialMedia) + share.text(socialMedia, text)),
 
@@ -95,6 +100,7 @@ const share = {
     const text = `
 🙌 Estoy participando en el evento: 
 🎪 ${event.title}
+#️⃣ ${share.hashtag(event)}
 📆 El día ${getDate(event.startDate)}
 ⏰ A las ${event.startDate!.substring(11, 16)}
 💰 Precio: ${event.price}€
@@ -124,6 +130,7 @@ ${window.location.href}
     const text = `
 🔥 ${sponsorship.name || "Alguien"} ha patrocinado el evento: 
 🎪 ${event.title}
+#️⃣ ${share.hashtag(event)}
 📆 El día ${getDate(event.startDate)}
 ⏰ A las ${event.startDate!.substring(11, 16)}
 

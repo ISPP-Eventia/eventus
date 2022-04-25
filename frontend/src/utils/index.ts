@@ -88,24 +88,22 @@ const share = {
         return mailShareEndpoint;
     }
   },
-  hashtag : (event: EventUs) => {
-    if(event){
-        return "#"+_.camelCase("#EventUS"+`${event.title}`+`${event.id}`);
-    }
-  },
+  hashtag: (event: EventUs) => `#EventUs #${_.camelCase(event.title)}`,
   text: (socialMedia: SocialMedia, text: string) =>
-    socialMedia !== "facebook" ? encodeURI(text) : window.location.href,
+    socialMedia !== "facebook"
+      ? encodeURI(text).replaceAll("#", "%23")
+      : window.location.href,
   share: (socialMedia: SocialMedia, text: string) =>
     window.open(share.endpoint(socialMedia) + share.text(socialMedia, text)),
 
-  shareEvent: (socialMedia: SocialMedia, event: EventUs, hashtag: String) => {
+  shareEvent: (socialMedia: SocialMedia, event: EventUs) => {
     const text = `
 🙌 Estoy participando en el evento: 
 🎪 ${event.title}
+#️⃣ ${share.hashtag(event)}
 📆 El día ${getDate(event.startDate)}
 ⏰ A las ${event.startDate!.substring(11, 16)}
 💰 Precio: ${event.price}€
-${hashtag}
 
 🙌 Tú también puedes inscribirte aquí:
 ${window.location.href}
@@ -132,6 +130,7 @@ ${window.location.href}
     const text = `
 🔥 ${sponsorship.name || "Alguien"} ha patrocinado el evento: 
 🎪 ${event.title}
+#️⃣ ${share.hashtag(event)}
 📆 El día ${getDate(event.startDate)}
 ⏰ A las ${event.startDate!.substring(11, 16)}
 

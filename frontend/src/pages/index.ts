@@ -2,7 +2,7 @@ import AppHeader from "./header";
 import LandingPage from "./landing";
 import ErrorPage from "./error";
 import AppFooter from "./footer";
-import Terms from "./terms"
+import Terms from "./terms";
 
 import SessionPage from "./session/session";
 

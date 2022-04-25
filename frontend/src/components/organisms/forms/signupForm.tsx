@@ -79,7 +79,7 @@ const SignupForm = (props: UserFormProps) => {
                 rules={[
                   {
                     validator: (_, value) =>
-                      value ? Promise.resolve() : Promise.reject(new Error('Debe aceptar los términos')),
+                      value ? Promise.resolve() : Promise.reject(new Error("Debe aceptar los términos")),
                   },]}>
           <Checkbox
           disabled={props.disabled}>

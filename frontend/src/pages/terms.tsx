@@ -1,5 +1,4 @@
 import { Typography } from "@mui/material";
-import React from "react";
 import Page from "./page";
 
 const Terms = () => {

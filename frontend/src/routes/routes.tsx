@@ -15,6 +15,7 @@ import {
   ErrorPage,
   EditEventPage,
   EditLocationPage,
+  Terms
 } from "pages";
 import PaymentStatus from "pages/profile/paymentStatus";
 
@@ -34,6 +35,7 @@ const AppRoutes = () => {
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/login" element={<SessionPage />} />
           <Route path="/signup" element={<SessionPage />} />
+          <Route path="/terms" element={<Terms />} />
 
           <Route path="/events" element={<EventListPage />} />
           <Route path="/events/new" element={<NewEventPage />} />

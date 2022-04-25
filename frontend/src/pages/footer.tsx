@@ -39,16 +39,19 @@ const AppFooter = () => {
         </a>
         <Typography variant="body2">41012, Sevilla</Typography>
       </FooterSection>
-
-      <FooterSection title="Contacto">
-        <a href="mailto:info@eventus.space">
-          <Mail /> info@eventus.space
-        </a>
-        <a href="mailto:josmonnie1@alum.us.es">
-          <Mail /> josmonnie1@alum.us.es
-        </a>
-      </FooterSection>
-
+      <div className="flex flex-col">
+        <FooterSection title="Contacto">
+          <a href="mailto:info@eventus.space">
+            <Mail /> info@eventus.space
+          </a>
+        </FooterSection>
+        <div className="mt-4">
+          <FooterSection title="Términos">
+          <a href="/terms">Términos y condiciones</a>
+        </FooterSection>
+        </div>
+        
+      </div>
       <FooterSection title="Siguenos">
         <a href="https://twitter.com/eventus_space">
           <Twitter /> @eventus_space

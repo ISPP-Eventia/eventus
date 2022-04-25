@@ -110,7 +110,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void testDeleteAdmin(){
+    void testDelete(){
         User admin=new User();
         admin.setId(2L);
         admin.setAdmin(true);

@@ -1,11 +1,13 @@
-import { Carousel } from "antd";
-import { mediaApi } from "api";
-import { Loader } from "components/atoms";
 import { useQuery } from "react-query";
+import { Carousel } from "antd";
+
+import { mediaApi } from "api";
 import { Media } from "types";
 
+import { Loader } from "components/atoms";
+
 const Component = (props: { media?: Media[] }) => {
-  const mediaQueryId = "media "+props.media?.map(m => m.id).join(",")
+  const mediaQueryId = "media " + props.media?.map((m) => m.id).join(",");
   const { isLoading, data } = useQuery(mediaQueryId, async () => {
     if (!props.media) return [];
     return await Promise.all(

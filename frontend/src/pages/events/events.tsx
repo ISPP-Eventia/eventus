@@ -32,6 +32,11 @@ const EventListPage = () => {
   const { isLoading, data: events } = useQuery("events", () =>
     eventApi.getEvents().then((response) => response?.data as EventUs[])
   );
+  const { data: recommended } = useQuery("recommendations", () =>
+    eventApi
+      .getRecommendedEvents()
+      .then((response) => response?.data as EventUs[])
+  );
 
   const onNewEventClick = () => {
     navigate("/events/new");
@@ -56,7 +61,7 @@ const EventListPage = () => {
     const results = events
       ?.filter((event) => !!event.rating)
       .sort((a, b) => (b?.rating || 0) - (a?.rating || 0));
-    setDisplayed(results?.slice(0, 10) || []);
+    setDisplayed(results?.slice(0, 5) || []);
   }, [events]);
 
   const selectByDate = () => {
@@ -121,7 +126,7 @@ const EventListPage = () => {
         <Loader />
       ) : (
         <>
-          <div className="my-2 flex flex-wrap justify-between gap-2 md:justify-start">
+          <div className="mt-2 mb-4 flex flex-wrap justify-between gap-2 md:justify-start">
             <Button
               onClick={selectByRating}
               variant={sortBy === "calificación" ? "contained" : "outlined"}
@@ -158,10 +163,10 @@ const EventListPage = () => {
               Mostrar todos
             </Button>
           </div>
-          <Typography variant="h5" className="mt-8">
+          <Typography variant="h5">
             {sortBy === "all" ? "Todos los eventos" : "Eventos por " + sortBy}
           </Typography>
-          <section className="mt-6 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <section className="mt-4 mb-8 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {displayed?.map((e) => (
               <EventCard event={e} />
             ))}
@@ -172,6 +177,19 @@ const EventListPage = () => {
               </span>
             )}
           </section>
+          {sortBy === "calificación" && (
+            <>
+              <Typography variant="h5">Eventos para tí</Typography>
+              <section className="mt-4 grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+                {recommended?.map((e) => (
+                  <EventCard event={e} />
+                ))}
+                {!recommended?.length && (
+                  <span>No hay eventos recomendados</span>
+                )}
+              </section>
+            </>
+          )}
         </>
       )}
     </Page>

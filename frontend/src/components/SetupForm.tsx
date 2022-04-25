@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   useStripe,
   useElements,
@@ -6,7 +6,6 @@ import {
 } from "@stripe/react-stripe-js";
 import { paymentApi } from "api";
 import { useQuery } from "react-query";
-import { PaymentMethod } from "types";
 import { Button } from "@mui/material";
 import { PaymentTable } from "./templates";
 

@@ -1,8 +1,9 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Upload, Progress, Button } from "antd";
-import { mediaApi } from "api";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
+import { Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+
+import { mediaApi } from "api";
 import { Media } from "types";
 
 export interface UploadFormProps {
@@ -18,7 +19,8 @@ export const UploadForm = (props: UploadFormProps) => {
         onChange([]);
       }
     }
-  }, [value]);
+  }, [onChange, value]);
+
   const uploadImage = async (options: any) => {
     const { onSuccess, onError, file, onProgress } = options;
 
@@ -31,15 +33,15 @@ export const UploadForm = (props: UploadFormProps) => {
 
     const mediaId = res.data?.id;
     file.mediaId = mediaId;
-    const media = { id: mediaId };
+    const mediaToUpload = { id: mediaId };
     if (onChange) {
-      onChange(value ? [...value, media] : [media]);
+      onChange(value ? [...value, mediaToUpload] : [mediaToUpload]);
     }
   };
 
   const handleOnChange = ({ file }: any) => {
     const newMedias = (value ?? []).filter(
-      (media) => media.id !== file.originFileObj.mediaId
+      (m) => m.id !== file.originFileObj.mediaId
     );
     if (onChange) {
       onChange(newMedias);

@@ -1,4 +1,4 @@
-import { API_URL, axios } from "./axios";
+import { axios } from "./axios";
 import {
   EventUs,
   Hosting,
@@ -29,13 +29,10 @@ const mediaApi = {
         onProgress({ percent: (event.loaded / event.total) * 100 });
       },
     };
-
     const fmData = new FormData();
-
     fmData.append("media", file);
     try {
-      const res = await axios.post(`/media`, fmData, config);
-
+      const res = await axios.post("/media", fmData, config);
       onSuccess("Ok");
       return res;
     } catch (err) {
@@ -57,7 +54,7 @@ const userApi = {
   getEventsByOrganizer: () => axios.get("/users/events"),
   getParticipationsByParticipant: (id: number) =>
     axios.get(`/user/${id}/participations`),
-  getLocationsByOwner: (id: number) => axios.get(`/user/locations`),
+  getLocationsByOwner: () => axios.get(`/user/locations`),
 
   //individual operations
   getUserDetails: () => axios.get("/user"),
@@ -67,6 +64,9 @@ const userApi = {
 const eventApi = {
   //bulk operations
   getEvents: () => axios.get("/events"),
+  getRecommendedEvents: () => axios.get("/events/recommend"),
+  getRecommendedEventsByEvent: (id: number) =>
+    axios.get(`/events/recommend/${id}`),
 
   getUsersByEvent: (id: number) => axios.get(`/events/${id}/participants`),
   getParticipationsByEvent: (id: number) =>
@@ -76,8 +76,10 @@ const eventApi = {
 
   //individual operations
   getEvent: (id: number) => axios.get(`/events/${id}`),
-  createEvent: (event: EventUs) => axios.post("/events?mediaIds="+event.mediaIds, event),
-  updateEvent: (event: EventUs) => axios.put("/events?mediaIds="+event.mediaIds, event),
+  createEvent: (event: EventUs) =>
+    axios.post("/events?mediaIds=" + event.mediaIds, event),
+  updateEvent: (event: EventUs) =>
+    axios.put("/events?mediaIds=" + event.mediaIds, event),
   deleteEvent: (id: number) => axios.delete(`/events/${id}`),
 };
 
@@ -130,7 +132,9 @@ const participationApi = {
         var _url = window.URL.createObjectURL(blob.data);
         window.open(_url, "_blank")?.focus(); // window.open + focus
       })
-      .catch(() => {});
+      .catch((e) => {
+        console.error(e);
+      });
   },
 };
 
@@ -141,11 +145,14 @@ const sponsorshipApi = {
   //individual operations
   getSponsorship: (id: number) => axios.get(`/sponsorships/${id}`),
   createSponsorship: (sponsorship: Sponsorship) =>
-    axios.post("/sponsorships?mediaIds="+sponsorship.mediaIds, sponsorship),
+    axios.post("/sponsorships?mediaIds=" + sponsorship.mediaIds, sponsorship),
   acceptSponsorship: (id: number, isAccepted: boolean) =>
     axios.post(`/sponsorships/${id}`, { isAccepted }),
   updateSponsorship: (sponsorship: Sponsorship) =>
-    axios.put(`/sponsorships/${sponsorship.id}?mediaIds=${sponsorship.mediaIds}`, sponsorship),
+    axios.put(
+      `/sponsorships/${sponsorship.id}?mediaIds=${sponsorship.mediaIds}`,
+      sponsorship
+    ),
   deleteSponsorship: (id: number) => axios.delete(`/sponsorships/${id}`),
 };
 

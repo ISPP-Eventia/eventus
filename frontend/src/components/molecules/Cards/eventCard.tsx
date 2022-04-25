@@ -15,7 +15,7 @@ const EventCard = (props: { event: EventUs }) => {
   };
 
   const mediaIdQuery = "media" + event.id;
-  const { isLoading, data: media } = useQuery(mediaIdQuery, async () => {
+  const { data: media } = useQuery(mediaIdQuery, async () => {
     if (!event || !event.media || event.media.length === 0)
       return {
         id: "0",

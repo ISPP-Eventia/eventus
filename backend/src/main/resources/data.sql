@@ -146,8 +146,6 @@ INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (7, 10
 INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (8, 11, 4, 350.0, true);
 INSERT INTO hosting(id, event_id, location_id, price, is_Accepted) VALUES (9, 12, 10, 100.0, false);
 
-
-
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (1, "basket.jpg","basket.jpg", "2022-04-23",11,10,null,null);
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (2, "captheflag.jpg","captheflag.jpg", "2022-04-23",11,14,null,null);
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (3, "carnaval.jpg","carnaval.jpg", "2022-04-23",11,2,null,null);
@@ -162,6 +160,94 @@ INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, 
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (12, "rocketleague.jpg","rocketleague.jpg", "2022-04-23",11,8,null,null);
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (13, "shushi.jpg","shushi.jpg", "2022-04-23",11,5,null,null);
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (15, "vinos.jpg","vinos.jpg", "2022-04-23",11,4,null,null);
+
+INSERT INTO tag(id,name) VALUES (1, 'Deportes');
+INSERT INTO tag(id,name) VALUES (2, 'Cultura');
+INSERT INTO tag(id,name) VALUES (3, 'Arte');
+INSERT INTO tag(id,name) VALUES (4, 'Música');
+INSERT INTO tag(id,name) VALUES (5, 'Teatro');
+INSERT INTO tag(id,name) VALUES (6, 'Competición');
+INSERT INTO tag(id,name) VALUES (7, 'Videojuegos');
+INSERT INTO tag(id,name) VALUES (8, 'Comida');
+INSERT INTO tag(id,name) VALUES (9, 'Tecnología');
+INSERT INTO tag(id,name) VALUES (10, 'Ocio');
+INSERT INTO tag(id,name) VALUES (11, 'Recomendado para niños');
+INSERT INTO tag(id,name) VALUES (12, 'Adultos');
+INSERT INTO tag(id,name) VALUES (13, 'Campo abierto');
+INSERT INTO tag(id,name) VALUES (14, 'Cooperación');
+INSERT INTO tag(id,name) VALUES (15, 'Destacado');
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (1,1, 1);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (2,1, 6);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (3,1, 13);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (4,1, 14);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (5,2, 2);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (6,2, 3);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (7,2, 4);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (8,2, 5);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (9,3, 2);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (10,3, 3);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (11,3, 4);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (12,3, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (13,3, 11);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (14,4, 8);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (15,4, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (16,4, 12);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (17,5, 2);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (18,5, 8);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (19,5, 10);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (20,6, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (21,6, 11);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (22,6, 12);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (23,6, 13);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (24,7, 1);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (25,7, 11);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (26,7, 12);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (27,7, 13);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (28,7, 14);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (29,7, 15);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (30,8, 6);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (31,8, 7);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (32,8, 9);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (33,8, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (34,8, 14);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (35,9, 6);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (36,9, 7);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (38,9, 11);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (39,9, 14);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (40,10, 1);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (41,10, 6);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (42,10, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (43,10, 14);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (44,10, 13);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (45,11, 6);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (46,11, 12);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (47,12, 9);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (48,12, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (49,12, 15);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (50,12, 12);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (51,13, 2);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (52,13, 9);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (53,13, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (54,13, 11);
+
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (55,14, 6);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (56,14, 9);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (57,14, 10);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (58,14, 12);
+INSERT INTO event_tag(id,event_id, tag_id) VALUES (59,14, 15);
 
 
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (16, "panaderia.jpg","panaderia.jpg", "2022-04-23",11,null,null,1);

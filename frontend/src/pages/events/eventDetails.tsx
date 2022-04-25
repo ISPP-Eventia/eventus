@@ -15,9 +15,10 @@ import {
   EventCard,
 } from "components/molecules";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
+import { ShareModal } from "components/templates";
+
 import Page from "../page";
 import ErrorPage from "pages/error";
-import { ShareModal } from "components/templates";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();

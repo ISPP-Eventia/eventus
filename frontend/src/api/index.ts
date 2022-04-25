@@ -54,7 +54,7 @@ const userApi = {
   getEventsByOrganizer: () => axios.get("/users/events"),
   getParticipationsByParticipant: (id: number) =>
     axios.get(`/user/${id}/participations`),
-  getLocationsByOwner: (id: number) => axios.get(`/user/locations`),
+  getLocationsByOwner: () => axios.get(`/user/locations`),
 
   //individual operations
   getUserDetails: () => axios.get("/user"),
@@ -132,7 +132,9 @@ const participationApi = {
         var _url = window.URL.createObjectURL(blob.data);
         window.open(_url, "_blank")?.focus(); // window.open + focus
       })
-      .catch(() => {});
+      .catch((e) => {
+        console.error(e);
+      });
   },
 };
 

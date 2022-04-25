@@ -27,7 +27,6 @@ public class FileSystemRepository {
 	public FileSystemResource findInFileSystem(String location) {
 	    try {
 			String path = ResourceUtils.getFile("classpath:media/" + location).getAbsolutePath();
-			System.out.println("------------------------------------------------------" + path);
 	        return new FileSystemResource(Paths.get(path));
 	    } catch (Exception e) {
 	        throw new IllegalArgumentException();

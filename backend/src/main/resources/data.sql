@@ -161,4 +161,40 @@ INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, 
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (11, "robotica.jpg","robotica.jpg", "2022-04-23",11,13,null,null);
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (12, "rocketleague.jpg","rocketleague.jpg", "2022-04-23",11,8,null,null);
 INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (13, "shushi.jpg","shushi.jpg", "2022-04-23",11,5,null,null);
-INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (14, "vinos.jpg","vinos.jpg", "2022-04-23",11,4,null,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (15, "vinos.jpg","vinos.jpg", "2022-04-23",11,4,null,null);
+
+
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (16, "panaderia.jpg","panaderia.jpg", "2022-04-23",11,null,null,1);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (17, "oreo.png","oreo.png", "2022-04-23",11,null,null,2);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (18, "grefusa.png","grefusa.png", "2022-04-23",11,null,null,3);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (19, "tasca.jpg","tasca.jpg", "2022-04-23",11,null,null,4);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (20, "mercadona.png","mercadona.png", "2022-04-23",11,null,null,5);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (21, "us.png","us.png", "2022-04-23",11,null,null,6);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (22, "nike.png","nike.png", "2022-04-23",11,null,null,7);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (23, "adidas.png","adidas.png", "2022-04-23",11,null,null,8);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (24, "puma.png","puma.png", "2022-04-23",11,null,null,9);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (25, "supermercado.jpg","supermercado.jpg", "2022-04-23",11,null,null,10);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (26, "bar.jpg","bar.jpg", "2022-04-23",11,null,null,11);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (27, "cocacola.png","cocacola.png", "2022-04-23",11,null,null,12);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (28, "samsung.png","samsung.png", "2022-04-23",11,null,null,13);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (29, "amazon.png","amazon.png", "2022-04-23",11,null,null,14);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (30, "nokia.png","nokia.png", "2022-04-23",11,null,null,15);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (31, "zara.png","zara.png", "2022-04-23",11,null,null,16);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (32, "vans.png","vans.png", "2022-04-23",11,null,null,17);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (33, "pescaderia.jpg","pescaderia.jpg", "2022-04-23",11,null,null,18);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (34, "audi.jpg","audi.jpg", "2022-04-23",11,null,null,19);
+
+
+
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (35, "campofutbol.jpg","campofutbol.jpg", "2022-04-23",11,null,1,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (36, "camposala.jpg","camposala.jpg", "2022-04-23",11,null,2,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (37, "pistabasket.jpg","pistabasket.jpg", "2022-04-23",11,null,3,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (38, "salonpoker.jpg","salonpoker.jpg", "2022-04-23",11,null,4,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (39, "cocina.jpg","cocina.jpg", "2022-04-23",11,null,5,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (40, "salonactos.jpg","salonactos.jpg", "2022-04-23",11,null,6,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (41, "rocodromo.jpg","rocodromo.jpg", "2022-04-23",11,null,7,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (42, "salaproyector.jpg","salaproyector.jpg", "2022-04-23",11,null,8,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (43, "teatro.jpg","teatro.jpg", "2022-04-23",11,null,9,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (44, "salaponencias.jpg","salaponencias.jpg", "2022-04-23",11,null,10,null);
+INSERT INTO media(id, path, title, upload_date, user_id, event_id, location_id, sponsorship_id) VALUES (45, "campopiscina.jpg","campopiscina.jpg", "2022-04-23",11,null,11,null);
+

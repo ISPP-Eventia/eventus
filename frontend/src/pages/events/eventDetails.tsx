@@ -65,11 +65,10 @@ const EventDetailPage = () => {
       eventId
     ) {
       localStorage.setItem("eventId", eventId.toString());
-      
     } else localStorage.removeItem("eventId");
 
     refetchSponsorships();
-    refetchParticipants();    
+    refetchParticipants();
   }, [event, refetchSponsorships, refetchParticipants, loggedUserId, eventId]);
 
   return loadingEvent ? (
@@ -143,7 +142,6 @@ const EventDetailPage = () => {
               <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.endDate ?? "")}
               </Typography>
-              
             </div>
           </div>
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>
@@ -191,8 +189,12 @@ const EventDetailPage = () => {
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
                 .sort((a, b) => b.quantity - a.quantity)
-                .map((ad:Sponsorship) => (
-                  <Ad callback={refetchSponsorships} sponsorship={ad} event={event}/>
+                .map((ad: Sponsorship) => (
+                  <Ad
+                    callback={refetchSponsorships}
+                    sponsorship={ad}
+                    event={event}
+                  />
                 ))}
             </div>
           </section>

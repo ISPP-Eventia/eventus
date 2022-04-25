@@ -9,7 +9,11 @@ import { eventApi } from "api";
 import utils from "utils";
 
 import { Ad, Loader, Map } from "components/atoms";
-import { UserHorizontalCard, ImageSlider} from "components/molecules";
+import {
+  UserHorizontalCard,
+  ImageSlider,
+  EventCard,
+} from "components/molecules";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
 import Page from "../page";
 import ErrorPage from "pages/error";
@@ -54,6 +58,12 @@ const EventDetailPage = () => {
       .then((response) => response?.data as Sponsorship[])
   );
 
+  const { data: similarEvents } = useQuery("similar", () =>
+    eventApi
+      .getRecommendedEventsByEvent(eventId)
+      .then((response) => response?.data as EventUs[])
+  );
+
   const onSearchLocation = () => {
     navigate("/locations");
   };
@@ -65,11 +75,10 @@ const EventDetailPage = () => {
       eventId
     ) {
       localStorage.setItem("eventId", eventId.toString());
-      
     } else localStorage.removeItem("eventId");
 
     refetchSponsorships();
-    refetchParticipants();    
+    refetchParticipants();
   }, [event, refetchSponsorships, refetchParticipants, loggedUserId, eventId]);
 
   return loadingEvent ? (
@@ -109,7 +118,7 @@ const EventDetailPage = () => {
     >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
-        <ImageSlider media={event?.media}/>
+          <ImageSlider media={event?.media} />
         </div>
         <div className="flex flex-col gap-3">
           <div>
@@ -143,7 +152,6 @@ const EventDetailPage = () => {
               <Typography variant="h6" className="font-bold">
                 {utils.formatters.formatDateHour(event?.endDate ?? "")}
               </Typography>
-              
             </div>
           </div>
           <div className="flex flex-col gap-y-3 md:flex-row md:gap-8"></div>
@@ -191,12 +199,29 @@ const EventDetailPage = () => {
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
                 .sort((a, b) => b.quantity - a.quantity)
-                .map((ad:Sponsorship) => (
-                  <Ad callback={refetchSponsorships} sponsorship={ad} event={event}/>
+                .map((ad: Sponsorship) => (
+                  <Ad
+                    callback={refetchSponsorships}
+                    sponsorship={ad}
+                    event={event}
+                  />
                 ))}
             </div>
           </section>
         )}
+
+      <section className="-mx-4 mt-16 -mb-20 bg-black bg-opacity-5 py-6 md:-mx-8 lg:-mx-24 xl:-mx-48">
+        <div className="flex flex-col gap-x-8 gap-y-4 px-4 pb-10 md:px-8 lg:px-24 xl:px-48">
+          <Typography variant="h4">Eventos similares:</Typography>
+          <div className="grid grid-cols-1 gap-2 gap-y-4 md:grid-cols-3 md:gap-x-8 xl:grid-cols-4">
+            {similarEvents?.slice(0, 4)?.map((e, i) => (
+              <div className={i === 3 ? "block md:hidden xl:block" : ""}>
+                <EventCard event={e} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </Page>
   );
 };

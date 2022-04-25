@@ -1,9 +1,8 @@
 // PaymentStatus.jsx
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Elements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { Box } from "@mui/material";
 import Notification from "components/atoms/Notification/notification";
 import { Severity } from "components/atoms/Notification/severity";
 import { useNavigate } from "react-router";
@@ -13,7 +12,6 @@ const stripePromise = loadStripe(
 );
 const PaymentStatus = () => {
   const stripe = useStripe();
-  const [message, setMessage] = useState<any>(null);
   const [notifications, setNotifications] = React.useState<
     { type: Severity; message: string }[]
   >([]);
@@ -50,15 +48,11 @@ const PaymentStatus = () => {
       switch (setupIntent.status) {
         case "succeeded":
           notify?.("success", "Success! Your payment method has been saved.");
-          setMessage("Success! Your payment method has been saved.");
           break;
 
         case "processing":
           notify?.(
             "info",
-            "Processing payment details. We'll update you when processing is complete."
-          );
-          setMessage(
             "Processing payment details. We'll update you when processing is complete."
           );
           break;
@@ -68,9 +62,6 @@ const PaymentStatus = () => {
           // payment again
           notify?.(
             "error",
-            "Failed to process payment details. Please try another payment method."
-          );
-          setMessage(
             "Failed to process payment details. Please try another payment method."
           );
           break;
@@ -91,8 +82,10 @@ const PaymentStatus = () => {
   );
 };
 
-export default () => (
+const Component = () => (
   <Elements stripe={stripePromise}>
     <PaymentStatus />
   </Elements>
 );
+
+export default Component;

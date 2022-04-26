@@ -50,18 +50,20 @@ export const UploadForm = (props: UploadFormProps) => {
 
   const mediaQueryId = "media" + (value ?? []).join(",");
   const { isLoading, data: media } = useQuery(mediaQueryId, async () => {
-    if (!value || value.length === 0) return [];
-    return await Promise.all(
-      value.map(async (media) => {
-        const url = await mediaApi.getMedia(media.id!);
+    if (!value || value.length === 0) {
+      return [];
+    }
+    return Promise.all(
+      value.map(async (m) => {
+        const url = await mediaApi.getMedia(m.id!);
 
         return {
-          uid: media.id.toString(),
-          name: media.title ?? "Placeholder",
+          uid: m.id.toString(),
+          name: m.title ?? "Placeholder",
           url,
           status: "done" as any,
           originFileObj: {
-            mediaId: media.id,
+            mediaId: m.id,
           } as any,
         };
       })

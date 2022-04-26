@@ -21,7 +21,6 @@ const Component = (props: { event?: any; callback: () => void }) => {
       .createSponsorship({
         ...values,
         eventId: props.event.id,
-        media: undefined,
         mediaIds: values.media.map((m) => m.id).join(","),
       })
       .then(() => {

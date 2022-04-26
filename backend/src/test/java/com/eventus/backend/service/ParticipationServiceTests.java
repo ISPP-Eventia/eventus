@@ -1,7 +1,6 @@
 package com.eventus.backend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -16,7 +15,6 @@ import com.eventus.backend.repositories.ParticipationRepository;
 import com.eventus.backend.services.ParticipationService;
 import com.eventus.backend.services.StripeService;
 import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -3,7 +3,6 @@ package com.eventus.backend.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.eventus.backend.models.Coordinates;
 import com.eventus.backend.models.Event;
@@ -28,8 +26,6 @@ import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.HostingService;
 import com.eventus.backend.services.LocationService;
 import com.eventus.backend.services.StripeService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 

@@ -13,7 +13,7 @@ const MyLocationsTab = () => {
 
   const { isLoading, data: locations } = useQuery("locations", () =>
     userApi
-      .getLocationsByOwner(Number(loggedUserId))
+      .getLocationsByOwner()
       .then((response) => response?.data as Location[])
   );
 

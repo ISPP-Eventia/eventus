@@ -7,13 +7,12 @@ import java.util.Date;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.ResourceUtils;
 
 @Repository
 public class FileSystemRepository {
 	
 	
-	String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/media/";
+	String RESOURCES_DIR = "./src/main/resources/media/";
 
 	public String save(byte[] content, String imageName) throws Exception {
 		
@@ -26,8 +25,7 @@ public class FileSystemRepository {
 	
 	public FileSystemResource findInFileSystem(String location) {
 	    try {
-			String path = ResourceUtils.getFile("classpath:media/" + location).getAbsolutePath();
-	        return new FileSystemResource(Paths.get(path));
+	        return new FileSystemResource(RESOURCES_DIR + location);
 	    } catch (Exception e) {
 	        throw new IllegalArgumentException();
 	    }

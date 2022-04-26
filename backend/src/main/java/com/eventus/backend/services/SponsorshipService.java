@@ -22,10 +22,9 @@ public class SponsorshipService implements ISponsorshipService {
 
   @Autowired
   public SponsorshipService(
-    SponsorshipRepository sponsorRepo,
-    EventService eventService,
-    StripeService stripeService
-  ) {
+      SponsorshipRepository sponsorRepo,
+      EventService eventService,
+      StripeService stripeService) {
     this.sponsorRepository = sponsorRepo;
     this.eventService = eventService;
     this.stripeService = stripeService;
@@ -48,10 +47,9 @@ public class SponsorshipService implements ISponsorshipService {
 
   @Override
   public List<Sponsorship> findSponsorByEventId(
-    Long eventId,
-    Pageable p,
-    User user
-  ) {
+      Long eventId,
+      Pageable p,
+      User user) {
     Event event = eventService.findById(eventId);
     Validate.isTrue(event != null, "Evento no encontrado");
     if (event.getOrganizer().getId().equals(user.getId()) || user.isAdmin()) {
@@ -81,13 +79,11 @@ public class SponsorshipService implements ISponsorshipService {
     String eventId = params.get("eventId");
     String quantity = params.get("quantity");
     Validate.isTrue(
-      StringUtils.isNotBlank(eventId) && StringUtils.isNumeric(eventId),
-      "Formato incorrecto de eventId"
-    );
+        StringUtils.isNotBlank(eventId) && StringUtils.isNumeric(eventId),
+        "Formato incorrecto de eventId");
     Validate.isTrue(
-      StringUtils.isNotBlank(quantity) && NumberUtils.isCreatable(quantity),
-      "La cantidad debe ser un numero"
-    );
+        StringUtils.isNotBlank(quantity) && NumberUtils.isCreatable(quantity),
+        "La cantidad debe ser un numero");
     Sponsorship entity = new Sponsorship();
     Event event = eventService.findById(Long.valueOf(eventId));
     if (event != null && user != null) {
@@ -103,18 +99,15 @@ public class SponsorshipService implements ISponsorshipService {
 
   @Override
   public void resolveSponsorship(boolean b, Long sId, User user)
-    throws StripeException {
+      throws StripeException {
     Sponsorship sponsor = this.sponsorRepository.findById(sId).orElse(null);
     Validate.isTrue(sponsor != null, "Sponsorship no encontrado");
     Validate.isTrue(
-      sponsor.getEvent().getOrganizer().getId().equals(user.getId()) ||
-      user.isAdmin(),
-      "Debes ser el organizador del evento"
-    );
-    if (b) {
-      if (sponsor.getQuantity() >= 0.5) {
-        stripeService.createSponsorshipPayment(sponsor);
-      }
+        sponsor.getEvent().getOrganizer().getId().equals(user.getId()) ||
+            user.isAdmin(),
+        "Debes ser el organizador del evento");
+    if (b && sponsor.getQuantity() >= 0.5) {
+      stripeService.createSponsorshipPayment(sponsor);
     }
     sponsor.setAccepted(b);
     this.sponsorRepository.save(sponsor);
@@ -122,10 +115,9 @@ public class SponsorshipService implements ISponsorshipService {
 
   @Override
   public List<Sponsorship> findByEventAndState(
-    Long eventId,
-    String state,
-    Pageable p
-  ) {
+      Long eventId,
+      String state,
+      Pageable p) {
     boolean b;
     if (state.equals("accepted")) {
       b = true;

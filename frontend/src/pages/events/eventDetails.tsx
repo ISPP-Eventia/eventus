@@ -33,6 +33,7 @@ const EventDetailPage = () => {
     data: event,
     error: eventError,
     isError: isEventError,
+    refetch: refetchEvent,
   } = useQuery("event", () =>
     eventApi.getEvent(eventId).then((response) => {
       return response?.data as EventUs;
@@ -68,6 +69,10 @@ const EventDetailPage = () => {
   const onSearchLocation = () => {
     navigate("/locations");
   };
+
+  useEffect(() => {
+    refetchEvent();
+  }, [eventId, refetchEvent]);
 
   useEffect(() => {
     if (

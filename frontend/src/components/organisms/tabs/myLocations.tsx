@@ -9,8 +9,6 @@ import { Loader } from "components/atoms";
 import { LocationCard } from "components/molecules";
 
 const MyLocationsTab = () => {
-  const loggedUserId = localStorage.getItem("userId");
-
   const { isLoading, data: locations } = useQuery("locations", () =>
     userApi
       .getLocationsByOwner()

@@ -1,6 +1,7 @@
 import { Form, Input, Button, DatePicker, InputNumber } from "antd";
 
 import { EventFormValues } from "types";
+import { UploadForm } from "./uploadForm";
 
 export interface EventFormProps {
   initialValues?: Partial<EventFormValues>;
@@ -45,6 +46,10 @@ const EventForm = (props: EventFormProps) => {
           placeholder="100"
           style={{ width: "100%" }}
         />
+      </Form.Item>
+
+      <Form.Item name="media" label="Media">
+        <UploadForm />
       </Form.Item>
 
       <Form.Item>

@@ -47,11 +47,11 @@ const PaymentStatus = () => {
       // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
       switch (setupIntent.status) {
         case "succeeded":
-          notify?.("success", "Success! Your payment method has been saved.");
+          notify("success", "Success! Your payment method has been saved.");
           break;
 
         case "processing":
-          notify?.(
+          notify(
             "info",
             "Processing payment details. We'll update you when processing is complete."
           );
@@ -60,7 +60,7 @@ const PaymentStatus = () => {
         case "requires_payment_method":
           // Redirect your user back to your payment page to attempt collecting
           // payment again
-          notify?.(
+          notify(
             "error",
             "Failed to process payment details. Please try another payment method."
           );

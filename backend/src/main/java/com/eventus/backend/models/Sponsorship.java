@@ -1,8 +1,11 @@
 package com.eventus.backend.models;
 
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -49,9 +53,8 @@ public class Sponsorship {
     @JsonProperty("isAccepted")
     private Boolean isAccepted;
     
-    @ManyToOne
-    @JoinColumn(name = "media_id")
-    private Media media;
+    @OneToMany(mappedBy = "sponsorship", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Media> media = new HashSet<>();
 
 
     public Long getId() {
@@ -95,12 +98,12 @@ public class Sponsorship {
     }
 
     @JsonProperty("media")
-    public Media getMedia() {
+    public Set<Media> getMedia() {
         return media;
     }
     
     @JsonIgnore
-    public void setMedia(Media media) {
+    public void setMedia(Set<Media> media) {
         this.media = media;
     }
 

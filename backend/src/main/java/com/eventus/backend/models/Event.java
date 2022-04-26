@@ -61,7 +61,7 @@ public class Event {
     @Size(max = 120)
     private String description;
 
-    @OneToMany(mappedBy = "event", orphanRemoval = true)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Media> media = new HashSet<>();
 
     @OneToMany(mappedBy = "event")

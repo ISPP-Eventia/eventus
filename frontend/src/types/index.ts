@@ -1,3 +1,4 @@
+import { RcFile } from "antd/lib/upload";
 import { ReactNode } from "react";
 
 // Utility types
@@ -6,9 +7,16 @@ export type Coordinates = {
   longitude: number;
 };
 
+export type UploadFileAxios = {
+  file: RcFile;
+  onProgress: (progress: { percent: number }) => void;
+  onSuccess: (message: string) => void;
+  onError: (error: { err: any }) => void;
+};
+
 export type Media = {
-  id?: number;
-  path: string;
+  id: number;
+  path?: string;
   title?: string;
   uploadDate?: string;
 };
@@ -117,6 +125,7 @@ export type EventUs = {
   endDate?: string;
   prize?: number;
   rating?: number;
+  mediaIds?: string
 };
 
 export type Location = {
@@ -126,7 +135,8 @@ export type Location = {
   description?: string;
   coordinates: Coordinates;
   price: number;
-  media?: Media[];
+  media: Media[];
+  mediaIds?: string;
 };
 
 // Relation types
@@ -146,6 +156,7 @@ export type Sponsorship = {
   quantity: number;
   isAccepted?: boolean;
   media?: Media[];
+  mediaIds?: string
 };
 
 export type Hosting = {
@@ -161,6 +172,7 @@ export type Hosting = {
 
 export type SponsorshipFormValues = {
   quantity: number;
+  media: Media[]
 };
 
 export type EventFormValues = {
@@ -168,6 +180,7 @@ export type EventFormValues = {
   fromTo: [Date, Date];
   price: number;
   description?: string;
+  media: Media[]
 };
 
 export type LocationFormValues = {
@@ -176,6 +189,7 @@ export type LocationFormValues = {
   description: string;
   longitude: number;
   latitude: number;
+  media: Media[]
 };
 
 export type LoginFormValues = {

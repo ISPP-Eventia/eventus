@@ -75,7 +75,6 @@ public class ParticipationServiceTests {
         usersReturned.add(user1);
         usersReturned.add(user2);
 
-        when(stripeService.createParticipationPayment(any(Participation.class))).thenReturn(new PaymentIntent());
         when(participationService.findUsersByEventId(event.getId(),PageRequest.of(0,20))).thenReturn(usersReturned);
         
         participationService.saveParticipation(event,user1);
@@ -110,7 +109,6 @@ public class ParticipationServiceTests {
         participationReturned.add(new Participation());
         
 
-        when(stripeService.createParticipationPayment(any(Participation.class))).thenReturn(new PaymentIntent());
         when(participationService.findParticipationByUserId(user1.getId(),PageRequest.of(0,20))).thenReturn(participationReturned);
         
         participationService.saveParticipation(event,user1);

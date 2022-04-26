@@ -5,6 +5,7 @@ import {
   Location,
   Participation,
   Sponsorship,
+  UploadFileAxios,
   User,
 } from "types";
 
@@ -20,6 +21,24 @@ const mediaApi = {
       })
       .then((blob) => window.URL.createObjectURL(blob.data))
       .catch(() => ""),
+  uploadMedia: async (options: UploadFileAxios): Promise<any> => {
+    const { file, onProgress, onSuccess, onError } = options;
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+      onUploadProgress: (event: any) => {
+        onProgress({ percent: (event.loaded / event.total) * 100 });
+      },
+    };
+    const fmData = new FormData();
+    fmData.append("media", file);
+    try {
+      const res = await axios.post("/media", fmData, config);
+      onSuccess("Ok");
+      return res;
+    } catch (err) {
+      onError({ err });
+    }
+  },
 };
 
 const sessionApi = {
@@ -35,7 +54,7 @@ const userApi = {
   getEventsByOrganizer: () => axios.get("/users/events"),
   getParticipationsByParticipant: (id: number) =>
     axios.get(`/user/${id}/participations`),
-  getLocationsByOwner: (id: number) => axios.get(`/user/locations`),
+  getLocationsByOwner: () => axios.get("/user/locations"),
 
   //individual operations
   getUserDetails: () => axios.get("/user"),
@@ -57,8 +76,10 @@ const eventApi = {
 
   //individual operations
   getEvent: (id: number) => axios.get(`/events/${id}`),
-  createEvent: (event: EventUs) => axios.post("/events", event),
-  updateEvent: (event: EventUs) => axios.put("/events", event),
+  createEvent: (event: EventUs) =>
+    axios.post("/events?mediaIds=" + event.mediaIds, event),
+  updateEvent: (event: EventUs) =>
+    axios.put("/events?mediaIds=" + event.mediaIds, event),
   deleteEvent: (id: number) => axios.delete(`/events/${id}`),
 };
 
@@ -68,9 +89,13 @@ const locationApi = {
 
   //individual operations
   getLocation: (id: number) => axios.get(`/locations/${id}`),
-  createLocation: (location: Location) => axios.post("/locations", location),
+  createLocation: (location: Location) =>
+    axios.post("/locations?mediaIds=" + location.mediaIds, location),
   updateLocation: (location: Location) =>
-    axios.put(`/locations/${location.id}`, location),
+    axios.put(
+      `/locations/${location.id}?mediaIds=${location.mediaIds}`,
+      location
+    ),
   deleteLocation: (id: number) => axios.delete(`/locations/${id}`),
 };
 
@@ -107,7 +132,9 @@ const participationApi = {
         var _url = window.URL.createObjectURL(blob.data);
         window.open(_url, "_blank")?.focus(); // window.open + focus
       })
-      .catch(() => {});
+      .catch(() => {
+        return null;
+      });
   },
 };
 
@@ -118,11 +145,14 @@ const sponsorshipApi = {
   //individual operations
   getSponsorship: (id: number) => axios.get(`/sponsorships/${id}`),
   createSponsorship: (sponsorship: Sponsorship) =>
-    axios.post("/sponsorships", sponsorship),
+    axios.post("/sponsorships?mediaIds=" + sponsorship.mediaIds, sponsorship),
   acceptSponsorship: (id: number, isAccepted: boolean) =>
     axios.post(`/sponsorships/${id}`, { isAccepted }),
   updateSponsorship: (sponsorship: Sponsorship) =>
-    axios.put(`/sponsorships/${sponsorship.id}`, sponsorship),
+    axios.put(
+      `/sponsorships/${sponsorship.id}?mediaIds=${sponsorship.mediaIds}`,
+      sponsorship
+    ),
   deleteSponsorship: (id: number) => axios.delete(`/sponsorships/${id}`),
 };
 

@@ -104,7 +104,7 @@ const SignupForm = (props: UserFormProps) => {
       {!props.disabled && (
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-            Registrarse
+            Confirmar
           </Button>
         </Form.Item>
       )}

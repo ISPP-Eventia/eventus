@@ -1,7 +1,9 @@
 import { Form, Input, Button, DatePicker, Checkbox } from "antd";
+import moment from "moment";
 import { Link } from "react-router-dom";
 
 import { SignupFormValues } from "types";
+import utils from "utils";
 
 export interface UserFormProps {
   initialValues?: Partial<SignupFormValues>;
@@ -24,7 +26,7 @@ const SignupForm = (props: UserFormProps) => {
       <Form.Item
         name="firstName"
         label="Nombre"
-        rules={[{ required: true, message: "Required Field" }]}
+        rules={[{ required: true, message: "Es Obligatorio" }]}
       >
         <Input placeholder="Introduce tu nombre" disabled={props.disabled} />
       </Form.Item>
@@ -32,7 +34,7 @@ const SignupForm = (props: UserFormProps) => {
       <Form.Item
         name="lastName"
         label="Apellidos"
-        rules={[{ required: true, message: "Required Field" }]}
+        rules={[{ required: true, message: "Es Obligatorio" }]}
       >
         <Input
           placeholder="Introduce tus apellidos"
@@ -42,10 +44,11 @@ const SignupForm = (props: UserFormProps) => {
       <Form.Item
         name="birthDate"
         label="Fecha de nacimiento"
-        rules={[{ required: true, message: "Required Field" }]}
+        rules={[{ required: true, message: "Es Obligatorio" }]}
       >
         <DatePicker
-          disabledDate={(date) => date.isAfter(new Date(), "day")}
+          disabledDate={(date) => date.isAfter(utils.date.getDateYearsAgo(16))}
+          defaultValue={moment(utils.date.getDateYearsAgo(16))}
           style={{ width: "100%" }}
           showTime={false}
           disabled={props.disabled}
@@ -63,7 +66,13 @@ const SignupForm = (props: UserFormProps) => {
       <Form.Item
         name="password"
         label="Contraseña"
-        rules={[{ required: true, message: "Required Field" }]}
+        rules={[
+          { required: true, message: "Es Obligatorio" },
+          {
+            min: 8,
+            message: "Es demasiado corta, debe tener al menos 8 caracteres",
+          },
+        ]}
       >
         <Input
           type="password"
@@ -95,7 +104,7 @@ const SignupForm = (props: UserFormProps) => {
       {!props.disabled && (
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-            Confirmar
+            Registrarse
           </Button>
         </Form.Item>
       )}

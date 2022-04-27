@@ -27,7 +27,7 @@ const TagsForm = (props: TagsFormProps) => {
 
   return (
     <Select
-      mode="tags"
+      mode="multiple"
       style={{ width: "100%" }}
       placeholder="Tags Mode"
       onChange={handleChange}

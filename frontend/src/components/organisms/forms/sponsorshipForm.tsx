@@ -12,17 +12,20 @@ import { UploadForm } from "./uploadForm";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const required = [{ required: true, message: "Campo obligatorio" }];
   const closeModalRef = useRef<any>(null);
 
   const handleSubmit = (values: SponsorshipFormValues) => {
     setError(false);
+    setLoading(true);
     sponsorshipApi
       .createSponsorship({
         ...values,
         eventId: props.event.id,
         mediaIds: values.media.map((m) => m.id).join(","),
-        media: undefined
+        media: undefined,
       })
       .then(() => {
         if (closeModalRef.current) {
@@ -32,6 +35,9 @@ const Component = (props: { event?: any; callback: () => void }) => {
       })
       .catch(() => {
         setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -67,11 +73,16 @@ const Component = (props: { event?: any; callback: () => void }) => {
         </Typography>
         <Divider />
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ width: "100%" }}
+            disabled={loading}
+            loading={loading}
+          >
             Patrocinar
           </Button>
         </Form.Item>
-
         {error && <Error error="No se pudo crear el patrocinio" />}
       </Form>
     </ModalDrawer>

@@ -61,10 +61,12 @@ const EventDetailPage = () => {
       .then((response) => response?.data as Sponsorship[])
   );
 
-  const { data: similarEvents } = useQuery("similar", () =>
-    eventApi
-      .getRecommendedEventsByEvent(eventId)
-      .then((response) => response?.data as EventUs[])
+  const { data: similarEvents, refetch: refetchSimilar } = useQuery(
+    "similar",
+    () =>
+      eventApi
+        .getRecommendedEventsByEvent(eventId)
+        .then((response) => response?.data as EventUs[])
   );
 
   const onSearchLocation = () => {
@@ -73,7 +75,8 @@ const EventDetailPage = () => {
 
   useEffect(() => {
     refetchEvent();
-  }, [eventId, refetchEvent]);
+    refetchSimilar();
+  }, [eventId, refetchEvent, refetchSimilar]);
 
   useEffect(() => {
     if (

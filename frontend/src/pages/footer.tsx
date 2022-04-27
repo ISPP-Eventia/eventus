@@ -36,9 +36,10 @@ const AppFooter = () => {
           className="flex items-center gap-2"
         >
           <LocationCity />
-          <Typography variant="body2">Avenida Reina Mercedes S/N</Typography>
+          <Typography variant="body2">
+            Avenida Reina Mercedes S/N 41012, Sevilla
+          </Typography>
         </a>
-        <Typography variant="body2">41012, Sevilla</Typography>
       </FooterSection>
       <div className="flex flex-col">
         <FooterSection title="Contacto">

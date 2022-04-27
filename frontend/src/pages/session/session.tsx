@@ -50,8 +50,8 @@ const SessionPage = () => {
 
       <Link to={`/${action === "login" ? "signup" : "login"}`}>
         {action === "login"
-          ? "No tienes cuenta? Registrate ya!"
-          : "Ya tienes cuenta? Inicia sesión!"}
+          ? "¿No tienes cuenta? ¡Registrate ya!"
+          : "¿Ya tienes cuenta? ¡Inicia sesión!"}
       </Link>
     </Page>
   );

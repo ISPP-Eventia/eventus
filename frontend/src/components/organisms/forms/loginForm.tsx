@@ -28,14 +28,14 @@ const LoginForm = (props: { onSubmit: (values: LoginFormValues) => void }) => {
       <Form.Item
         name="password"
         label="Contraseña"
-        rules={[{ required: true, message: "Required Field" }]}
+        rules={[{ required: true, message: "Es Obligatorio" }]}
       >
         <Input type="password" placeholder="Introduce tu contraseña" />
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-          LogIn
+          Iniciar sesión
         </Button>
       </Form.Item>
     </Form>

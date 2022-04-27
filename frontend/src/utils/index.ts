@@ -1,3 +1,5 @@
+import { tagApi } from "api";
+import { useQuery } from "react-query";
 import {
   EventFormValues,
   EventUs,
@@ -13,7 +15,7 @@ var _ = require("lodash");
 
 const parsers = {
   eventusFormValuesToEventus: (eventFormValues: EventFormValues): EventUs => {
-    const { title, fromTo, price, description, media } = eventFormValues;
+    const { title, fromTo, price, description, media, tags } = eventFormValues;
     const [startDate, endDate] = fromTo;
     return {
       title,
@@ -23,6 +25,7 @@ const parsers = {
       description,
       media: [],
       mediaIds: media.map((m) => m.id).join(","),
+      tagsIds: tags.join(",")
     };
   },
 
@@ -144,5 +147,9 @@ ${window.location.href}
 };
 
 const utils = { parsers, formatters, share };
+
+export const useTags = () => {
+  return useQuery("recommendedTags", () => tagApi.getTags());
+};
 
 export default utils;

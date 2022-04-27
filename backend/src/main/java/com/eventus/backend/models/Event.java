@@ -61,6 +61,10 @@ public class Event {
     @Size(max = 120)
     private String description;
 
+    @Transient
+    @JsonProperty("tagsIds")
+    private String tagsIds;
+
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Media> media = new HashSet<>();
 
@@ -82,7 +86,6 @@ public class Event {
 
     public Event() {
 
-
     }
 
     public Event(Long id, String title, Double price, String description) {
@@ -103,13 +106,7 @@ public class Event {
     @JsonProperty("tags")
     public Set<Tag> getTags() {
         return eventTags.stream()
-                .map(eventTag -> {
-                    Tag tag = eventTag.getTag();
-
-                    tag.setId(eventTag.getId());
-
-                    return tag;
-                })
+                .map(eventTag -> eventTag.getTag())
                 .collect(Collectors.toSet());
     }
 
@@ -127,6 +124,23 @@ public class Event {
 
     public void setParticipations(Set<Participation> participations) {
         this.participations = participations;
+    }
+
+    public String getTagsIds() {
+        return tagsIds;
+    }
+
+    public void setTagsIds(String tagsIds) {
+        this.tagsIds = tagsIds;
+    }
+
+
+    public Set<EventTag> getEventTags() {
+        return eventTags;
+    }
+
+    public void setEventTags(Set<EventTag> eventTags) {
+        this.eventTags = eventTags;
     }
 
     public Long getId() {

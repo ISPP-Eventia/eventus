@@ -17,12 +17,10 @@ public class EventTag {
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    @NotNull
     private Event event;
 
     @ManyToOne
     @JoinColumn(name = "tag_id")
-    @NotNull
     private Tag tag;
 
     public Event getEvent() {

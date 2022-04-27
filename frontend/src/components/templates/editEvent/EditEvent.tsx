@@ -1,8 +1,8 @@
 import { eventApi } from "api";
 import { EventFormValues, EventUs } from "types";
-import utils from "utils";
+import utils, { useTags } from "utils";
 
-import { Error } from "components/atoms";
+import { Error, Loader } from "components/atoms";
 import { EventForm } from "components/organisms";
 import { useNavigate } from "react-router";
 import { useMemo, useState } from "react";
@@ -34,13 +34,25 @@ const EditEvent = (props: EditEventProps) => {
     () => ({
       ...event,
       fromTo: [moment(event.startDate ?? ""), moment(event.endDate ?? "")],
+      tags: event.tags?.map((x: any) => x.id)
     }),
     [event]
   );
 
+  const { isLoading, data } = useTags();
+
   return (
     <>
-      <EventForm onSubmit={handleSubmit} initialValues={initialValues} />
+      {(isLoading || !data) ? (
+        <Loader />
+      ) : (
+        <EventForm
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+          tagsOptions={(data as any).data}
+        />
+      )}
+
       {error && <Error error={error} />}
     </>
   );

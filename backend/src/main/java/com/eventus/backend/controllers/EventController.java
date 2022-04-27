@@ -4,6 +4,7 @@ import com.eventus.backend.models.Event;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
 import com.eventus.backend.services.MediaService;
+import com.eventus.backend.services.TagService;
 
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,13 @@ import org.springframework.web.bind.annotation.*;
 public class EventController extends ValidationController{
   private final EventService eventService;
   private final MediaService mediaService;
+  private final TagService tagService;
 
   @Autowired
-  public EventController(EventService eventService, MediaService mediaService) {
+  public EventController(EventService eventService, MediaService mediaService, TagService tagService) {
     this.eventService = eventService;
     this.mediaService = mediaService;
+    this.tagService = tagService;
   }
 
   @GetMapping("/events")
@@ -53,6 +56,7 @@ public class EventController extends ValidationController{
     try {
       this.eventService.update(event,user);
       this.mediaService.parseEventMediaIds(mediaIds, event, user);
+      this.tagService.addTagsToEvent(event, user);
 
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
@@ -68,8 +72,9 @@ public class EventController extends ValidationController{
 
       event.setId(null);
       event.setOrganizer(user);
-      this.eventService.save(event);
+      event = this.eventService.save(event);
       this.mediaService.parseEventMediaIds(mediaIds, event, user);
+      this.tagService.addTagsToEvent(event, user);
 
       return ResponseEntity.status(HttpStatus.CREATED).build();
     } catch (DataAccessException | NullPointerException  e) {

@@ -1,176 +1,173 @@
-//package com.eventus.backend.service;
-//
-//import static org.junit.Assert.assertFalse;
-//import static org.junit.Assert.assertNotNull;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-//import java.time.LocalDate;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import org.junit.*;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.runner.RunWith;
-//import org.junit.runners.MethodSorters;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.core.annotation.Order;
-//import org.springframework.data.domain.PageRequest;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import com.eventus.backend.models.Event;
-//import com.eventus.backend.models.Image;
-//import com.eventus.backend.models.User;
-//import com.eventus.backend.services.EventService;
-//import com.eventus.backend.services.UserService;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-////@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Transactional
-//public class EventServiceTest {
-//
-//	@Autowired
-//	protected EventService eventService;
-//	
-//	@Autowired
-//	protected UserService userService;
-//	
-//	// @BeforeAll
-//	// public void init() {
-//	// 	List<Image> images = new ArrayList<Image>();
-//		
-//    //     Image image1 = new Image();
-//    //     image1.setId(1L);
-//    //     image1.setTitle("Image 1");
-//    //     image1.setPath("Path");
-//    //     image1.setUploadDate(LocalDate.now());
-//    //     images.add(image1);
-//        
-//    //     Image image2 = new Image();
-//    //     image2.setId(2L);
-//    //     image2.setTitle("Image 2");
-//    //     image2.setPath("Path2");
-//    //     image2.setUploadDate(LocalDate.now());     
-//    //     images.add(image2);
-//		
-//    //     User user1 = new User();
-//    //     user1.setId(1L);
-//    //     user1.setFirstName("Pepe");
-//    //     user1.setLastName("Gonzalez");
-//    //     user1.setImage(image2);
-//    //     userService.saveUser(user1);
-//        
-//	// 	Event event1 = new Event();
-//	// 	event1.setId(1L);
-//	// 	event1.setTitle("Event 1");
-//	// 	event1.setDescription("Event 1 for testing");
-//	// 	event1.setPrice(2.00);
-//	// 	event1.setOrganizerId(user1);
-//	// 	event1.setImages(images);
-//	// 	eventService.save(event1);
-//		
-//	// 	Event event2 = new Event();
-//	// 	event2.setId(2L);
-//	// 	event2.setTitle("Event 2");
-//	// 	event2.setDescription("Event 2 for testing");
-//	// 	event2.setPrice(4.00);
-//	// 	eventService.save(event1);
-//	// }
-//	
-//	// @Test
-//	// @Transactional
-//	// @Order(1)
-//	// public void test1shouldCreateEvent() {
-//	// 	Pageable page = PageRequest.of(0,2);
-//	// 	assertEquals(2, eventService.findAll(page).size());
-//	// }
-//	
-//	// @Test
-//	// @Transactional
-//	// @Order(5)
-//	// public void test2countImagesInEvent() {
-//	// 	List<Event> events = eventService.findAll(PageRequest.of(0,2));
-//	// 	assertEquals(2, eventService.findById(events.get(0).getId()).getImages().size());
-//	// }
-//	
-//	// @Test
-//	// @Order(15)
-//	// @Transactional
-//	// public void test3relationshipBetweenUserAndEvent() {
-//	// 	List<Event> events = eventService.findAll(PageRequest.of(0,2));
-//	// 	Event e = events.get(0);
-//	// 	User u = eventService.findById(e.getId()).getOrganizerId();
-//	// 	assertNotNull(u.getId());
-//	// }
-//	
-//	// @Test
-//	// @Transactional
-//	// @Order(20)
-//	// public void test4deleteEvent() {
-//	// 	Pageable page = PageRequest.of(0,2);
-//	// 	List<Event> events = eventService.findAll(page);
-//	// 	eventService.delete(events.get(0).getId());
-//	// 	assertFalse(eventService.findAll(page).contains(events.get(0)));		
-//	// }
-//
-//
-//	@Test 
-//	@Order(25)
-//	public void relationShips(){
-//		List<Image> images = new ArrayList<Image>();
-//		
-//		User user1 = new User();
-//        // user1.setId(1L);
-//        user1.setFirstName("Pepe");
-//        user1.setLastName("Gonzalez");
-//        userService.saveUser(user1);
-//
-//        // Image image1 = new Image();
-//        // image1.setId(1L);
-//        // image1.setTitle("Image 1");
-//        // image1.setPath("Path");
-//        // image1.setUploadDate(LocalDate.now());
-//		// image1.setUploadedBy(user1);
-//        // images.add(image1);
-//
-//        
-//        // Image image2 = new Image();
-//        // image2.setId(2L);
-//        // image2.setTitle("Image 2");
-//        // image2.setPath("Path2");
-//        // image2.setUploadDate(LocalDate.now());  
-//		// image2.setUploadedBy(user1);   
-//        // // images.add(image2);
-//
-//		// Image image3 = new Image();
-//        // image3.setId(3L);
-//        // image3.setTitle("Image 3");
-//        // image3.setPath("Path3");
-//        // image3.setUploadDate(LocalDate.now());     
-//		// image3.setUploadedBy(user1);
-//        // images.add(image3);
-//		
-//        
-//        
-//		// user1.setImage(image2);
-//		userService.saveUser(user1);
-//
-//		Event event1 = new Event();
-//		event1.setTitle("Event 1");
-//		event1.setDescription("Event 1 for testing");
-//		event1.setPrice(2.00);
-//		event1.setOrganizerId(user1);
-//		// event1.setImages(images);
-//		eventService.save(event1);
-//
-//
-//		List<Event> eventsList = eventService.findAll(PageRequest.of(0, 15));
-//		Event event = eventService.findById(1L);
-//		// assertEquals(event.getImages().size(), 2);
-//		assertEquals(event.getOrganizerId(), user1);
-//	}
-	
-//}
+package com.eventus.backend.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import com.eventus.backend.models.Event;
+import com.eventus.backend.models.Tag;
+import com.eventus.backend.models.User;
+import com.eventus.backend.repositories.EventRepository;
+import com.eventus.backend.services.EventService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
+public class EventServiceTests {
+
+    @Autowired
+    protected EventService eventService;
+
+    @Mock
+    private EventRepository eventRepository;
+
+    @Mock
+    Event event;
+    @Mock
+    User user;
+
+    @Before
+    public void setUp(){ 
+        eventService = new EventService(eventRepository);
+
+        Tag tag = mock(Tag.class);
+        Set<Tag> tags = new HashSet<>();
+        tags.add(tag);
+
+
+        when(user.getId()).thenReturn(1L);
+        when(event.getId()).thenReturn(1L);
+        when(event.getOrganizer()).thenReturn(user);
+        when(event.getOrganizer()).thenReturn(user);
+        when(event.getStartDate()).thenReturn(LocalDateTime.now());
+        when(event.getEndDate()).thenReturn(LocalDateTime.now().plusHours(5));
+        when(event.getTags()).thenReturn(tags);
+    }
+
+
+    @Test
+    public void testSaveEvent(){
+        when(eventRepository.save(event)).thenReturn(event);
+        
+        Event event = eventService.save(this.event);
+
+        assertTrue(event != null);
+        assertEquals(this.event, event);
+        verify(eventRepository, times(1)).save(event);
+    }
+
+    @Test
+    public void testFindAllEvents(){
+        List<Event> events = new ArrayList<>();
+        events.add(event);
+
+        when(eventRepository.findAll(Pageable.ofSize(1))).thenReturn(events);
+        
+        assertNotNull(eventService.findAll(Pageable.ofSize(1)));
+        assertEquals(1, eventService.findAll(Pageable.ofSize(1)).size());
+    }
+
+    @Test
+    public void testFindAllNotFinishedPositive(){
+        List<Event> eventsResponse = new ArrayList<>();
+        eventsResponse.add(event);
+
+        when(eventRepository.findByEndDateIsGreaterThan(any(LocalDateTime.class), eq(PageRequest.of(0, 10)))).thenReturn(eventsResponse);
+        
+        List<Event> events = eventService.findAllNotFinished(PageRequest.of(0, 10));
+        assertNotNull(events);
+        assertEquals(eventsResponse, events);
+    }
+
+    @Test
+    public void testFindById(){
+        when(eventRepository.findById(anyLong())).thenReturn(Optional.of(event));
+        
+        assertNotNull((eventService.findById(1L)));
+    }
+
+    @Test
+    public void testDelete(){
+        when(eventRepository.findById(anyLong())).thenReturn(Optional.of(event));
+
+        eventService.delete(1L, user);
+
+        verify(eventRepository, times(1)).deleteById(event.getId());
+    }
+
+    @Test
+    public void testUpdate(){
+        Event event1 = new Event();
+		event1.setId(1L);
+		event1.setTitle("New Title");
+		event1.setDescription("Event 1 for testing");
+        event1.setStartDate(LocalDateTime.now().plusDays(1));
+        event1.setEndDate(LocalDateTime.now().plusDays(2));
+		event1.setPrice(2.00);
+		event1.setOrganizer(user);
+		
+        when(eventRepository.findById(anyLong())).thenReturn(Optional.of(event));
+
+        eventService.update(event1, user);
+
+        verify(eventRepository, times(1)).save(event);
+    }
+
+    @Test
+    public void testFindByOrganizer(){
+        List<Event> eventsResponse = new ArrayList<>();
+        eventsResponse.add(event);
+
+        when(this.eventRepository.findByOrganizerId(user.getId(), PageRequest.of(0, 10))).thenReturn(eventsResponse);
+        
+        assertNotNull((eventService.findByOrganizerId(1L, PageRequest.of(0, 10))));
+        assertEquals(eventsResponse, eventService.findByOrganizerId(1L, PageRequest.of(0, 10)));
+    }
+
+    @Test
+    public void testfindRecommendedEventsByUser(){
+        List<Event> eventsResponse = new ArrayList<>();
+        eventsResponse.add(event);
+
+        when(this.eventRepository.findByParticipationsUserIdEqualsOrderByStartDateAsc(user.getId(), PageRequest.of(0,30))).thenReturn(eventsResponse);
+        when(eventRepository.getMaxPartPrice()).thenReturn(1000.);
+        when(eventRepository.getMaxSponsorshipPrice()).thenReturn(1000.);
+
+        assertNotNull(eventService.findRecommendedEventsByUser(user));
+    }
+
+    @Test
+    public void testfindRecommendedByEvent(){
+        List<Event> eventsResponse = new ArrayList<>();
+        eventsResponse.add(event);
+
+        when(eventRepository.getMaxPartPrice()).thenReturn(1000.);
+        when(eventRepository.getMaxSponsorshipPrice()).thenReturn(1000.);
+
+        assertNotNull(eventService.findRecommendedByEvent(user, event));
+    }
+    
+}

@@ -46,7 +46,7 @@ public class StripeService {
 
           PaymentIntent payment = null;
           try {
-            PaymentIntent.create(paymentParams);
+            payment = PaymentIntent.create(paymentParams);
           } catch (CardException err) {
             return null;
           }

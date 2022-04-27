@@ -1,8 +1,8 @@
 import { eventApi } from "api";
 import { EventFormValues } from "types";
-import utils from "utils";
+import utils, { useTags } from "utils";
 
-import { Error } from "components/atoms";
+import { Error, Loader } from "components/atoms";
 import { EventForm } from "components/organisms";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -23,9 +23,18 @@ const NewEvent = () => {
       });
   };
 
+  const { isLoading, data } = useTags();
   return (
     <>
-      <EventForm onSubmit={handleSubmit} />
+      {isLoading || !data ? (
+        <Loader />
+      ) : (
+        <EventForm
+          onSubmit={handleSubmit}
+          tagsOptions={(data as any).data}
+        />
+      )}
+
       {error && <Error error={error} />}
     </>
   );

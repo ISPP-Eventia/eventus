@@ -1,7 +1,6 @@
 package com.eventus.backend.services;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,26 +17,35 @@ import com.eventus.backend.models.Location;
 import com.eventus.backend.models.Media;
 import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
+import com.eventus.backend.repositories.EventRepository;
 import com.eventus.backend.repositories.FileSystemRepository;
+import com.eventus.backend.repositories.LocationRepository;
 import com.eventus.backend.repositories.MediaRepository;
 import com.eventus.backend.repositories.SponsorshipRepository;
+import com.google.common.collect.Sets;
 
 @Service
 public class MediaService implements IMediaService {
-	
+
     private final FileSystemRepository fileSystemRepository;
     private final MediaRepository mediaRepository;
     private final SponsorshipRepository sponsorshipRepository;
-    
+    private final LocationRepository locationRepository;
+    private final EventRepository eventRepository;
+
     @Autowired
-    public MediaService(FileSystemRepository fileSystemRepository, MediaRepository mediaRepository, SponsorshipRepository sponsorshipRepository) {
-    	this.fileSystemRepository = fileSystemRepository;
-    	this.mediaRepository = mediaRepository;
+    public MediaService(FileSystemRepository fileSystemRepository, MediaRepository mediaRepository,
+            SponsorshipRepository sponsorshipRepository, LocationRepository locationRepository,
+            EventRepository eventRepository) {
+        this.fileSystemRepository = fileSystemRepository;
+        this.mediaRepository = mediaRepository;
         this.sponsorshipRepository = sponsorshipRepository;
+        this.locationRepository = locationRepository;
+        this.eventRepository = eventRepository;
     }
 
     @Override
-    public void save(byte[] bytes, String mediaName, User user) throws Exception {
+    public Media save(byte[] bytes, String mediaName, User user) throws Exception {
         String location = fileSystemRepository.save(bytes, mediaName);
         Media media = new Media();
         media.setPath(location);
@@ -45,83 +53,128 @@ public class MediaService implements IMediaService {
         media.setUploadDate(LocalDate.now());
         media.setOwner(user);
 
-        this.mediaRepository.save(media);
+        return this.mediaRepository.save(media);
     }
-    
+
     @Override
     public FileSystemResource findById(Long mediaId) {
         Media media = mediaRepository.findById(mediaId)
-          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         return this.fileSystemRepository.findInFileSystem(media.getPath());
     }
 
+    @Override
+    public List<Media> findAll(Pageable p) {
+        return this.mediaRepository.findAll(p);
+    }
 
-	@Override
-	public List<Media> findAll(Pageable p) {
-		return this.mediaRepository.findAll(p);
-	}
+    @Override
+    public List<Long> findByUser(Pageable p, Long id) {
+        List<Long> media = this.mediaRepository.findByUserId(p, id);
+        return media;
+    }
 
-	@Override
-	public List<Long> findByUser(Pageable p, Long id) {
-		List<Long> media = this.mediaRepository.findByUserId(p,id);
-		return media;
-	}
-
-    
     @Override
     public void parseEventMediaIds(List<Long> mediaIds, Event event, User user) {
-        //Validate that those media owner is the logged user
+        Event nEvent = this.eventRepository.findById(event.getId()).orElse(null);
 
-        Set<Media> media = new HashSet<>();
-        mediaIds.stream().forEach(id ->{
-            Media m = this.mediaRepository.findById(id).orElse(null);
-            if(!m.getOwner().getId().equals(user.getId()) || !event.getOrganizer().getId().equals(user.getId())) throw new IllegalArgumentException("No eres el propietario de la foto o del evento.");
-            m.setEvent(event);
-            media.add(m);
+        if (!nEvent.getOrganizer().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("No eres propietario de la infraestructura");
+        }
+
+        Set<Media> oldMedias = nEvent.getMedia();
+        Set<Media> medias = Sets.newHashSet(this.mediaRepository.findAllById(mediaIds));
+
+        oldMedias.removeAll(medias);
+        oldMedias.forEach(m -> m.setEvent(null));
+
+        this.mediaRepository.deleteAll(oldMedias);
+
+        medias.forEach(media -> {
+            if (!media.getOwner().getId().equals(user.getId())) {
+                throw new IllegalArgumentException("No eres propietario de la media");
+
+            }
+            media.setEvent(nEvent);
         });
-        this.mediaRepository.saveAll(media);
-        
+
+        this.mediaRepository.saveAll(medias);
+
     }
 
     @Override
     public void parseLocationMediaIds(List<Long> mediaIds, Location location, User user) {
-        //Validate that those media owner is the logged user
-        Set<Media> media = new HashSet<>();
-        mediaIds.stream().forEach(id ->{
-            Media m = this.mediaRepository.findById(id).orElse(null);
-            if(!m.getOwner().getId().equals(user.getId()) || !location.getOwner().getId().equals(user.getId())) throw new IllegalArgumentException("No eres el propietario de la foto o de la infraestructura.");
-            m.setLocation(location);
-            media.add(m);
+        Location nlocation = this.locationRepository.findById(location.getId()).orElse(null);
+
+        if (!nlocation.getOwner().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("No eres propietario de la infraestructura");
+        }
+
+        Set<Media> oldMedias = nlocation.getMedia();
+        Set<Media> medias = Sets.newHashSet(this.mediaRepository.findAllById(mediaIds));
+
+        oldMedias.removeAll(medias);
+        oldMedias.forEach(m -> m.setLocation(null));
+
+        this.mediaRepository.deleteAll(oldMedias);
+
+        medias.forEach(media -> {
+            if (!media.getOwner().getId().equals(user.getId())) {
+                throw new IllegalArgumentException("No eres propietario de la media");
+
+            }
+            media.setLocation(nlocation);
         });
-        this.mediaRepository.saveAll(media);
+
+        this.mediaRepository.saveAll(medias);
+
     }
 
     @Override
-    public void parseSponsorshipMediaIds(Long mediaId, Sponsorship sponsorship, User user) {
-        Media m = this.mediaRepository.findById(mediaId).orElse(null);
-        if(!m.getOwner().getId().equals(user.getId()) || !sponsorship.getUser().getId().equals(user.getId())) throw new IllegalArgumentException("No eres el propietario de la foto o del patrocinio.");
-        sponsorship.setMedia(m);
-        this.sponsorshipRepository.save(sponsorship);
+    public void parseSponsorshipMediaIds(List<Long> mediaIds, Sponsorship sponsorship, User user) {
+        Sponsorship nSponsorship = this.sponsorshipRepository.findById(sponsorship.getId()).orElse(null);
+
+        if (!sponsorship.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("No eres propietario de la infraestructura");
+        }
+
+        Set<Media> oldMedias = nSponsorship.getMedia();
+        Set<Media> medias = Sets.newHashSet(this.mediaRepository.findAllById(mediaIds));
+
+        oldMedias.removeAll(medias);
+        oldMedias.forEach(m -> m.setSponsorship(null));
+
+        this.mediaRepository.deleteAll(oldMedias);
+
+        medias.forEach(media -> {
+            if (!media.getOwner().getId().equals(user.getId())) {
+                throw new IllegalArgumentException("No eres propietario de la media");
+
+            }
+            media.setSponsorship(nSponsorship);
+        });
+
+        this.mediaRepository.saveAll(medias);
     }
 
     @Override
     public void validate(MultipartFile media) throws IllegalArgumentException {
         String[] arr = media.getOriginalFilename().trim().split("\\.");
-        String extension = arr[arr.length-1];
-        if(!(extension.equals("png") || extension.equals("jpg") ||
-         extension.equals("jpeg") || extension.equals("jfif") ||
-          extension.equals("mp4"))){
+        String extension = arr[arr.length - 1];
+        if (!(extension.equals("png") || extension.equals("jpg") ||
+                extension.equals("jpeg") || extension.equals("jfif") ||
+                extension.equals("mp4"))) {
             throw new IllegalArgumentException("Extension no permitida. Debe ser PNG, JPG, JPEG, JFIF o MP4.");
         }
     }
 
     @Override
-    public void delete(Long id, User user){
+    public void delete(Long id, User user) {
         Media media = this.mediaRepository.findById(id).orElse(null);
-        if(user.isAdmin() || media.getOwner().equals(user)){
+        if (user.isAdmin() || media.getOwner().equals(user)) {
             this.mediaRepository.deleteById(id);
-        }else{
+        } else {
             throw new IllegalArgumentException("No eres el propietario de este archivo.");
         }
     }

@@ -115,7 +115,9 @@ public class HostingService implements IHostingService {
         Validate.isTrue(hosting.getEvent() != null && (hosting.getLocation().getOwner().getId().equals(user.getId()) || user.isAdmin()),"No eres el dueño del evento");
         Boolean paid = false;
         if(b){
+            if(hosting.getPrice()>=0.5){
             stripeService.createHostingPayment(hosting);
+            }
             paid = true;
         }
         if(paid) hosting.setAccepted(true);

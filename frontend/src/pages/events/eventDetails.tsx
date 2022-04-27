@@ -15,9 +15,10 @@ import {
   EventCard,
 } from "components/molecules";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
+import { ShareModal } from "components/templates";
+
 import Page from "../page";
 import ErrorPage from "pages/error";
-import { ShareModal } from "components/templates";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const EventDetailPage = () => {
     data: event,
     error: eventError,
     isError: isEventError,
+    refetch: refetchEvent,
   } = useQuery("event", () =>
     eventApi.getEvent(eventId).then((response) => {
       return response?.data as EventUs;
@@ -67,6 +69,10 @@ const EventDetailPage = () => {
   const onSearchLocation = () => {
     navigate("/locations");
   };
+
+  useEffect(() => {
+    refetchEvent();
+  }, [eventId, refetchEvent]);
 
   useEffect(() => {
     if (

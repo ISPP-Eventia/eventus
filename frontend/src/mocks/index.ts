@@ -31,6 +31,7 @@ export const DummyLocation1: Location = {
   price: 4,
   media: [
     {
+      id: 1,
       path: "https://media.istockphoto.com/photos/basketball-arena-picture-id466336640?k=20&m=466336640&s=612x612&w=0&h=RnIr5Y4d5C_zXyzkEQQPZ9Tf0X2JhuL39kaRhTmYKcY=",
     },
   ],
@@ -41,6 +42,7 @@ export const DummyEvent1: EventUs = {
   id: 1,
   media: [
     {
+      id: 1,
       path: "https://urbancolex.com/wp-content/uploads/2019/03/cancha-de-baloncesto-1024x576.jpg",
     },
   ],
@@ -57,6 +59,7 @@ export const DummyEvent2: EventUs = {
   id: 2,
   media: [
     {
+      id: 1,
       path: "https://emerac.files.wordpress.com/2011/03/etsii.jpg?w=584",
     },
   ],
@@ -76,6 +79,7 @@ export const DummySponsorship1: Sponsorship = {
   isAccepted: false,
   media: [
     {
+      id: 1,
       path: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2s1MnBVr2klEkPS7reF7bgieU-H-acGccWg&usqp=CAU",
     },
   ],

@@ -68,14 +68,14 @@ public class SponsorshipController extends ValidationController{
     }
 
     @PostMapping("/sponsorships")
-    public ResponseEntity<Sponsorship> createSponsor(@RequestParam("mediaId") Long mediaId, @RequestBody Map<String, String> params,@AuthenticationPrincipal User user) throws StripeException {
+    public ResponseEntity<Sponsorship> createSponsor(@RequestParam("mediaIds") List<Long> mediaIds, @RequestBody Map<String, String> params,@AuthenticationPrincipal User user) throws StripeException {
         try {
             PaymentMethodCollection paymentMethods = stripeService.getPaymentMethods(user);
             if(paymentMethods.getData().isEmpty()){
                 return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
             }else{
                 Sponsorship sponsor =  sponsorService.create(params,user);
-                this.mediaService.parseSponsorshipMediaIds(mediaId, sponsor,user);
+                this.mediaService.parseSponsorshipMediaIds(mediaIds, sponsor,user);
             }
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {

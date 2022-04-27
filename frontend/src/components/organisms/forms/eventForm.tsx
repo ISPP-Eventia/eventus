@@ -12,7 +12,7 @@ export interface EventFormProps {
 
 const EventForm = (props: EventFormProps) => {
   const { initialValues, onSubmit, tagsOptions } = props;
-  const required = [{ required: true, message: "Required Field" }];
+  const required = [{ required: true, message: "Es Obligatorio" }];
 
   return (
     <Form

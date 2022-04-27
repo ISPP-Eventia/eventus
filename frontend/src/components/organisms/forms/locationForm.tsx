@@ -10,7 +10,7 @@ export interface LocationFormProps {
 
 const LocationForm = (props: LocationFormProps) => {
   const { initialValues, onSubmit } = props;
-  const required = [{ required: true, message: "Required Field" }];
+  const required = [{ required: true, message: "Es Obligatorio" }];
 
   return (
     <Form

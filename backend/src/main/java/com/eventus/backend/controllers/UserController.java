@@ -47,12 +47,12 @@ public class UserController extends ValidationController{
                 res = Map.of("token", token, "id", user.getId(), "isAdmin", user.isAdmin());
                 response = ResponseEntity.accepted().body(res);
             }else{
-                res = Map.of("error", "Error getting token");
+                res = Map.of("error", "Error obteniendo el token");
                 response = ResponseEntity.badRequest().body(res);
             }
 
         }else{
-            res = Map.of("error", "User already exits");
+            res = Map.of("error", "El usuario ya existe");
             response = ResponseEntity.badRequest().body(res);
         }
         return response;

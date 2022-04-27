@@ -15,11 +15,9 @@ import {
   ErrorPage,
   EditEventPage,
   EditLocationPage,
-  Terms
+  Terms,
 } from "pages";
 import PaymentStatus from "pages/profile/paymentStatus";
-
-
 
 const AppRoutes = () => {
   return (

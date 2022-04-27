@@ -52,12 +52,12 @@ const LandingPage = () => {
     {
       title: "Organiza",
       img: OrganizeImg,
-      text: "Crea y gestiona eventos, compartelos, consigue patrocinadores, encuentra el mejor alojamiento...",
+      text: "Crea y gestiona eventos, compártelos, consigue patrocinadores, encuentra el mejor alojamiento...",
     },
     {
       title: "Participa",
       img: AttendImg,
-      text: "Forma parte de los mejores eventos, compite en eventos competitivos y gana dinero...",
+      text: "Forma parte de los mejores eventos, participa en eventos competitivos y gana dinero...",
     },
     {
       title: "Patrocina",
@@ -67,7 +67,7 @@ const LandingPage = () => {
     {
       title: "Aloja",
       img: HostImg,
-      text: "Llena de vida tu infraestructura ofreciendola como alojamiento para los eventos...",
+      text: "Llena de vida tu infraestructura ofreciéndola como alojamiento para los eventos...",
     },
   ];
 

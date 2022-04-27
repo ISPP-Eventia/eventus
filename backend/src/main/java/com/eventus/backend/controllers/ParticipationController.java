@@ -77,14 +77,14 @@ public class ParticipationController extends ValidationController{
     }
 
     @PostMapping("/participations")
-    public ResponseEntity<Participation> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException, StripeException {
+    public ResponseEntity<Object> createParticipation(@RequestBody Map<String, String> p, @AuthenticationPrincipal User user) throws MalformedURLException, DocumentException, IOException, StripeException {
     	try {
             Event event = this.eventService.findById(Long.valueOf(p.get("eventId")));
             if (user != null && event != null) {
                 Participation participation = this.participationService.findByUserIdEqualsAndEventIdEquals(user.getId(), event.getId());
 
                 if (participation != null) {
-                    return ResponseEntity.badRequest().build();
+                    return ResponseEntity.badRequest().body(Map.of("error","Ya estas participando en este evento"));
                 }
                 PaymentMethodCollection paymentMethods = stripeService.getPaymentMethods(user);
                 if(paymentMethods.getData().isEmpty()){

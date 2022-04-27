@@ -25,7 +25,7 @@ const parsers = {
       description,
       media: [],
       mediaIds: media.map((m) => m.id).join(","),
-      tagsIds: tags.join(",")
+      tagsIds: tags.join(","),
     };
   },
 
@@ -75,8 +75,8 @@ const whatsappShareEndpoint = "https://wa.me/?text=";
 const telegramShareEndpoint = `https://t.me/share/url?url=Eventus&text=`;
 const mailShareEndpoint = "mailto:?subject=Eventus&body=";
 
-const getDate = (date?: string) => {
-  return `${date!.substring(8, 10)} / ${date!.substring(5, 7)}`;
+const getDate = (dateString?: string) => {
+  return `${dateString!.substring(8, 10)} / ${dateString!.substring(5, 7)}`;
 };
 
 const share = {
@@ -146,10 +146,18 @@ ${window.location.href}
   },
 };
 
-const utils = { parsers, formatters, share };
+const date = {
+  getDateYearsAgo: (years: number) => {
+    const requestedDate = new Date();
+    requestedDate.setFullYear(requestedDate.getFullYear() - years);
+    return requestedDate;
+  },
+};
 
 export const useTags = () => {
   return useQuery("recommendedTags", () => tagApi.getTags());
 };
+
+const utils = { parsers, formatters, share, date };
 
 export default utils;

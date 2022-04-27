@@ -22,6 +22,7 @@ const Component = (props: { event?: any; callback: () => void }) => {
         ...values,
         eventId: props.event.id,
         mediaIds: values.media.map((m) => m.id).join(","),
+        media: undefined
       })
       .then(() => {
         if (closeModalRef.current) {

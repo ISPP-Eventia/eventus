@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.eventus.backend.models.Event;
 import com.eventus.backend.models.EventTag;
 import com.eventus.backend.models.Tag;
 import com.eventus.backend.models.User;
@@ -20,7 +21,9 @@ public interface ITagService {
 
     Optional<Tag> findByName(String name);
 
-    EventTag addTagToEvent(Map<String, String> params, User user) throws IllegalArgumentException;
+    EventTag addTagToEvent(Long eventId, Long tagId, User user) throws IllegalArgumentException;
+
+    void addTagsToEvent(Event event, User user) throws IllegalArgumentException;
 
     void delete(Long eventTagId, User user) throws IllegalArgumentException;
 

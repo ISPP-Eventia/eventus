@@ -8,9 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Media {
@@ -33,24 +31,25 @@ public class Media {
     @CreationTimestamp
     private LocalDate uploadDate;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User owner;
     
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne()
     @JoinColumn(name = "event_id")
     @JsonIgnore
     private Event event;
     
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne()
     @JoinColumn(name = "location_id")
     @JsonIgnore
     private Location location;
     
-    @OneToMany(mappedBy = "media", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @ManyToOne()
+    @JoinColumn(name = "sponsorship_id")
     @JsonIgnore
-    private Set<Sponsorship> sponsorship = new HashSet<>();
+    private Sponsorship sponsorship;
 
 	public Long getId() {
 		return id;
@@ -108,20 +107,17 @@ public class Media {
 		this.location = location;
 	}
 
-	public Set<Sponsorship> getSponsorship() {
+	public Sponsorship getSponsorship() {
 		return sponsorship;
 	}
 
-	public void setSponsorship(Set<Sponsorship> sponsorship) {
+	public void setSponsorship(Sponsorship sponsorship) {
 		this.sponsorship = sponsorship;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Objects.hash(id, path, title, uploadDate, owner);
-		return result;
+		return (int)(id * 31);
 	}
 
 	@Override
@@ -133,9 +129,7 @@ public class Media {
 		if (getClass() != obj.getClass())
 			return false;
 		Media other = (Media) obj;
-		return Objects.equals(id, other.id) && Objects.equals(path, other.path)
-				&& Objects.equals(title, other.title) && Objects.equals(uploadDate, other.uploadDate)
-				&& Objects.equals(owner, other.owner);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override

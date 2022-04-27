@@ -1,3 +1,5 @@
+import { tagApi } from "api";
+import { useQuery } from "react-query";
 import {
   EventFormValues,
   EventUs,
@@ -13,7 +15,7 @@ var _ = require("lodash");
 
 const parsers = {
   eventusFormValuesToEventus: (eventFormValues: EventFormValues): EventUs => {
-    const { title, fromTo, price, description } = eventFormValues;
+    const { title, fromTo, price, description, media, tags } = eventFormValues;
     const [startDate, endDate] = fromTo;
     return {
       title,
@@ -21,21 +23,24 @@ const parsers = {
       endDate: endDate.toISOString(),
       price,
       description,
-      media: undefined,
+      media: [],
+      mediaIds: media.map((m) => m.id).join(","),
+      tagsIds: tags.join(",")
     };
   },
 
   locationFormValuesToLocation: (
     locationFormValues: LocationFormValues
   ): Location => {
-    const { name, price, description, longitude, latitude } =
+    const { name, price, description, longitude, latitude, media } =
       locationFormValues;
     return {
       name,
       coordinates: { latitude, longitude },
       price,
       description,
-      media: undefined,
+      media: [],
+      mediaIds: media.map((m) => m.id).join(","),
     };
   },
 
@@ -61,6 +66,7 @@ const formatters = {
     const date = new Date(s);
     return date.toLocaleString("Es-ES").replace(/:\d\d$/, "");
   },
+  formatIds: (ids: number[]) => ids.join(","),
 };
 
 const facebookShareEndpoint = "https://www.facebook.com/sharer/sharer.php?u=";
@@ -141,5 +147,9 @@ ${window.location.href}
 };
 
 const utils = { parsers, formatters, share };
+
+export const useTags = () => {
+  return useQuery("recommendedTags", () => tagApi.getTags());
+};
 
 export default utils;

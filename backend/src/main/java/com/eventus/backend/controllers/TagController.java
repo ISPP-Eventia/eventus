@@ -41,18 +41,18 @@ public class TagController extends ValidationController {
         return ResponseEntity.ok(this.tagService.findTagsByName(name));
     }
 
-    @PostMapping("/eventTags")
-    public ResponseEntity<Object> addTagToEvent(@RequestBody Map<String, String> params,
-            @AuthenticationPrincipal User user) {
-        try {
-            tagService.addTagToEvent(params, user);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (DataAccessException | NullPointerException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
-    }
+    // @PostMapping("/eventTags")
+    // public ResponseEntity<Object> addTagToEvent(@RequestBody Map<String, String> params,
+    //         @AuthenticationPrincipal User user) {
+    //     try {
+    //         tagService.addTagToEvent(params, user);
+    //         return ResponseEntity.status(HttpStatus.CREATED).build();
+    //     } catch (DataAccessException | NullPointerException e) {
+    //         return ResponseEntity.badRequest().build();
+    //     } catch (IllegalArgumentException e) {
+    //         return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+    //     }
+    // }
 
     @DeleteMapping("/eventTags/{eventTagId}")
     public ResponseEntity<Object> deleteEventTag(@PathVariable Long eventTagId, @AuthenticationPrincipal User user) {

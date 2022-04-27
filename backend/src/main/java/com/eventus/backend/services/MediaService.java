@@ -80,7 +80,7 @@ public class MediaService implements IMediaService {
         Event nEvent = this.eventRepository.findById(event.getId()).orElse(null);
 
         if (!nEvent.getOrganizer().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("No eres propietario de la infraestructura");
+            throw new IllegalArgumentException("No eres propietario del evento");
         }
 
         Set<Media> oldMedias = nEvent.getMedia();
@@ -136,7 +136,7 @@ public class MediaService implements IMediaService {
         Sponsorship nSponsorship = this.sponsorshipRepository.findById(sponsorship.getId()).orElse(null);
 
         if (!sponsorship.getUser().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("No eres propietario de la infraestructura");
+            throw new IllegalArgumentException("No eres propietario del patrocinio");
         }
 
         Set<Media> oldMedias = nSponsorship.getMedia();

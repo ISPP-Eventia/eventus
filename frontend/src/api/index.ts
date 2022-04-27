@@ -161,6 +161,10 @@ const paymentApi = {
   getPaymentMethods: () => axios.get("/stripe/paymentmethods"),
 };
 
+const tagApi = {
+  getTags: () => axios.get("/tags"),
+};
+
 export {
   mediaApi,
   sessionApi,
@@ -171,4 +175,5 @@ export {
   participationApi,
   sponsorshipApi,
   paymentApi,
+  tagApi,
 };

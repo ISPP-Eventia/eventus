@@ -1,7 +1,6 @@
 package com.eventus.backend.services;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -12,9 +11,6 @@ import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.EventRepository;
 import com.eventus.backend.repositories.EventTagRepository;
 import com.eventus.backend.repositories.TagRepository;
-
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

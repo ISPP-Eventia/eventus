@@ -3,13 +3,34 @@ import { Card, Typography } from "@mui/material";
 
 import { EventUs } from "types";
 import utils from "utils";
+import { useQuery } from "react-query";
+import { mediaApi } from "api";
 
 const EventCard = (props: { event: EventUs }) => {
+  const { event } = props;
   const navigate = useNavigate();
 
   const onClick = () => {
     navigate(`/events/${props.event.id}`);
   };
+
+  const mediaIdQuery = "media" + event.id;
+  const { data: media } = useQuery(mediaIdQuery, async () => {
+    if (!event || !event.media || event.media.length === 0)
+      return {
+        id: "0",
+        title: "Placeholder",
+        url: "https://via.placeholder.com/1000x500",
+      };
+
+    const url = await mediaApi.getMedia(event.media[0].id!);
+
+    return {
+      id: event.media[0].id,
+      title: event.media[0].title,
+      url,
+    };
+  });
 
   return (
     <Card
@@ -18,15 +39,12 @@ const EventCard = (props: { event: EventUs }) => {
     >
       <header className="w-full">
         <img
-          alt="img"
+          alt={media?.title}
           className="h-28 w-full object-cover"
-          src={
-            props.event.media?.[0]?.path ||
-            "https://via.placeholder.com/1000x500"
-          }
+          src={media?.url}
         />
       </header>
-      <section className="line-clamp-4 mt-2 mb-2 flex h-auto flex-col px-2">
+      <section className="mt-2 mb-2 flex h-auto flex-col px-2 line-clamp-4">
         {props.event.title && (
           <Typography variant="h4">{props.event.title}</Typography>
         )}

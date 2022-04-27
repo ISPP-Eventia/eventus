@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Facebook,
@@ -35,20 +36,23 @@ const AppFooter = () => {
           className="flex items-center gap-2"
         >
           <LocationCity />
-          <Typography variant="body2">Avenida Reina Mercedes S/N</Typography>
-        </a>
-        <Typography variant="body2">41012, Sevilla</Typography>
-      </FooterSection>
-
-      <FooterSection title="Contacto">
-        <a href="mailto:info@eventus.space">
-          <Mail /> info@eventus.space
-        </a>
-        <a href="mailto:josmonnie1@alum.us.es">
-          <Mail /> josmonnie1@alum.us.es
+          <Typography variant="body2">
+            Avenida Reina Mercedes S/N 41012, Sevilla
+          </Typography>
         </a>
       </FooterSection>
-
+      <div className="flex flex-col">
+        <FooterSection title="Contacto">
+          <a href="mailto:info@eventus.space">
+            <Mail /> info@eventus.space
+          </a>
+        </FooterSection>
+        <div className="mt-4">
+          <FooterSection title="Términos">
+            <Link to="/terms">Términos y condiciones</Link>
+          </FooterSection>
+        </div>
+      </div>
       <FooterSection title="Siguenos">
         <a href="https://twitter.com/eventus_space">
           <Twitter /> @eventus_space

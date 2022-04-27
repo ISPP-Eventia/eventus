@@ -8,15 +8,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.eventus.backend.models.Coordinates;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Hosting;
-import com.eventus.backend.models.Image;
+import com.eventus.backend.models.Media;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.Sponsorship;
@@ -38,15 +36,15 @@ public class EventModelTests {
     Event event1;
     Event event2;
     static LocalDateTime date1 = LocalDateTime.now();
-    List<Image> images;
+    Set<Media> images;
     Set<Sponsorship> sponsors;
     Set<Participation> participations;
     Set<Hosting> hostings;
 
     @Before
     public void setUp(){
-        images = new ArrayList<>();
-        Image image = mock(Image.class);
+        images = new HashSet<>();
+        Media image = mock(Media.class);
         images.add(image);
 
         sponsors = new HashSet<>();
@@ -80,7 +78,7 @@ public class EventModelTests {
         event1.setEndDate(date1.plusHours(4L));
 		event1.setPrice(2.00);
 		event1.setOrganizer(user);
-		event1.setImages(images);
+		event1.setMedia(images);
         event1.setSponsors(sponsors);
         event1.setHostings(hostings);
         event1.setParticipations(participations);
@@ -100,7 +98,7 @@ public class EventModelTests {
         assertEquals(event1.getPrice(), 2.00);
         assertEquals(event1.getOrganizer(), user);
         assertEquals(event1.getOrganizer().getFirstName(), "carvilgar1");
-        assertEquals(event1.getImages().size(), 1);
+        assertEquals(event1.getMedia().size(), 1);
         assertEquals(event1.getParticipations().size(), 3);
         assertEquals(event1.getHostings().size(), 1);
         assertEquals(event1.getSponsors().size(), 2);

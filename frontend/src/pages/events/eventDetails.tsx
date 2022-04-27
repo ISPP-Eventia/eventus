@@ -1,17 +1,25 @@
 import { useEffect } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
+import { Delete, Edit } from "@mui/icons-material";
 
 import { EventUs, Sponsorship, User } from "types";
 import { eventApi } from "api";
 import utils from "utils";
 
 import { Ad, Loader, Map } from "components/atoms";
-import { UserHorizontalCard } from "components/molecules";
+import {
+  UserHorizontalCard,
+  ImageSlider,
+  EventCard,
+} from "components/molecules";
 import { ParticipateForm, SponsorshipForm } from "components/organisms";
+import { ShareModal } from "components/templates";
+
 import Page from "../page";
 import ErrorPage from "pages/error";
+import Tags from "components/molecules/Tags/Tags";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();
@@ -26,6 +34,7 @@ const EventDetailPage = () => {
     data: event,
     error: eventError,
     isError: isEventError,
+    refetch: refetchEvent,
   } = useQuery("event", () =>
     eventApi.getEvent(eventId).then((response) => {
       return response?.data as EventUs;
@@ -52,9 +61,22 @@ const EventDetailPage = () => {
       .then((response) => response?.data as Sponsorship[])
   );
 
+  const { data: similarEvents, refetch: refetchSimilar } = useQuery(
+    "similar",
+    () =>
+      eventApi
+        .getRecommendedEventsByEvent(eventId)
+        .then((response) => response?.data as EventUs[])
+  );
+
   const onSearchLocation = () => {
     navigate("/locations");
   };
+
+  useEffect(() => {
+    refetchEvent();
+    refetchSimilar();
+  }, [eventId, refetchEvent, refetchSimilar]);
 
   useEffect(() => {
     if (
@@ -79,15 +101,13 @@ const EventDetailPage = () => {
       actions={
         event.organizer?.id === loggedUserId || isAdmin === "true"
           ? [
-              <Button
-                variant="contained"
+              <IconButton
                 color="primary"
                 onClick={() => navigate(`/events/${event.id}/edit`)}
               >
-                Editar
-              </Button>,
-              <Button
-                variant="contained"
+                <Edit />
+              </IconButton>,
+              <IconButton
                 color="error"
                 onClick={() =>
                   eventApi
@@ -95,24 +115,23 @@ const EventDetailPage = () => {
                     .then(() => navigate("/events"))
                 }
               >
-                Eliminar
-              </Button>,
+                <Delete />
+              </IconButton>,
+              <ShareModal type="event" entity={event} />,
             ]
           : [
               <ParticipateForm event={event} callback={refetchParticipants} />,
               <SponsorshipForm event={event} callback={refetchSponsorships} />,
+              <ShareModal type="event" entity={event} />,
             ]
       }
     >
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
-          <img
-            alt="img"
-            className="w-full rounded-md object-cover"
-            src={
-              event?.media?.[0]?.path || "https://via.placeholder.com/2000x1000"
-            }
-          />
+          <ImageSlider media={event?.media} />
+          {event && event.tags && (
+            <Tags style={{ marginTop: "10px" }} tags={event.tags} />
+          )}
         </div>
         <div className="flex flex-col gap-3">
           <div>
@@ -193,12 +212,29 @@ const EventDetailPage = () => {
               {ads
                 ?.filter((ad) => ad.isAccepted !== false)
                 .sort((a, b) => b.quantity - a.quantity)
-                .map((ad) => (
-                  <Ad callback={refetchSponsorships} sponsorship={ad} />
+                .map((ad: Sponsorship) => (
+                  <Ad
+                    callback={refetchSponsorships}
+                    sponsorship={ad}
+                    event={event}
+                  />
                 ))}
             </div>
           </section>
         )}
+
+      <section className="-mx-4 mt-16 -mb-20 bg-black bg-opacity-5 py-6 md:-mx-8 lg:-mx-24 xl:-mx-48">
+        <div className="flex flex-col gap-x-8 gap-y-4 px-4 pb-10 md:px-8 lg:px-24 xl:px-48">
+          <Typography variant="h4">Eventos similares:</Typography>
+          <div className="grid grid-cols-1 gap-2 gap-y-4 md:grid-cols-3 md:gap-x-8 xl:grid-cols-4">
+            {similarEvents?.slice(0, 4)?.map((e, i) => (
+              <div className={i === 3 ? "block md:hidden xl:block" : ""}>
+                <EventCard event={e} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </Page>
   );
 };

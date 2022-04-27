@@ -1,6 +1,7 @@
 import { Form, Input, Button, InputNumber } from "antd";
 
 import { LocationFormValues } from "types";
+import { UploadForm } from "./uploadForm";
 
 export interface LocationFormProps {
   initialValues?: Partial<LocationFormValues>;
@@ -9,7 +10,7 @@ export interface LocationFormProps {
 
 const LocationForm = (props: LocationFormProps) => {
   const { initialValues, onSubmit } = props;
-  const required = [{ required: true, message: "Required Field" }];
+  const required = [{ required: true, message: "Es Obligatorio" }];
 
   return (
     <Form
@@ -24,7 +25,7 @@ const LocationForm = (props: LocationFormProps) => {
         <Input placeholder="Nombre del alojamiento" />
       </Form.Item>
 
-      <Form.Item name="description" label="Descripción">
+      <Form.Item name="description" label="Descripción" rules={required}>
         <Input.TextArea placeholder="Descripción del alojamiento" />
       </Form.Item>
       <Form.Item>
@@ -72,6 +73,10 @@ const LocationForm = (props: LocationFormProps) => {
           placeholder="100"
           style={{ width: "100%" }}
         />
+      </Form.Item>
+
+      <Form.Item name="media" label="Media">
+        <UploadForm />
       </Form.Item>
 
       <Form.Item>

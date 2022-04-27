@@ -22,19 +22,18 @@ public class LocationService implements ILocationService{
     }
 
     @Override
-    public void create(Location location,User owner) {
+    public Location create(Location location,User owner) {
         if(owner != null){
             location.setOwner(owner);
         }
-
-        locationRepository.save(location);
+        return locationRepository.save(location);
     }
 
     @Override
     public void deleteById(Long id, User owner) {
         Location location = locationRepository.findById(id).orElse(null);
-        Validate.notNull(location, "Location not found");
-        Validate.isTrue(location.getOwner().getId().equals(owner.getId())||owner.isAdmin(), "You are not the owner of this location");
+        Validate.isTrue(location!=null, "Localizacion no encontrada");
+        Validate.isTrue(location.getOwner().getId().equals(owner.getId())||owner.isAdmin(), "No puedes borrar una localizacion de la que no eres el dueño");
         locationRepository.deleteById(id);
     }
 
@@ -61,8 +60,8 @@ public class LocationService implements ILocationService{
     @Override
     public void update(Location params, Long locationId, User owner) {
         Location location = locationRepository.findById(locationId).orElse(null);
-        Validate.notNull(location, "Location not found");
-        Validate.isTrue(location.getOwner().getId().equals(owner.getId())||owner.isAdmin(), "You are not the owner of this location");
+        Validate.isTrue(location!=null, "Localizacion no encontrada");
+        Validate.isTrue(location.getOwner().getId().equals(owner.getId())||owner.isAdmin(), "No puedes actualizar una localizacion de la que no eres el dueño");
         location.setDescription(params.getDescription());
         location.setCoordinates(params.getCoordinates());
         location.setName(params.getName());

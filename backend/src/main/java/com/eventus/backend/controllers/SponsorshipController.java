@@ -2,6 +2,7 @@ package com.eventus.backend.controllers;
 
 import com.eventus.backend.models.Sponsorship;
 import com.eventus.backend.models.User;
+import com.eventus.backend.services.MediaService;
 import com.eventus.backend.services.SponsorshipService;
 import com.eventus.backend.services.StripeService;
 import com.stripe.exception.StripeException;
@@ -24,11 +25,14 @@ import org.springframework.web.bind.annotation.*;
 public class SponsorshipController extends ValidationController{
     private final SponsorshipService sponsorService;
     private final StripeService stripeService;
+    private final MediaService mediaService;
 
     @Autowired
-    public SponsorshipController(SponsorshipService sponsorService, StripeService stripeService) {
+    public SponsorshipController(SponsorshipService sponsorService, StripeService stripeService, MediaService mediaService) {
         this.sponsorService = sponsorService;
         this.stripeService = stripeService;
+        this.mediaService = mediaService;
+
     }
 
     @GetMapping("/sponsorships")
@@ -64,13 +68,14 @@ public class SponsorshipController extends ValidationController{
     }
 
     @PostMapping("/sponsorships")
-    public ResponseEntity<Sponsorship> createSponsor(@RequestBody Map<String, String> params,@AuthenticationPrincipal User user) throws StripeException {
+    public ResponseEntity<Sponsorship> createSponsor(@RequestParam("mediaIds") List<Long> mediaIds, @RequestBody Map<String, String> params,@AuthenticationPrincipal User user) throws StripeException {
         try {
             PaymentMethodCollection paymentMethods = stripeService.getPaymentMethods(user);
             if(paymentMethods.getData().isEmpty()){
                 return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
             }else{
-                sponsorService.create(params,user);
+                Sponsorship sponsor =  sponsorService.create(params,user);
+                this.mediaService.parseSponsorshipMediaIds(mediaIds, sponsor,user);
             }
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataAccessException | NullPointerException| IllegalArgumentException e) {

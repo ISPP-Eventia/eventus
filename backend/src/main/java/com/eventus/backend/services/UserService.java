@@ -81,25 +81,25 @@ public class UserService implements IUserService {
     @Transactional
     @Override
     public void update(Map<String, String> params, Long userId, User loggedUser) {
-        Validate.isTrue(loggedUser.getId().equals(userId) || loggedUser.isAdmin(), "You can't update other users");
+        Validate.isTrue(loggedUser.getId().equals(userId) || loggedUser.isAdmin(), "No puedes modificar a otros usuarios");
         User user = userRepository.findById(userId).orElse(null);
-        Validate.notNull(user, "User not found");
+        Validate.isTrue(user!=null, "Usuario no encontrado");
         if (StringUtils.isNotBlank(params.get("password"))) {
             user.setPassword(passwordEncoder.encode(params.get("password")));
         }
         user.setBirthDate(Instant.parse(params.get("birthDate")).atZone(ZoneId.systemDefault()).toLocalDate());
         user.setFirstName(params.get("firstName"));
         user.setLastName(params.get("lastName"));
-        Validate.isTrue(user.getFirstName().length() < 20, "First name must be less than 20 characters");
-        Validate.isTrue(user.getLastName().length() < 40, "Last name must be less than 40 characters");
+        Validate.isTrue(user.getFirstName().length() < 20, "El nombre no puede tener más de 20 caracteres");
+        Validate.isTrue(user.getLastName().length() < 40, "El apellido no puede tener más de 40 caracteres");
         userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Long userId, User loggedUser) {
-        Validate.isTrue(loggedUser.getId().equals(userId) || loggedUser.isAdmin(), "You can't delete other users");
+        Validate.isTrue(loggedUser.getId().equals(userId) || loggedUser.isAdmin(), "No puedes eliminar a otros usuarios");
         User user = userRepository.findById(userId).orElse(null);
-        Validate.notNull(user, "User not found");
+        Validate.isTrue(user!=null, "Usuarios no encontrado");
         userRepository.delete(user);
     }
 }

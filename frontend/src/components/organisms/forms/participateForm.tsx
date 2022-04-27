@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Button } from "antd";
+import { Style } from "@mui/icons-material";
 
 import { participationApi } from "api";
 
@@ -7,10 +8,13 @@ import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
 
 const Component = (props: { event?: any; callback: () => void }) => {
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
   const closeModalRef = useRef<any>(null);
   const onSubmit = () => {
-    setError(false);
+    setError("");
+    setLoading(true);
     participationApi
       .createParticipation(props.event.id)
       .then((response) => {
@@ -20,25 +24,33 @@ const Component = (props: { event?: any; callback: () => void }) => {
         participationApi.getTicket(response.data.id);
         props.callback();
       })
-      .catch(() => setError(true));
+      .catch((e) => setError(e?.response?.data?.error ?? ""))
+      .finally(() => setLoading(false));
   };
 
   return (
     <ModalDrawer
       title="Participar"
       opener={{
-        title: `Participar ${props.event?.price}€`,
+        title: `${props.event?.price}€`,
         color: "primary",
+        icon: <Style />,
       }}
       onClose={(closeFn) => {
         closeModalRef.current = closeFn;
       }}
     >
       <>
-        <Button type="primary" onClick={onSubmit} style={{ width: "100%" }}>
+        <Button
+          type="primary"
+          onClick={onSubmit}
+          style={{ width: "100%" }}
+          disabled={loading}
+          loading={loading}
+        >
           Participar {props.event?.price}€
         </Button>
-        {error && <Error error="Ya estás participando en este evento" />}
+        {error && <Error error={error} />}
       </>
     </ModalDrawer>
   );

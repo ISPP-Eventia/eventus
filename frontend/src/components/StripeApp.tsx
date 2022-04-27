@@ -14,7 +14,7 @@ const stripePromise = loadStripe(
 );
 
 export default function StripeApp() {
-  const { isLoading, data, isError } = useQuery("initialPayment", () => {
+  const { isLoading, data } = useQuery("initialPayment", () => {
     return paymentApi.getPaymentIntent().then((res) => res.data);
   });
 
@@ -30,7 +30,6 @@ export default function StripeApp() {
 
   return (
     <div className="App">
-      <h2>Añadir un método de pago</h2>
       {isLoading && <Loader />}
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>

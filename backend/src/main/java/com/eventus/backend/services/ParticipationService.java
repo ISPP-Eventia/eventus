@@ -1,5 +1,12 @@
 package com.eventus.backend.services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.User;
@@ -16,7 +23,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
@@ -26,13 +32,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class ParticipationService implements IParticipationService{
@@ -53,8 +52,10 @@ public class ParticipationService implements IParticipationService{
         participation.setPrice(event.getPrice());
         participation.setEvent(event);
         participation.setUser(user);
-        PaymentIntent payment = stripeService.createParticipationPayment(participation);
-        if(payment != null) partRepository.save(participation);
+        if(event.getPrice()>=0.5){
+            stripeService.createParticipationPayment(participation);
+        }
+        partRepository.save(participation);
     }
     
     public Participation createParticipationAndTicket(Event event, User user) throws DocumentException, IOException, DataAccessException, StripeException {
@@ -71,8 +72,8 @@ public class ParticipationService implements IParticipationService{
 
     public void deleteParticipation(Long id,User user) {
         Participation participation=findParticipationById(id);
-        Validate.notNull(participation,"Participation not found");
-        Validate.isTrue(participation.getUser().getId().equals(user.getId())||user.isAdmin(),"You can't delete this participation");
+        Validate.isTrue(participation!=null,"Participacion no encontrada");
+        Validate.isTrue(participation.getUser().getId().equals(user.getId())||user.isAdmin(),"No puedes borrar participaciones de otros usuarios");
         partRepository.deleteById(id);
     }
 

@@ -3,7 +3,8 @@ package com.eventus.backend.controllers;
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.User;
 import com.eventus.backend.services.EventService;
-
+import com.eventus.backend.services.MediaService;
+import com.eventus.backend.services.TagService;
 
 import java.util.List;
 import java.util.Map;
@@ -20,15 +21,24 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class EventController extends ValidationController{
   private final EventService eventService;
+  private final MediaService mediaService;
+  private final TagService tagService;
 
   @Autowired
-  public EventController(EventService eventService) {
+  public EventController(EventService eventService, MediaService mediaService, TagService tagService) {
     this.eventService = eventService;
+    this.mediaService = mediaService;
+    this.tagService = tagService;
   }
 
   @GetMapping("/events")
-  public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag) {
-    return this.eventService.findAll(PageRequest.of(numPag, 20000));
+  public List<Event> getEvents(@RequestParam(defaultValue = "0") Integer numPag, @AuthenticationPrincipal User user) {
+    if(user.isAdmin()){
+      return this.eventService.findAll(PageRequest.of(numPag, 20000));
+    }else {
+      return this.eventService.findAllNotFinished(PageRequest.of(numPag, 20000));
+    }
+
   }
 
   @GetMapping("/events/{id}")
@@ -42,9 +52,12 @@ public class EventController extends ValidationController{
   }
 
   @PutMapping("/events")
-  public ResponseEntity<Object> updateEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
+  public ResponseEntity<Object> updateEvent(@Valid @RequestBody Event event, @RequestParam(name="mediaIds") List<Long> mediaIds,@AuthenticationPrincipal User user) {
     try {
       this.eventService.update(event,user);
+      this.mediaService.parseEventMediaIds(mediaIds, event, user);
+      this.tagService.addTagsToEvent(event, user);
+
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (DataAccessException | NullPointerException e) {
       return ResponseEntity.badRequest().build();
@@ -54,11 +67,15 @@ public class EventController extends ValidationController{
   }
 
   @PostMapping("/events")
-  public ResponseEntity<Object> createEvent(@Valid @RequestBody Event event,@AuthenticationPrincipal User user) {
+  public ResponseEntity<Object> createEvent(@RequestParam(value =  "mediaIds") List<Long> mediaIds, @Valid @RequestBody Event event,@AuthenticationPrincipal User user ) {
     try {
+
       event.setId(null);
       event.setOrganizer(user);
-      this.eventService.save(event);
+      event = this.eventService.save(event);
+      this.mediaService.parseEventMediaIds(mediaIds, event, user);
+      this.tagService.addTagsToEvent(event, user);
+
       return ResponseEntity.status(HttpStatus.CREATED).build();
     } catch (DataAccessException | NullPointerException  e) {
       return ResponseEntity.badRequest().build();
@@ -83,6 +100,21 @@ public class EventController extends ValidationController{
       return ResponseEntity.ok(this.eventService.findAll(PageRequest.of(numPag, 20000)));
     }else{
       return ResponseEntity.ok(this.eventService.findByOrganizerId(owner.getId(), PageRequest.of(numPag, 20000)));
+    }
+
+  }
+  @GetMapping("/events/recommend")
+  public ResponseEntity<List<Event>> getRecommendedEvents(@AuthenticationPrincipal User user) {
+    return ResponseEntity.ok(this.eventService.findRecommendedEventsByUser(user));
+  }
+
+  @GetMapping("/events/recommend/{eventId}")
+  public ResponseEntity<List<Event>> getRecommendedEventsByEvent(@AuthenticationPrincipal User user,@PathVariable Long eventId) {
+    Event event = this.eventService.findById(eventId);
+    if(event!=null){
+      return ResponseEntity.ok(this.eventService.findRecommendedByEvent(user,event));
+    }else{
+      return ResponseEntity.notFound().build();
     }
 
   }

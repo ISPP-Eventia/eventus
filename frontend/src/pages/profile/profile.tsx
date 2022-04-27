@@ -1,9 +1,15 @@
-import { SyntheticEvent, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "react-query";
 import { Box, Tab, Tabs } from "@mui/material";
-import { Event, Info, LocationCity, Receipt, CreditCard } from "@mui/icons-material";
+import {
+  Event,
+  Info,
+  LocationCity,
+  CreditCard,
+  Style,
+} from "@mui/icons-material";
 
 import { participationApi } from "api";
 import { Participation } from "types";
@@ -25,22 +31,23 @@ const tabs = {
   locations: 1,
   tickets: 2,
   info: 3,
-  payments: 4
+  payments: 4,
 };
 
 const ProfilePage = () => {
   const userIdStr = localStorage.getItem("userId");
   const userId = userIdStr ? Number(userIdStr) : 0;
 
-  const activeTabName =
-    useParams<{ tab: "events" | "locations" | "tickets" | "info" | "payments" }>().tab;
+  const activeTabName = useParams<{
+    tab: "events" | "locations" | "tickets" | "info" | "payments";
+  }>().tab;
   const navigate = useNavigate();
 
   const activeTabIndex = useMemo(() => {
     return tabs[activeTabName || "events"];
   }, [activeTabName]);
 
-  const handleChange = (event: SyntheticEvent, index: number) => {
+  const handleChange = (_: any, index: number) => {
     navigate(`/profile/${Object.keys(tabs)?.[index] || "events"}`);
   };
 
@@ -73,7 +80,7 @@ const ProfilePage = () => {
         >
           <Tab icon={<Event />} />
           <Tab icon={<LocationCity />} />
-          <Tab icon={<Receipt />} />
+          <Tab icon={<Style />} />
           <Tab icon={<Info />} />
           <Tab icon={<CreditCard />} />
         </Tabs>

@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.eventus.backend.models.Event;
-import com.eventus.backend.models.Image;
+import com.eventus.backend.models.Media;
 import com.eventus.backend.models.Location;
 import com.eventus.backend.models.Participation;
 import com.eventus.backend.models.Sponsorship;
@@ -28,7 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class UserModelTests {
     @Mock
-    Image imageDummy;
+    Set<Media> imageDummy;
     @Mock
     Event eventDummy;
     @Mock
@@ -61,7 +61,7 @@ public class UserModelTests {
         user.setBirthDate(date1);
         user.setEmail("peperod@email.example");
         user.setPassword("$up3r$€cr3tP4s$w0rd");
-        user.setImage(imageDummy);
+        user.setMedia(imageDummy);
         
         user2 = new User();
         user2.setId(2l);
@@ -70,7 +70,7 @@ public class UserModelTests {
         user2.setBirthDate(date2);
         user2.setEmail("manugar@email.example");
         user2.setPassword("$up3r$€cr3tP4s$w0rd");
-        user2.setImage(imageDummy);
+        user2.setMedia(imageDummy);
         user2.setParticipations(participations);
         user2.setEvents(events);
         user2.setSponsors(sponsorships);
@@ -80,7 +80,7 @@ public class UserModelTests {
 
     @Test
     public void setUpTest(){
-        when(imageDummy.getTitle()).thenReturn("Image of sunflowres");
+//        when(imageDummy.getTitle()).thenReturn("Image of sunflowres");
         when(participationDummy.getUser()).thenReturn(user2);
         when(sponsorshipDummy.getUser()).thenReturn(user);
         when(eventDummy.getTitle()).thenReturn("Dungons & Dragons rol play");
@@ -92,7 +92,7 @@ public class UserModelTests {
         assertEquals(user2.getBirthDate(), date2);
         assertEquals(user2.getEmail(), "manugar@email.example");
         assertEquals(user2.getPassword(), "$up3r$€cr3tP4s$w0rd");
-        assertEquals(user2.getImage().getTitle(), "Image of sunflowres");
+//        assertEquals(user2.getMedia().getTitle(), "Image of sunflowres");
         assertEquals(user2.getParticipations().size(), 1);
         assertEquals(((Participation)user2.getParticipations().toArray()[0]).getUser(), user2);
         assertEquals(user2.getEvents().size(), 1);

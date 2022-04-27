@@ -107,7 +107,6 @@ public class HostingModelTests {
 
     @Test
     public void eventToStringMethodTest(){
-        System.out.println(hosting.toString());
         assertTrue(hosting.toString().contains("price="+hosting.getPrice()));
         assertTrue(hosting2.toString().contains("price="+hosting2.getPrice()));
     }

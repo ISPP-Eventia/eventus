@@ -1,15 +1,18 @@
 import { Form, Input, Button, DatePicker, InputNumber } from "antd";
 
-import { EventFormValues } from "types";
+import { EventFormValues, ITag } from "types";
+import TagsForm from "./tagsForm";
+import { UploadForm } from "./uploadForm";
 
 export interface EventFormProps {
   initialValues?: Partial<EventFormValues>;
   onSubmit: (values: EventFormValues) => void;
+  tagsOptions: ITag[];
 }
 
 const EventForm = (props: EventFormProps) => {
-  const { initialValues, onSubmit } = props;
-  const required = [{ required: true, message: "Required Field" }];
+  const { initialValues, onSubmit, tagsOptions } = props;
+  const required = [{ required: true, message: "Es Obligatorio" }];
 
   return (
     <Form
@@ -45,6 +48,14 @@ const EventForm = (props: EventFormProps) => {
           placeholder="100"
           style={{ width: "100%" }}
         />
+      </Form.Item>
+
+      <Form.Item name="tags" label="Etiquetas">
+        <TagsForm options={tagsOptions} />
+      </Form.Item>
+
+      <Form.Item name="media" label="Media">
+        <UploadForm />
       </Form.Item>
 
       <Form.Item>

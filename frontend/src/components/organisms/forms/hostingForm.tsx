@@ -1,9 +1,12 @@
-import { ModalDrawer } from "components/organisms";
+import { useRef, useState } from "react";
+import { Gite } from "@mui/icons-material";
+import { Button, Form } from "antd";
+
 import { Hosting } from "types";
 import { hostingApi } from "api";
-import { Button, Form } from "antd";
-import { useRef, useState } from "react";
+
 import { Error } from "components/atoms";
+import { ModalDrawer } from "components/organisms";
 
 export interface HostingProps {
   hosting: Hosting;
@@ -27,10 +30,11 @@ const Component = (props: HostingProps) => {
   const eventId = localStorage.getItem("eventId");
   return (
     <ModalDrawer
-      title="Solicitud de alojamiento"
+      title="Solicitar alojamiento"
       opener={{
-        title: "Solicitud de alojamiento",
+        title: "Solicitar alojamiento",
         color: "primary",
+        icon: <Gite />,
         disable: !eventId,
       }}
       onClose={(closeFn) => {

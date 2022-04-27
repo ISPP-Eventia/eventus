@@ -33,7 +33,7 @@ module.exports = {
       brand: "#2F70D5",
       "brand-light": "#83C6FF",
       "brand-lighter": "#B3D5F2",
-      correct: "#50B66B",
+      correct: "#3c8c50",
       warning: "#FEA446",
       error: "#F55353",
       white: "#fff",

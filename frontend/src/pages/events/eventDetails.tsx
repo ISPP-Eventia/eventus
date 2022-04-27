@@ -19,6 +19,7 @@ import { ShareModal } from "components/templates";
 
 import Page from "../page";
 import ErrorPage from "pages/error";
+import Tags from "components/molecules/Tags/Tags";
 
 const EventDetailPage = () => {
   const navigate = useNavigate();
@@ -125,6 +126,9 @@ const EventDetailPage = () => {
       <section className="mt-2 grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2 xl:mb-10 xl:grid-cols-4">
         <div className="col-span-1 flex flex-col xl:col-span-2">
           <ImageSlider media={event?.media} />
+          {event && event.tags && (
+            <Tags style={{ marginTop: "10px" }} tags={event.tags} />
+          )}
         </div>
         <div className="flex flex-col gap-3">
           <div>

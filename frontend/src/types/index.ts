@@ -125,7 +125,14 @@ export type EventUs = {
   endDate?: string;
   prize?: number;
   rating?: number;
-  mediaIds?: string
+  mediaIds?: string;
+  tags?: ITag[];
+  tagsIds?: string;
+};
+
+export type ITag = {
+  id?: number;
+  name: string;
 };
 
 export type Location = {
@@ -156,7 +163,7 @@ export type Sponsorship = {
   quantity: number;
   isAccepted?: boolean;
   media?: Media[];
-  mediaIds?: string
+  mediaIds?: string;
 };
 
 export type Hosting = {
@@ -172,7 +179,7 @@ export type Hosting = {
 
 export type SponsorshipFormValues = {
   quantity: number;
-  media: Media[]
+  media: Media[];
 };
 
 export type EventFormValues = {
@@ -180,7 +187,8 @@ export type EventFormValues = {
   fromTo: [Date, Date];
   price: number;
   description?: string;
-  media: Media[]
+  media: Media[];
+  tags: ITag[];
 };
 
 export type LocationFormValues = {
@@ -189,7 +197,7 @@ export type LocationFormValues = {
   description: string;
   longitude: number;
   latitude: number;
-  media: Media[]
+  media: Media[];
 };
 
 export type LoginFormValues = {

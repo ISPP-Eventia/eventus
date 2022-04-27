@@ -3,6 +3,7 @@ package com.eventus.backend.services;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import com.eventus.backend.models.Event;
 import com.eventus.backend.models.EventTag;
@@ -64,20 +65,15 @@ public class TagService implements ITagService {
     }
 
     @Override
-    public EventTag addTagToEvent(Map<String, String> params, User user) throws IllegalArgumentException {
-        String eventId = params.get("eventId");
-        String tagId = params.get("tagId");
-        Validate.isTrue(StringUtils.isNotBlank(eventId) && StringUtils.isNumeric(eventId),
-                "El eventId debe ser un número");
-        Validate.isTrue(StringUtils.isNotBlank(tagId) && StringUtils.isNumeric(tagId), "El tagId debe ser un número");
+    public EventTag addTagToEvent(Long eventId, Long tagId, User user) throws IllegalArgumentException {
 
-        Event event = eventRepository.findById(Long.valueOf(eventId)).orElse(null);
+        Event event = eventRepository.findById(eventId).orElse(null);
 
         if (event == null) {
             throw new IllegalArgumentException("Evento no encontrado");
         }
 
-        Tag tag = tagRepository.findById(Long.valueOf(tagId)).orElse(null);
+        Tag tag = tagRepository.findById(tagId).orElse(null);
 
         if (tag == null) {
             throw new IllegalArgumentException("Etiqueta no encontrada");
@@ -99,6 +95,27 @@ public class TagService implements ITagService {
         eventTag.setTag(tag);
 
         return eventTagRepository.save(eventTag);
+    }
+
+    @Override
+    public void addTagsToEvent(Event event, User user) throws IllegalArgumentException {
+        Long eventId = event.getId();
+        String[] tagsIds = event.getTagsIds().split(",");
+        event = this.eventRepository.findById(eventId).orElse(null);
+        if (!event.getOrganizer().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("No eres el organizador de este evento");
+        }
+        Set<EventTag> eventTags = event.getEventTags();
+        eventTags.forEach(x -> {
+            x.setEvent(null);
+            x.setTag(null);
+        });
+        this.eventTagRepository.deleteAll(eventTags);
+        if (!tagsIds[0].isEmpty()) {
+            for (String tagId : tagsIds) {
+                this.addTagToEvent(eventId, Long.valueOf(tagId), user);
+            }
+        }
     }
 
     @Override

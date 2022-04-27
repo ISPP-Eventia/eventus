@@ -62,10 +62,11 @@ public class StripeServiceTests {
 	@Before
 	public void setUp() throws DataAccessException, StripeException {		
 		user = new User();
-	    user.setFirstName("Pepe");
-	    user.setLastName("Rodriguez");
+		user.setId(3000L);
+	    user.setFirstName("Carlos Jesus");
+	    user.setLastName("Villadiego");
 	    user.setBirthDate(LocalDate.of(2000, Month.FEBRUARY, 14));
-	    user.setEmail("peperod@email.example");
+	    user.setEmail("carlosjesus@email.example");
 	    user.setPassword("$up3r$€cr3tP4s$w0rd");
 	    userService.saveUser(user);
 	    
@@ -118,7 +119,7 @@ public class StripeServiceTests {
 	@Test
 	@Transactional
 	public void addAndGetPaymentMethodTest() throws DataAccessException, StripeException {		
-		User userCreated = userService.findByEmail("peperod@email.example").get();
+		User userCreated = userService.findByEmail("carlosjesus@email.example").get();
 	    assertEquals(user.getFirstName(), userCreated.getFirstName());		
 	    SetupIntent setupIntent = stripeService.addPaymentMethod(user);
 	    Map<String, Object> params = new HashMap<>();

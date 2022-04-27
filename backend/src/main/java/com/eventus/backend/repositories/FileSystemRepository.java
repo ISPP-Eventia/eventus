@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FileSystemRepository {
 	
-	
+	// String RESOURCES_DIR = "app/media/";
 	String RESOURCES_DIR = "./src/main/resources/media/";
 
 	public String save(byte[] content, String imageName) throws Exception {

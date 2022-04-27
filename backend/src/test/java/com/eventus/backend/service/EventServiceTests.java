@@ -6,16 +6,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.eventus.backend.models.Event;
+import com.eventus.backend.models.Tag;
 import com.eventus.backend.models.User;
 import com.eventus.backend.repositories.EventRepository;
 import com.eventus.backend.services.EventService;
@@ -49,12 +53,18 @@ public class EventServiceTests {
     public void setUp(){ 
         eventService = new EventService(eventRepository);
 
+        Tag tag = mock(Tag.class);
+        Set<Tag> tags = new HashSet<>();
+        tags.add(tag);
+
+
         when(user.getId()).thenReturn(1L);
         when(event.getId()).thenReturn(1L);
         when(event.getOrganizer()).thenReturn(user);
         when(event.getOrganizer()).thenReturn(user);
         when(event.getStartDate()).thenReturn(LocalDateTime.now());
         when(event.getEndDate()).thenReturn(LocalDateTime.now().plusHours(5));
+        when(event.getTags()).thenReturn(tags);
     }
 
 
@@ -135,6 +145,29 @@ public class EventServiceTests {
         
         assertNotNull((eventService.findByOrganizerId(1L, PageRequest.of(0, 10))));
         assertEquals(eventsResponse, eventService.findByOrganizerId(1L, PageRequest.of(0, 10)));
+    }
+
+    @Test
+    public void testfindRecommendedEventsByUser(){
+        List<Event> eventsResponse = new ArrayList<>();
+        eventsResponse.add(event);
+
+        when(this.eventRepository.findByParticipationsUserIdEqualsOrderByStartDateAsc(user.getId(), PageRequest.of(0,30))).thenReturn(eventsResponse);
+        when(eventRepository.getMaxPartPrice()).thenReturn(1000.);
+        when(eventRepository.getMaxSponsorshipPrice()).thenReturn(1000.);
+
+        assertNotNull(eventService.findRecommendedEventsByUser(user));
+    }
+
+    @Test
+    public void testfindRecommendedByEvent(){
+        List<Event> eventsResponse = new ArrayList<>();
+        eventsResponse.add(event);
+
+        when(eventRepository.getMaxPartPrice()).thenReturn(1000.);
+        when(eventRepository.getMaxSponsorshipPrice()).thenReturn(1000.);
+
+        assertNotNull(eventService.findRecommendedByEvent(user, event));
     }
     
 }

@@ -70,7 +70,7 @@ export default function Component(props: {
         <div className="absolute bottom-full w-full rounded-t-lg bg-white px-4 py-3">
           <Puller />
         </div>
-        <div className="block rounded-t-lg px-4 py-2">
+        <div className="block overflow-y-auto rounded-t-lg px-4 py-2">
           {props.children}
           {props.actions &&
             props.actions.map((action, index) => (

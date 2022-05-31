@@ -1,11 +1,13 @@
 import { useRef, useState } from "react";
-import { Button } from "antd";
+import { Button, Divider } from "antd";
 import { Style } from "@mui/icons-material";
 
 import { participationApi } from "api";
 
 import { ModalDrawer } from "components/organisms";
 import { Error } from "components/atoms";
+import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Component = (props: { event?: any; callback: () => void }) => {
   const [error, setError] = useState<string>("");
@@ -41,10 +43,16 @@ const Component = (props: { event?: any; callback: () => void }) => {
       }}
     >
       <>
+        <Typography variant="body1" color="textSecondary">
+          Una vez pagues, generaremos un ticket pdf y siempre podras encontrarlo
+          en <Link to="/profile/tickets">tus tickets</Link>, puede que el
+          organizador te lo solicite al llegar al evento.
+        </Typography>
+        <Divider />
         <Button
           type="primary"
           onClick={onSubmit}
-          style={{ width: "100%" }}
+          className="w-full"
           disabled={loading}
           loading={loading}
         >

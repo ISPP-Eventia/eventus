@@ -122,7 +122,7 @@ const LandingPage = () => {
         </section>
 
         <section className="mt-20 grid grid-cols-1 items-center gap-4 md:grid-cols-3 md:gap-8 xl:gap-12">
-          {videos}
+          {showCards && videos}
         </section>
       </div>
     </Page>

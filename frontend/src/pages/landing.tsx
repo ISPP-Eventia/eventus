@@ -71,6 +71,30 @@ const LandingPage = () => {
     },
   ];
 
+  const videos = [
+    <iframe
+      className="mx-auto h-48 w-full rounded-xl"
+      src="https://www.youtube.com/embed/mMcjV0LqYxE"
+      title="EventUs Demo"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>,
+    <iframe
+      className="mx-auto h-48 w-full rounded-xl"
+      src="https://www.youtube.com/embed/EBOd49JMabo"
+      title="EventUs Anuncio Clientes"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>,
+    <iframe
+      className="mx-auto h-48 w-full rounded-xl"
+      src="https://www.youtube.com/embed/aXTTmlg4NxI"
+      title="EventUs Anuncio Inversores"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>,
+  ];
+
   useEffect(() => {
     let cancelled = false;
 
@@ -90,10 +114,15 @@ const LandingPage = () => {
     <Page title="">
       <div className="overflow-hidden">
         <LandingSection />
+
         <section className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 xl:grid-cols-4 xl:gap-12">
           {showCards
             ? cards.map((card) => <LandingCard {...card} key={card.title} />)
             : null}
+        </section>
+
+        <section className="mt-20 grid grid-cols-1 items-center gap-4 md:grid-cols-3 md:gap-8 xl:gap-12">
+          {videos}
         </section>
       </div>
     </Page>

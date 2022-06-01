@@ -74,9 +74,14 @@ const Component = (props: { event?: any; callback: () => void }) => {
         <Divider />
         <Form.Item>
           <Button
-            type="primary"
+            type="ghost"
+            style={{
+              background: "#3c8c50",
+              borderColor: "#3c8c50",
+              color: "white",
+            }}
             htmlType="submit"
-            style={{ width: "100%" }}
+            className="w-full"
             disabled={loading}
             loading={loading}
           >

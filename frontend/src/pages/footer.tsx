@@ -7,6 +7,7 @@ import {
   LocationCity,
   Mail,
   Twitter,
+  YouTube,
 } from "@mui/icons-material";
 import { Divider, Typography } from "@mui/material";
 
@@ -41,27 +42,28 @@ const AppFooter = () => {
           </Typography>
         </a>
       </FooterSection>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-10">
         <FooterSection title="Contacto">
           <a href="mailto:info@eventus.space">
             <Mail /> info@eventus.space
           </a>
         </FooterSection>
-        <div className="mt-4">
-          <FooterSection title="Términos">
-            <Link to="/terms">Términos y condiciones</Link>
-          </FooterSection>
-        </div>
+        <FooterSection title="Términos">
+          <Link to="/terms">Términos y condiciones</Link>
+        </FooterSection>
       </div>
       <FooterSection title="Siguenos">
         <a href="https://twitter.com/eventus_space">
           <Twitter /> @eventus_space
         </a>
+        <a href="https://www.instagram.com/eventus_space">
+          <Instagram /> @eventus_space
+        </a>
         <a href="https://www.facebook.com/Eventus-107942035177629">
           <Facebook /> @eventus
         </a>
-        <a href="https://www.instagram.com/eventus_space">
-          <Instagram /> @eventus_space
+        <a href="https://www.youtube.com/channel/UCqRlMU0JrHcEX1xLok4bIcw/featured">
+          <YouTube /> eventus space
         </a>
       </FooterSection>
     </footer>

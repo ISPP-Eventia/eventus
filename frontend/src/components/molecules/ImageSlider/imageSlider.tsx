@@ -24,7 +24,7 @@ const Component = (props: { media?: Media[] }) => {
   });
 
   return (
-    <Carousel autoplay>
+    <Carousel dotPosition="top" autoplay autoplaySpeed={5000}>
       {(isLoading || !data) && <Loader />}
       {!data || data.length === 0 ? (
         <img
@@ -37,7 +37,7 @@ const Component = (props: { media?: Media[] }) => {
           <img
             key={media.id}
             alt={media.title}
-            className="w-full rounded-md object-cover"
+            className="max-h-72 w-full rounded-md object-cover"
             src={media.url}
             width="100"
             height="100"

@@ -225,7 +225,7 @@ const EventDetailPage = () => {
 
       <section className="-mx-4 mt-16 -mb-20 bg-black bg-opacity-5 py-6 md:-mx-8 lg:-mx-24 xl:-mx-48">
         <div className="flex flex-col gap-x-8 gap-y-4 px-4 pb-10 md:px-8 lg:px-24 xl:px-48">
-          <Typography variant="h4">Eventos similares:</Typography>
+          <Typography variant="h4">Eventos similares</Typography>
           <div className="grid grid-cols-1 gap-2 gap-y-4 md:grid-cols-3 md:gap-x-8 xl:grid-cols-4">
             {similarEvents?.slice(0, 4)?.map((e, i) => (
               <div className={i === 3 ? "block md:hidden xl:block" : ""}>

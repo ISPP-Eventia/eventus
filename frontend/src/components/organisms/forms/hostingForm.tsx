@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
+import { Typography } from "@mui/material";
 import { Gite } from "@mui/icons-material";
-import { Button, Form } from "antd";
+import { Button, Divider, Form } from "antd";
 
 import { Hosting } from "types";
 import { hostingApi } from "api";
@@ -47,6 +48,12 @@ const Component = (props: HostingProps) => {
         layout="vertical"
         onFinish={handleSubmit}
       >
+        <Typography variant="body1" color="textSecondary">
+          ¿Listo para solicitar alojamiento?, enviaremos la solicitud al dueño
+          y, si la acepta, tu evento se actualizará con la localización del
+          lugar.
+        </Typography>
+        <Divider />
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Solicitar alojamiento por {props.hosting.price} €
